@@ -27,6 +27,12 @@
 
 #include "piezas.h"
 
+#ifdef WIRED_CARPA
+#define TIPO_RELLENO GL_LINE
+#else
+#define TIPO_RELLENO GL_FILL
+#endif
+
 
 int crear_faldon_frontal(struct config *c)
 {
@@ -53,7 +59,7 @@ int crear_faldon_frontal(struct config *c)
 			control[0][0]);
 	glMapGrid2f(c->carpa_detalle_vert, 0.0, 1.0, c->carpa_detalle_horiz,
 			0.0, 1.0);
-	glEvalMesh2(GL_FILL, 0, c->carpa_detalle_vert, 0,
+	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_vert, 0,
 			c->carpa_detalle_horiz);
 	glEndList();
 	return lista;
@@ -89,7 +95,7 @@ int crear_faldon_lateral(struct config *c)
 			control[0][0]);
 	glMapGrid2f(c->carpa_detalle_vert, 0.0, 1.0, c->carpa_detalle_horiz,
 			0.0, 1.0);
-	glEvalMesh2(GL_FILL, 0, c->carpa_detalle_vert, 0,
+	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_vert, 0,
 			c->carpa_detalle_horiz);
 	glEndList();
 	return lista;
@@ -127,7 +133,7 @@ int crear_techo_frontal(struct config *c)
 			control[0][0]);
 	glMapGrid2f(c->carpa_detalle_horiz, 0.0, 1.0, c->carpa_detalle_vert,
 			0.0, 1.0);
-	glEvalMesh2(GL_FILL, 0, c->carpa_detalle_horiz, 0,
+	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_horiz, 0,
 			c->carpa_detalle_vert);
 	glEndList();
 	return lista;
@@ -146,8 +152,8 @@ int crear_techo_lateral(struct config *c)
 	for (i = 0; i < 4; ++i) {
 		control[i][0][Z] = control[i][1][Z] = control[i][2][Z] =
 			control[i][3][Z] = zeta[i];
-		control[i][0][Y] = control[i][1][Y] = paso_y * i;
-		control[i][2][Y] = control[i][3][Y] = -paso_y * i;
+		control[i][0][Y] = control[i][1][Y] = (i?paso_y * i:0.0001);
+		control[i][2][Y] = control[i][3][Y] = (i?-paso_y * i:-0.0001);
 		control[i][0][X] = control[i][3][X] = 0.0;
 		control[i][1][X] = control[i][2][X] =
 			(control[i][0][Y] * 4.0) / 3.0 ;
@@ -163,7 +169,7 @@ int crear_techo_lateral(struct config *c)
 			control[0][0]);
 	glMapGrid2f(c->carpa_detalle_horiz, 0.0, 1.0, c->carpa_detalle_vert,
 			0.0, 1.0);
-	glEvalMesh2(GL_FILL, 0, c->carpa_detalle_horiz, 0,
+	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_horiz, 0,
 			c->carpa_detalle_vert);
 	glEndList();
 	return lista;

@@ -26,7 +26,7 @@
 #define _CONFIG_H_
 
 #define SEP_GRADAS_CARPA   0.1
-#define CAIDA_TECHO_POSTES 0.5
+#define CAIDA_TECHO_POSTES 0.8
 #define CAIDA_FALDON       0.5
 
 struct config {
