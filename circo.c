@@ -23,7 +23,7 @@
  * $Id$
  */
 
-#define FICHERO_CONFIG "medidas_circo.cfg"
+#define FICHERO_CONFIG "circo.cfg"
 #ifdef THIS_IS_UNIX
 #define TEXTURA_SUELO_EXTERIOR "imagen/cesped1.tga"
 #define TEXTURA_SUELO_INTERIOR "imagen/suelo2.tga"
@@ -56,16 +56,18 @@
 
 int main(int argc, char **argv)
 {
-	struct config cfg;
+	config_t cfg;
 	struct texturas texes;
 
-	leer_config(FICHERO_CONFIG, &cfg);
+	cfg = leer_config(FICHERO_CONFIG);
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-	glutInitWindowSize(500, 500);
-	glutInitWindowPosition(100, 100);
-	glutCreateWindow("Plimus Circus");
+	glutInitWindowSize(valor_entero(cfg, v_width),
+			valor_entero(cfg, v_height));
+	glutInitWindowPosition(valor_entero(cfg, v_posx),
+			valor_entero(cfg, v_posy));
+	glutCreateWindow(valor_cadena(cfg, v_title));
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
 	/* Ahora que ya tenemos inicializado OpenGL, cargamos las texturas */
@@ -77,8 +79,8 @@ int main(int argc, char **argv)
 	texes.plimus         = cargar_textura(TEXTURA_PLIMUS);
 	texes.banqueta       = cargar_textura(TEXTURA_BANQUETA);
 	/* Llamamos a los módulos */
-	init_interaccion(&cfg);
-	init_escena(&cfg, &texes);
+	init_interaccion(cfg);
+	init_escena(cfg, &texes);
 	/* Dejamos que GLUT trabaje por nosotros */
 	glutMainLoop();
 	return 0;

@@ -35,26 +35,30 @@
 /*
  * carpa.c
  */
-extern int crear_faldon_frontal(struct config *);
-extern int crear_faldon_lateral(struct config *);
-extern int crear_techo_frontal(struct config *);
-extern int crear_techo_lateral(struct config *);
+extern int crear_faldon_frontal(config_t);
+extern int crear_faldon_lateral(config_t);
+extern int crear_techo_frontal(config_t);
+extern int crear_techo_lateral(config_t);
 
 /*
  * gradas.c
  */
-extern int crear_grada_frontal(struct config *);
-extern int crear_grada_lateral(struct config *);
+extern int crear_grada_frontal(config_t);
+extern int crear_grada_lateral(config_t);
+
+/*
+ * suelo.c
+ */
+extern int crear_suelo_exterior(config_t);
+extern int crear_suelo_interior(config_t);
+extern int crear_suelo_arena(config_t);
 
 /*
  * complementos.c
  */
-extern int crear_poste(struct config *);
-extern int crear_suelo_exterior(struct config *);
-extern int crear_suelo_interior(struct config *);
-extern int crear_arena(struct config *);
-extern int crear_banqueta(struct config *);
-extern int crear_cartel(struct config *);
-extern int crear_tablon(struct config *);
+extern int crear_poste(config_t);
+extern int crear_banqueta(config_t);
+extern int crear_cartel(config_t);
+extern int crear_tablon(config_t);
 
 #endif

@@ -49,22 +49,25 @@ static int
 	poste,
 	suelo_exterior,
 	suelo_interior,
-	arena,
+	suelo_arena,
 	banqueta,
 	tablon,
 	cartel;
 
 /* Configuración de la escena */
-static struct config *C;
+static config_t C;
 static struct texturas *T;
+
+/* Muy muy privado */
+static float Le_cfra, Le_cfra2, Le_clr, Le_cfa, Le_gsl, Le_gss, Le_pr, Le_calt;
+static float Le_fov, Le_znear, Le_zfar;
 
 
 static void actualiza_viewport(int ancho, int alto)
 {   /* {{{ */
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(C->fov, (GLdouble)ancho / (GLdouble)alto, 
-			C->z_near, C->z_far);
+	gluPerspective(Le_fov, (float)ancho / (float)alto, Le_znear, Le_zfar);
 	glMatrixMode(GL_MODELVIEW);
 	glViewport(0, 0, ancho, alto);
 	glutPostRedisplay();
@@ -176,8 +179,8 @@ static void luces(void)
 	float sol_posicion[4]   = {-1.0, -1.0, 0.7, 0.0};
 	float foco_posicion[4]  = {0.0, 0.0, 0.0, 1.0};
 	float foco_direccion[4] = {0.0, 0.0, -1.0, 0.0};
-	float interior_posicion[4] = {0.0, 0.0, 
-		C->carpa_faldon_alto+C->carpa_techo_alto, 1.0};
+	float interior_posicion[4] = {0.0, 0.0, Le_calt, 1.0};
+
 	if (modo_exterior) {
 		glDisable(GL_LIGHT1);
 		glDisable(GL_LIGHT2);
@@ -192,8 +195,7 @@ static void luces(void)
 		glEnable(GL_LIGHT3);
 		glEnable(GL_LIGHT5); 
 		glPushMatrix(); /* 1 */
-		glTranslatef(0.0, 0.0, C->carpa_faldon_alto +
-				C->carpa_techo_alto);
+		glTranslatef(0.0, 0.0, Le_calt);
 		glPushMatrix(); /* 2 */
 		glRotatef(angulo_anim*3.0, 0.0, 0.0, 1.0);
 		glPushMatrix(); /* 3 */
@@ -237,48 +239,45 @@ static void escena(void)
 		/* Carpa */
 		glBindTexture(GL_TEXTURE_2D, T->carpa);
 		glPushMatrix();
-		glTranslatef(0.0, C->carpa_lateral_radio, 0.0);
+		glTranslatef(0.0, Le_clr, 0.0);
 		glCallList(faldon_frontal);
 		glPopMatrix();
 		glPushMatrix();
 		glScalef(1.0, -1.0, 1.0);
-		glTranslatef(0.0, C->carpa_lateral_radio, 0.0);
+		glTranslatef(0.0, Le_clr, 0.0);
 		glCallList(faldon_frontal);
 		glPopMatrix();
 		glPushMatrix();
-		glTranslatef(C->carpa_frontal_ancho / 2.0, 0.0, 0.0);
+		glTranslatef(Le_cfra2, 0.0, 0.0);
 		glCallList(faldon_lateral);
 		glPopMatrix();
 		glPushMatrix();
 		glScalef(-1.0, 1.0, 1.0);
-		glTranslatef(C->carpa_frontal_ancho / 2.0, 0.0, 0.0);
+		glTranslatef(Le_cfra2, 0.0, 0.0);
 		glCallList(faldon_lateral);
 		glPopMatrix();
 		glPushMatrix();
-		glTranslatef(0.0, 0.0, C->carpa_faldon_alto);
+		glTranslatef(0.0, 0.0, Le_cfa);
 		glCallList(techo_frontal);
 		glPopMatrix();
 		glPushMatrix();
 		glScalef(1.0, -1.0, 1.0);
-		glTranslatef(0.0, 0.0, C->carpa_faldon_alto);
+		glTranslatef(0.0, 0.0, Le_cfa);
 		glCallList(techo_frontal);
 		glPopMatrix();
 		glPushMatrix();
-		glTranslatef(C->carpa_frontal_ancho / 2.0, 0.0,
-				C->carpa_faldon_alto);
+		glTranslatef(Le_cfra2, 0.0, Le_cfa);
 		glCallList(techo_lateral);
 		glPopMatrix();
 		glPushMatrix();
 		glScalef(-1.0, 1.0, 1.0);
-		glTranslatef(C->carpa_frontal_ancho / 2.0, 0.0,
-				C->carpa_faldon_alto);
+		glTranslatef(Le_cfra2, 0.0, Le_cfa);
 		glCallList(techo_lateral);
 		/* Cartel */
 		glPopMatrix();
 		glBindTexture(GL_TEXTURE_2D, T->plimus);
 		glPushMatrix();
-		glTranslatef(-(C->carpa_frontal_ancho/2.0+C->carpa_lateral_radio),
-					-(C->carpa_lateral_radio*1.5), 0.0);
+		glTranslatef(-(Le_cfra/2.0 + Le_clr), -(Le_clr*1.5), 0.0);
 		glRotatef(angulo_anim, 0.0, 0.0, 1.0);
 		glCallList(cartel);
 		glPopMatrix();
@@ -288,15 +287,13 @@ static void escena(void)
 		glCallList(suelo_interior);
 		/* Arena */
 		glBindTexture(GL_TEXTURE_2D, T->arena);
-		glCallList(arena);
+		glCallList(suelo_arena);
 		/* Bola y tablón */
 		glCallList(tablon);
 		/* Bancos pa los tigretones */
 		{
-			float x = ((C->carpa_frontal_ancho/2.0) -
-					C->poste_radio-0.1)/2.0;
-			float y = ((C->carpa_lateral_radio) -
-				C->gradas_largo-SEP_GRADAS_CARPA-0.5)/2.0;
+			float x = (Le_cfra2 - Le_pr - 0.1) / 2.0;
+			float y = (Le_clr - Le_gsl - Le_gss - 0.5) / 2.0;
 
 			glBindTexture(GL_TEXTURE_2D, T->banqueta);
 			glPushMatrix();
@@ -319,33 +316,31 @@ static void escena(void)
 		/* Gradas */
 		glBindTexture(GL_TEXTURE_2D, T->grada);
 		glPushMatrix();
-		glTranslatef(0.0, C->carpa_lateral_radio - C->gradas_largo
-				- SEP_GRADAS_CARPA, 0.0);
+		glTranslatef(0.0, Le_clr - Le_gsl - Le_gss, 0.0);
 		glCallList(grada_frontal);
 		glPopMatrix();
 		glPushMatrix();
 		glScalef(1.0, -1.0, 1.0);
-		glTranslatef(0.0, C->carpa_lateral_radio - C->gradas_largo
-				- SEP_GRADAS_CARPA, 0.0);
+		glTranslatef(0.0, Le_clr - Le_gsl - Le_gss, 0.0);
 		glCallList(grada_frontal);
 		glPopMatrix();
 		glPushMatrix();
-		glTranslatef(C->carpa_frontal_ancho / 2.0, 0.0, 0.0);
+		glTranslatef(Le_cfra2, 0.0, 0.0);
 		glCallList(grada_lateral);
 		glPopMatrix();
 		glPushMatrix();
 		glScalef(-1.0, 1.0, 1.0);
-		glTranslatef(C->carpa_frontal_ancho / 2.0, 0.0, 0.0);
+		glTranslatef(Le_cfra2, 0.0, 0.0);
 		glCallList(grada_lateral);
 		glPopMatrix();
 	}
 	/* Postes */
 	glPushMatrix();
-	glTranslatef(C->carpa_frontal_ancho / 2.0, 0.0, 0.0);
+	glTranslatef(Le_cfra2, 0.0, 0.0);
 	glCallList(poste);
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(-C->carpa_frontal_ancho / 2.0, 0.0, 0.0);
+	glTranslatef(-Le_cfra2, 0.0, 0.0);
 	glCallList(poste);
 	glPopMatrix();
 	glFlush();
@@ -353,12 +348,26 @@ static void escena(void)
 }   /* }}} */
 
 
-void init_escena(struct config *cfg, struct texturas *ts)
+void init_escena(config_t cfg, struct texturas *ts)
 {  /* {{{ */
 	C = cfg;
 	T = ts;
 
-	/* Creamos una textura 1D para la carpa, para molar */
+	/* Copiamos valores de la configuración localmente para ahorrarnos
+	 * algunas consultas */
+	Le_cfra  = valor_decimal(C, c_fr_ancho);
+	Le_cfra2 = Le_cfra / 2.0;
+	Le_clr   = valor_decimal(C, c_l_radio);
+	Le_cfa   = valor_decimal(C, c_f_alto);
+	Le_calt  = Le_cfa + valor_decimal(C, c_t_alto);
+	Le_gsl   = valor_decimal(C, gs_largo);
+	Le_gss   = valor_decimal(C, gs_sep);
+	Le_pr    = valor_decimal(C, p_radio);
+	Le_fov   = valor_decimal(C, c_fov);
+	Le_znear = valor_decimal(C, c_znear);
+	Le_zfar  = valor_decimal(C, c_zfar);
+
+	/* Creamos una textura 2D para la carpa, para molar */
 	T->carpa = gen_textura_carpa();
 
 	init_luces();
@@ -375,7 +384,7 @@ void init_escena(struct config *cfg, struct texturas *ts)
 	poste          = crear_poste(C);
 	suelo_exterior = crear_suelo_exterior(C);
 	suelo_interior = crear_suelo_interior(C);
-	arena          = crear_arena(C);
+	suelo_arena    = crear_suelo_arena(C);
 	banqueta       = crear_banqueta(C);
 	tablon         = crear_tablon(C);
 	cartel         = crear_cartel(C);

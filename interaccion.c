@@ -39,19 +39,15 @@
 
 #define ESC 27
 
-#define AVANCE		0.1
-#define ROTACION	3.0
-#define DEFINICION	1.5
-#define VELOCIDAD_ANIMACION 50
-
 enum tipo_de_giro {HORIZONTAL, VERTICAL};
 
-int modo_exterior;
+/* Variables exportadas */
+int   modo_exterior;
 float desp_cielo_h = 0.0;
 float desp_cielo_v = 0.0;
 float angulo_anim  = 0.0;
 
-static struct config *C;
+static config_t C;
 static float angulo_h = 0.0; /* Ángulo de rotación horizontal */
 static float angulo_v = 0.0; /* Ángulo de rotación vertical */
 static float camara_x = 0.0; /* Posición de la cámara */
@@ -61,6 +57,10 @@ static int   light_flag     = 1; /* Flags manipulados por el menú */
 static int   smooth_flag    = 1;
 static int   animation_flag = 1;
 
+/* Privadísimo */
+static float Li_cfa, Li_cta, Li_clr, Li_cfc, Li_cfra2;
+static float Li_mp, Li_mg, Li_mrs, Li_cid, Li_ag;
+static int   Li_av;
 
 void actualiza_camara(void)
 {  /* {{{ */
@@ -85,13 +85,12 @@ static void comprueba_situacion(enum tipo_de_giro t)
 	float x, cx, cz;
 
 	if (t == VERTICAL) {
-		if (camara_y <= C->carpa_faldon_alto) {
-			radio = C->carpa_lateral_radio + CAIDA_FALDON + 0.1;
-		} else if (camara_y <= (C->carpa_techo_alto + C->carpa_faldon_alto)) {
+		if (camara_y <= Li_cfa) {
+			radio = Li_clr + Li_cfc + 0.1;
+		} else if (camara_y <= (Li_cta + Li_cfa)) {
 			/* faldon_alto < cam_y <= faldon_alto + techo_alto */
-			radio = (C->carpa_lateral_radio * (camara_y -
-				C->carpa_faldon_alto - C->carpa_techo_alto)) /
-				-C->carpa_techo_alto;
+			radio = (Li_clr * (camara_y - Li_cfa - Li_cta)) /
+				-Li_cta;
 		} else {
 			/* faldon_alto < faldon_alto + techo_alto < cam_y */
 			radio = 0.0;
@@ -101,7 +100,7 @@ static void comprueba_situacion(enum tipo_de_giro t)
 	} 
 	cx = (float)fabs((double)camara_x);
 	cz = (float)fabs((double)camara_z);
-	x  = C->carpa_frontal_ancho / 2.0;
+	x  = Li_cfra2;
 	if (cz <= radio) {
 		if (cx <= x) {
 			modo_exterior = 0;
@@ -124,8 +123,8 @@ static void paso_frontal(float sentido)
 	float radianes;
 
 	radianes = (angulo_h * M_PI) / 180.0;
-	camara_x += sinf(radianes) * AVANCE * sentido;
-	camara_z += cosf(radianes) * AVANCE * sentido;
+	camara_x += sinf(radianes) * Li_mp * sentido;
+	camara_z += cosf(radianes) * Li_mp * sentido;
 }  /* }}} */
 
 
@@ -134,8 +133,8 @@ static void paso_lateral(float sentido)
 	float radianes;
 
 	radianes = (angulo_h * M_PI) / 180.0;
-	camara_x += cosf(radianes) * AVANCE * sentido;
-	camara_z += -sinf(radianes) * AVANCE * sentido;
+	camara_x += cosf(radianes) * Li_mp * sentido;
+	camara_z += -sinf(radianes) * Li_mp * sentido;
 } /* }}} */
 
 
@@ -157,8 +156,8 @@ static void giro_camara(float sentido, enum tipo_de_giro g)
 			angulo = NULL;
 			return;
 	}
-	*angulo += ROTACION * sentido;
-	*despl  += 0.05 * (g == HORIZONTAL ? -sentido : sentido);
+	*angulo += Li_mg * sentido;
+	*despl  += Li_cid * (g == HORIZONTAL ? -sentido : sentido);
 	if (*angulo < -360.0)
 		*angulo += 360.0;
 	else if (*angulo > 360.0)
@@ -173,7 +172,7 @@ static void giro_camara(float sentido, enum tipo_de_giro g)
 static void teclado_especial(int tecla, int x, int y)
 {  /* {{{ */
 	static int is_full = 0;
-	
+
 	switch (tecla) {
 		case GLUT_KEY_UP:        /* Paso hacia adelante */
 			paso_frontal(-1.0);
@@ -192,12 +191,12 @@ static void teclado_especial(int tecla, int x, int y)
 			comprueba_situacion(HORIZONTAL);
 			break;
 		case GLUT_KEY_PAGE_UP:   /* Elevación */
-			camara_y += AVANCE;
+			camara_y += Li_mp;
 			comprueba_situacion(VERTICAL);
 			break;
 		case GLUT_KEY_PAGE_DOWN: /* Descenso */
 			if (camara_y > 0.65f) {
-				camara_y -= AVANCE;
+				camara_y -= Li_mp;
 				comprueba_situacion(VERTICAL);
 			} else {
 				/* Cortocircuito */
@@ -206,7 +205,8 @@ static void teclado_especial(int tecla, int x, int y)
 			break;
 		case GLUT_KEY_F5:	/* Pantalla completa */
 			if (is_full)
-				glutReshapeWindow(500, 500);
+				glutReshapeWindow(valor_entero(C, v_width),
+						valor_entero(C, v_height));
 			else
 				glutFullScreen();
 			is_full = !is_full;
@@ -273,14 +273,14 @@ static void raton(int x, int y)
 	static int ox = 0, oy = 0;
 
 	if (x > ox)
-		giro_camara(-0.7, HORIZONTAL);
+		giro_camara(-Li_mrs, HORIZONTAL);
 	else if (x < ox)
-		giro_camara(0.7, HORIZONTAL);
+		giro_camara(Li_mrs, HORIZONTAL);
 	ox = x;
 	if (y > oy)
-		giro_camara(-0.7, VERTICAL);
+		giro_camara(-Li_mrs, VERTICAL);
 	else if (y < oy)
-		giro_camara(0.7, VERTICAL);
+		giro_camara(Li_mrs, VERTICAL);
 	oy = y;
 	glutPostRedisplay();
 }  /* }}} */
@@ -288,7 +288,6 @@ static void raton(int x, int y)
 
 static void menu(int valor)
 {  /* {{{ */
-
 	switch (valor) {
 		case 0:
 			if (light_flag)
@@ -314,28 +313,42 @@ static void menu(int valor)
 static void animacion(int i)
 {  /* {{{ */
 	if (animation_flag) {
-		angulo_anim += 1.0;
+		angulo_anim += Li_ag;
 		if (angulo_anim > 360.0)
 			angulo_anim -= 360.0;
 	} else {
 		angulo_anim = 0.0;
 	}
 	glutPostRedisplay();
-	glutTimerFunc(VELOCIDAD_ANIMACION, animacion, 0);
+	glutTimerFunc(Li_av, animacion, 0);
 }  /* }}} */
 
 
-void init_interaccion(struct config *conf)
+void init_interaccion(config_t conf)
 {  /* {{{ */
 	C = conf;
+
+	Li_cfa   = valor_decimal(C, c_f_alto);
+	Li_cta   = valor_decimal(C, c_t_alto);
+	Li_clr   = valor_decimal(C, c_l_radio);
+	Li_cfc   = valor_decimal(C, c_f_caida);
+	Li_cfra2 = valor_decimal(C, c_fr_ancho) / 2.0;
+	Li_mp    = valor_decimal(C, m_paso);
+	Li_mg    = valor_decimal(C, m_giro);
+	Li_mrs   = valor_decimal(C, m_rsen);
+	Li_cid   = valor_decimal(C, ci_desp);
+	Li_ag    = valor_decimal(C, a_giro);
+	Li_av    = valor_entero(C, a_vel);
+
+	
 	glutKeyboardFunc(teclado);
 	glutSpecialFunc(teclado_especial);
 	glutMotionFunc(raton);
 	glutCreateMenu(menu);
-	glutTimerFunc(VELOCIDAD_ANIMACION, animacion, 0);
+	glutTimerFunc(Li_av, animacion, 0);
 	glutAddMenuEntry("Activar/Desactivar iluminación.", 0);
-	glutAddMenuEntry("Modelo de shading FLAT/SMOOTH.", 1);
-	glutAddMenuEntry("Activar/Desactivar animación.", 2);
+	glutAddMenuEntry("Modelo de shading FLAT/SMOOTH.",  1);
+	glutAddMenuEntry("Activar/Desactivar animación.",   2);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	comprueba_situacion(VERTICAL);
 }  /* }}} */

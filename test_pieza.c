@@ -23,7 +23,7 @@
  * $Id$
  */
 
-#define TEST_CONFIG "medidas_testpieza.cfg"
+#define TEST_CONFIG "test_pieza.cfg"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -68,7 +68,7 @@ void display(void);
 void ventana(int, int);
 
 
-void activa_objeto(enum Pieza p, struct config *c)
+void activa_objeto(enum Pieza p, config_t c)
 {
 	static GLfloat ejes[] = {
 		0.0, 0.0, 0.0,
@@ -124,9 +124,9 @@ void activa_objeto(enum Pieza p, struct config *c)
 int main(int argc, char **argv)
 {
 	int choice;
-	struct config cfg;
+	config_t cfg;
 
-	leer_config(TEST_CONFIG, &cfg);
+	cfg = leer_config(TEST_CONFIG);
 	
 	glutInit(&argc, argv);
 
@@ -148,7 +148,7 @@ int main(int argc, char **argv)
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
-	activa_objeto((enum Pieza) choice, &cfg);
+	activa_objeto((enum Pieza) choice, cfg);
 	glutMainLoop();
 	return 0;
 }

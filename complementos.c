@@ -32,9 +32,12 @@
 #include "piezas.h"
 
 
-int crear_poste(struct config *c)
+int crear_poste(config_t c)
 {  /* {{{ */
 	int lista;
+	float pradio = valor_decimal(c, p_radio);
+	float altura = valor_decimal(c, c_f_alto) + valor_decimal(c, c_t_alto)
+		+ valor_decimal(c, p_ealto);
 	float brillo[3] = {0.3, 0.3, 0.3};
 	GLUquadricObj *cilindro;
 	
@@ -50,13 +53,11 @@ int crear_poste(struct config *c)
 	glColor3f(0.7, 0.7, 0.7);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, brillo); 
 	glMaterialf(GL_FRONT, GL_SHININESS, 30.0);
-	gluCylinder(cilindro, c->poste_radio, c->poste_radio,
-			c->carpa_faldon_alto + c->carpa_techo_alto +
-			c->poste_extra_alto, c->poste_caras, 6);
+	gluCylinder(cilindro, pradio, pradio, altura, valor_entero(c, p_deth),
+			valor_entero(c, p_detv));
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, c->carpa_faldon_alto + c->carpa_techo_alto +
-			c->poste_extra_alto);
-	gluDisk(cilindro, 0, c->poste_radio, c->poste_caras, 1);
+	glTranslatef(0.0, 0.0, altura);
+	gluDisk(cilindro, 0, pradio, valor_entero(c, p_deth), 1);
 	glPopMatrix();
 	glPopAttrib();
 	glEndList();
@@ -65,146 +66,7 @@ int crear_poste(struct config *c)
 }  /* }}} */
 
 
-int crear_suelo_exterior(struct config *c)
-{  /* {{{ */
-	int lista;
-	float limites[4][3] = {
-		{-c->suelo_lado, -c->suelo_lado, 0.0},
-		{-c->suelo_lado, c->suelo_lado, 0.0},
-		{c->suelo_lado, -c->suelo_lado, 0.0},
-		{c->suelo_lado, c->suelo_lado, 0.0}};
-	float textura[4][2] = {
-		{0.0, 0.0},
-		{0.0, c->suelo_lado*2},
-		{c->suelo_lado*2, 0.0},
-		{c->suelo_lado*2, c->suelo_lado*2}};
-
-	lista = glGenLists(1);
-	if (lista == 0)
-		return 0;
-	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_MAP2_VERTEX_3);
-	glEnable(GL_MAP2_TEXTURE_COORD_2);
-	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 6, 2, 0.0, 1.0, 3, 2, limites[0]);
-	glMap2f(GL_MAP2_TEXTURE_COORD_2, 0.0, 1.0, 2, 2, 0.0, 1.0, 4, 2,
-			textura[0]);
-	glMapGrid2f(c->suelo_detalle, 0.0, 1.0, c->suelo_detalle, 0.0, 1.0);
-	glNormal3f(0.0, 0.0, 1.0);
-	glColor3f(1.0, 1.0, 1.0);
-	glEvalMesh2(GL_FILL, 0, c->suelo_detalle, 0, c->suelo_detalle);
-	glPopAttrib();
-	glEndList();
-	return lista;
-}  /* }}} */
-
-
-int crear_suelo_interior(struct config *c)
-{  /* {{{ */
-	int lista;
-	float x = (c->carpa_frontal_ancho / 2.0) + c->carpa_lateral_radio;
-	float y = c->carpa_lateral_radio;
-	float limites[4][3] = {
-		{-x, -y, 0.0}, {-x, y, 0.0}, {x, -y, 0.0}, {x, y, 0.0}};
-	float textura[4][2] = {{0.0, 0.0}, {0.0, y*2}, {x*2, 0.0}, {x*2, y*2}};
-
-	lista = glGenLists(1);
-	if (lista == 0)
-		return 0;
-	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_MAP2_VERTEX_3);
-	glEnable(GL_MAP2_TEXTURE_COORD_2);
-	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 6, 2, 0.0, 1.0, 3, 2, limites[0]);
-	glMap2f(GL_MAP2_TEXTURE_COORD_2, 0.0, 1.0, 2, 2, 0.0, 1.0, 4, 2,
-			textura[0]);
-	glMapGrid2f(c->suelo_detalle, 0.0, 1.0, c->suelo_detalle, 0.0, 1.0);
-	glNormal3f(0.0, 0.0, 1.0);
-	glColor3f(1.0, 1.0, 1.0);
-	glEvalMesh2(GL_FILL, 0, c->suelo_detalle, 0, c->suelo_detalle);
-	glPopAttrib();
-	glEndList();
-	return lista;
-}  /* }}} */
-
-
-int crear_arena(struct config *c)
-{  /* {{{ */
-	int lista, i, j;
-	float x = (c->carpa_frontal_ancho/2) - c->poste_radio - 0.1;
-	float y = (c->carpa_lateral_radio)-c->gradas_largo-SEP_GRADAS_CARPA-0.5;
-	float limites[4][3] = {
-		{-x, -y, 0.01},
-		{-x, y, 0.01},
-		{x, -y, 0.01},
-		{x, y, 0.01}};
-	float textura[4][2] = {
-		{0.0, 0.0},
-		{0.0, y*2},
-		{x*2, 0.0},
-		{x*2, y*2}};
-	float b_frontal[4][3] = {
-		{-(x+0.05), -0.05, -0.05}, {-(x+0.05), -0.05, 0.05},
-		{x+0.05, -0.05, 0.05}, {x+0.05, -0.05, -0.05}};
-	float b_lateral[4][3] = {
-		{0.05, y+0.05, -0.05}, {0.05, y+0.05, 0.05},
-		{0.05, -(y+0.05), 0.05}, {0.05, -(y+0.05), -0.05}};
-
-	lista = glGenLists(1);
-	if (lista == 0)
-		return 0;
-	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_ENABLE_BIT);
-	/* Bordes de la arena */
-	glColor3f(0.8, 0.8, 0.8);
-	glInterleavedArrays(GL_V3F, 0, b_frontal[0]);
-	for (i = 0; i < 2; ++i) {
-		glPushMatrix();
-		glTranslatef(0.0, (i?y:-y), 0.0);
-		for (j = 0; j < 3; ++j) {
-			glPushMatrix();
-			glRotatef(-90.0*j, 1.0, 0.0, 0.0);
-			glNormal3f(0.0, -1.0, 0.0);
-			glDrawArrays(GL_QUADS, 0,
-					sizeof(b_frontal)/(3*sizeof(float)));
-			glPopMatrix();
-		}
-		glPopMatrix();
-	}
-	glInterleavedArrays(GL_V3F, 0, b_lateral[0]);
-	for (i = 0; i < 2; ++i) {
-		glPushMatrix();
-		glTranslatef((i?x:-x), 0.0, 0.0);
-		for (j = 0; j < 3; ++j) {
-			glPushMatrix();
-			glRotatef(-90.0*j,0.0, 1.0, 0.0);
-			glNormal3f(1.0, 0.0, 0.0);
-			glDrawArrays(GL_QUADS, 0,
-					sizeof(b_lateral)/(3*sizeof(float)));
-			glPopMatrix();
-		}
-		glPopMatrix();
-	}
-	/* Textura de arena */
-	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_MAP2_VERTEX_3);
-	glEnable(GL_MAP2_TEXTURE_COORD_2);
-	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 6, 2, 0.0, 1.0, 3, 2, limites[0]);
-	glMap2f(GL_MAP2_TEXTURE_COORD_2, 0.0, 1.0, 2, 2, 0.0, 1.0, 4, 2,
-			textura[0]);
-	glMapGrid2f(c->arena_detalle, 0.0, 1.0, c->arena_detalle, 0.0, 1.0);
-	glNormal3f(0.0, 0.0, 1.0);
-	glColor3f(1.0, 1.0, 1.0);
-	glEvalMesh2(GL_FILL, 0, c->arena_detalle, 0, c->arena_detalle);
-	glPopAttrib();
-	glEndList();
-	return lista;
-}  /* }}} */
-
-
-int crear_banqueta(struct config *c)
+int crear_banqueta(config_t c)
 {  /* {{{ */
 	int lista;
 	GLUquadric *cilindro;
@@ -233,9 +95,10 @@ int crear_banqueta(struct config *c)
 }  /* }}} */
 
 
-int crear_cartel(struct config *c)
+int crear_cartel(config_t c)
 {  /* {{{ */
 	int lista, i;
+	float faldon_alto = valor_decimal(c, c_f_alto);
 	float cartel[4][3] = {
 		{-2.0, 0.05, 0.0},
 		{-2.0, 0.05, 3.0},
@@ -255,7 +118,7 @@ int crear_cartel(struct config *c)
 	glTexCoordPointer(2, GL_FLOAT, 0, foto[0]);
 	/* Foto y marco */
 	glPushMatrix();
-		glTranslatef(0.0, 0.0, c->carpa_faldon_alto);
+		glTranslatef(0.0, 0.0, faldon_alto);
 		glColor3f(1.0, 1.0, 1.0);
 		glNormal3f(0.0, -1.0, 0.0);
 		glPushMatrix();
@@ -276,15 +139,15 @@ int crear_cartel(struct config *c)
 	glPopMatrix();
 	glBegin(GL_QUAD_STRIP);
 	glVertex3f(-0.05, -0.05, 0.0);
-	glVertex3f(-0.05, -0.05, c->carpa_faldon_alto);
+	glVertex3f(-0.05, -0.05, faldon_alto);
 	glVertex3f(0.05, -0.05, 0.0);
-	glVertex3f(0.05, -0.05, c->carpa_faldon_alto);
+	glVertex3f(0.05, -0.05, faldon_alto);
 	glVertex3f(0.05, 0.05, 0.0);
-	glVertex3f(0.05, 0.05, c->carpa_faldon_alto);
+	glVertex3f(0.05, 0.05, faldon_alto);
 	glVertex3f(-0.05, 0.05, 0.0);
-	glVertex3f(-0.05, 0.05, c->carpa_faldon_alto);
+	glVertex3f(-0.05, 0.05, faldon_alto);
 	glVertex3f(-0.05, -0.05, 0.0);
-	glVertex3f(-0.05, -0.05, c->carpa_faldon_alto);
+	glVertex3f(-0.05, -0.05, faldon_alto);
 	glEnd();
 	glPopAttrib();
 	glEndList();
@@ -292,7 +155,7 @@ int crear_cartel(struct config *c)
 }  /* }}} */
 
 
-int crear_tablon(struct config *c)
+int crear_tablon(config_t c)
 {  /* {{{ */
 	int lista;
 	float radio = 0.2;
@@ -323,3 +186,4 @@ int crear_tablon(struct config *c)
 	gluDeleteQuadric(bola);
 	return lista;
 }  /* }}} */
+

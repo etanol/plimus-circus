@@ -25,49 +25,43 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
-#define SEP_GRADAS_CARPA   0.1
-#define CAIDA_TECHO_POSTES 0.8
-#define CAIDA_FALDON       0.5
+#include "conf_keys.h" /* Las variables que definen se hacen visibles aquí */
 
-struct config {
-	/* Campo de visión */
-	float fov;
-	float z_near;
-	float z_far;
-	
-	/* Carpa */
-	float carpa_faldon_alto;
-	float carpa_techo_alto;
-	float carpa_frontal_ancho;
-	float carpa_lateral_radio;
-#ifdef CARPA_SIMPLE
- 	int   carpa_lateral_caras; 
-#else
-	int   carpa_detalle_horiz;
-	int   carpa_detalle_vert;
-#endif
+/* Tipos privados */
+struct nodo;
 
-	/* Gradas */
-	float gradas_alto;
-	float gradas_largo;
-	int   gradas_escalones;
-	float grada_frontal_ancho;
-	int   grada_lateral_apertura;
-	int   grada_lateral_caras;
+enum tipo { CFG_NODO, CFG_ENTERO, CFG_DECIMAL, CFG_CADENA };
 
-	/* Poste */
-	float poste_radio;
-	float poste_extra_alto;
-	int   poste_caras;
-
-	/* Suelo */
-	float suelo_lado;
-	int suelo_detalle;
-	
-	/* Arena */
-	int arena_detalle;
+union valor {
+	struct nodo *sig;
+	int   entero;
+	float decimal;
+	char *cadena;
 };
 
-void leer_config(char *, struct config *);
+struct item {
+	char c;
+	enum tipo t;
+	union valor v;
+};
+
+struct nodo {
+	struct item *d;
+	int tam;
+	int ult;
+};
+
+
+/* Tipos exportados */
+typedef struct nodo *config_t;
+
+/* Primitivas */
+extern config_t leer_config(char *);
+extern char *   valor_cadena(config_t, const char *);
+extern int      valor_entero(config_t, const char *);
+extern float    valor_decimal(config_t, const char *);
+
+/* Sólo para debug */
+extern struct item *consulta(config_t, const char *);
 
 #endif

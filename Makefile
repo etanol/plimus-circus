@@ -19,11 +19,12 @@
 # $Id$
 #
 
-practica := circo test_pieza
+practica := circo 
+tests    := test_pieza test_config
 etapas   := etapa1 etapa2 etapa3
-piezas   := carpa.c carpa_simple.c gradas.c complementos.c
+piezas   := carpa.c gradas.c suelo.c complementos.c
 
-BINFILES   := $(etapas) $(practica)
+BINFILES   := $(etapas) $(practica) $(tests)
 WDISTFILES := Makefile README.* *.c *.h ChangeLog *.cfg
 
 
@@ -35,14 +36,6 @@ else
  CFLAGS += -O2 -fomit-frame-pointer 
  STRIP  := -Wl,-s 
 endif
-ifdef simple
- # wired y simple no son compatibles.
- override wired =
- CFLAGS += -DCARPA_SIMPLE
-endif
-ifdef wired 
- CFLAGS += -DWIRED_CARPA
-endif
 
 join_obj = $(CC) $(CFLAGS) -Wl,-r -o $@ $^
 mk_obj   = $(CC) $(CFLAGS) -c -o $@ $(filter-out %.h,$^)
@@ -50,6 +43,7 @@ mk_bingl = $(CC) $(CFLAGS) $(STRIP) -lGL -lGLU -lglut -o $@ $(filter-out %.h,$^)
 
 all: $(practica)
 etapas: $(etapas)
+test: $(tests)
 
 $(etapas): %: %.c
 	$(mk_bingl)
@@ -60,18 +54,23 @@ circo: circo.o escena.o textura.o interaccion.o config.o $(piezas:%.c=%.o)
 test_pieza: test_pieza.o config.o textura.o $(piezas:%.c=%.o)
 	$(mk_bingl)
 
+test_config: test_config.o config.o
+	$(CC) $(CFLAGS) $(STRIP) -o $@ $^
+
 #
 # Reglas específicas para los módulos
 #
 interaccion.o: interaccion.c interaccion.h camaras.h
 	$(mk_obj)
-escena.o: escena.c escena.h config.h
+escena.o: escena.c escena.h config.h conf_keys.h
 	$(mk_obj)
-carpa.o: carpa.c piezas.h config.h
+carpa.o: carpa.c piezas.h config.h conf_keys.h
 	$(mk_obj)
-gradas.o: gradas.c piezas.h config.h
+gradas.o: gradas.c piezas.h config.h conf_keys.h
 	$(mk_obj)
-config.o: config.c config.h
+config.o: config.c conf_keys.c config.h conf_keys.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+test_config.o: test_config.c config.h 
 	$(mk_obj)
 textura.o: textura.c textura.h
 	$(mk_obj)

@@ -31,6 +31,6 @@
 #include "textura.h"
 #include "piezas.h"
 
-extern void init_escena(struct config *, struct texturas *);
+extern void init_escena(config_t, struct texturas *);
 
 #endif
