@@ -24,7 +24,11 @@
 
 #ifndef CARPA_SIMPLE
 
+#ifdef THIS_IS_UNIX
 #include <GL/gl.h>
+#else
+#include <glut.h>
+#endif
 
 #include "piezas.h"
 

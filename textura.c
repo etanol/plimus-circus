@@ -23,10 +23,14 @@
  * $Id$
  */
 
-#include <GL/gl.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#ifdef THIS_IS_UNIX
+#include <GL/gl.h>
+#else
+#include <glut.h>
+#endif
 
 #define CHECK_ERROR(condicion) do {\
 	if ((condicion)) { \
@@ -42,7 +46,7 @@ int cargar_textura(const char *fichero)
 	int textura;	/* Valor de retorno */
 	int e;		/* Comodín para comprobar errores */
 	int bytespp;	/* BYTES por pixel (3 ó 4) */
-	unsigned int  ancho, alto, tam_imagen;
+	unsigned int  ancho, alto, tam_imagen, i;
 	unsigned char cabecera_tipo[sizeof(TGA_tipo)];
 	unsigned char cabecera_tga[6];
 	GLubyte *imagen;
@@ -63,25 +67,27 @@ int cargar_textura(const char *fichero)
 	bytespp = (cabecera_tga[4] == 24 ? 3 : (cabecera_tga[4] == 32 ? 4 : 0));
 	CHECK_ERROR((ancho <= 0) || (alto <= 0) || (bytespp == 0));
 	tam_imagen = ancho * alto * bytespp;
-	imagen = malloc(tam_imagen);
+	imagen = (GLubyte *)malloc(tam_imagen);
 	CHECK_ERROR(imagen == NULL);
 	e = fread(imagen, 1, tam_imagen, f);
-	CHECK_ERROR(e < tam_imagen);
+	CHECK_ERROR((unsigned int)e < tam_imagen);
+        for (i = 0; i < tam_imagen; i += bytespp)
+            imagen[i] ^= imagen[i+2] ^= imagen[i] ^= imagen[i+2];
 	fclose(f);
 
 	/*
 	 * Ahora le pasamos la información a OpenGL y preparamos algunos
 	 * parámetros.
 	 */
-	glGenTextures(1, &textura);
+	glGenTextures(1, (unsigned int *)&textura);
 	glBindTexture(GL_TEXTURE_2D, textura);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexImage2D(GL_TEXTURE_2D, 0, bytespp, ancho, alto, 0, GL_BGR,
-			GL_UNSIGNED_BYTE, imagen);
+	glTexImage2D(GL_TEXTURE_2D, 0, bytespp, ancho, alto, 0, (bytespp == 3 ?
+		GL_RGB : GL_RGBA), GL_UNSIGNED_BYTE, imagen);
 	free(imagen);
 	return textura;
 }
@@ -92,7 +98,7 @@ int gen_textura_carpa(void)
 	int textura;
 	float cols_carpa[6] = {0.8, 0.8, 0.0, 0.8, 0.0, 0.0};
 
-	glGenTextures(1, &textura);
+	glGenTextures(1, (unsigned int *)&textura);
 	glBindTexture(GL_TEXTURE_1D, textura);
 	glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_REPEAT);

@@ -22,12 +22,17 @@
  * $Id$
  */
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#ifdef THIS_IS_UNIX
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
+#else
+#include <glut.h>
+#define M_PI 3.1415927
+#endif
 
 #include "camaras.h"
 

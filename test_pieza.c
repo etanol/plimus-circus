@@ -25,11 +25,15 @@
 
 #define TEST_CONFIG "medidas_testpieza.cfg"
 
+#include <stdio.h>
+#include <stdlib.h>
+#ifdef THIS_IS_UNIX
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-#include <stdio.h>
-#include <stdlib.h>
+#else
+#include <glut.h>
+#endif
 
 #include "config.h"
 #include "piezas.h"

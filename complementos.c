@@ -22,8 +22,12 @@
  * $Id$
  */
 
+#ifdef THIS_IS_UNIX
 #include <GL/gl.h>
 #include <GL/glu.h>
+#else
+#include <glut.h>
+#endif
 
 #include "piezas.h"
 

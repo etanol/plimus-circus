@@ -36,8 +36,12 @@
 #define TEXTURA_PLIMUS "imagen\\plimus.tga"
 #endif
 
+#ifdef THIS_IS_UNIX
 #include <GL/gl.h>
 #include <GL/glut.h>
+#else
+#include <glut.h>
+#endif
 
 #include "config.h"
 #include "escena.h"

@@ -24,7 +24,7 @@ etapas   := etapa1 etapa2 etapa3
 piezas   := carpa.c carpa_simple.c gradas.c complementos.c
 
 BINFILES   := $(etapas) $(practica)
-WDISTFILES := Makefile README.* *.c *.h ChangeLog
+WDISTFILES := Makefile README.* *.c *.h ChangeLog *.cfg
 
 
 CFLAGS := -pipe -Wall -DTHIS_IS_UNIX
@@ -80,8 +80,8 @@ textura.o: textura.c textura.h
 clean:
 	@-rm -fv *.o ejemplos/*.o $(BINFILES) gmon.out ejemplos/gmon.out ChangeLog*
 
-wdist: changelog
-	@test -d IG1 || mkdir IG1; \
+wdist: wdistclean changelog
+	@mkdir IG1; \
 	cp -v $(WDISTFILES) IG1; rm IG1/template.h; \
 	for i in IG1/*.c; do \
 		mv -v $$i $${i%.c}.cpp; \
@@ -90,6 +90,10 @@ wdist: changelog
 		perl -pi -e's/\n/\r\n/g' $$i; \
 	done; \
 	perl -pi -e's/\.c([^a-z])/.cpp$$1/g' IG1/Makefile; \
+	mkdir IG1/imagen; \
+	cp -v imagen/*.tga IG1/imagen; \
+	cp -vr wdist/* IG1; \
+	find IG1 -type d -name CVS -exec rm -r '{}' ';'; \
 	zip -r IG1.zip IG1
 
 changelog:

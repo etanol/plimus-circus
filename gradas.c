@@ -22,8 +22,13 @@
  * $Id$
  */
 
-#include <GL/gl.h>
 #include <math.h>
+#ifdef THIS_IS_UNIX
+#include <GL/gl.h>
+#else
+#include <glut.h>
+#define M_PI 3.1415927
+#endif
 
 #include "piezas.h"
 
