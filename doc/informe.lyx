@@ -1,0 +1,1859 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass book
+\begin_preamble
+\usepackage{times}
+\usepackage{moreverb}
+\usepackage[dvips]{graphicx}
+\usepackage{fancyhdr}
+\renewcommand{\chaptermark}[1]{markboth{#1}{}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,LO]{\nouppercase{\leftmark}}
+\fancyhead[RE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\end_preamble
+\language spanish
+\inputencoding auto
+\fontscheme times
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage widemarginsa4
+\use_geometry 0
+\use_amsmath 0
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+
+\noun on 
+Plimus Circus
+\layout Author
+
+
+\emph on 
+Isaac Jurado Peinado
+\newline 
+Esteban Martínez Tristancho
+\emph default 
+
+\newline 
+
+\emph on 
+
+\newline 
+
+\newline 
+
+\emph default 
+Informática Gráfica I
+\newline 
+
+\newline 
+Profesores:
+\emph on 
+
+\newline 
+Jose María Buades Rubio
+\newline 
+María José Abásolo Guerrero
+\newline 
+
+\layout Standard
+
+
+\begin_inset LatexCommand \tableofcontents{}
+
+\end_inset 
+
+
+\layout Chapter*
+\pagebreak_top 
+Introducción
+\layout Standard
+\added_space_bottom bigskip 
+Hoy en día, las técnicas de simulación por odenador han avanzado mucho en
+ muy poco tiempo.
+ Gracias al avance tecnológico del hardware que permite realizar estas simulacio
+nes, ha surgido la necesidad de tener un estándar para desarrollar aplicaciones
+ que puedan realizar simulaciones por ordenador.
+ Como resultado de todo esto surgió OpenGL, uno de los estándares más extendidos
+ hoy en día que permiten a programadores y usuarios avanzados realizar aplicacio
+nes que incluyen cada vez más efectos 3D y escenas que son difíciles de
+ distinguir sin son reales o generadas por ordenador.
+\layout Standard
+\added_space_bottom bigskip 
+Como parte de la asignatura de 
+\emph on 
+Informática Gráfica I
+\emph default 
+ dentro del plan de estudios de la ingeniería técnica de informática de
+ gestión, se ha propuesto por parte del personal docente, la realización
+ de una práctica que contemple muchas de las técnicas empleadas para la
+ simulación y la renderización de escenas virtuales que están soportadas
+ por OpenGL.
+\layout Standard
+\added_space_bottom bigskip 
+Para que la práctica no sea muy extensa, debido al tiempo que se dispone
+ para impartir esta asignatura, se ha propuesto la realización de un 
+\series bold 
+circo
+\series default 
+ en tres dimensiones, utilizando las técnicas y funciones que están descritas
+ y soportadas por OpenGL.
+ La mayoría de microprocesadores ensamblados en las tarjetas gráficas de
+ las computadoras soportan este estándar; por lo cual, el código necesario
+ para desarrollar estas escenas virtuales, es portable a multitud de plataformas
+ y sobre diferentes sistemas operativos, que van desde entornos 
+\emph on 
+Unix
+\emph default 
+ hasta entornos basados en 
+\emph on 
+Windows
+\emph default 
+, y arquitecturas como 
+\noun on 
+i386
+\noun default 
+, hasta 
+\noun on 
+PowerPC
+\noun default 
+, pasando por 
+\noun on 
+Alpha
+\noun default 
+, 
+\noun on 
+Sparc
+\noun default 
+, 
+\noun on 
+SGI
+\noun default 
+ y muchas otras.
+\layout Standard
+
+Sin más demora, pasamos a explicar las diferentes etapas realizadas para
+ la realización del 
+\series bold 
+circo
+\series default 
+ en 3D dentro de una escena virtual.
+\layout Chapter
+
+Etapa 1: Entorno de trabajo y primer programa en OpenGL
+\layout Standard
+
+La primera etapa se compone de la creación de un pequeño programa ejemplo
+ para tener un primer contacto con OpenGL y familiarizarse con el entorno
+ de trabajo y la herramienta Visual C++, para la creación del código fuente,
+ que es la herramienta disponibles en los laboratorios de informática de
+ la universidad.
+ Llegados a este punto, y previa consulta con el personal docente sobre
+ la posibilidad de utilizar otras herramientas, los componentes de esta
+ práctica hemos decidido utilizar otras herramientas para la creación del
+ código fuente basadas en otra plataforma distinta a la de Windows.
+ Sin ánimo de entrar en polémica ni debate, y por diferentes motivos que
+ son ajenos al objetivo de este informe, se ha decidido utilizar otras herramien
+tas con las cuales, los desarrolladores de esta práctica están más familiarizado
+s.
+ Pasamos a enumerarlas brevemente:
+\layout List
+\labelwidthstring 00.00.0000
+
+
+\series bold 
+Vim
+\series default 
+ Un potente editor de texto para entornos 
+\emph on 
+Unix
+\emph default 
+ y basado en consola.
+\layout List
+\labelwidthstring 00.00.0000
+
+
+\series bold 
+Make
+\series default 
+ Utilidad de línea de comandos para mantener grupos de programas.
+ Útil para automatizar y minimar las recompilaciones.
+\layout List
+\labelwidthstring 00.00.0000
+
+
+\series bold 
+CVS
+\series default 
+ Es un sistema de control de versiones, el cual permite mantener versiones
+ antiguas de ficheros (normalmente código fuente), mantener un log de quién,
+ cuando, y por qué se hicieron los cambios, etc.
+\layout List
+\labelwidthstring 00.00.0000
+
+
+\series bold 
+Cvs2cl
+\series default 
+ Un programa que genera un 
+\emph on 
+ChangeLog
+\emph default 
+ a partir de los 
+\emph on 
+logs
+\emph default 
+ que proporciona CVS.
+\layout List
+\labelwidthstring 00.00.0000
+
+
+\series bold 
+Gcc
+\series default 
+ El compilador de C del proyecto 
+\noun on 
+GNU
+\noun default 
+.
+\layout Standard
+
+El ejemplo propuesto está compuesto por una ventana de tamaño definido la
+ cual contiene tres polígonos que describen un triángulo, que a su vez,
+ en conjunto, forman un triángulo en dos dimensiones que va rotando sobre
+ un eje, con un difuminado de colores, puesto que en cada vértice de cada
+ triángulo se le asigna un color distinto y OpenGL los interpola para obtener
+ el color de cada punto que forma el triángulo.
+ El resultado de la escena se puede ver en la figura 
+\begin_inset LatexCommand \ref{fig:figura1-1}
+
+\end_inset 
+
+.
+\layout Standard
+
+
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+begin{figure}[ht!]
+\layout Standard
+
+\backslash 
+begin{center}
+\layout Standard
+
+\backslash 
+includegraphics[width=
+\backslash 
+textwidth]{doc/figura1-1}
+\layout Standard
+
+\backslash 
+caption{Etapa 1}
+\backslash 
+label{fig:figura1-1}
+\layout Standard
+
+\backslash 
+end{center}
+\layout Standard
+
+\backslash 
+end{figure}
+\end_inset 
+
+
+\layout Standard
+\added_space_top medskip 
+Dicho ejemplo está extraído directamente de la página web de uno de los
+ profesores y tomando como punto de partida dicho ejemplo, a través de las
+ diferentes etapas, iremos adaptando el código fuente al ejemplo concreto
+ de un circo 3D.
+\layout Standard
+\added_space_top medskip 
+Cabe destacar la utilización de las librerías GLUT para la creación de la
+ ventana, la gestión de los eventos, tanto de teclado como de ratón, y otra
+ funciones, de forma independiente de la plataforma.
+\layout Chapter
+
+Etapa 2: Doble buffer y escalado
+\layout Standard
+
+La segunda etapa consiste en la adaptación del ejemplo visto en la primera
+ etapa para resolver una pequeña carencia visual, como es evitar que se
+ vea cómo se repinta la escena cada vez.
+ Para ello simplemente basta con utilizar la función incluida en la librería
+ GLUT que permite la utilización de un doble buffer.
+ Dicha función es:
+\layout Standard
+
+
+\begin_inset Formula \[
+glutSwapBuffers()\]
+
+\end_inset 
+
+
+\layout Standard
+\added_space_bottom medskip 
+La función 
+\begin_inset Formula $glutSwapBuffers$
+\end_inset 
+
+ es necesario invocarla cada vez que se dibuja la escena.
+ Por ello se incluye dentro de la función 
+\emph on 
+Display
+\emph default 
+.
+ Aparte, está situada justo al final de dicha función para que una vez repintado
+s todos los objetos, se pueda invocar a esta función para la utilización
+ de otro buffer, para que mientras se está visualizando por pantalla el
+ contenido de dicho buffer, se pueda ir escribiendo la nueva escena en otro
+ buffer distinto.
+ Con esto se consigue evitar la sensación de parpadeo de la imagen y se
+ consigue una suavidad en el movimiento muy agradable a la vista.
+ Entonces, es necesario activar este doble buffer con el parámetro 
+\begin_inset Formula $GLUT\_ DOBLE$
+\end_inset 
+
+ que le pasamos a la función 
+\begin_inset Formula $glutInitDisplayMode().$
+\end_inset 
+
+
+\layout Standard
+\added_space_bottom medskip 
+También se añade un polígono cuadrado en medio del triángulo formado por
+ tres triángulos más pequeños y una nueva funcionalidad.
+ Esta funcionalidad es el escalado de la escena dependiendo del tamaño de
+ la ventana, donde se mantiene la relación de aspecto.
+ Aunque se estire o se encoja la ventana, el triángulo, en este caso, sigue
+ manteniendo la relación entre la altura y la amplitud que tenía en un principio.
+\layout Standard
+
+Esto se implementa en la función 
+\emph on 
+
+\begin_inset Formula $Reshape$
+\end_inset 
+
+
+\emph default 
+ a la cual se le pasan los parámetros de ancho y alto que forman la ventana.
+ Aparte de esto, se centran los polígonos con respecto al ancho de la ventana,
+ en el caso de que la amplitud sea mayor a la altura, en número de píxeles.
+ En caso contrario, se centra con respecto a la altura.
+\layout Chapter
+
+Etapa 3: Escena 3D
+\layout Standard
+
+La siguiente etapa consiste en crear nuestra primera escena en tres dimensiones.
+ Para ello, dibujamos un cubo sólido de un color determinado, colocamos
+ la cámara en un punto determinado, y a través de la pulsación de una tecla,
+ permitimos que el cubo vaya rotando con una rotación predeterminada.
+ Para apreciar de una forma más clara el movimiento del cubo, se ha dibujado
+ un cubo 
+\emph on 
+alámbrico
+\emph default 
+ de tamaño un poco mayor que el cubo sólido y con las aristas de color negro.
+ De esta forma se distinguen las aristas del cubo sólido y visualmente permite
+ seguir la rotación del mismo.
+ El resultado obtenido lo podemos ver en la figura 
+\begin_inset LatexCommand \ref{fig:figura3-1}
+
+\end_inset 
+
+.
+\layout Standard
+
+
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+begin{figure}[ht!]
+\layout Standard
+
+\backslash 
+begin{center}
+\layout Standard
+
+\backslash 
+includegraphics[width=
+\backslash 
+textwidth]{doc/figura3-1}
+\layout Standard
+
+\backslash 
+caption{Etapa 3: Escena 3D}
+\backslash 
+label{fig:figura3-1}
+\layout Standard
+
+\backslash 
+end{center}
+\layout Standard
+
+\backslash 
+end{figure}
+\end_inset 
+
+
+\layout Section
+
+Funcionalidades empleadas de OpenGL
+\layout Standard
+
+De las funcionalidades que implementa OpenGL que han sido utilizadas en
+ la escena, caben destacar dos debido a su importancia:
+\layout Enumerate
+
+Activar el test de profundidad.
+ Esta utilidad, conocida con el nombre de 
+\emph on 
+Z-Buffer
+\emph default 
+, permite a OpenGL distinguir entre aquellos puntos de un objeto determinado
+ están delante de puntos de otros objetos.
+ Con ello se consigue dibujar únicamente aquellos puntos de los objetos
+ que están más cerca del centro de proyección, y por ende, de la cámara
+ desde donde se está visualizando la escena.
+ Para activar dicho test, tenemos que llamar a la función 
+\begin_inset Formula $glEnable$
+\end_inset 
+
+ pasándole como parámetro 
+\begin_inset Formula $GL\_ DEPTH\_ TEST$
+\end_inset 
+
+.
+ Una vez activado el 
+\emph on 
+z-buffer
+\emph default 
+, hay que emplear otro parámetro a la hora de invocar a la función 
+\begin_inset Formula $glClear$
+\end_inset 
+
+ dentro de la función 
+\emph on 
+Display
+\emph default 
+.
+ El parámetro es 
+\begin_inset Formula $GL\_ DEPTH\_ BUFFER\_ BIT$
+\end_inset 
+
+.
+\layout Enumerate
+
+Posicionar la cámara en un punto detereminado.
+ Para ello utilizamos la función 
+\begin_inset Formula $gluLookAt$
+\end_inset 
+
+, especificando los siguientes parámetros:
+\begin_deeper 
+\layout Enumerate
+
+
+\begin_inset Formula $eye_{x},eye_{y},eye_{z}\rightarrow$
+\end_inset 
+
+ Punto en coordenadas mundo donde se situa la cámara.
+\layout Enumerate
+
+
+\begin_inset Formula $center_{x},center_{y},center_{z}\rightarrow$
+\end_inset 
+
+ Punto en coordenadas mundo al cual está mirando la cámara.
+\layout Enumerate
+
+
+\begin_inset Formula $up_{x},up_{y},up_{z}\rightarrow$
+\end_inset 
+
+ Vector que indica la inclinación de la cámara.
+\end_deeper 
+\layout Standard
+\added_space_bottom medskip 
+Antes de posicionar la cámara, es necesario indicar el volumen de visualización
+ en el cual estarán los objetos a dibujar.
+ En nuestro caso, se ha utilizado la función 
+\begin_inset Formula $gluPerspective$
+\end_inset 
+
+ al cual le hemos indicado un ángulo de apertura de 90º.
+\layout Standard
+
+Para rotar los objetos, empleamos la función 
+\begin_inset Formula $glRotatef$
+\end_inset 
+
+ donde le pasamos como parámetro la variable 
+\emph on 
+fAngulo
+\emph default 
+ que indica en todo momento el ángulo de rotación a aplicar.
+ Dicho ángulo de rotación se aplica sobre un vector determinado formado
+ por tres puntos.
+ Estos tres puntos también se pasan como parámetros a 
+\begin_inset Formula $glRotate$
+\end_inset 
+
+.
+\layout Section
+
+Comandos de teclado
+\layout Standard
+
+Debido a que es un ejemplo sencillo y no hemos querido invertir demasiado
+ tiempo en implementar diferentes movimientos con varias teclas, pues esto
+ se hará a partir de la próxima etapa, se ha implementado de forma sencilla
+ la rotación de la escena a través de cualquier tecla.
+ Para ello, hemos creado la función 
+\emph on 
+Rota
+\emph default 
+ que se encarga de tratar los eventos producidos por el teclado.
+ En este caso, su única función es la de aumentar el ángulo almacenado en
+ la variable 
+\emph on 
+fAngulo
+\emph default 
+ y llamar a la función 
+\begin_inset Formula $glutPostRedisplay$
+\end_inset 
+
+, para redibujar la escena.
+\layout Chapter
+
+Etapa 4: Movimiento de cámara
+\layout Standard
+\added_space_bottom medskip 
+Una vez llegados a este punto, ya nos centramos en la escena referente al
+ circo en tres dimensiones.
+ Dejamos de un lado los ejemplos vistos en los capítulos anteriores y nos
+ volcamos sobre lo que será la práctica que nos atañe.
+ Así que, una vez creado los diferentes objetos que componen el circo (carpa,
+ gradas, postes, etc.) pasamos a realizar el movimiento de la cámara, que
+ nos permitirá movernos por la escena con una gran libertad de movimientos.
+\layout Standard
+\added_space_bottom medskip 
+Desde un principio, los componentes de este grupo, a la hora de realizar
+ el movimiento de la cámara y movernos por la escena, tuvimos en mente la
+ manejabilidad a este respecto de juegos como 
+\emph on 
+Quake III Arena
+\emph default 
+, que permiten una gran libertad de movimientos por cualquier parte de la
+ escena.
+ Así que, nos decidimos a implementar los diferentes movimientos para permitir
+ un movimiento omnidireccional por la escena.
+\layout Standard
+
+En el módulo 
+\series bold 
+interaccion.c
+\series default 
+ está implementado todo el movimiento de cámara.
+ Por lo tanto, pasamos a explicar con detalle los diferentes funcionalidades
+ y movimientos implementados.
+\layout Section
+
+Perspectiva
+\layout Standard
+
+En nuestro caso, se ha decidido utilizar la función 
+\begin_inset Formula $gluPerspective$
+\end_inset 
+
+ para definir una proyección perspectiva sobre la cual trabajaremos.
+ Una vez hecho esto, realizamos los siguientes pasos para realizar el giro
+ de la cámara:
+\layout Enumerate
+
+Trasladarnos al punto donde se encuentra la cámara.
+\layout Enumerate
+
+Girar la cámara horizontalmente (plano XZ).
+\layout Enumerate
+
+Girar la cámara verticalmente (plano ZY).
+\layout Standard
+\added_space_top smallskip 
+El código que implementa el giro de la cámara es el siguiente:
+\layout Standard
+
+
+\begin_inset Formula \[
+\begin{array}{l}
+glRotatef((GLfloat)\,-angulo\_ v,\,1.0,\,0.0,\,0.0);\\
+glRotatef((GLfloat)\,-angulo\_ h,\,0.0,\,1.0,\,0.0);\\
+glTranslatef((GLfloat)\,-camara\_ x,(GLfloat)\,-camara\_ y,(GLfloat)\,-camara\_ z,);\end{array}\]
+
+\end_inset 
+
+
+\layout Section
+
+Movimientos
+\layout Standard
+\added_space_bottom bigskip 
+Los movimientos definidos con respecto al giro de la cámara y las correspondient
+es teclas que lo generan son los siguientes:
+\layout Standard
+\align center 
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features>
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\series bold 
+Movimiento
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\series bold 
+Descripción
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\series bold 
+Tecla
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Delante
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Paso hacia adelante
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Formula $\uparrow$
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Detrás
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Paso hacia atrás
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Formula $\downarrow$
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Lateral izquierdo
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Paso hacia la izquierda
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Formula $\leftarrow$
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Lateral derecho
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Paso hacia la derecha
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\begin_inset Formula $\rightarrow$
+\end_inset 
+
+
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Arriba
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Elevarse
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Av.pág
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Abajo
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Descender
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Re.pág
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Standard
+\added_space_top bigskip \added_space_bottom bigskip 
+Así mismo, los movimientos generales y sus correspondientes teclas son:
+\layout Standard
+\align center 
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features>
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\series bold 
+Movimiento
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\series bold 
+Descripición
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\series bold 
+Tecla
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Izquierda
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Giro de la cámara hacia la izquierda
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+H, h
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Derecha
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Giro de la cámara hacia la derecha
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+K, k
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Arriba
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Giro de la cámara hacia arriba
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+U, u
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Abajo
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Giro de la cámara habia abajo
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+J, j
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Situación
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Imprimir el estado actual de la cámara
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+P, p
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Standard
+\added_space_top bigskip \added_space_bottom bigskip 
+Aparte de implementar estos giros y movimientos a través del teclado, se
+ incluye la opción de girar la cámara con el ratón, siempre que se mantenga
+ un botón pulsado, para realizar un movimiento más rápido:
+\layout Standard
+\align center 
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features>
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\series bold 
+Movimiento
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\series bold 
+Descripición
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\series bold 
+Eje
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Izquierda
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Giro de la cámara hacia la izquierda
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+horizontal negativo (-X)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Derecha
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Giro de la cámara hacia la derecha
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+horizontal positivo (X)
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Arriba
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Giro de la cámara hacia arriba
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+vertical positivo (Y)
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Abajo
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Giro de la cámara hacia abajo
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+vertical negativo (-Y)
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Section
+
+Restricciones
+\layout Standard
+
+Para restringir el movimiento vertical y dar una sensación más realista,
+ se ha añadido una comprobación para no permitir que la cámara se sitúe
+ por debajo del suelo de la escena.
+ Simplemente se trata de comprobar que a la hora de descender, no se sobre
+ pase el límite correspondiente a las coordenadas que forman el suelo.
+ Para ello basta con comprobar que la posición de la cámara con respecto
+ al eje vertical (
+\emph on 
+cámara_y
+\emph default 
+) no pasa el límite permitido.
+\layout Section
+
+Interior/exterior
+\layout Standard
+\added_space_bottom medskip 
+Aunque en un principio aquí no definimos ningún movimiento general ni ningún
+ giro de la cámara, es necesario hacer esta observación porque está relacionada
+ con el movimiento de la cámara.
+\layout Standard
+\added_space_bottom medskip 
+Para agilizar el movimiento y minimizar el coste computacional, se ha implementa
+do una función: 
+\emph on 
+comprueba_situacion
+\emph default 
+, que permite calcular en todo momento si la posición de la cámara está
+ en el interior del circo, o en el exterior.
+ Es decir, se comprueba si la cámara está dentro de la carpa o fuera.
+\layout Standard
+\added_space_bottom medskip 
+El hecho de que se implemente la carpa que forma el circo con 
+\emph on 
+evaluators
+\emph default 
+ hace la tarea un poco más compleja, ya que los cálculos necesarios para
+ saber si la cámara está dentro o fuera de la carpa no sean tan precisos
+ como si se implementara con superficies planas, en vez de curvas.
+ Por lo tanto, puede ocurrir que haya un momento dado en el que la cámara
+ esté dentro de la carpa, pero todavía no se renderice la escena interior,
+ ni los objetos que componen el interior del circo, debido a que la forma
+ de la carpa es curvilínea, y para minimizar los cálculos, se ha optado
+ por hacer comprobaciones respecto de la recta que definen los puntos superiores
+ e inferiores de los límites de la carpa.
+\layout Standard
+
+Aún así, este efecto es mínimo y lo que se gana en disminuir el coste computacio
+nal tiene más peso que la momentánea sensación de falsa realidad en puntos
+ muy concretos de la escena.
+\layout Chapter
+
+Etapa 5: Luces y materiales
+\layout Standard
+
+La iluminación de la escena está compuesta por las siguientes luces:
+\layout Itemize
+
+Focos interiores: compuesto por tres focos para alumbrar el interior de
+ la carpa.
+\layout Itemize
+
+Luz solar: una luz direccional par emular la luz solar.
+\layout Itemize
+
+Luz ambiental.
+\layout Standard
+\added_space_bottom medskip 
+OpenGL permite un máximo de ocho luces.
+ Así pues, se han activado cinco de ellas para realizar la iluminación.
+ La primera corresponde a la luz solar, las tres siguientes corresponden
+ a los focos interiores, y las otra corresponde a la luz ambiental interior,
+ respectivamente.
+\layout Standard
+\added_space_bottom medskip 
+Pasamos pues a activar la iluminación local que está soportada por OpenGL.
+ Esto se lleva a cabo dentro de la función 
+\emph on 
+init_luces_niebla 
+\emph default 
+y se realiza invocando a la función 
+\begin_inset Formula $glEnable$
+\end_inset 
+
+ y pasándole como parámetro 
+\begin_inset Formula $GL\_ LIGHTING$
+\end_inset 
+
+.
+ Ahora bien, no basta con activar la iluminación local, sino que es necesario
+ activar las diferentes luces y definir las propiedades que tendrán (atenuación,
+ componente ambiente, difusa y especular, ángulo de apertura y exponente).
+\layout Standard
+
+También se ha activado las propiedades del material del que estará compuesto
+ cada objeto, es decir, de qué forma reaccionará cada objeto con la luz
+ que le llegue, pues hay objetos que son más brillantes y otros más mates,
+ y esto es debido a su composición.
+ Para activar las propiedades del material, se invoca a la función 
+\begin_inset Formula $glEnable$
+\end_inset 
+
+ y se le pasa como parámetro 
+\begin_inset Formula $GL\_ COLOR\_ MATERIAL$
+\end_inset 
+
+.
+ Las propiedades de los materiales se aplican tanto a la cara posterior
+ y a la cara anterior de cada objeto, por ello, empleamos la función 
+\begin_inset Formula $glColorMaterial$
+\end_inset 
+
+ y le pasamos como parámetro 
+\begin_inset Formula $GL\_ FRONT\_ AND\_ BACK$
+\end_inset 
+
+ y 
+\begin_inset Formula $GL\_ AMBIENT\_ AND\_ DIFFUSE$
+\end_inset 
+
+.
+\layout Section
+
+Focos interiores
+\layout Standard
+\added_space_bottom medskip 
+En el interior de la carpa se han colocado tres focos de forma que los tres
+ focos están centrados en con respecto al interior de la carpa.
+ En el momento en el que la cámara se sitúa dentro de la carpa, se activan
+ estas luces y se desactiva la luz solar.
+\layout Standard
+\added_space_bottom medskip 
+El escenario no es más que un rectángulo dividido a su vez en muchos cuadrados
+ para que a la hora de iluminar el escenario, no se ilumine todo el escenario
+ de golpe, sino simplemente aquellas zonas que se vean afectadas por los
+ focos.
+ Debido a que OpenGL implementa la iluminación de polígonos basándose en
+ la iluminación que le llega a cada vértice y no a cada punto del polígono,
+ se ha tenido que dividir el rectángulo que forma el escenario en rectángulos
+ más pequeños.
+\layout Standard
+\added_space_bottom medskip 
+Uno de ellos ilumina el centro de la carpa, que está compuesta por la arena
+ que forma el escenario.
+ Los otros dos focos iluminan las gradas y parte del escenario y al estar
+ animados, van iluminando de forma rotativa, las gradas laterales y las
+ gradas frontales.
+\layout Standard
+\added_space_bottom bigskip 
+Con las funciones 
+\begin_inset Formula $glLight$
+\end_inset 
+
+ y 
+\begin_inset Formula $glLightv$
+\end_inset 
+
+ se definen las propiedades de cada luz.
+ En este caso las tres luces interiores corresponden a las luces 
+\begin_inset Formula $GL\_ LIGHT1,\, GL\_ LIGHT2,\, GL\_ LIGHT3$
+\end_inset 
+
+ de OpenGL.
+ Para cada una de ellas se definen las siguientes propiedades:
+\layout Standard
+\align center 
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="11" columns="2">
+<features>
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\series bold 
+Parámetro
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\series bold 
+Significado
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+GL_AMBIENT
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+intensidad ambiente de la luz
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+GL_DIFFUSE
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+intensidad difusa de la luz
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+GL_SPECULAR
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+intensidad especular de la luz
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+GL_POSITION
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+(x,y,z,w) posición de la luz
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+GL_SPOT_DIRECTION
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+(x,y,z,w) dirección de la luz
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+GL_SPOT_EXPONENT
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+exponente del foco
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+GL_SPOT_CUTOFF
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+ángulo de apertura del foco
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+GL_CONSTANT_ATTENUATION
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+factor de atenuación constante
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+GL_LINEAR_ATTENUATION
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+factor de atenuación lineal
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+GL_QUADRATIC_ATTENUATION
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+factor de atenuación cuadrático
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Section
+
+Luz solar
+\layout Standard
+\added_space_bottom medskip 
+Para conseguir una escena más realista se ha añadido una luz direccional
+ que emula la luz solar y que está situada en el exterior del circo.
+ Esta luz corresponde a la luz 
+\begin_inset Formula $GL\_ LIGHT0$
+\end_inset 
+
+ de OpenGL.
+ La luz solar se activa en el momento en el que la posición de la cámara
+ está situada fuera de la carpa, y a su vez se desactivan las luces interiores.
+\layout Standard
+\added_space_bottom medskip 
+Está claro que se tendrán que definir las mismas propiedades que las luces
+ que hacen de focos interiores, pero tendrán unos valores distintos.
+ De hecho, el ángulo de apertura de la luz solar será de 180º.
+\layout Standard
+\added_space_bottom medskip 
+Es posible mover la luz solar por la escena.
+ Los movimientos y sus teclas asociadas son:
+\layout Standard
+\align center 
+
+\begin_inset  Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\series bold 
+Descripción
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+
+\series bold 
+Tecla
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Moverse en el eje X
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+a-z
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Moverse en el eje Y
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+s-x
+\end_inset 
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Moverse en el eje Z
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+d-c
+\end_inset 
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Convertir luz direccional en luz posicional
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+w
+\end_inset 
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset 
+
+
+\layout Standard
+\added_space_top medskip 
+La esfera que forma el sol, tiene unos parámetros configurables, como son:
+\layout Itemize
+
+Radio de la escena.
+\layout Itemize
+
+Nivel de detalle
+\layout Section
+
+Luz ambiente
+\layout Standard
+\added_space_bottom medskip 
+Para permitir una mejor iluminación en el interior de la carpa, se ha incluido
+ una luz ambiental que se activa únicamente cuando la cámara se sitúa dentro
+ de la carpa, y que se desactiva en el momento en el que la cámara se sitúa
+ en el exterior de la carpa.
+\layout Standard
+
+Esta luz corresponde a la luz 
+\begin_inset Formula $GL\_ LIGHT5$
+\end_inset 
+
+ de OpenGL.
+ Igual que los focos interiores, esta luz ambiental se activa y desactiva
+ junto con ellas.
+ 
+\layout Section
+
+Incidencias
+\layout Standard
+\added_space_bottom medskip 
+A la hora de visualizar los efectos producidos por la iluminación de los
+ focos en el interior de la carpa, han surgido una serie de problemas en
+ el hecho de que con diferentes tarjetas, y empleando el mismo código, en
+ un caso, los focos interiores se movían con respecto a la rotación deseada,
+ pero en otro caso, se movían por otro camino distinto.
+\layout Standard
+\added_space_bottom medskip 
+Después de probar e investigar el problema a fondo, se ha conseguido averiguar
+ que el fallo era debido a la implementación de las librerías DRI necesarias
+ para soportar la aceleración por hardware de las tarjetas ATI en Linux.
+\layout Standard
+
+Se ha solucionado
+\layout Standard
+
+glPushAttrib, glPopAttrib, problemas con las luces debido a un fallo en
+ la implementación de las DRI por parte de los drivers de ATI para Linux.
+\layout Chapter
+
+Etapa 6: Shading
+\layout Standard
+
+escena.c
+\layout Standard
+
+interaccion.c
+\layout Chapter
+
+Etapa 7: Realismo
+\layout Section
+
+Texturas
+\layout Standard
+
+texturas.c
+\layout Section
+
+Niebla
+\layout Standard
+
+escena.c
+\layout Section
+
+Evaluators y superficies de Bezier
+\layout Standard
+
+carpa.c
+\layout Section
+
+Varias fuentes de luz
+\layout Standard
+
+escena.c
+\layout Section
+
+Animación
+\layout Standard
+
+interaccion.c
+\layout Section
+
+Comandos de teclado
+\layout Standard
+
+interaccion.c
+\layout Chapter
+
+Extras
+\layout Section
+
+Parametrización del circo
+\layout Standard
+
+(figura árbol de tries)
+\layout Section
+
+Displaylists
+\layout Section
+
+Vertex array
+\layout Chapter
+\start_of_appendix 
+Estructura del código fuente
+\layout Chapter
+
+Fuentes de información
+\layout Itemize
+
+OpenGL Programming guide v.1.2 (red book)
+\layout Itemize
+
+
+\begin_inset LatexCommand \htmlurl[Información general: ]{www.google.com}
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset LatexCommand \htmlurl[Ejemplos en OpenGL: ]{nehe.gamedev.net}
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset LatexCommand \htmlurl[Texturas: ]{texturator.de}
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset LatexCommand \htmlurl[Más texturas: ]{www.grsites.com/textures}
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset LatexCommand \htmlurl[Información sobre la práctica: ]{dmi.uib.es/~josemaria}
+
+\end_inset 
+
+
+\the_end
