@@ -136,8 +136,29 @@ static void teclado(unsigned char tecla, int x, int y)
 }
 
 
+static void raton(int x, int y)
+{
+	static int ox = 0, oy = 0;
+
+	if (x > ox)
+		angulo_h += (ROTACION/2.0);
+	else if (x < ox)
+		angulo_h -= (ROTACION/2.0);
+	corrige_angulo(&angulo_h);
+	ox = x;
+	if (y > oy)
+		angulo_v += (ROTACION/2.0);
+	else if (y < oy)
+		angulo_v -= (ROTACION/2.0);
+	corrige_angulo(&angulo_v);
+	oy = y;
+	actualiza_camara();
+}
+
+
 void init_interaccion(void)
 {
 	glutKeyboardFunc(teclado);
 	glutSpecialFunc(teclado_especial);
+	glutPassiveMotionFunc(raton);
 }

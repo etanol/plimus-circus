@@ -36,40 +36,73 @@ static void actualiza_viewport(int ancho, int alto)
 	glutPostRedisplay();
 }
 
-static void dibuja_escena(void)
+
+static void cupula(void)
+{
+	glBegin(GL_TRIANGLE_FAN);
+	glVertex3f(0.0, 1.0, 0.0);
+	glVertex3f(-1.0, 0.0, 0.5);
+	glVertex3f(-0.5, 0.0, 1.0);
+	glVertex3f(0.5, 0.0, 1.0);
+	glVertex3f(1.0, 0.0, 0.5);
+	glVertex3f(1.0, 0.0, -0.5);
+	glVertex3f(0.5, 0.0, -1.0);
+	glVertex3f(-0.5, 0.0, -1.0);
+	glVertex3f(-1.0, 0.0, -0.5);
+	glVertex3f(-1.0, 0.0, 0.5);
+	glEnd();
+}
+
+
+static void base(void)
+{
+	glBegin(GL_QUAD_STRIP);
+	glVertex3f(-3.5, 1.0, 1.0);
+	glVertex3f(-3.5, 0.0, 1.0);
+	glVertex3f(-4.0, 1.0, 0.5);
+	glVertex3f(-4.0, 0.0, 0.5);
+	glVertex3f(-4.0, 1.0, -0.5);
+	glVertex3f(-4.0, 0.0, -0.5);
+	glVertex3f(-3.5, 1.0, -1.0);
+	glVertex3f(-3.5, 0.0, -1.0);
+	glVertex3f(3.5, 1.0, -1.0);
+	glVertex3f(3.5, 0.0, -1.0);
+	glVertex3f(4.0, 1.0, -0.5);
+	glVertex3f(4.0, 0.0, -0.5);
+	glVertex3f(4.0, 1.0, 0.5);
+	glVertex3f(4.0, 0.0, 0.5);
+	glVertex3f(3.5, 1.0, 1.0);
+	glVertex3f(3.5, 0.0, 1.0);
+	glVertex3f(-3.5, 1.0, 1.0);
+	glVertex3f(-3.5, 0.0, 1.0);
+	glEnd();
+}
+
+
+static void escena(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+	glColor3f(0.0, 0.0, 0.8);
 	glPushMatrix();
-	glRotatef(90.0, -1.0, 0.0, 0.0);
-	glBegin(GL_TRIANGLE_FAN);
-	glColor3f(0.0, 1.0, 0.0);
-	glVertex3f(0.0, 0.0, 1.0);
-	glColor3f(1.0, 0.0, 0.0);
-	glVertex3f(1.0, 1.0, 0.0);
-	glColor3f(0.0, 0.0, 1.0);
-	glVertex3f(1.2, 0.8, 0.0);
-	glColor3f(0.0, 1.0, 0.0);
-	glVertex3f(1.2, -0.8, 0.0);
-	glColor3f(0.0, 1.0, 1.0);
-	glVertex3f(1.0, -1.0, 0.0);
-	glColor3f(1.0, 1.0, 0.0);
-	glVertex3f(-1.0, -1.0, 0.0);
-	glColor3f(1.0, 0.0, 1.0);
-	glVertex3f(-1.2, -0.8, 0.0);
-	glColor3f(0.0, 1.0, 0.0);
-	glVertex3f(-1.2, 0.8, 0.0);
-	glColor3f(0.0, 0.5, 0.5);
-	glVertex3f(-1.0, 1.0, 0.0);
-	glColor3f(0.5, 0.5, 0.0);
-	glVertex3f(1.0, 1.0, 0.0);
-	glEnd();
+	glTranslatef(-3.0, 1.0, 0.0);
+	cupula();
 	glPopMatrix();
+
+	glColor3f(0.0, 0.8, 0.0);
+	glPushMatrix();
+	glTranslatef(3.0, 1.0, 0.0);
+	cupula();
+	glPopMatrix();
+
+	glColor3f(0.8, 0.0, 0.8);
+	base();
 
 	glutSwapBuffers();
 }
 
 void init_escena(void)
 {
-	glutDisplayFunc(dibuja_escena);
+	glutDisplayFunc(escena);
 	glutReshapeFunc(actualiza_viewport);
 }
