@@ -75,6 +75,7 @@ const char ci_desp[] = "cielo_despl_giro"; /* float */
 const char c_f_alto[]   = "carpa_faldon_alto";     /* float */
 const char c_f_caida[]  = "carpa_faldon_caida";    /* float */
 const char c_t_alto[]   = "carpa_techo_alto";      /* float */
+const char c_t_caida[]  = "carpa_techo_caida";     /* float */
 const char c_t_caidap[] = "carpa_techo_caida_p";   /* float */
 const char c_fr_ancho[] = "carpa_frontal_ancho";   /* float */
 const char c_l_radio[]  = "carpa_lateral_radio";   /* float */

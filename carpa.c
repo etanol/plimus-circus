@@ -133,12 +133,13 @@ int crear_techo_frontal(config_t c)
 	int i, j, lista;
 	float control[4][4][3];
 	float texcoord[8] = {0.0, 0.0, 2.5, 0.0, 0.0, 1.0, 2.5, 1.0};
+	float caida  = valor_decimal(c, c_t_caida);
 	float paso_x = valor_decimal(c, c_fr_ancho) / 3.0;
 	float paso_y = valor_decimal(c, c_l_radio) / 3.0;
 	float paso_z = valor_decimal(c, c_t_alto) / 3.0;
 	float x      = valor_decimal(c, c_fr_ancho) / 2.0;
-	float zeta[4] = {valor_decimal(c, c_t_alto), paso_z + (paso_z/2.0),
-		paso_z/2.0, 0.0};
+	float zeta[4] = {valor_decimal(c, c_t_alto), (paso_z * 2.0) - caida,
+		paso_z - caida, 0.0}; 
 
 	if (!carpa_textura)
 		carpa_textura = gen_textura_carpa();
@@ -170,10 +171,11 @@ int crear_techo_lateral(config_t c)
 	int i, lista;
 	float control[4][4][3]; 
 	float texcoord[8] = {0.5, 0.0, 6.0, 0.0, 0.5, 1.0, 6.0, 1.0};
+	float caida  = valor_decimal(c, c_t_caida);
 	float paso_y = valor_decimal(c, c_l_radio) / 3.0;
 	float paso_z = valor_decimal(c, c_t_alto) / 3.0;
-	float zeta[4] = { valor_decimal(c, c_t_alto), paso_z + (paso_z/2.0),
-		paso_z/2.0, 0.0 };
+	float zeta[4] = { valor_decimal(c, c_t_alto), (paso_z * 2.0) - caida,
+		paso_z - caida, 0.0 }; 
 
 	if (!carpa_textura)
 		carpa_textura = gen_textura_carpa();
@@ -221,7 +223,7 @@ int crear_entrada(config_t c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glColor3f(0.8, 0.0, 0.0);
+	glColor3f(0.8, 0.8, 0.0);
 	glDisable(GL_TEXTURE_2D);
 	/* Laterales de la entrada */
 	for (i = 0; i < 2; ++i) {

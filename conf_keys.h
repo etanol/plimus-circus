@@ -60,6 +60,7 @@ extern const char ci_desp[];
 extern const char c_f_alto[];
 extern const char c_f_caida[];
 extern const char c_t_alto[];
+extern const char c_t_caida[];
 extern const char c_t_caidap[];
 extern const char c_fr_ancho[];
 extern const char c_l_radio[];
