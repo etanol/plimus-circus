@@ -124,6 +124,9 @@ const char ar_alto[]  = "arbol_alto";    /* float */
 const char ar_tex[]   = "arbol_textura"; /* string */
 
 /* Parámetros para el tablón */
-const char t_b_radio[] = "tablon_bola_radio";   /* float */
-const char t_b_det[]   = "tablon_bola_detalle"; /* int */
+const char t_b_radio[]  = "tablon_bola_radio";        /* float */
+const char t_b_det[]    = "tablon_bola_detalle";      /* int */
+const char t_t_grueso[] = "tablon_tabla_grueso";      /* float */
+const char t_t_prop[]   = "tablon_tabla_proporcion";  /* float */
+const char t_t_eancho[] = "tablon_tabla_extra_ancho"; /* float */
 

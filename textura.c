@@ -44,7 +44,7 @@
 const GLubyte TGA_tipo[12] = {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 int cargar_textura(config_t cfg, const char *tex_file)
-{  /* {{{ */
+{
 	char *tex_dir = valor_cadena(cfg, t_dir);
 	char *fichero;
 	FILE *f;
@@ -106,11 +106,11 @@ int cargar_textura(config_t cfg, const char *tex_file)
 		GL_RGB : GL_RGBA), GL_UNSIGNED_BYTE, imagen);
 	free(imagen);
 	return textura;
-}  /* }}} */
+}
 
 
 int gen_textura_carpa(void)
-{  /* {{{ */
+{
 	int textura;
 	float cols_carpa[12] = {
 		0.8, 0.8, 0.0, 0.8, 0.0, 0.0,
@@ -126,5 +126,5 @@ int gen_textura_carpa(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, 2, 2, 0, GL_RGB, GL_FLOAT,
 			cols_carpa);
 	return textura;
-}  /* }}} */
+}
 

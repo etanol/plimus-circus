@@ -26,12 +26,7 @@
 #define FICHERO_CONFIG "circo.cfg"
 
 #include <stdio.h>
-#ifdef THIS_IS_UNIX
-#include <GL/gl.h>
 #include <GL/glut.h>
-#else
-#include <GL/glut.h>
-#endif
 
 #include "config.h"
 #include "escena.h"
@@ -70,10 +65,15 @@ int main(int argc, char **argv)
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_ALPHA_TEST);
+	glEnable(GL_CULL_FACE);
+	glAlphaFunc(GL_GREATER, 0.4);
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CW);
 	/* Llamamos a los módulos */
 	init_interaccion(cfg);
 	init_escena(cfg);
+
 	/* Dejamos que GLUT trabaje por nosotros */
 	glutMainLoop();
 	return 0;

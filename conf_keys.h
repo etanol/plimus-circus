@@ -99,4 +99,7 @@ extern const char ar_alto[];
 extern const char ar_tex[];
 extern const char t_b_radio[];
 extern const char t_b_det[];
+extern const char t_t_grueso[];
+extern const char t_t_prop[];
+extern const char t_t_eancho[];
 

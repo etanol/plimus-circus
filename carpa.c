@@ -39,7 +39,7 @@
 static int carpa_textura = 0;
 
 static void evaluator(float *vertices, float *tex, int nu, int nv, int invert)
-{  /* {{{ */
+{
 	int iv, jv, it, jt;
 
 	if (invert) {
@@ -57,11 +57,11 @@ static void evaluator(float *vertices, float *tex, int nu, int nv, int invert)
 	glMapGrid2f(nu, 0.0, 1.0, nv, 0.0, 1.0);
 	glColor3f(1.0, 1.0, 1.0);
 	glEvalMesh2(GL_FILL, 0, nu, 0, nv);
-}  /* }}} */
+}
 	
 
 int crear_faldon_frontal(config_t c)
-{  /* {{{ */
+{
 	int i, j, lista;
 	float control[4][4][3];
 	float texcoord[8] = {0.0, 0.0, 2.5, 0.0, 0.0, 1.0, 2.5, 1.0};
@@ -92,11 +92,11 @@ int crear_faldon_frontal(config_t c)
 	glPopMatrix();
 	glEndList();
 	return lista;
-}  /* }}} */
+}
 
 
 int crear_faldon_lateral(config_t c)
-{  /* {{{ */
+{
 	int i, lista;
 	float control[4][4][3];
 	float texcoord[8] = {0.5, 0.0, 6.0, 0.0, 0.5, 1.0, 6.0, 1.0};
@@ -131,11 +131,11 @@ int crear_faldon_lateral(config_t c)
 	glPopMatrix();
 	glEndList();
 	return lista;
-}  /* }}} */
+}
 
 
 int crear_techo_frontal(config_t c)
-{  /* {{{ */
+{
 	int i, j, lista;
 	float control[4][4][3];
 	float texcoord[8] = {0.0, 0.0, 2.5, 0.0, 0.0, 1.0, 2.5, 1.0};
@@ -172,11 +172,11 @@ int crear_techo_frontal(config_t c)
 	glPopMatrix();
 	glEndList();
 	return lista;
-}  /* }}} */
+}
 
 
 int crear_techo_lateral(config_t c)
-{  /* {{{ */
+{
 	int i, lista;
 	float control[4][4][3]; 
 	float texcoord[8] = {0.5, 0.0, 6.0, 0.0, 0.5, 1.0, 6.0, 1.0};
@@ -212,11 +212,11 @@ int crear_techo_lateral(config_t c)
 	glPopMatrix();
 	glEndList();
 	return lista;
-}  /* }}} */
+}
 
 
 int crear_entrada(config_t c)
-{  /* {{{ */
+{
 	int lista, i, textura;
 	float radio = valor_decimal(c, c_e_ancho) / 2.0;
 	float largo = -valor_decimal(c, c_e_largo);
@@ -237,20 +237,23 @@ int crear_entrada(config_t c)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	glPushMatrix(); /* 1 */
-	glTranslatef(0.0, -valor_decimal(c, c_l_radio), 0.0);
+	glTranslatef((valor_decimal(c, c_fr_ancho) / 2.0) - radio,
+			-valor_decimal(c, c_l_radio), 0.0);
 	glColor3f(0.8, 0.8, 0.0);
 	glDisable(GL_TEXTURE_2D);
 	/* Laterales de la entrada */
-	for (i = 0; i < 2; ++i) {
-		tx = (i ? -1.0 : 1.0);
-		glNormal3f(tx, 0.0, 0.0);
-		glBegin(GL_QUADS);
-		glVertex3f(tx * radio, 0.0, 0.0);
-		glVertex3f(tx * radio, largo, 0.0);
-		glVertex3f(tx * radio, largo, alto);
-		glVertex3f(tx * radio, 0.0, alto);
-		glEnd();
-	}
+	glBegin(GL_QUADS);
+	glNormal3f(1.0, 0.0, 0.0);
+	glVertex3f(radio, 0.0, 0.0);
+	glVertex3f(radio, largo, 0.0);
+	glVertex3f(radio, largo, alto);
+	glVertex3f(radio, 0.0, alto);
+	glNormal3f(-1.0, 0.0, 0.0);
+	glVertex3f(-radio, 0.0, 0.0);
+	glVertex3f(-radio, 0.0, alto);
+	glVertex3f(-radio, largo, alto);
+	glVertex3f(-radio, largo, 0.0);
+	glEnd();
 	/* Arco superior */
 	glPushMatrix();
 	glTranslatef(0.0, 0.0, alto);
@@ -275,9 +278,9 @@ int crear_entrada(config_t c)
 	glNormal3f(0.0, -1.0, 0.0);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0); glVertex3f(-radio, largo, 0.0);
-	glTexCoord2f(1.0, 0.0); glVertex3f(radio, largo, 0.0);
-	glTexCoord2f(1.0, talto); glVertex3f(radio, largo, alto);
 	glTexCoord2f(0.0, talto); glVertex3f(-radio, largo, alto);
+	glTexCoord2f(1.0, talto); glVertex3f(radio, largo, alto);
+	glTexCoord2f(1.0, 0.0); glVertex3f(radio, largo, 0.0);
 	glEnd();
 	glTranslatef(0.0, 0.0, alto);
 	txo = 1.0; tyo = talto;
@@ -288,9 +291,9 @@ int crear_entrada(config_t c)
 		glRotatef(angulo * i, 0.0, -1.0, 0.0);
 		glBegin(GL_TRIANGLES);
 		glTexCoord2f(0.5, talto); glVertex3f(0.0, largo, 0.0);
-		glTexCoord2f(txo, tyo);   glVertex3f(radio, largo, 0.0);
 		glTexCoord2f(tx, ty);
 		glVertex3f(rcos_angulo, largo, rsin_angulo);
+		glTexCoord2f(txo, tyo);   glVertex3f(radio, largo, 0.0);
 		glEnd();
 		glPopMatrix();
 		txo = tx;
@@ -299,5 +302,5 @@ int crear_entrada(config_t c)
 	glPopMatrix();  /* 1 */
 	glEndList();
 	return lista;
-}  /* }}} */
+}
 

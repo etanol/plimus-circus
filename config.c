@@ -27,12 +27,16 @@
 #include <string.h>
 
 #include "config.h"
+/* Visual C++ no consigue linkar config.c como objeto independiente */
+#ifndef THIS_IS_UNIX
+#include "config.cpp"
+#endif
 
 #define GROW_STEP 4
 
 
 static void *my_malloc(size_t tam)
-{  /* {{{ */
+{
 	void *ret;
 
 	ret = malloc(tam);
@@ -41,11 +45,11 @@ static void *my_malloc(size_t tam)
 		exit(9);
 	}
 	return ret;
-}  /* }}} */
+}
 
 
 static void *my_realloc(void *old, size_t n_tam)
-{  /* {{{ */
+{
 	void *ret;
 
 	ret = realloc(old, n_tam);
@@ -54,11 +58,11 @@ static void *my_realloc(void *old, size_t n_tam)
 		exit(9);
 	}
 	return ret;
-}  /* }}} */
+}
 
 
 static void inserta(config_t cfg, char *k, enum tipo t, char *val)
-{  /* {{{ */
+{
 	int i;
 	struct nodo *n;
 
@@ -77,14 +81,16 @@ static void inserta(config_t cfg, char *k, enum tipo t, char *val)
 			if (n->ult >= n->tam) {
 				/* Quizá necesitemos agrandar el nodo actual */
 				n->tam += GROW_STEP;
-				n->d = my_realloc(n->d,
+				n->d = (struct item *) my_realloc(n->d,
 						sizeof(struct item)*n->tam);
 			}
 			n->d[n->ult].c = *k;
 			n->d[n->ult].t = CFG_NODO;
-			n->d[n->ult].v.sig = my_malloc(sizeof(struct nodo));
+			n->d[n->ult].v.sig = (struct nodo *)
+				my_malloc(sizeof(struct nodo));
 			n = n->d[n->ult].v.sig;
-			n->d = my_malloc(sizeof(struct item)*GROW_STEP);
+			n->d = (struct item *)
+				my_malloc(sizeof(struct item)*GROW_STEP);
 			n->tam = GROW_STEP;
 			n->ult = -1;
 		}
@@ -99,7 +105,8 @@ static void inserta(config_t cfg, char *k, enum tipo t, char *val)
 		if (n->ult >= n->tam) {
 			/* Agrandar nodo */
 			n->tam += GROW_STEP;
-			n->d = my_realloc(n->d, sizeof(struct item)*n->tam);
+			n->d = (struct item *) my_realloc(n->d,
+					sizeof(struct item)*n->tam);
 		}
 		n->d[n->ult].c = *k;
 		n->d[n->ult].t = t;
@@ -120,12 +127,12 @@ static void inserta(config_t cfg, char *k, enum tipo t, char *val)
 				n->d[n->ult].v.entero = 0;
 		}
 	}
-}  /* }}} */
+}
 
 
 struct item *consulta(config_t cfg, const char *k)
-{   /* {{{ */
-	unsigned int i;
+{ 
+	int i;
 	struct nodo *n;
 	const char *x = k;
 
@@ -151,11 +158,11 @@ struct item *consulta(config_t cfg, const char *k)
 		exit(10);
 	}
 	return n->d + i;
-}  /* }}} */
+}
 
 
 char *valor_cadena(config_t cfg, const char *k)
-{  /* {{{ */
+{
 	struct item *d;
 
 	d = consulta(cfg, k);
@@ -164,11 +171,11 @@ char *valor_cadena(config_t cfg, const char *k)
 		exit(10);
 	}
 	return d->v.cadena;
-}  /* }}} */
+}
 
 
 int valor_entero(config_t cfg, const char *k)
-{  /* {{{ */
+{
 	struct item *d;
 
 	d = consulta(cfg, k);
@@ -177,11 +184,11 @@ int valor_entero(config_t cfg, const char *k)
 		exit(10);
 	}
 	return d->v.entero;
-}  /* }}} */
+}
 
 
 float valor_decimal(config_t cfg, const char *k)
-{  /* {{{ */
+{
 	struct item *d;
 
 	d = consulta(cfg, k);
@@ -190,11 +197,11 @@ float valor_decimal(config_t cfg, const char *k)
 		exit(10);
 	}
 	return d->v.decimal;
-}  /* }}} */
+}
 
 
 config_t leer_config(char *fichero)
-{  /* {{{ */
+{
 	FILE *f;
 	char linea[82];
 	char *c, *valor;
@@ -262,5 +269,5 @@ config_t leer_config(char *fichero)
 	} while (!feof(f));
 	fclose(f);
 	return cfg;
-}  /* }}} */
+}
 

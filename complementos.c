@@ -23,7 +23,6 @@
  */
 
 #ifdef THIS_IS_UNIX
-#include <GL/gl.h>
 #include <GL/glu.h>
 #else
 #include <GL/glut.h>
@@ -33,7 +32,7 @@
 #include "textura.h"
 
 int crear_poste(config_t c)
-{  /* {{{ */
+{
 	int lista;
 	float pradio = valor_decimal(c, p_radio);
 	float altura = valor_decimal(c, c_f_alto) + valor_decimal(c, c_t_alto)
@@ -51,6 +50,7 @@ int crear_poste(config_t c)
 	gluQuadricOrientation(cilindro, GLU_OUTSIDE);
 	gluQuadricNormals(cilindro, GLU_SMOOTH);
 	glNewList(lista, GL_COMPILE);
+	glFrontFace(GL_CCW);
 	glDisable(GL_TEXTURE_2D);
 	glPushMatrix();
 	glTranslatef(valor_decimal(c, c_fr_ancho) / 2.0, 0.0, 0.0);
@@ -65,14 +65,15 @@ int crear_poste(config_t c)
 	glMaterialf(GL_FRONT, GL_SHININESS, 0.0);
 	glPopMatrix();
 	glEnable(GL_TEXTURE_2D);
+	glFrontFace(GL_CW);
 	glEndList();
 	gluDeleteQuadric(cilindro);
 	return lista;
-}  /* }}} */
+}
 
 
 int crear_banqueta(config_t c)
-{  /* {{{ */
+{
 	int lista, textura;
 	float xpos, ypos;
 	float alto = valor_decimal(c, b_alto);
@@ -95,6 +96,7 @@ int crear_banqueta(config_t c)
 	gluQuadricNormals(cilindro, GLU_SMOOTH);
 	gluQuadricTexture(cilindro, GL_TRUE);
 	glNewList(lista, GL_COMPILE);
+	glFrontFace(GL_CCW);
 	glDisable(GL_TEXTURE_2D);
 	glPushMatrix();
 	glTranslatef(xpos, ypos, 0.0);
@@ -106,14 +108,15 @@ int crear_banqueta(config_t c)
 	glBindTexture(GL_TEXTURE_2D, textura);
 	gluDisk(cilindro, 0, rm, det, 1);
 	glPopMatrix();
+	glFrontFace(GL_CW);
 	glEndList();
 	gluDeleteQuadric(cilindro);
 	return lista;
-}  /* }}} */
+}
 
 
 int crear_cartel(config_t c)
-{  /* {{{ */
+{
 	int lista, i, textura;
 	float x       = valor_decimal(c, crt_ancho) / 2.0;
 	float grosor2 = valor_decimal(c, crt_largo) / 2.0;
@@ -130,8 +133,8 @@ int crear_cartel(config_t c)
 	float normales[6][3] = {{-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0},
 		{1.0, 0.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0},
 		{0.0, 0.0, -1.0}};
-	GLubyte cara[6][4] = {{0, 2, 3, 1}, {0, 2, 4, 6}, {6, 4, 5, 7},
-		{5, 3, 1, 7}, {2, 4, 5, 3}, {6, 7, 1, 0}};
+	GLubyte cara[6][4] = {{0, 1, 3, 2}, {0, 2, 4, 6}, {6, 4, 5, 7},
+		{5, 3, 1, 7}, {2, 3, 5, 4}, {6, 7, 1, 0}};
 	float foto[4][2] = {{0.0, 0.0}, {0.0, 1.0}, {1.0, 1.0}, {1.0, 0.0}};
 
 	textura = cargar_textura(c, valor_cadena(c, crt_foto));
@@ -173,24 +176,24 @@ int crear_cartel(config_t c)
 	glPopMatrix();
 	glEndList();
 	return lista;
-}  /* }}} */
+}
 
 
 int crear_tablon(config_t c)
-{  /* {{{ */
+{
 	int i, lista;
 	int   detalle = valor_entero(c, t_b_det);
 	float radio   = valor_decimal(c, t_b_radio);
-	float x = 4.5 * radio;
-	float y = radio + 0.01;
-	float z = 0.02;
+	float x = valor_decimal(c, t_t_prop) * radio;
+	float y = radio + valor_decimal(c, t_t_eancho);
+	float z = valor_decimal(c, t_t_grueso);
 	float tabla[8][3] = {{-x, -y, 0.0}, {-x, y, 0.0}, {-x, -y, z},
 		{-x, y, z}, {x, -y, z}, {x, y, z}, {x, -y, 0.0}, {x, y, 0.0}};
 	float normales[6][3] = {{-1.0, 0.0, 0.0}, {0.0, -1.0, 0.0},
 		{1.0, 0.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0},
 		{0.0, 0.0, -1.0}};
-	GLubyte cara[6][4] = {{0, 2, 3, 1}, {0, 6, 4, 2}, {6, 4, 5, 7},
-		{7, 5, 3, 1}, {2, 4, 5, 3}, {0, 6, 7, 1}};
+	GLubyte cara[6][4] = {{0, 1, 3, 2}, {0, 2, 4, 6}, {6, 4, 5, 7},
+		{7, 5, 3, 1}, {2, 3, 5, 4}, {0, 6, 7, 1}};
 	GLUquadric *bola;
 	
 	lista = glGenLists(1);
@@ -203,9 +206,11 @@ int crear_tablon(config_t c)
 	glNewList(lista, GL_COMPILE);
 	glPushMatrix();
 	/* Bola */
+	glFrontFace(GL_CCW);
 	glTranslatef(0.0, 0.0, radio);
 	glColor3f(0.1, 0.4, 0.1);
 	gluSphere(bola, radio, detalle, detalle);
+	glFrontFace(GL_CW);
 	/* Tablon */
 	glTranslatef(0.0, 0.0, radio); /* No importa glPushMatrix() */
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -219,11 +224,11 @@ int crear_tablon(config_t c)
 	glEndList();
 	gluDeleteQuadric(bola);
 	return lista;
-}  /* }}} */
+}
 
 
 int crear_arbol(config_t c)
-{  /* {{{ */
+{
 	int lista, textura;
 	float x = valor_decimal(c, ar_ancho) / 2.0;
 	float z = valor_decimal(c, ar_alto);
@@ -234,7 +239,6 @@ int crear_arbol(config_t c)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	glDisable(GL_LIGHTING);
-	glEnable(GL_BLEND);
 	glBindTexture(GL_TEXTURE_2D, textura);
 	glBegin(GL_QUADS);
 	glColor3f(1.0, 1.0, 1.0);
@@ -243,14 +247,13 @@ int crear_arbol(config_t c)
 	glTexCoord2i(1, 1); glVertex3f(x, 0.0, z);
 	glTexCoord2i(1, 0); glVertex3f(x, 0.0, 0.0);
 	glEnd();
-	glDisable(GL_BLEND);
 	glEndList();
 	return lista;
-}  /* }}} */
+}
 
 
 int crear_sol(config_t c)
-{  /* {{{ */
+{
 	int lista;
 	GLUquadric *sol;
 
@@ -260,6 +263,7 @@ int crear_sol(config_t c)
 	sol = gluNewQuadric();
 	gluQuadricDrawStyle(sol, GLU_FILL);
 	glNewList(lista, GL_COMPILE);
+	glFrontFace(GL_CCW);
 	glColor3f(1.0, 1.0, 0.0);
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
@@ -267,8 +271,9 @@ int crear_sol(config_t c)
 	gluSphere(sol, valor_decimal(c, l_s_radio), valor_entero(c, l_s_det),
 			valor_entero(c, l_s_det));
 	glEnable(GL_TEXTURE_2D);
+	glFrontFace(GL_CW);
 	glEndList();
 	gluDeleteQuadric(sol);
 	return lista;
-}  /* }}} */
+}
 

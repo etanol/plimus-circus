@@ -23,13 +23,7 @@
  */
 
 #include <string.h>
-#ifdef THIS_IS_UNIX
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include <GL/glut.h>
-#else
-#include <GL/glut.h>
-#endif
 
 #include "config.h"
 #include "interaccion.h"
@@ -67,18 +61,18 @@ static float Le_fov, Le_znear, Le_zfar, Le_fang;
 
 
 static void actualiza_viewport(int ancho, int alto)
-{   /* {{{ */
+{ 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(Le_fov, (float)ancho / (float)alto, Le_znear, Le_zfar);
 	glMatrixMode(GL_MODELVIEW);
 	glViewport(0, 0, ancho, alto);
 	glutPostRedisplay();
-}  /* }}} */
+}
 
 
 static void cielo(void)
-{  /* {{{ */
+{
 	glColor3f(1.0, 1.0, 1.0);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
@@ -107,11 +101,11 @@ static void cielo(void)
 	glEnable(GL_DEPTH_TEST);
 	if (light_flag)
 		glEnable(GL_LIGHTING);
-}  /* }}} */
+}
 
 
 static void init_luces_niebla(void)
-{  /* {{{ */
+{
 	float ambiente_global[4] = {0.0, 0.0, 0.0, 1.0};
 	float sol_ambiente[4]  = {0.25, 0.25, 0.25, 1.0};
 	float sol_difusa[4]    = {1.0, 1.0, 1.0, 1.0};
@@ -130,7 +124,7 @@ static void init_luces_niebla(void)
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambiente_global);
 
 	/* Luz solar */
@@ -183,11 +177,11 @@ static void init_luces_niebla(void)
 	glFogi(GL_FOG_MODE, GL_EXP2);
 	glFogfv(GL_FOG_COLOR, niebla_color);
 	glFogf(GL_FOG_DENSITY, valor_decimal(C, n_dens));
-}  /* }}} */
+}
 
 
 static void luces_niebla(void)
-{  /* {{{ */
+{
 	float foco_posicion[4]  = {0.0, 0.0, 0.0, 1.0};
 	float foco_direccion[4] = {0.0, 0.0, -1.0, 0.0};
 	float interior_posicion[4] = {0.0, 0.0, Le_calt, 1.0};
@@ -228,11 +222,11 @@ static void luces_niebla(void)
 		glLightfv(GL_LIGHT5, GL_POSITION, interior_posicion);
 		glDisable(GL_FOG);
 	}
-}  /* }}} */
+}
 
 
 static void escena(void)
-{   /* {{{ */
+{ 
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	if (modo_exterior) 
@@ -249,7 +243,7 @@ static void escena(void)
 	/* Postes */
 	glCallList(poste);
 	glPushMatrix();
-	glScalef(-1.0, 1.0, 1.0);
+	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(poste);
 	glPopMatrix();
 	if (modo_exterior) {
@@ -258,45 +252,40 @@ static void escena(void)
 		/* Carpa */
 		glCallList(faldon_frontal);
 		glPushMatrix();
-		glScalef(1.0, -1.0, 1.0);
+		glRotatef(180.0, 0.0, 0.0, 1.0);
 		glCallList(faldon_frontal);
 		glPopMatrix();
 		glCallList(faldon_lateral);
 		glPushMatrix();
-		glScalef(-1.0, 1.0, 1.0);
+		glRotatef(180.0, 0.0, 0.0, 1.0);
 		glCallList(faldon_lateral);
 		glPopMatrix();
 		glCallList(techo_frontal);
 		glPushMatrix();
-		glScalef(1.0, -1.0, 1.0);
+		glRotatef(180.0, 0.0, 0.0, 1.0);
 		glCallList(techo_frontal);
 		glPopMatrix();
 		glCallList(techo_lateral);
 		glPushMatrix();
-		glScalef(-1.0, 1.0, 1.0);
+		glRotatef(180.0, 0.0, 0.0, 1.0);
 		glCallList(techo_lateral);
 		glPopMatrix();
 		glCallList(entrada_carpa);
+		glPushMatrix();
+		glRotatef(180.0, 0.0, 0.0, 1.0);
+		glCallList(entrada_carpa);
+		glPopMatrix();
 		/* Cartel */
 		glPushMatrix();
 		glTranslatef(-(Le_cfra2 + Le_clr), -(Le_clr + Le_crtsep), 0.0);
 		glRotatef(angulo_anim, 0.0, 0.0, 1.0);
 		glCallList(cartel);
 		glPopMatrix();
-		/* Sol */
-		glPushMatrix();
-		glTranslatef(sol_posicion[0], sol_posicion[1], sol_posicion[2]);
-		glCallList(sol);
-		glPopMatrix();
-		if (fog_flag)
-			glEnable(GL_FOG);
 		/* Arbolitos */
 		glPushMatrix();
 		glTranslatef(Le_cfra2 + Le_clr, Le_clr + Le_crtsep, 0.0);
 		glRotatef(angulo_h, 0.0, 0.0, 1.0);
-		glDepthMask(GL_FALSE); /* No queremos tocar el z-buffer */
 		glCallList(arbol);
-		glDepthMask(GL_TRUE);
 		glPopMatrix();
 		glPushMatrix();
 		glTranslatef(-(Le_cfra2 + Le_clr), Le_clr + Le_crtsep, 0.0);
@@ -308,11 +297,13 @@ static void escena(void)
 		glRotatef(angulo_h, 0.0, 0.0, 1.0);
 		glCallList(arbol);
 		glPopMatrix();
+		/* Sol */
 		glPushMatrix();
-		glTranslatef(Le_cfra2 + Le_clr, Le_clr + Le_crtsep, 0.0);
-		glRotatef(angulo_h, 0.0, 0.0, 1.0);
-		glCallList(arbol); /* Ahora sí ;-) */
+		glTranslatef(sol_posicion[0], sol_posicion[1], sol_posicion[2]);
+		glCallList(sol);
 		glPopMatrix();
+		if (fog_flag)
+			glEnable(GL_FOG);
 		if (light_flag)
 			glEnable(GL_LIGHTING);
 	} else {
@@ -325,36 +316,32 @@ static void escena(void)
 		/* Bancos pa los tigretones */
 		glCallList(banqueta);
 		glPushMatrix();
-		glScalef(-1.0, 1.0, 1.0);
+		glRotatef(90.0, 0.0, 0.0, 1.0);
 		glCallList(banqueta);
-		glPopMatrix();
-		glPushMatrix();
-		glScalef(-1.0, -1.0, 1.0);
+		glRotatef(90.0, 0.0, 0.0, 1.0);
 		glCallList(banqueta);
-		glPopMatrix();
-		glPushMatrix();
-		glScalef(1.0, -1.0, 1.0);
+		glRotatef(90.0, 0.0, 0.0, 1.0);
 		glCallList(banqueta);
 		glPopMatrix();
 		/* Gradas */
 		glCallList(grada_frontal);
 		glPushMatrix();
-		glScalef(1.0, -1.0, 1.0);
+		glRotatef(180.0, 0.0, 0.0, 1.0);
 		glCallList(grada_frontal);
 		glPopMatrix();
 		glCallList(grada_lateral);
 		glPushMatrix();
-		glScalef(-1.0, 1.0, 1.0);
+		glRotatef(180.0, 0.0, 0.0, 1.0);
 		glCallList(grada_lateral);
 		glPopMatrix();
 	}
 	glFlush();
 	glutSwapBuffers();
-}   /* }}} */
+} 
 
 
 void init_escena(config_t cfg)
-{  /* {{{ */
+{
 	C = cfg;
 
 	/* Copiamos valores de la configuración localmente para ahorrarnos
@@ -391,5 +378,5 @@ void init_escena(config_t cfg)
 	cartel         = crear_cartel(C);
 	arbol          = crear_arbol(C);
 	sol            = crear_sol(C);
-}  /* }}} */
+}
 

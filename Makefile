@@ -25,7 +25,7 @@ etapas   := etapa1 etapa2 etapa3
 piezas   := carpa.c gradas.c suelo.c complementos.c
 
 BINFILES   := $(etapas) $(practica) $(tests)
-WDISTFILES := Makefile README.* *.c *.h ChangeLog *.cfg
+WDISTFILES := *.c *.h ChangeLog *.cfg
 
 
 CFLAGS := -pipe -Wall -DTHIS_IS_UNIX
@@ -72,19 +72,19 @@ conf_keys.o: conf_keys.c conf_keys.h
 	$(mk_obj)
 test_config.o: test_config.c config.h 
 	$(mk_obj)
-textura.o: textura.c textura.h config.h conf_keys.h
+textura.o: textura.c textura.h config.h 
 	$(mk_obj)
 
 # Piezas
-escena.o: escena.c escena.h config.h conf_keys.h textura.h
+escena.o: escena.c escena.h config.h textura.h
 	$(mk_obj)
-carpa.o: carpa.c piezas.h config.h conf_keys.h textura.h
+carpa.o: carpa.c piezas.h config.h textura.h
 	$(mk_obj)
-gradas.o: gradas.c piezas.h config.h conf_keys.h textura.h
+gradas.o: gradas.c piezas.h config.h textura.h
 	$(mk_obj)
-suelo.o: suelo.c piezas.h config.h conf_keys.h textura.h
+suelo.o: suelo.c piezas.h config.h textura.h
 	$(mk_obj)
-complementos.o: complementos.c piezas.h config.h conf_keys.h textura.h
+complementos.o: complementos.c piezas.h config.h textura.h
 	$(mk_obj)
 
 .PHONY: clean wdist wdistclean changelog
@@ -100,7 +100,6 @@ wdist: wdistclean changelog
 	for i in IG1/*; do \
 		perl -pi -e's/\n/\r\n/g' $$i; \
 	done; \
-	perl -pi -e's/\.c([^a-z])/.cpp$$1/g' IG1/Makefile; \
 	cp -vr wdist/* IG1; \
 	mv IG1/*.cfg IG1/Plimus_Circus; \
 	mkdir IG1/Plimus_Circus/imagen; \

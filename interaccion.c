@@ -25,13 +25,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#ifdef THIS_IS_UNIX
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include <GL/glut.h>
-#else
-#include <GL/glut.h>
-#endif
 
 #ifndef M_PI
 #define M_PI 3.14159265
@@ -82,7 +76,7 @@ static float Li_mp, Li_mg, Li_mrs, Li_cid, Li_ag;
 static int   Li_av;
 
 void actualiza_camara(void)
-{  /* {{{ */
+{
 	/*
 	 * Pasos:
 	 *    1. Trasladarnos al punto donde se encuentra la cámara.
@@ -95,11 +89,11 @@ void actualiza_camara(void)
 	glTranslatef(	(GLfloat) -camara_x,
 			(GLfloat) -camara_y,
 			(GLfloat) -camara_z);		/* 1 */
-}  /* }}} */
+}
 
 
 static void comprueba_situacion(enum tipo_de_giro t)
-{  /* {{{ */
+{
 	static float radio = 0.0;
 	float x, cx, cz;
 
@@ -120,7 +114,7 @@ static void comprueba_situacion(enum tipo_de_giro t)
 	cx = (float)fabs((double)camara_x);
 	cz = (float)fabs((double)camara_z);
 	x  = Li_cfra2;
-	if (cz <= radio) {
+	if (cz < radio) {
 		if (cx <= x) {
 			modo_exterior = 0;
 		} else if (cx <= (x + radio)) {
@@ -134,21 +128,21 @@ static void comprueba_situacion(enum tipo_de_giro t)
 		/* cz > radio */
 		modo_exterior = 1;
 	}
-}  /* }}} */
+}
 
 
 static void paso_frontal(float sentido)
-{  /* {{{ */
+{
 	float radianes;
 
 	radianes = (angulo_h * M_PI) / 180.0;
 	camara_x += sinf(radianes) * Li_mp * sentido;
 	camara_z += cosf(radianes) * Li_mp * sentido;
-}  /* }}} */
+}
 
 
 static void paso_lateral(float sentido)
-{  /* {{{ */
+{
 	float radianes;
 
 	radianes = (angulo_h * M_PI) / 180.0;
@@ -158,7 +152,7 @@ static void paso_lateral(float sentido)
 
 
 static void giro_camara(float sentido, enum tipo_de_giro g)
-{  /* {{{ */
+{
 	float *angulo;
 	float *despl;
 
@@ -185,11 +179,11 @@ static void giro_camara(float sentido, enum tipo_de_giro g)
 		*despl += 1.0;
 	else if (*despl > 1.0)
 		*despl -= 1.0;
-}  /* }}} */
+}
 
 
 static void teclado_especial(int tecla, int x, int y)
-{  /* {{{ */
+{
 	switch (tecla) {
 		case GLUT_KEY_UP:        /* Paso hacia adelante */
 			paso_frontal(-1.0);
@@ -235,11 +229,11 @@ static void teclado_especial(int tecla, int x, int y)
 			return;
 	}
 	glutPostRedisplay();
-}  /* }}} */
+}
 
 
 static void teclado(unsigned char tecla, int x, int y)
-{  /* {{{ */
+{
 	int i;
 
 	switch (tecla) {
@@ -334,11 +328,11 @@ static void teclado(unsigned char tecla, int x, int y)
 			return;
 	}
 	glutPostRedisplay();
-}  /* }}} */
+}
 
 
 static void raton(int x, int y)
-{  /* {{{ */
+{
 	static int ox = 0, oy = 0;
 
 	if (x > ox)
@@ -352,11 +346,11 @@ static void raton(int x, int y)
 		giro_camara(Li_mrs, VERTICAL);
 	oy = y;
 	glutPostRedisplay();
-}  /* }}} */
+}
 
 
 static void menu(int valor)
-{  /* {{{ */
+{
 	switch (valor) {
 		case 0:
 			if (light_flag) {
@@ -367,6 +361,7 @@ static void menu(int valor)
 				glutChangeToMenuEntry(1, m_disable[0], 0);
 			}
 			light_flag = !light_flag;
+			glutPostRedisplay();
 			break;
 		case 1:
 			teclado(' ', 0, 0);
@@ -377,6 +372,7 @@ static void menu(int valor)
 			else
 				glutChangeToMenuEntry(3, m_disable[2], 2);
 			fog_flag = !fog_flag;
+			glutPostRedisplay();
 			break;
 		case 3:
 			if (animation_flag)
@@ -392,11 +388,11 @@ static void menu(int valor)
 			teclado_especial(GLUT_KEY_F5, 0, 0);
 			break;
 	}
-}  /* }}} */
+}
 
 
 static void animacion(int i)
-{  /* {{{ */
+{
 	if (animation_flag) {
 		angulo_anim += Li_ag;
 		if (angulo_anim > 360.0)
@@ -404,11 +400,11 @@ static void animacion(int i)
 		glutPostRedisplay();
 	}
 	glutTimerFunc(Li_av, animacion, 0);
-}  /* }}} */
+}
 
 
 void init_interaccion(config_t conf)
-{  /* {{{ */
+{
 	C = conf;
 
 	/* Cacheamos algunas consultas (ver init_escena() en escena.c) */
@@ -442,5 +438,5 @@ void init_interaccion(config_t conf)
 	glutAddMenuEntry(m_enable[4], 5);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	comprueba_situacion(VERTICAL);
-}  /* }}} */
+}
 

@@ -20,13 +20,8 @@
  * $Id$
  */
 
-#ifdef THIS_IS_UNIX
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <stdlib.h>
 #include <GL/glut.h>
-#else
-#include <GL/glut.h>
-#endif
 
 /* Tamaño incial de la ventana */
 const int W_WIDTH = 500;
@@ -41,7 +36,7 @@ void Display (void)
 	glClear (GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	glPushMatrix();
-	//glTranslatef(0.0f, 0.0f, -2.5f);
+	/* glTranslatef(0.0f, 0.0f, -2.5f); */
 	glRotatef (fAngulo, 0.0f, 1.0f, 1.0f);
 	
 	glColor3f(0.0f, 1.0f, 0.0f);
@@ -57,8 +52,10 @@ void Display (void)
 
 void Rota(unsigned char c, int x, int y)
 {
+	if (c == (char)27)
+		exit(0);
 	/* Incrementamos el ángulo */
-	fAngulo += 0.3f;
+	fAngulo += 2.0;
 	/* Si es mayor que dos pi la decrementamos */
 	if (fAngulo > 360)
 		fAngulo -= 360;
@@ -83,8 +80,6 @@ void Reshape(int ancho, int alto)
 	glViewport(x, y, lado, lado);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	//glOrtho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 10.0f);
-	//glFrustum(-1.0f, 1.0f, -1.0f, 1.0f, 0.5f, 10.0f);
 	gluPerspective(90.0, 1.0, 0.5, 10.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

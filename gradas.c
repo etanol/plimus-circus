@@ -42,7 +42,7 @@ static const float color_lateral[3] = {0.7, 0.0, 0.1};
 static int gradas_textura = 0;
 
 static void *my_malloc(size_t s)
-{  /* {{{ */ 
+{ 
 	void *r;
 
 	r = malloc(s);
@@ -51,11 +51,11 @@ static void *my_malloc(size_t s)
 		exit(6);
 	}
 	return r;
-}  /* }}} */
+}
 
 
 int crear_grada_frontal(config_t c)
-{  /* {{{ */
+{
 	int i, lista;
 	int gesc     = valor_entero(c, gs_esc);
 	int gdet     = valor_entero(c, gs_det);
@@ -109,9 +109,9 @@ int crear_grada_frontal(config_t c)
 	for (i = 0; i < gesc; ++i) {
 		glNormal3f(-1.0, 0.0, 0.0);
 		glVertex3f(-x, paso_h * i, 0.0);
-		glVertex3f(-x, paso_h * i, paso_v * (i+1));
-		glVertex3f(-x, paso_h * (i+1), paso_v * (i+1));
 		glVertex3f(-x, paso_h * (i+1), 0.0);
+		glVertex3f(-x, paso_h * (i+1), paso_v * (i+1));
+		glVertex3f(-x, paso_h * i, paso_v * (i+1));
 
 		glNormal3f(1.0, 0.0, 0.0);
 		glVertex3f(x, paso_h * i, 0.0);
@@ -144,14 +144,14 @@ int crear_grada_frontal(config_t c)
 	glPopMatrix();
 	glEndList();
 	return lista;
-}  /* }}} */
+}
 
 
 int crear_grada_lateral(config_t c)
-{  /* {{{ */
+{
 	int i, j, lista;
 	int gesc = valor_entero(c, gs_esc);  /* Escalones */
-	int gdet = valor_entero(c, gs_det); /* Detalle (nº caras) */
+	int gdet = valor_entero(c, gs_det);  /* Detalle (nº caras) */
 	int gap  = valor_entero(c, g_l_ap);  /* Apertura */
 	float r;
 	float radio_ex   = valor_decimal(c, c_l_radio)-valor_decimal(c, gs_sep);
@@ -178,22 +178,30 @@ int crear_grada_lateral(config_t c)
 	glDisable(GL_TEXTURE_2D);
 	glNormal3f(-1.0, 0.0, 0.0);
 	glColor3fv(color_lateral);
-	for (i = 0; i < 2; ++i) {
-		glPushMatrix();
-		if (i) 
-			glScalef(1.0, -1.0, 1.0);
-		glRotatef(angulo * gap, 0.0, 0.0, -1.0);
-		glBegin(GL_QUADS);
-		for (j = 0; j < gesc; ++j) {
-			r = radio_in + paso_h*j;
-			glVertex3f(0.0, r, 0.0);
-			glVertex3f(0.0, r, paso_v * (j+1));
-			glVertex3f(0.0, r + paso_h, paso_v * (j+1));
-			glVertex3f(0.0, r + paso_h, 0.0);
-		}
-		glEnd();
-		glPopMatrix();
+	glPushMatrix();
+	glRotatef(angulo * gap, 0.0, 0.0, -1.0);
+	glBegin(GL_QUADS);
+	for (j = 0; j < gesc; ++j) {
+		r = radio_in + paso_h*j;
+		glVertex3f(0.0, r, 0.0);
+		glVertex3f(0.0, r + paso_h, 0.0);
+		glVertex3f(0.0, r + paso_h, paso_v * (j+1));
+		glVertex3f(0.0, r, paso_v * (j+1));
 	}
+	glEnd();
+	glPopMatrix();
+	glPushMatrix();
+	glRotatef(angulo * gap, 0.0, 0.0, 1.0);
+	glBegin(GL_QUADS);
+	for (j = 0; j < gesc; ++j) {
+		r = radio_in + paso_h*j;
+		glVertex3f(0.0, -r, 0.0);
+		glVertex3f(0.0, -r, paso_v * (j+1));
+		glVertex3f(0.0, -r - paso_h, paso_v * (j+1));
+		glVertex3f(0.0, -r - paso_h, 0.0);
+	}
+	glEnd();
+	glPopMatrix();
 	/* Escalones */
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, gradas_textura);
@@ -235,5 +243,5 @@ int crear_grada_lateral(config_t c)
 	glPopMatrix();
 	glEndList();
 	return lista;
-}  /* }}} */
+}
 

@@ -24,7 +24,6 @@
 
 #ifdef THIS_IS_UNIX
 #include <GL/gl.h>
-#include <GL/glu.h>
 #else
 #include <GL/glut.h>
 #endif
@@ -34,7 +33,8 @@
 
 
 static void suelo(float *limites, float *tex, int detalle)
-{  /* {{{ */
+{
+	glDisable(GL_AUTO_NORMAL);
 	glEnable(GL_MAP2_VERTEX_3);
 	glEnable(GL_MAP2_TEXTURE_COORD_2);
 	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 6, 2, 0.0, 1.0, 3, 2, limites);
@@ -43,11 +43,11 @@ static void suelo(float *limites, float *tex, int detalle)
 	glNormal3f(0.0, 0.0, 1.0);
 	glColor3f(1.0, 1.0, 1.0);
 	glEvalMesh2(GL_FILL, 0, detalle, 0, detalle);
-}  /* }}} */
+}
 
 
 int crear_suelo_exterior(config_t c)
-{  /* {{{ */
+{
 	int lista, textura;
 	float l = valor_decimal(c, se_lado) / 2.0;
 	float limites[4][3] = {{-l, -l, 0.0}, {-l, l, 0.0},
@@ -63,11 +63,11 @@ int crear_suelo_exterior(config_t c)
 	suelo(limites[0], texcoord[0], valor_entero(c, se_det));
 	glEndList();
 	return lista;
-}  /* }}} */
+}
 
 
 int crear_suelo_interior(config_t c)
-{  /* {{{ */
+{
 	int lista, textura;
 	float x = (valor_decimal(c, c_fr_ancho) / 2.0) +
 		valor_decimal(c, c_l_radio);
@@ -85,11 +85,11 @@ int crear_suelo_interior(config_t c)
 	suelo(limites[0], texcoord[0], valor_entero(c, si_det));
 	glPopAttrib();
 	return lista;
-}  /* }}} */
+}
 
 
 int crear_suelo_arena(config_t c)
-{  /* {{{ */
+{ 
 	int lista, i, j, textura;
 	float b = valor_decimal(c, sa_btam) / 2.0;
 	float x = (valor_decimal(c, c_fr_ancho)/2) - 
@@ -103,8 +103,8 @@ int crear_suelo_arena(config_t c)
 		{-(x+b), -b, -b}, {-(x+b), -b, b},
 		{x+b, -b, b}, {x+b, -b, -b}};
 	float b_lateral[4][3] = {
-		{b, y+b, -b}, {b, y+b, b},
-		{b, -(y+b), b}, {b, -(y+b), -b}};
+		{b, -(y+b), -b}, {b, -(y+b), b},
+		{b, y+b, b}, {b, y+b, -b}};
 
 	textura = cargar_textura(c, valor_cadena(c, sa_tex));
 	lista = glGenLists(1);
@@ -148,5 +148,5 @@ int crear_suelo_arena(config_t c)
 	suelo(limites[0], texcoord[0], valor_entero(c, sa_det));
 	glEndList();
 	return lista;
-}  /* }}} */
+}
 

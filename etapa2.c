@@ -20,13 +20,7 @@
  * $Id$
  */
 
-#ifdef THIS_IS_UNIX
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include <GL/glut.h>
-#else
-#include <GL/glut.h>
-#endif
 
 /* Tamaño incial de la ventana */
 const int W_WIDTH = 500;
