@@ -37,8 +37,8 @@ STRIP  := -Wl,-s
 endif
 
 join_obj = $(CC) $(CFLAGS) -Wl,-r -o $@ $^
-mk_obj   = $(CC) $(CFLAGS) -c -o $@ $^
-mk_bingl = $(CC) $(CFLAGS) $(STRIP) -lGL -lGLU -lglut -o $@ $^
+mk_obj   = $(CC) $(CFLAGS) -c -o $@ $(filter-out %.h,$^)
+mk_bingl = $(CC) $(CFLAGS) $(STRIP) -lGL -lGLU -lglut -o $@ $(filter-out %.h,$^)
 
 all: $(practica)
 etapas: $(etapas)
@@ -52,6 +52,9 @@ $(ejemplos): %: %.c
 
 $(practica): circo.o escena.o interaccion.o
 	$(mk_bingl)
+
+interaccion.o: interaccion.c camaras.h
+	$(mk_obj)
 
 .PHONY: clean 
 clean:
