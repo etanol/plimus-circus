@@ -41,7 +41,7 @@
 const GLubyte TGA_tipo[12] = {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 int cargar_textura(const char *fichero)
-{
+{  /* {{{ */
 	FILE *f;
 	int textura;	/* Valor de retorno */
 	int e;		/* Comodín para comprobar errores */
@@ -71,10 +71,14 @@ int cargar_textura(const char *fichero)
 	CHECK_ERROR(imagen == NULL);
 	e = fread(imagen, 1, tam_imagen, f);
 	CHECK_ERROR((unsigned int)e < tam_imagen);
+	/*
+	 * Tuvimos que añadir el cambio de BGR a RGB puesto que las versiones
+	 * de OpenGL de la sala de ordenadores no soportan GL_BGR (creemos que
+	 * es nuevo en 1.2).
+	 */
         for (i = 0; i < tam_imagen; i += bytespp)
             imagen[i] ^= imagen[i+2] ^= imagen[i] ^= imagen[i+2];
 	fclose(f);
-
 	/*
 	 * Ahora le pasamos la información a OpenGL y preparamos algunos
 	 * parámetros.
@@ -90,11 +94,11 @@ int cargar_textura(const char *fichero)
 		GL_RGB : GL_RGBA), GL_UNSIGNED_BYTE, imagen);
 	free(imagen);
 	return textura;
-}
+}  /* }}} */
 
 
 int gen_textura_carpa(void)
-{
+{  /* {{{ */
 	int textura;
 	float cols_carpa[6] = {0.8, 0.8, 0.0, 0.8, 0.0, 0.0};
 
@@ -107,5 +111,5 @@ int gen_textura_carpa(void)
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glTexImage1D(GL_TEXTURE_1D, 0, 3, 2, 0, GL_RGB, GL_FLOAT, cols_carpa);
 	return textura;
-}
+}  /* }}} */
 

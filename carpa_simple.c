@@ -36,7 +36,7 @@
 
 
 int crear_faldon_frontal(struct config *c)
-{
+{  /* {{{ */
 	int lista;
 	float x = c->carpa_frontal_ancho / 2;
 	float normal[][3] = {
@@ -61,11 +61,11 @@ int crear_faldon_frontal(struct config *c)
 	glDrawArrays(GL_QUADS, 0, sizeof(datos)/(6*sizeof(float)));
 	glEndList();
 	return lista;
-}	
+}  /* }}} */	
 
 
 int crear_faldon_lateral(struct config *c)
-{
+{  /* {{{ */
 	int i, lista;
 	float angulo     = 180.0 / c->carpa_lateral_caras;
 	float angulo_rad = M_PI  / c->carpa_lateral_caras;
@@ -99,11 +99,11 @@ int crear_faldon_lateral(struct config *c)
 	}
 	glEndList();
 	return lista;
-}
+}  /* }}} */
 
 
 int crear_techo_frontal(struct config *c)
-{
+{  /* {{{ */
 	int lista;
 	float x     = c->carpa_frontal_ancho / 2;
 	float hipotenusa = hypotf(c->carpa_techo_alto, c->carpa_lateral_radio);
@@ -129,11 +129,11 @@ int crear_techo_frontal(struct config *c)
 	glDrawArrays(GL_QUADS, 0, sizeof(datos)/(6*sizeof(float)));
 	glEndList();
 	return lista;
-}
+}  /* }}} */
 
 
 int crear_techo_lateral(struct config *c)
-{
+{  /* {{{ */
 	int i, lista;
 	float angulo     = 180.0 / c->carpa_lateral_caras;
 	float angulo_rad = M_PI  / c->carpa_lateral_caras;
@@ -169,6 +169,6 @@ int crear_techo_lateral(struct config *c)
 	}
 	glEndList();
 	return lista;
-}
+}  /* }}} */
 
 #endif /* CARPA_SIMPLE */

@@ -30,7 +30,7 @@
 
 
 static void procesar_linea(char *clave, char *valor, struct config *cfg)
-{
+{  /* {{{ */
 	float valorf;
 
 	valorf = (float) atof(valor);
@@ -86,11 +86,11 @@ static void procesar_linea(char *clave, char *valor, struct config *cfg)
 	} else if (strcmp(clave, "arena_detalle") == 0) {
 		cfg->arena_detalle = (int)valorf;
 	}
-}
+}  /* }}} */
 
 
 void leer_config(char *fichero, struct config *cfg)
-{
+{  /* {{{ */
 	FILE *f;
 	char linea[82];
 	char *valor;
@@ -139,5 +139,5 @@ void leer_config(char *fichero, struct config *cfg)
 		procesar_linea(linea + i, valor, cfg);
 	} while (!feof(f));
 	fclose(f);
-}
+}  /* }}} */
 

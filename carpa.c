@@ -40,7 +40,7 @@
 
 
 int crear_faldon_frontal(struct config *c)
-{
+{  /* {{{ */
 	int i, j, lista;
 	float control[4][4][3];
 	float texcoord[4] = {0.0, 2.5, 0.0, 2.5};
@@ -75,11 +75,11 @@ int crear_faldon_frontal(struct config *c)
 	glDisable(GL_TEXTURE_1D);
 	glEndList();
 	return lista;
-}	
+}  /* }}} */
 
 
 int crear_faldon_lateral(struct config *c)
-{
+{  /* {{{ */
 	int i, lista;
 	float control[4][4][3];
 	float texcoord[4] = {0.5, 6.0, 0.5, 6.0};
@@ -118,11 +118,11 @@ int crear_faldon_lateral(struct config *c)
 	glDisable(GL_TEXTURE_1D);
 	glEndList();
 	return lista;
-}
+}  /* }}} */
 
 
 int crear_techo_frontal(struct config *c)
-{
+{  /* {{{ */
 	int i, j, lista;
 	float control[4][4][3];
 	float texcoord[4] = {0.0, 2.5, 0.0, 2.5};
@@ -163,11 +163,11 @@ int crear_techo_frontal(struct config *c)
 	glDisable(GL_TEXTURE_1D);
 	glEndList();
 	return lista;
-}
+}  /* }}} */
 
 
 int crear_techo_lateral(struct config *c)
-{
+{  /* {{{ */
 	int i, lista;
 	float control[4][4][3]; 
 	float texcoord[4] = {0.5, 6.0, 0.5, 6.0};
@@ -206,6 +206,6 @@ int crear_techo_lateral(struct config *c)
 	glDisable(GL_TEXTURE_1D);
 	glEndList();
 	return lista;
-}
+}  /* }}} */
 
 #endif /* !CARPA_SIMPLE */

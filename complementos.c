@@ -33,7 +33,7 @@
 
 
 int crear_poste(struct config *c)
-{
+{  /* {{{ */
 	int lista;
 	float brillo[3] = {0.3, 0.3, 0.3};
 	GLUquadricObj *cilindro;
@@ -61,11 +61,11 @@ int crear_poste(struct config *c)
 	glEndList();
 	gluDeleteQuadric(cilindro);
 	return lista;
-}
+}  /* }}} */
 
 
 int crear_suelo(struct config *c)
-{
+{  /* {{{ */
 	int lista;
 	float limites[4][3] = {
 		{-c->suelo_lado, -c->suelo_lado, 0.0},
@@ -97,11 +97,11 @@ int crear_suelo(struct config *c)
 	glDisable(GL_MAP2_TEXTURE_COORD_2);
 	glEndList();
 	return lista;
-}
+}  /* }}} */
 
 
 int crear_arena(struct config *c)
-{
+{  /* {{{ */
 	int lista, i, j;
 	float x = (c->carpa_frontal_ancho/2) - c->poste_radio - 0.1;
 	float y = (c->carpa_lateral_radio) - c->gradas_largo-SEP_GRADAS_CARPA-0.5;
@@ -112,9 +112,9 @@ int crear_arena(struct config *c)
 		{x, y, 0.01}};
 	float textura[4][2] = {
 		{0.0, 0.0},
-		{0.0, y*4},
-		{x*4, 0.0},
-		{x*4, y*4}};
+		{0.0, y*2},
+		{x*2, 0.0},
+		{x*2, y*2}};
 	float b_frontal[4][3] = {
 		{-(x+0.05), -0.05, -0.05}, {-(x+0.05), -0.05, 0.05},
 		{x+0.05, -0.05, 0.05}, {x+0.05, -0.05, -0.05}};
@@ -167,11 +167,11 @@ int crear_arena(struct config *c)
 	}
 	glEndList();
 	return lista;
-}
+}  /* }}} */
 
 
 int crear_banco(struct config *c)
-{
+{  /* {{{ */
 	int lista;
 	GLUquadric *cilindro;
 	
@@ -192,11 +192,11 @@ int crear_banco(struct config *c)
 	glEndList();
 	gluDeleteQuadric(cilindro);
 	return lista;
-}
+}  /* }}} */
 
 
 int crear_cartel(struct config *c)
-{
+{  /* {{{ */
 	int lista, i;
 	float cartel[4][3] = {
 		{-2.0, 0.0, 0.0},
@@ -258,5 +258,5 @@ int crear_cartel(struct config *c)
 	glEnable(GL_LIGHTING);
 	glEndList();
 	return lista;
-}
+}  /* }}} */
 

@@ -26,12 +26,12 @@
 #define FICHERO_CONFIG "medidas_circo.cfg"
 #ifdef THIS_IS_UNIX
 #define TEXTURA_SUELO_EXTERIOR "imagen/cesped1.tga"
-#define TEXTURA_ARENA "imagen/arena2.tga"
+#define TEXTURA_ARENA "imagen/arena3.tga"
 #define TEXTURA_GRADA "imagen/madera1.tga"
 #define TEXTURA_PLIMUS "imagen/plimus.tga"
 #else
 #define TEXTURA_SUELO_EXTERIOR "imagen\\cesped1.tga"
-#define TEXTURA_ARENA "imagen\\arena2.tga"
+#define TEXTURA_ARENA "imagen\\arena3.tga"
 #define TEXTURA_GRADA "imagen\\madera1.tga"
 #define TEXTURA_PLIMUS "imagen\\plimus.tga"
 #endif

@@ -87,6 +87,7 @@ static void comprueba_situacion(enum tipo_de_giro t)
 				-C->carpa_techo_alto;
 		} else {
 			/* faldon_alto < faldon_alto + techo_alto < cam_y */
+			radio = 0.0;
 			modo_exterior = 1;
 			return;
 		}
