@@ -35,13 +35,15 @@
 
 void faldon_frontal(float altura, float longitud)
 {
+	float x = longitud / 2;
+
 	glColor3f(0.8, 0.8, 0.0);
 	glNormal3f(0.0, 1.0, 0.0);
 	glBegin(GL_QUADS);
-	glVertex3f(-(longitud/2), 0.0, 0.0);
-	glVertex3f(-(longitud/2), 0.0, altura);
-	glVertex3f(longitud/2, 0.0, altura);
-	glVertex3f(longitud/2, 0.0, 0.0);
+	glVertex3f(-x, 0.0, 0.0);
+	glVertex3f(-x, 0.0, altura);
+	glVertex3f(x, 0.0, altura);
+	glVertex3f(x, 0.0, 0.0);
 	glEnd();
 }	
 
@@ -72,6 +74,22 @@ void faldon_lateral(float radio, float altura, int num_caras)
 		glEnd();
 		glPopMatrix();
 	}
+}
+
+
+void techo_frontal(float radio, float altura, float longitud)
+{
+	float hipotenusa = hypotf(radio, altura);
+	float x = longitud / 2;
+
+	glColor3f(0.8, 0.8, 0.0);
+	glNormal3f(0.0, altura / hipotenusa, radio / hipotenusa);
+	glBegin(GL_QUADS);
+	glVertex3f(-x, 0.0, altura);
+	glVertex3f(-x, radio, 0.0);
+	glVertex3f(x, radio, 0.0);
+	glVertex3f(x, 0.0, altura);
+	glEnd();
 }
 
 

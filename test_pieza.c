@@ -98,7 +98,7 @@ void display(void)
 			faldon_lateral(4.0, 4.0, 25);
 			break;
 		case TECHO_FRONTAL:
-//			techo_frontal(0.0, 0.0, 0.0);
+			techo_frontal(4.0, 4.0, 4.0);
 			break;
 		case TECHO_LATERAL:
 			techo_lateral(4.0, 4.0, 25);
