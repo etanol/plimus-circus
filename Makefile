@@ -19,7 +19,7 @@
 # $Id$
 #
 
-practica := circo
+practica := circo test_pieza
 etapas   := etapa1 etapa2 etapa3
 ejemplos := robot checker
 
@@ -50,12 +50,23 @@ $(etapas): %: %.c
 $(ejemplos): %: %.c
 	$(mk_bingl)
 
-$(practica): circo.o escena.o interaccion.o
+circo: circo.o escena.o interaccion.o piezas.o
 	$(mk_bingl)
 
-interaccion.o: interaccion.c camaras.h
+test_pieza: test_pieza.o piezas.o
+	$(mk_bingl)
+
+#
+# Reglas específicas para los módulos
+#
+interaccion.o: interaccion.c interaccion.h camaras.h
+	$(mk_obj)
+escena.o: escena.c escena.h
+	$(mk_obj)
+piezas.o: piezas.c piezas.h
 	$(mk_obj)
 
 .PHONY: clean 
 clean:
 	-rm -f $(wildcard *.o ejemplos/*.o $(BINFILES) gmon.out ejemplos/gmon.out)
+
