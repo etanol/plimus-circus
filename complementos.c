@@ -225,7 +225,7 @@ int crear_banqueta(struct config *c)
 	gluDisk(cilindro, 0, 0.5, 20, 1);
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
-	glColor3f(0.1, 0.1, 0.4);
+	glColor3f(0.6, 0.6, 1.0);
 	gluCylinder(cilindro, 0.7, 0.5, 0.3, 20, 1);
 	glEndList();
 	gluDeleteQuadric(cilindro);
@@ -291,6 +291,7 @@ int crear_cartel(struct config *c)
 	return lista;
 }  /* }}} */
 
+
 int crear_tablon(struct config *c)
 {  /* {{{ */
 	int lista;
@@ -304,7 +305,6 @@ int crear_tablon(struct config *c)
 	gluQuadricDrawStyle(bola, GLU_FILL);
 	gluQuadricOrientation(bola, GLU_OUTSIDE);
 	gluQuadricNormals(bola, GLU_SMOOTH);
-	//gluQuadricTexture(bola, GL_TRUE);
 	glNewList(lista, GL_COMPILE);
 	glPushMatrix();
 	glTranslatef(0.0, 0.0, radio);

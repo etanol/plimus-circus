@@ -160,15 +160,6 @@ static void init_luces(void)
 	glLightf (GL_LIGHT3, GL_SPOT_CUTOFF, foco_apertura);
 	glLightf (GL_LIGHT3, GL_SPOT_EXPONENT, foco_exponente);
 
-	glLightfv(GL_LIGHT4, GL_AMBIENT, foco_ambiente);
-	glLightfv(GL_LIGHT4, GL_DIFFUSE, foco_difusa);
-	glLightfv(GL_LIGHT4, GL_SPECULAR, foco_especular);
-	glLightf (GL_LIGHT4, GL_CONSTANT_ATTENUATION, foco_atenuacion[0]);
-	glLightf (GL_LIGHT4, GL_LINEAR_ATTENUATION, foco_atenuacion[1]);
-	glLightf (GL_LIGHT4, GL_QUADRATIC_ATTENUATION, foco_atenuacion[2]);
-	glLightf (GL_LIGHT4, GL_SPOT_CUTOFF, foco_apertura);
-	glLightf (GL_LIGHT4, GL_SPOT_EXPONENT, foco_exponente);
-
 	/* Luz ambiente interior */
 	glLightfv(GL_LIGHT5, GL_AMBIENT, interior_ambiente);
 	glLightfv(GL_LIGHT5, GL_DIFFUSE, interior_difusa);
@@ -191,25 +182,32 @@ static void luces(void)
 		glDisable(GL_LIGHT1);
 		glDisable(GL_LIGHT2);
 		glDisable(GL_LIGHT3);
-		glDisable(GL_LIGHT4);
 		glDisable(GL_LIGHT5);
 		glEnable(GL_LIGHT0);
 		glLightfv(GL_LIGHT0, GL_POSITION, sol_posicion);
 	} else {
 		glDisable(GL_LIGHT0);
 		glEnable(GL_LIGHT1);
-		glPushMatrix();
+		glEnable(GL_LIGHT2);
+		glEnable(GL_LIGHT3);
+		glEnable(GL_LIGHT5); 
+		glPushMatrix(); /* 1 */
 		glTranslatef(0.0, 0.0, C->carpa_faldon_alto +
 				C->carpa_techo_alto);
+		glPushMatrix(); /* 2 */
 		glRotatef(angulo_anim*3.0, 0.0, 0.0, 1.0);
+		glPushMatrix(); /* 3 */
 		glRotatef(45.0, 0.0, 1.0, 0.0);
 		glLightfv(GL_LIGHT1, GL_POSITION, foco_posicion);
 		glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, foco_direccion);
-		glPopMatrix();
-/*		glEnable(GL_LIGHT2);
-		glEnable(GL_LIGHT3);
-		glEnable(GL_LIGHT4); */
-		glEnable(GL_LIGHT5); 
+		glPopMatrix(); /* 3 */
+		glRotatef(-45.0, 0.0, 1.0, 0.0);
+		glLightfv(GL_LIGHT2, GL_POSITION, foco_posicion);
+		glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, foco_direccion);
+		glPopMatrix(); /* 2 */
+		glLightfv(GL_LIGHT3, GL_POSITION, foco_posicion);
+		glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, foco_direccion);
+		glPopMatrix(); /* 1 */
 		glLightfv(GL_LIGHT5, GL_POSITION, interior_posicion);
 	}
 }  /* }}} */

@@ -90,9 +90,10 @@ wdist: wdistclean changelog
 		perl -pi -e's/\n/\r\n/g' $$i; \
 	done; \
 	perl -pi -e's/\.c([^a-z])/.cpp$$1/g' IG1/Makefile; \
-	mkdir IG1/imagen; \
-	cp -v imagen/*.tga IG1/imagen; \
 	cp -vr wdist/* IG1; \
+	mv IG1/*.cfg IG1/Plimus_Circus; \
+	mkdir IG1/Plimus_Circus/imagen; \
+	cp -v imagen/*.tga IG1/Plimus_Circus/imagen; \
 	find IG1 -type d -name CVS -exec rm -r '{}' ';'; \
 	zip -r IG1.zip IG1
 
