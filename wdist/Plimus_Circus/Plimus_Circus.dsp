@@ -89,15 +89,15 @@ SOURCE=..\carpa.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\carpa_simple.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\circo.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\complementos.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\conf_keys.cpp
 # End Source File
 # Begin Source File
 
@@ -117,6 +117,10 @@ SOURCE=..\interaccion.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\suelo.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\textura.cpp
 # End Source File
 # End Group
@@ -126,6 +130,10 @@ SOURCE=..\textura.cpp
 # Begin Source File
 
 SOURCE=..\camaras.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\conf_keys.h
 # End Source File
 # Begin Source File
 
