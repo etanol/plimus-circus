@@ -27,7 +27,6 @@
 #include <string.h>
 
 #include "config.h"
-#include "conf_keys.c"
 
 #define GROW_STEP 4
 

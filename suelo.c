@@ -17,7 +17,7 @@
 /*
  * suelo.c
  *
- * Objetos para dibujar el suelo
+ * Objetos para dibujar el suelo.
  *
  * $Id$
  */

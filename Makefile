@@ -37,7 +37,7 @@ else
  STRIP  := -Wl,-s 
 endif
 
-join_obj = $(CC) $(CFLAGS) -Wl,-r -o $@ $^
+join_obj = $(LD) -r -o $@ $(filter-out %.h,$^)
 mk_obj   = $(CC) $(CFLAGS) -c -o $@ $(filter-out %.h,$^)
 mk_bingl = $(CC) $(CFLAGS) $(STRIP) -lGL -lGLU -lglut -o $@ $(filter-out %.h,$^)
 
@@ -48,31 +48,43 @@ test: $(tests)
 $(etapas): %: %.c
 	$(mk_bingl)
 
-circo: circo.o escena.o textura.o interaccion.o config.o $(piezas:%.c=%.o)
+circo: circo.o escena.o textura.o interaccion.o conf.o piezas.o 
 	$(mk_bingl)
 
-test_pieza: test_pieza.o config.o textura.o $(piezas:%.c=%.o)
+test_pieza: test_pieza.o conf.o textura.o piezas.o 
 	$(mk_bingl)
 
-test_config: test_config.o config.o
+test_config: test_config.o conf.o
 	$(CC) $(CFLAGS) $(STRIP) -o $@ $^
 
-#
-# Reglas específicas para los módulos
-#
+# Módulos compuestos
+conf.o: config.o conf_keys.o
+	$(join_obj)
+piezas.o: $(piezas:.c=.o)
+	$(join_obj)
+
+# Módulos auxiliares ;-)
 interaccion.o: interaccion.c interaccion.h camaras.h
 	$(mk_obj)
+config.o: config.c config.h 
+	$(mk_obj)
+conf_keys.o: conf_keys.c conf_keys.h
+	$(mk_obj)
+test_config.o: test_config.c config.h 
+	$(mk_obj)
+textura.o: textura.c textura.h
+	$(mk_obj)
+
+# Piezas
 escena.o: escena.c escena.h config.h conf_keys.h
 	$(mk_obj)
 carpa.o: carpa.c piezas.h config.h conf_keys.h
 	$(mk_obj)
 gradas.o: gradas.c piezas.h config.h conf_keys.h
 	$(mk_obj)
-config.o: config.c conf_keys.c config.h conf_keys.h
-	$(CC) $(CFLAGS) -c -o $@ $<
-test_config.o: test_config.c config.h 
+suelo.o: suelo.c piezas.h config.h conf_keys.h
 	$(mk_obj)
-textura.o: textura.c textura.h
+complementos.o: complementos.c piezas.h config.h conf_keys.h
 	$(mk_obj)
 
 .PHONY: clean wdist wdistclean changelog

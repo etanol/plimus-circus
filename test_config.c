@@ -14,6 +14,17 @@
  |                                                                             |
  +----------------------------------------------------------------------------*/
 
+/*
+ * test_config.c
+ *
+ * Pequeño test para verificar la carga correcta del fichero de configuración.
+ *
+ * $Id$
+ */
+
+#include <stdio.h>
+#include "config.h"
+
 const char *claves[10] = {
 	"carpa_lateral_radio",
 	"carpa_faldon_alto",
