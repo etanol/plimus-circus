@@ -91,7 +91,7 @@ Hoy en día, las técnicas de simulación por odenador han avanzado mucho en
  Gracias al avance tecnológico del hardware que permite realizar estas simulacio
 nes, ha surgido la necesidad de tener un estándar para desarrollar aplicaciones
  que puedan realizar simulaciones por ordenador.
- Como resultado de todo esto surgió OpengL, uno de los estándares más extendidos
+ Como resultado de todo esto surgió OpenGL, uno de los estándares más extendidos
  hoy en día que permiten a programadores y usuarios avanzados realizar aplicacio
 nes que incluyen cada vez más efectos 3D y escenas que son difíciles de
  distinguir sin son reales o generadas por ordenador.
@@ -115,8 +115,8 @@ circo
 \series default 
  en tres dimensiones, utilizando las técnicas y funciones que están descritas
  y soportadas por OpenGL.
- La mayoría de microprocesadores que forman las tarjetas gráficas de los
- ordenadores personales soportan este estándar; por lo cual, el código necesario
+ La mayoría de microprocesadores ensamblados en las tarjetas gráficas de
+ las computadoras soportan este estándar; por lo cual, el código necesario
  para desarrollar estas escenas virtuales, es portable a multitud de plataformas
  y sobre diferentes sistemas operativos, que van desde entornos 
 \emph on 
@@ -126,20 +126,6 @@ Unix
 \emph on 
 Windows
 \emph default 
-
-\begin_inset Foot
-collapsed true
-
-\layout Standard
-
-A partir de ahora y para evitar problemas de copyright, se empleará una
- palabra sustitua para ésta: 
-\emph on 
-Hasefroch
-\emph default 
-.
-\end_inset 
-
 , y arquitecturas como 
 \noun on 
 i386
@@ -171,37 +157,174 @@ circo
  en 3D dentro de una escena virtual.
 \layout Chapter
 
-Etapa 1: Generación del Workspace y primer programa en OpenGL
-\layout Section
+Etapa 1: Entorno de trabajo y primer programa en OpenGL
+\layout Standard
 
-Descripción
-\layout Section
+La primera etapa se compone de la creación de un pequeño programa ejemplo
+ para tener un primer contacto con OpenGL y familiarizarse con el entorno
+ de trabajo y la herramienta Visual C++, para la creación del código fuente,
+ que es la herramienta disponibles en los laboratorios de informática de
+ la universidad.
+ Llegados a este punto, y previa consulta con el personal docente sobre
+ la posibilidad de utilizar otras herramientas, los componentes de esta
+ práctica hemos decidido utilizar otras herramientas para la creación del
+ código fuente basadas en otra plataforma distinta a la de Windows.
+ Sin ánimo de entrar en polémica ni debate, y por diferentes motivos que
+ son ajenos al objetivo de este informe, se ha decidido utilizar otras herramien
+tas con las cuales, los desarrolladores de esta práctica están más familiarizado
+s.
+ Pasamos a enumerarlas brevemente:
+\layout List
+\labelwidthstring 00.00.0000
 
-Técnicas empleadas
+
+\series bold 
+Vim
+\series default 
+ Un potente editor de texto para entornos 
+\emph on 
+Unix
+\emph default 
+ y basado en consola.
+\layout List
+\labelwidthstring 00.00.0000
+
+
+\series bold 
+Make
+\series default 
+ Utilidad de línea de comandos para mantener grupos de programas.
+ Útil para automatizar y minimar las recompilaciones.
+\layout List
+\labelwidthstring 00.00.0000
+
+
+\series bold 
+CVS
+\series default 
+ Es un sistema de control de versiones, el cual permite mantener versiones
+ antiguas de ficheros (normalmente código fuente), mantener un log de quién,
+ cuando, y por qué se hicieron los cambios, etc.
+\layout List
+\labelwidthstring 00.00.0000
+
+
+\series bold 
+Cvs2cl
+\series default 
+ Un programa que genera un 
+\emph on 
+ChangeLog
+\emph default 
+ a partir de los 
+\emph on 
+logs
+\emph default 
+ que proporciona CVS.
+\layout List
+\labelwidthstring 00.00.0000
+
+
+\series bold 
+Gcc
+\series default 
+ El compilador de C del proyecto 
+\noun on 
+GNU
+\noun default 
+.
+\layout Standard
+
+El ejemplo propuesto está compuesto por una ventana de tamaño definido la
+ cual contiene tres polígonos que describen un triángulo, que a su vez,
+ en conjunto, forman un triángulo en dos dimensiones que va rotando sobre
+ un eje, con un difuminado de colores, puesto que en cada vértice de cada
+ triángulo se le asigna un color distinto y OpenGL los interpola para obtener
+ el color de cada punto que forma el triángulo.
+\layout Standard
+\added_space_top medskip 
+Dicho ejemplo está extraído directamente de la página web de uno de los
+ profesores y tomando como punto de partida dicho ejemplo, a través de las
+ diferentes etapas, iremos adaptando el código fuente al ejemplo concreto
+ de un circo 3D.
+\layout Standard
+\added_space_top medskip 
+Cabe destacar la utilización de las librerías GLUT para la creación de la
+ ventana, la gestión de los eventos, tanto de teclado como de ratón, y otra
+ funciones, de forma independiente de la plataforma.
 \layout Chapter
 
 Etapa 2: Doble buffer y escalado
-\layout Section
+\layout Standard
 
-Descripción
-\layout Section
+La segunda etapa consiste en la adaptación del ejemplo visto en la primera
+ etapa para resolver una pequeña carencia visual, como es evitar que se
+ vea cómo se repinta la escena cada vez.
+ Para ello simplemente basta con utilizar la función incluida en la librería
+ GLUT que permite la utilización de un doble buffer.
+ Dicha función es:
+\layout Standard
 
-Técnicas empleadas
+
+\begin_inset Formula \[
+glutSwapBuffers()\]
+
+\end_inset 
+
+
+\layout Standard
+\added_space_bottom medskip 
+La función 
+\begin_inset Formula $glutSwapBuffers$
+\end_inset 
+
+ es necesario invocarla cada vez que se dibuja la escena.
+ Por ello se incluye dentro de la función 
+\emph on 
+display
+\emph default 
+.
+ Aparte, está situada justo al final de dicha función para que una vez repintado
+ todos los objetos, se pueda invocar a esta función para la utilización
+ de otro buffer, para que mientras se está visualizando por pantalla el
+ contenido de dicho buffer, se pueda ir escribiendo la nueva escena en otro
+ buffer distinto.
+ Con esto se consigue evitar la sensación de parpadeo de la imagen y se
+ consigue una suavidad en el movimiento muy agradable a la vista.
+\layout Standard
+\added_space_bottom medskip 
+También se añade un polígono cuadrado en medio del triángulo formado por
+ tres triángulos más pequeños y una nueva funcionalidad.
+ Esta funcionalidad es el escalado de la escena dependiendo del tamaño de
+ la ventana, donde se mantiene la relación de aspecto.
+ Aunque se estire o se encoja la ventana, el triángulo, en este caso, sigue
+ manteniendo la relación entre la altura y la amplitud que tenía en un principio.
+\layout Standard
+
+Esto se implementa en la función 
+\emph on 
+
+\begin_inset Formula $Reshape$
+\end_inset 
+
+
+\emph default 
+ a la cual se le pasan los parámetros de ancho y alto que forman la ventana.
+ Aparte de esto, se centran los polígonos con respecto al ancho de la ventana,
+ en el caso de que la amplitud sea mayor a la altura, en número de píxeles.
+ En caso contrario, se centra con respecto a la altura.
 \layout Chapter
 
 Etapa 3: Escena 3D
-\layout Section
-
-Descripción
-\layout Section
-
-Técnicas empleadas
 \layout Section
 
 Comandos de teclado
 \layout Chapter
 
 Etapa 4: Movimiento de cámara
+\layout Standard
+
+interaccion.c
 \layout Section
 
 Descripción
@@ -211,9 +334,23 @@ Técnicas empleadas
 \layout Section
 
 Comandos de teclado
+\layout Standard
+
+y con la tecla w convertimos la luz direccional en luz posicional y viceversa
+ te digo todo esto para que conste en el informe a-z mueve en el eje X s-x
+ mueve en el eje y d-c mueve en el eje z parámetros configurables radio
+ de la esfera solar y nivel de detalle que la cámara se rota ahora con las
+ teclas hjku si te acuerdas, aparte del ratón, se podían usar las teclas
+ dfgr para girar la cámara (dfgr, dispuestas igual que las flechas) pues
+ como me pisa la tecla 'd' las he movido a hjku nótese la presencia de las
+ teclas con una rayita (eso que tiene los teclados para colocar los dedos
+ índice)
 \layout Chapter
 
 Etapa 5: Luces y materiales
+\layout Standard
+
+escena.c
 \layout Section
 
 Descripción
@@ -223,9 +360,19 @@ Técnicas empleadas
 \layout Section
 
 Comandos de teclado
+\layout Standard
+
+glPushAttrib, glPopAttrib, problemas con las luces debido a un fallo en
+ la implementación de las DRI por parte de los drivers de ATI para Linux.
 \layout Chapter
 
 Etapa 6: Shading
+\layout Standard
+
+escena.c
+\layout Standard
+
+interaccion.c
 \layout Section
 
 Descripción
@@ -241,47 +388,98 @@ Etapa 7: Realismo
 \layout Section
 
 Comandos de teclado
+\layout Standard
+
+interaccion.c
 \layout Section
 
 Texturas
-\layout Section
+\layout Standard
 
-Sombras
-\layout Section
-
-Efecto anti-aliasing
+texturas.c
 \layout Section
 
 Niebla
+\layout Standard
+
+escena.c
 \layout Section
 
-NURBS.
- Curvas de Bezier
+Evaluators y superficies de Bezier
+\layout Standard
+
+carpa.c
 \layout Section
 
 Varias fuentes de luz
+\layout Standard
+
+escena.c
 \layout Section
 
 Animación
-\layout Chapter
-
-Etapa 8: Opcional
 \layout Standard
 
-Rotación respecto un punto.
- Escalado respecto un punto.
- Transformaciones de shearing.
- Implementar una escena mediante Java3D.
+interaccion.c
+\layout Chapter
+
+Extras
 \layout Section
 
 Parametrización del circo
 \layout Section
 
 Displaylists
+\layout Section
+
+Vertex array
 \layout Chapter
 \start_of_appendix 
 Estructura del código fuente
 \layout Chapter
 
 Fuentes de información
+\layout Itemize
+
+OpenGL Programming guide v.1.2 (red book)
+\layout Itemize
+
+
+\begin_inset LatexCommand \htmlurl[Información general: ]{www.google.com}
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset LatexCommand \htmlurl[Ejemplos en OpenGL: ]{nehe.gamedev.net}
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset LatexCommand \htmlurl[Texturas: ]{texturator.de}
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset LatexCommand \htmlurl[Más texturas: ]{www.grsites.com/textures}
+
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset LatexCommand \htmlurl[Información sobre la práctica: ]{dmi.uib.es/~josemaria}
+
+\end_inset 
+
+
 \the_end
