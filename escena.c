@@ -81,6 +81,8 @@ static void cielo(void)
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
+	glPushMatrix();
+	glLoadIdentity();
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0 + desp_cielo_h, 0.0 + desp_cielo_v);
 	glVertex3f(-1.0, -1.0, 0.0);
@@ -91,13 +93,13 @@ static void cielo(void)
 	glTexCoord2f(1.0 + desp_cielo_h, 0.0 + desp_cielo_v);
 	glVertex3f(1.0, -1.0, 0.0);
 	glEnd();
+	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
-
 }  /* }}} */
 
 
@@ -106,15 +108,15 @@ static void init_luces(void)
 	float sol_ambiente[4]  = {0.5, 0.5, 0.5, 1.0};
 	float sol_difusa[4]    = {1.0, 1.0, 1.0, 1.0};
 	float sol_especular[4] = {0.5, 0.5, 0.5, 1.0};
-	float foco_ambiente[4]   = {0.6, 0.6, 0.6, 1.0};
+	float foco_ambiente[4]   = {1.0, 1.0, 1.0, 1.0};
 	float foco_difusa[4]     = {1.0, 1.0, 1.0, 1.0};
 	float foco_especular[4]  = {1.0, 1.0, 1.0, 1.0};
 	float foco_atenuacion[3] = {0.8, 0.5, 0.0};
-	float foco_apertura      = 45.0;
-	float foco_exponente     = 20.0;
-	float interior_ambiente[4]  = {0.0, 0.0, 0.0, 1.0}; 
-	float interior_difusa[4]    = {0.2, 0.2, 0.2, 1.0};
-	float interior_especular[4] = {0.0, 0.0, 0.0, 1.0};
+	float foco_apertura      = 30.0;
+	float foco_exponente     = 5.0;
+	float interior_ambiente[4]  = {0.2, 0.2, 0.2, 1.0}; 
+	float interior_difusa[4]    = {0.8, 0.8, 0.8, 1.0};
+	float interior_especular[4] = {0.2, 0.2, 0.2, 1.0};
 
 	/* Luz solar */
 	glLightfv(GL_LIGHT0, GL_AMBIENT, sol_ambiente);
@@ -165,9 +167,9 @@ static void init_luces(void)
 	glLightfv(GL_LIGHT5, GL_AMBIENT, interior_ambiente);
 	glLightfv(GL_LIGHT5, GL_DIFFUSE, interior_difusa);
 	glLightfv(GL_LIGHT5, GL_SPECULAR, interior_especular);
-	glLightf (GL_LIGHT5, GL_CONSTANT_ATTENUATION, 1.0);
+	glLightf (GL_LIGHT5, GL_CONSTANT_ATTENUATION, 0.0);
 	glLightf (GL_LIGHT5, GL_LINEAR_ATTENUATION, 0.0);
-	glLightf (GL_LIGHT5, GL_QUADRATIC_ATTENUATION, 0.0);
+	glLightf (GL_LIGHT5, GL_QUADRATIC_ATTENUATION, 0.1);
 	glLightf (GL_LIGHT5, GL_SPOT_CUTOFF, 180.0);
 }  /* }}} */
 
@@ -207,8 +209,10 @@ static void escena(void)
 {   /* {{{ */
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-/*	glBindTexture(GL_TEXTURE_2D, T->cielo);
-	cielo(); */
+	if (modo_exterior) {
+		glBindTexture(GL_TEXTURE_2D, T->cielo);
+		cielo(); 
+	}
 	actualiza_camara();
 	/*
 	 * Ya que se dibuja todo visto desde arriba (como si se dibujara en

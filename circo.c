@@ -27,14 +27,14 @@
 #ifdef THIS_IS_UNIX
 #define TEXTURA_SUELO_EXTERIOR "imagen/cesped1.tga"
 #define TEXTURA_SUELO_INTERIOR "imagen/suelo2.tga"
-#define TEXTURA_CIELO "imagen/cielo3.tga"
+#define TEXTURA_CIELO "imagen/cielo2.tga"
 #define TEXTURA_ARENA "imagen/arena3.tga"
 #define TEXTURA_GRADA "imagen/madera1.tga"
 #define TEXTURA_PLIMUS "imagen/plimus.tga"
 #else
 #define TEXTURA_SUELO_EXTERIOR "imagen\\cesped1.tga"
 #define TEXTURA_SUELO_INTERIOR "imagen\\suelo2.tga"
-#define TEXTURA_CIELO "imagen\\cielo1.tga"
+#define TEXTURA_CIELO "imagen\\cielo2.tga"
 #define TEXTURA_ARENA "imagen\\arena3.tga"
 #define TEXTURA_GRADA "imagen\\madera1.tga"
 #define TEXTURA_PLIMUS "imagen\\plimus.tga"

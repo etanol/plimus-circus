@@ -153,7 +153,7 @@ static void giro_camara(float sentido, enum tipo_de_giro g)
 			return;
 	}
 	*angulo += ROTACION * sentido;
-	*despl  += 0.1 * sentido;
+	*despl  += 0.05 * (g == HORIZONTAL ? -sentido : sentido);
 	if (*angulo < -360.0)
 		*angulo += 360.0;
 	else if (*angulo > 360.0)
