@@ -1,0 +1,154 @@
+#LyX 1.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 221
+\textclass book
+\begin_preamble
+\usepackage{times}
+\usepackage{moreverb}
+\usepackage[dvips]{graphicx}
+\usepackage{fancyhdr}
+\renewcommand{\chaptermark}[1]{markboth{#1}{}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,LO]{\nouppercase{\leftmark}}
+\fancyhead[RE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\end_preamble
+\language spanish
+\inputencoding auto
+\fontscheme times
+\graphics default
+\paperfontsize default
+\spacing single 
+\papersize a4paper
+\paperpackage widemarginsa4
+\use_geometry 0
+\use_amsmath 0
+\use_natbib 0
+\use_numerical_citations 0
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\quotes_times 2
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+
+\layout Title
+
+
+\noun on 
+Plimus Circus
+\layout Author
+
+
+\emph on 
+Isaac Jurado Peinado
+\newline 
+Esteban Martínez Tristancho
+\emph default 
+
+\newline 
+
+\emph on 
+
+\newline 
+
+\newline 
+
+\emph default 
+Informática Gráfica I
+\newline 
+
+\newline 
+Profesores:
+\emph on 
+
+\newline 
+Jose María Buades Rubio
+\newline 
+María José Abásolo Guerrero
+\newline 
+
+\layout Standard
+
+
+\begin_inset LatexCommand \tableofcontents{}
+
+\end_inset 
+
+
+\layout Chapter
+
+Etapa 1: Generación del Workspace y primer programa en OpenGL.
+\layout Standard
+
+Como podemos observar en la figura, podemos dividir la estructura de los
+ procesos en tres grandes grupos: los procesos pertenecientes a la simulación,
+ los que forman y gestionan el sistema de ficheros y los diferentes clientes
+ interactivos.
+\layout Section
+
+Descripción.
+\layout Chapter
+
+Etapa 2: Doble buffer y escalado
+\layout Chapter
+
+Etapa 3: Escena 3D
+\layout Chapter
+
+Etapa 4: Movimiento de Cámara
+\layout Chapter
+
+Etapa 5: Luces y Materiales
+\layout Chapter
+
+Etapa 6: Shading
+\layout Chapter
+
+Etapa 7: Realismo
+\layout Section
+
+Texturas.
+\layout Section
+
+Sombras.
+\layout Section
+
+Efecto anti-aliasing.
+\layout Section
+
+Niebla.
+\layout Section
+
+NURBS.
+ Curvas de Bezier.
+\layout Section
+
+Varias fuentes de luz.
+\layout Chapter
+
+Etapa 8: Opcional
+\layout Standard
+
+Rotación respecto un punto.
+ Escalado respecto un punto.
+ Transformaciones de shearing.
+ Implementar una escena mediante Java3D.
+\layout Section
+
+Parametrización del circo.
+\layout Section
+
+Displaylists.
+\layout Chapter
+\start_of_appendix 
+Estructura del código fuente
+\layout Chapter
+
+Fuentes de información
+\the_end
