@@ -33,14 +33,14 @@
  * trasladar los objetos según deseen.
  */
 
-void faldon_frontal(float longitud, float altura)
+void faldon_frontal(float altura, float longitud)
 {
 	glColor3f(0.8, 0.8, 0.0);
 	glNormal3f(0.0, 1.0, 0.0);
 	glBegin(GL_QUADS);
 	glVertex3f(-(longitud/2), 0.0, 0.0);
-	glVertex3f(-(longitud/2), 0.0, -altura);
-	glVertex3f(longitud/2, 0.0, -altura);
+	glVertex3f(-(longitud/2), 0.0, altura);
+	glVertex3f(longitud/2, 0.0, altura);
 	glVertex3f(longitud/2, 0.0, 0.0);
 	glEnd();
 }	
@@ -65,9 +65,9 @@ void faldon_lateral(float radio, float altura, int num_caras)
 		glBegin(GL_POLYGON);
 		glNormal3f(0.0, 1.0, 0.0);
 		glVertex3f(0.0, radio, 0.0);
-		glVertex3f(0.0, radio, -altura);
+		glVertex3f(0.0, radio, altura);
 		glNormal3f(sin_angulo, cos_angulo, 0.0);
-		glVertex3f(x, y, -altura);
+		glVertex3f(x, y, altura);
 		glVertex3f(x, y, 0.0);
 		glEnd();
 		glPopMatrix();
@@ -75,7 +75,7 @@ void faldon_lateral(float radio, float altura, int num_caras)
 }
 
 
-void techo_lateral(float altura, float radio, int num_caras)
+void techo_lateral(float radio, float altura, int num_caras)
 {
 	float angulo_grad, angulo_rad;
 	float cos_angulo, sin_angulo, r_cos_angulo, r_sin_angulo;
