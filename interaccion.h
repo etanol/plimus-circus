@@ -29,7 +29,9 @@
 
 #include "config.h"
 
-extern int modo_exterior;
+extern int   modo_exterior;
+extern float desp_cielo_h;
+extern float desp_cielo_v;
 
 extern void init_interaccion(struct config *);
 extern void actualiza_camara(void);

@@ -64,7 +64,7 @@ int crear_poste(struct config *c)
 }  /* }}} */
 
 
-int crear_suelo(struct config *c)
+int crear_suelo_exterior(struct config *c)
 {  /* {{{ */
 	int lista;
 	float limites[4][3] = {
@@ -77,6 +77,53 @@ int crear_suelo(struct config *c)
 		{0.0, c->suelo_lado*2},
 		{c->suelo_lado*2, 0.0},
 		{c->suelo_lado*2, c->suelo_lado*2}};
+
+	lista = glGenLists(1);
+	if (lista == 0)
+		return 0;
+	glNewList(lista, GL_COMPILE);
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_MAP2_VERTEX_3);
+	glEnable(GL_MAP2_TEXTURE_COORD_2);
+	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 6, 2, 0.0, 1.0, 3, 2, limites[0]);
+	glMap2f(GL_MAP2_TEXTURE_COORD_2, 0.0, 1.0, 2, 2, 0.0, 1.0, 4, 2,
+			textura[0]);
+	glMapGrid2f(c->suelo_detalle, 0.0, 1.0, c->suelo_detalle, 0.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
+	glNormal3f(0.0, 0.0, 1.0);
+	glEvalMesh2(GL_FILL, 0, c->suelo_detalle, 0, c->suelo_detalle);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_MAP2_TEXTURE_COORD_2);
+	glEndList();
+
+	glNewList(lista+1, GL_COMPILE);
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_MAP2_VERTEX_3);
+	glEnable(GL_MAP2_TEXTURE_COORD_2);
+	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 6, 2, 0.0, 1.0, 3, 2, limites[0]);
+	glMap2f(GL_MAP2_TEXTURE_COORD_2, 0.0, 1.0, 2, 2, 0.0, 1.0, 4, 2,
+			textura[0]);
+	glMapGrid2f(c->suelo_detalle, 0.0, 1.0, c->suelo_detalle, 0.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
+	glNormal3f(0.0, 0.0, 1.0);
+	glEvalMesh2(GL_FILL, 0, c->suelo_detalle, 0, c->suelo_detalle);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_MAP2_TEXTURE_COORD_2);
+	glEndList();
+	return lista;
+}  /* }}} */
+
+
+int crear_suelo_interior(struct config *c)
+{  /* {{{ */
+	int lista;
+	float x = (c->carpa_frontal_ancho / 2.0) + c->carpa_lateral_radio;
+	float y = c->carpa_lateral_radio;
+	float limites[4][3] = {
+		{-x, -y, 0.0}, {-x, y, 0.0}, {x, -y, 0.0}, {x, y, 0.0}};
+	float textura[4][2] = {{0.0, 0.0}, {0.0, y*2}, {x*2, 0.0}, {x*2, y*2}};
 
 	lista = glGenLists(1);
 	if (lista == 0)

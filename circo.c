@@ -26,11 +26,15 @@
 #define FICHERO_CONFIG "medidas_circo.cfg"
 #ifdef THIS_IS_UNIX
 #define TEXTURA_SUELO_EXTERIOR "imagen/cesped1.tga"
+#define TEXTURA_SUELO_INTERIOR "imagen/suelo2.tga"
+#define TEXTURA_CIELO "imagen/cielo3.tga"
 #define TEXTURA_ARENA "imagen/arena3.tga"
 #define TEXTURA_GRADA "imagen/madera1.tga"
 #define TEXTURA_PLIMUS "imagen/plimus.tga"
 #else
 #define TEXTURA_SUELO_EXTERIOR "imagen\\cesped1.tga"
+#define TEXTURA_SUELO_INTERIOR "imagen\\suelo2.tga"
+#define TEXTURA_CIELO "imagen\\cielo1.tga"
 #define TEXTURA_ARENA "imagen\\arena3.tga"
 #define TEXTURA_GRADA "imagen\\madera1.tga"
 #define TEXTURA_PLIMUS "imagen\\plimus.tga"
@@ -60,10 +64,13 @@ int main(int argc, char **argv)
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("Plimus Circus");
-	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
 	/* Ahora que ya tenemos inicializado OpenGL, cargamos las texturas */
 	texes.suelo_exterior = cargar_textura(TEXTURA_SUELO_EXTERIOR);
+	texes.suelo_interior = cargar_textura(TEXTURA_SUELO_INTERIOR);
+	texes.cielo          = cargar_textura(TEXTURA_CIELO);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	texes.arena          = cargar_textura(TEXTURA_ARENA);
 	texes.grada          = cargar_textura(TEXTURA_GRADA);
 	texes.plimus         = cargar_textura(TEXTURA_PLIMUS);

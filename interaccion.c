@@ -46,6 +46,8 @@
 enum tipo_de_giro {HORIZONTAL, VERTICAL};
 
 int modo_exterior;
+float desp_cielo_h = 0.0;
+float desp_cielo_v = 0.0;
 
 static struct config *C;
 static float angulo_h = 0.0; /* Ángulo de rotación horizontal */
@@ -135,23 +137,31 @@ static void paso_lateral(float sentido)
 static void giro_camara(float sentido, enum tipo_de_giro g)
 {  /* {{{ */
 	float *angulo;
+	float *despl;
 
 	switch (g) {
 		case VERTICAL: 
 			angulo = &angulo_v;
+			despl  = &desp_cielo_v;
 			break;
 		case HORIZONTAL:
 			angulo = &angulo_h;
+			despl  = &desp_cielo_h;
 			break;
 		default:
 			angulo = NULL;
 			return;
 	}
 	*angulo += ROTACION * sentido;
+	*despl  += 0.1 * sentido;
 	if (*angulo < -360.0)
 		*angulo += 360.0;
 	else if (*angulo > 360.0)
 		*angulo -= 360.0;
+	if (*despl < 0.0)
+		*despl += 1.0;
+	else if (*despl > 1.0)
+		*despl -= 1.0;
 }  /* }}} */
 
 
@@ -271,11 +281,43 @@ static void raton(int x, int y)
 }  /* }}} */
 
 
+static void menu(int valor)
+{  /* {{{ */
+	static int light_flag = 1;
+	static int smooth_flag = 1;
+	static int animation_flag = 1;
+
+	switch (valor) {
+		case 0:
+			if (light_flag)
+				glDisable(GL_LIGHTING);
+			else
+				glEnable(GL_LIGHTING);
+			light_flag = !light_flag;
+			break;
+		case 1:
+			if (smooth_flag)
+				glShadeModel(GL_FLAT);
+			else
+				glShadeModel(GL_SMOOTH);
+			smooth_flag = !smooth_flag;
+			break;
+		case 2:
+			break;
+	}
+}  /* }}} */
+
+
 void init_interaccion(struct config *conf)
 {  /* {{{ */
 	C = conf;
 	glutKeyboardFunc(teclado);
 	glutSpecialFunc(teclado_especial);
 	glutMotionFunc(raton);
+	glutCreateMenu(menu);
+	glutAddMenuEntry("Activar/Desactivar iluminación.", 0);
+	glutAddMenuEntry("Modelo de shading FLAT/SMOOTH.", 1);
+	glutAddMenuEntry("Activar/Desactivar animación.", 2);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	comprueba_situacion(VERTICAL);
 }  /* }}} */
