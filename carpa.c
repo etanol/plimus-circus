@@ -85,8 +85,11 @@ int crear_faldon_frontal(config_t c)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	glBindTexture(GL_TEXTURE_2D, carpa_textura);
+	glPushMatrix();
+	glTranslatef(0.0, valor_decimal(c, c_l_radio), 0.0);
 	evaluator(control[0][0], texcoord, valor_entero(c, c_detv),
 			valor_entero(c, c_deth), 1);
+	glPopMatrix();
 	glEndList();
 	return lista;
 }  /* }}} */
@@ -121,8 +124,11 @@ int crear_faldon_lateral(config_t c)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	glBindTexture(GL_TEXTURE_2D, carpa_textura);
+	glPushMatrix();
+	glTranslatef(valor_decimal(c, c_fr_ancho) / 2.0, 0.0, 0.0);
 	evaluator(control[0][0], texcoord, valor_entero(c, c_detv),
 			valor_entero(c, c_deth), 1);
+	glPopMatrix();
 	glEndList();
 	return lista;
 }  /* }}} */
@@ -159,8 +165,11 @@ int crear_techo_frontal(config_t c)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	glBindTexture(GL_TEXTURE_2D, carpa_textura);
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, valor_decimal(c, c_f_alto));
 	evaluator(control[0][0], texcoord, valor_entero(c, c_deth),
 			valor_entero(c, c_detv), 0);
+	glPopMatrix();
 	glEndList();
 	return lista;
 }  /* }}} */
@@ -195,8 +204,12 @@ int crear_techo_lateral(config_t c)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	glBindTexture(GL_TEXTURE_2D, carpa_textura);
+	glPushMatrix();
+	glTranslatef(valor_decimal(c, c_fr_ancho) / 2.0, 0.0,
+			valor_decimal(c, c_f_alto));
 	evaluator(control[0][0], texcoord, valor_entero(c, c_deth),
 			valor_entero(c, c_detv), 0);
+	glPopMatrix();
 	glEndList();
 	return lista;
 }  /* }}} */
@@ -223,6 +236,8 @@ int crear_entrada(config_t c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
+	glPushMatrix(); /* 1 */
+	glTranslatef(0.0, -valor_decimal(c, c_l_radio), 0.0);
 	glColor3f(0.8, 0.8, 0.0);
 	glDisable(GL_TEXTURE_2D);
 	/* Laterales de la entrada */
@@ -264,7 +279,6 @@ int crear_entrada(config_t c)
 	glTexCoord2f(1.0, talto); glVertex3f(radio, largo, alto);
 	glTexCoord2f(0.0, talto); glVertex3f(-radio, largo, alto);
 	glEnd();
-	glPushMatrix();
 	glTranslatef(0.0, 0.0, alto);
 	txo = 1.0; tyo = talto;
 	for (i = 0; i < caras; ++i) {
@@ -282,7 +296,7 @@ int crear_entrada(config_t c)
 		txo = tx;
 		tyo = ty;
 	}
-	glPopMatrix();
+	glPopMatrix();  /* 1 */
 	glEndList();
 	return lista;
 }  /* }}} */

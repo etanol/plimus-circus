@@ -62,8 +62,7 @@ static int
 static config_t C;
 
 /* Muy muy privado */
-static float Le_cfra, Le_cfra2, Le_clr, Le_cfa, Le_gsl, Le_gss, Le_pr, Le_calt,
-	Le_crtsep;
+static float Le_cfra2, Le_clr, Le_calt, Le_crtsep;
 static float Le_fov, Le_znear, Le_zfar, Le_fang;
 
 
@@ -248,58 +247,36 @@ static void escena(void)
 	luces_niebla();
 
 	/* Postes */
-	glPushMatrix();
-	glTranslatef(Le_cfra2, 0.0, 0.0);
 	glCallList(poste);
-	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(-Le_cfra2, 0.0, 0.0);
+	glScalef(-1.0, 1.0, 1.0);
 	glCallList(poste);
 	glPopMatrix();
 	if (modo_exterior) {
 		/* Suelo */
 		glCallList(suelo_exterior);
 		/* Carpa */
-		glPushMatrix();
-		glTranslatef(0.0, Le_clr, 0.0);
 		glCallList(faldon_frontal);
-		glPopMatrix();
 		glPushMatrix();
 		glScalef(1.0, -1.0, 1.0);
-		glTranslatef(0.0, Le_clr, 0.0);
 		glCallList(faldon_frontal);
 		glPopMatrix();
-		glPushMatrix();
-		glTranslatef(Le_cfra2, 0.0, 0.0);
 		glCallList(faldon_lateral);
-		glPopMatrix();
 		glPushMatrix();
 		glScalef(-1.0, 1.0, 1.0);
-		glTranslatef(Le_cfra2, 0.0, 0.0);
 		glCallList(faldon_lateral);
 		glPopMatrix();
-		glPushMatrix();
-		glTranslatef(0.0, 0.0, Le_cfa);
 		glCallList(techo_frontal);
-		glPopMatrix();
 		glPushMatrix();
 		glScalef(1.0, -1.0, 1.0);
-		glTranslatef(0.0, 0.0, Le_cfa);
 		glCallList(techo_frontal);
 		glPopMatrix();
-		glPushMatrix();
-		glTranslatef(Le_cfra2, 0.0, Le_cfa);
 		glCallList(techo_lateral);
-		glPopMatrix();
 		glPushMatrix();
 		glScalef(-1.0, 1.0, 1.0);
-		glTranslatef(Le_cfra2, 0.0, Le_cfa);
 		glCallList(techo_lateral);
 		glPopMatrix();
-		glPushMatrix();
-		glTranslatef(0.0, -Le_clr, 0.0);
 		glCallList(entrada_carpa);
-		glPopMatrix();
 		/* Cartel */
 		glPushMatrix();
 		glTranslatef(-(Le_cfra2 + Le_clr), -(Le_clr + Le_crtsep), 0.0);
@@ -346,44 +323,28 @@ static void escena(void)
 		/* Bola y tablón */
 		glCallList(tablon);
 		/* Bancos pa los tigretones */
-		{
-			float x = (Le_cfra2 - Le_pr - 0.1) / 2.0;
-			float y = (Le_clr - Le_gsl - Le_gss - 0.5) / 2.0;
-
-			glPushMatrix();
-			glTranslatef(x, y, 0.0);
-			glCallList(banqueta);
-			glPopMatrix();
-			glPushMatrix();
-			glTranslatef(-x, y, 0.0);
-			glCallList(banqueta);
-			glPopMatrix();
-			glPushMatrix();
-			glTranslatef(-x, -y, 0.0);
-			glCallList(banqueta);
-			glPopMatrix();
-			glPushMatrix();
-			glTranslatef(x, -y, 0.0);
-			glCallList(banqueta);
-			glPopMatrix();
-		}
-		/* Gradas */
+		glCallList(banqueta);
 		glPushMatrix();
-		glTranslatef(0.0, Le_clr - Le_gsl - Le_gss, 0.0);
-		glCallList(grada_frontal);
+		glScalef(-1.0, 1.0, 1.0);
+		glCallList(banqueta);
+		glPopMatrix();
+		glPushMatrix();
+		glScalef(-1.0, -1.0, 1.0);
+		glCallList(banqueta);
 		glPopMatrix();
 		glPushMatrix();
 		glScalef(1.0, -1.0, 1.0);
-		glTranslatef(0.0, Le_clr - Le_gsl - Le_gss, 0.0);
+		glCallList(banqueta);
+		glPopMatrix();
+		/* Gradas */
+		glCallList(grada_frontal);
+		glPushMatrix();
+		glScalef(1.0, -1.0, 1.0);
 		glCallList(grada_frontal);
 		glPopMatrix();
-		glPushMatrix();
-		glTranslatef(Le_cfra2, 0.0, 0.0);
 		glCallList(grada_lateral);
-		glPopMatrix();
 		glPushMatrix();
 		glScalef(-1.0, 1.0, 1.0);
-		glTranslatef(Le_cfra2, 0.0, 0.0);
 		glCallList(grada_lateral);
 		glPopMatrix();
 	}
@@ -398,14 +359,9 @@ void init_escena(config_t cfg)
 
 	/* Copiamos valores de la configuración localmente para ahorrarnos
 	 * algunas consultas */
-	Le_cfra   = valor_decimal(C, c_fr_ancho);
-	Le_cfra2  = Le_cfra / 2.0;
+	Le_cfra2  = valor_decimal(C, c_fr_ancho) / 2.0;
 	Le_clr    = valor_decimal(C, c_l_radio);
-	Le_cfa    = valor_decimal(C, c_f_alto);
-	Le_calt   = Le_cfa + valor_decimal(C, c_t_alto);
-	Le_gsl    = valor_decimal(C, gs_largo);
-	Le_gss    = valor_decimal(C, gs_sep);
-	Le_pr     = valor_decimal(C, p_radio);
+	Le_calt   = valor_decimal(C, c_f_alto) + valor_decimal(C, c_t_alto);
 	Le_crtsep = valor_decimal(C, crt_sep);
 	Le_fov    = valor_decimal(C, c_fov);
 	Le_znear  = valor_decimal(C, c_znear);

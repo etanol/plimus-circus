@@ -99,6 +99,9 @@ int crear_grada_frontal(config_t c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
+	glPushMatrix();
+	glTranslatef(0.0, valor_decimal(c, c_l_radio) - valor_decimal(c, gs_sep)
+			- valor_decimal(c, gs_largo), 0.0);
 	/* Laterales */
 	glDisable(GL_TEXTURE_2D);
 	glColor3fv(color_lateral);
@@ -126,7 +129,6 @@ int crear_grada_frontal(config_t c)
 	glVertexPointer(3, GL_FLOAT, 0, escalon);
 	glTexCoordPointer(2, GL_FLOAT, 0, texcoord);
 	glColor3f(1.0, 1.0, 1.0);
-	glPushMatrix();
 	glTranslatef(-x, 0.0, 0.0);
 	for (i = 0; i < gesc; ++i) {
 		glPushMatrix();
@@ -170,6 +172,8 @@ int crear_grada_lateral(config_t c)
 		return 0;
 
 	glNewList(lista, GL_COMPILE);
+	glPushMatrix();
+	glTranslatef(valor_decimal(c, c_fr_ancho) / 2.0, 0.0, 0.0);
 	/* Laterales */
 	glDisable(GL_TEXTURE_2D);
 	glNormal3f(-1.0, 0.0, 0.0);
@@ -228,6 +232,7 @@ int crear_grada_lateral(config_t c)
 		glEnd();
 		glPopMatrix();
 	}
+	glPopMatrix();
 	glEndList();
 	return lista;
 }  /* }}} */

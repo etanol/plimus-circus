@@ -52,17 +52,18 @@ int crear_poste(config_t c)
 	gluQuadricNormals(cilindro, GLU_SMOOTH);
 	glNewList(lista, GL_COMPILE);
 	glDisable(GL_TEXTURE_2D);
+	glPushMatrix();
+	glTranslatef(valor_decimal(c, c_fr_ancho) / 2.0, 0.0, 0.0);
 	glColor3f(0.7, 0.7, 0.7);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, brillo); 
 	glMaterialf(GL_FRONT, GL_SHININESS, valor_decimal(c, p_brillo));
 	gluCylinder(cilindro, pradio, pradio, altura, valor_entero(c, p_deth),
 			valor_entero(c, p_detv));
-	glPushMatrix();
 	glTranslatef(0.0, 0.0, altura);
 	gluDisk(cilindro, 0, pradio, valor_entero(c, p_deth), 1);
-	glPopMatrix();
 	glMaterialfv(GL_FRONT, GL_SPECULAR, inicial); 
 	glMaterialf(GL_FRONT, GL_SHININESS, 0.0);
+	glPopMatrix();
 	glEnable(GL_TEXTURE_2D);
 	glEndList();
 	gluDeleteQuadric(cilindro);
@@ -73,11 +74,17 @@ int crear_poste(config_t c)
 int crear_banqueta(config_t c)
 {  /* {{{ */
 	int lista, textura;
+	float xpos, ypos;
 	float alto = valor_decimal(c, b_alto);
 	float rm = valor_decimal(c, b_rmen);
 	int  det = valor_entero(c, b_det);
 	GLUquadric *cilindro;
 	
+	xpos = ((valor_decimal(c, c_fr_ancho)/2.0) - valor_decimal(c, p_radio) -
+			valor_decimal(c, sa_psep)) / 2.0;
+	ypos = (valor_decimal(c, c_l_radio) - valor_decimal(c, gs_largo) -
+			valor_decimal(c, gs_sep) - valor_decimal(c, sa_gsep)) /
+			2.0;
 	textura = cargar_textura(c, valor_cadena(c, b_tex));
 	lista = glGenLists(1);
 	if (lista == 0)
@@ -89,9 +96,10 @@ int crear_banqueta(config_t c)
 	gluQuadricTexture(cilindro, GL_TRUE);
 	glNewList(lista, GL_COMPILE);
 	glDisable(GL_TEXTURE_2D);
+	glPushMatrix();
+	glTranslatef(xpos, ypos, 0.0);
 	glColor3f(0.6, 0.6, 1.0);
 	gluCylinder(cilindro, valor_decimal(c, b_rmay), rm, alto, det, 1);
-	glPushMatrix();
 	glTranslatef(0.0, 0.0, alto);
 	glColor3f(1.0, 1.0, 1.0);
 	glEnable(GL_TEXTURE_2D);

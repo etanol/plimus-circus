@@ -60,7 +60,7 @@ static float camara_z = 0.0;
 static config_t C;
        int light_flag      = 1; /* Flags manipulados por el menú */
 static int smooth_flag     = 1;
-static int animation_flag  = 1;
+static int animation_flag  = 0;
 static int fullscreen_flag = 0;
        int fog_flag        = 1; /* La niebla la controla escena.c, exportar */
 
@@ -411,6 +411,7 @@ void init_interaccion(config_t conf)
 {  /* {{{ */
 	C = conf;
 
+	/* Cacheamos algunas consultas (ver init_escena() en escena.c) */
 	Li_cfa   = valor_decimal(C, c_f_alto);
 	Li_cta   = valor_decimal(C, c_t_alto);
 	Li_clr   = valor_decimal(C, c_l_radio);
@@ -436,7 +437,7 @@ void init_interaccion(config_t conf)
 	glutAddMenuEntry(m_disable[0], 0);
 	glutAddMenuEntry(m_disable[1], 1);
 	glutAddMenuEntry(m_disable[2], 2);
-	glutAddMenuEntry(m_disable[3], 3);
+	glutAddMenuEntry(m_enable[3], 3);
 	glutAddMenuEntry("Resetear animación", 4);
 	glutAddMenuEntry(m_enable[4], 5);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
