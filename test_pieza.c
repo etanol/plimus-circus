@@ -26,6 +26,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -74,7 +75,7 @@ void display(void)
 	glLoadIdentity();
 	glRotatef(r_horizontal, 0.0, 1.0, 0.0);
 	glRotatef(r_vertical, 1.0, 0.0, 0.0);
-	faldon_lateral(3.0, 3.0, 30);
+	techo_lateral(3.0, 3.0, 30);
 	glutSwapBuffers();
 }
 
@@ -83,12 +84,12 @@ int main(int argc, char **argv)
 {
 
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
 	glutInitWindowSize(700, 700);
 	glutInitWindowPosition(50, 50);
 	glutCreateWindow("Test de fichas.");
 
-	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
