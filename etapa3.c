@@ -6,8 +6,8 @@
  |                                G R Á F I C A                                |
  |                                                                             |
  |                                                                             |
- |       Alumnos : Esteban Martínez Tristancho (estebanmartinez@ono.com)       |
- |                 Isaac Jurado Peinado (etanol@telefonica.net)                |
+ |       Alumnos : Isaac Jurado Peinado        (etanol@telefonica.net)         |
+ |                 Esteban Martínez Tristancho (estebanmartinez@ono.com)       |
  |       Estudios: Ingeniería Técnica en Informática de Gestión (TIG2)         |
  |       Curso   : 2003/2004                                                   |
  |       Facultad: Universitat de les Illes Balears (UIB)                      |
@@ -24,16 +24,16 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-// Tamaño incial de la ventana
+/* Tamaño incial de la ventana */
 const int W_WIDTH = 500;
 const int W_HEIGHT = 500;
 
-// Variable que indica el ángulo de rotación de los ejes.
+/* Variable que indica el ángulo de rotación de los ejes. */
 GLfloat fAngulo;
 
 void Display (void)
 {
-	// Borramos la escena
+	/* Borramos la escena */
 	glClear (GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	glPushMatrix();
@@ -53,12 +53,12 @@ void Display (void)
 
 void Rota(unsigned char c, int x, int y)
 {
-	// Incrementamos el ángulo
+	/* Incrementamos el ángulo */
 	fAngulo += 0.3f;
-	// Si es mayor que dos pi la decrementamos
+	/* Si es mayor que dos pi la decrementamos */
 	if (fAngulo > 360)
 		fAngulo -= 360;
-	// Indicamos que es necesario repintar la pantalla
+	/* Indicamos que es necesario repintar la pantalla */
 	glutPostRedisplay();
 }
 
@@ -89,27 +89,27 @@ void Reshape(int ancho, int alto)
 
 int main(int argc, char **argv)
 {
-	// Inicializamos la librería GLUT
+	/* Inicializamos la librería GLUT */
 	glutInit (&argc, argv);
 
-	// Indicamos como ha de ser la nueva ventana
+	/* Indicamos como ha de ser la nueva ventana */
 	glutInitWindowPosition (100,100);
 	glutInitWindowSize(W_WIDTH, W_HEIGHT);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 
-	// Creamos la nueva ventana
+	/* Creamos la nueva ventana */
 	glutCreateWindow("Ventana principal");
 
-	// Indicamos cuales son las funciones de redibujado e idle
+	/* Indicamos cuales son las funciones de redibujado e idle */
 	glutDisplayFunc(Display);
 	glutKeyboardFunc(Rota);
 	glutReshapeFunc(Reshape);
 
 	glEnable(GL_DEPTH_TEST);
-	// El color de fondo será el blanco (RGBA, RGB + Alpha channel)
+	/* El color de fondo será el blanco (RGBA, RGB + Alpha channel) */
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-	// Comienza la ejecución del core de GLUT
+	/* Comienza la ejecución del core de GLUT */
 	glutMainLoop();
 	return 0;
 }

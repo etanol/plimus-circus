@@ -5,8 +5,8 @@
 #  | / |                          G R Á F I C A                           | \ |
 #  | / |                                                                  | \ |
 #  | / |                                                                  | \ |
-#  | / | Alumnos : Esteban Martínez Tristancho (estebanmartinez@ono.com)  | \ |
-#  | / |           Isaac Jurado Peinado (etanol@telefonica.net)           | \ |
+#  | / | Alumnos : Isaac Jurado Peinado        (etanol@telefonica.net)    | \ |
+#  | / |           Esteban Martínez Tristancho (estebanmartinez@ono.com)  | \ |
 #  | / | Estudios: Ingeniería Técnica en Informática de Gestión (TIG2)    | \ |
 #  | / | Curso   : 2003/2004                                              | \ |
 #  | / | Facultad: Universitat de les Illes Balears (UIB)                 | \ |
