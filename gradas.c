@@ -40,15 +40,39 @@ int crear_grada_frontal(config_t c)
 {  /* {{{ */
 	int i, lista;
 	int gesc     = valor_entero(c, gs_esc);
+	int gdet     = valor_entero(c, gs_det);
 	float x      = valor_decimal(c, g_f_ancho) / 2;
 	float paso_v = valor_decimal(c, gs_alto)  / (float)gesc;
 	float paso_h = valor_decimal(c, gs_largo) / (float)gesc;
-	float smin   = 0.0;
-	float smax   = valor_decimal(c, g_f_ancho);
+	float paso_l = valor_decimal(c, g_f_ancho) / (float)gdet;
+	float escalon[(gdet+1)*3][3], texcoord[(gdet+1)*3][2];
+	GLuint e_vert[(gdet+1)*2], e_horiz[(gdet+1)*2];
 
+	/* Inicialización de los índices del vertex array */
+	for (i = 0; i < (gdet+1)*2; i += 2) {
+		e_vert[i] = (i / 2) * 3;
+		e_vert[i+1] = e_horiz[i] = (i / 2) * 3 + 1;
+		e_horiz[i+1] = (i / 2) * 3 + 2;
+	}
+	/* Inicialización del vertex array */
+	for (i = 0; i < (gdet+1)*3; i += 3) {
+		escalon[i][X] = escalon[i+1][X] = escalon[i+2][X] = 
+			(i / 3) * paso_l;
+		escalon[i][Y] = escalon[i+1][Y] = 0.0;
+		escalon[i+2][Y] = paso_h;
+		escalon[i][Z] = 0.0;
+		escalon[i+1][Z] = escalon[i+2][Z] = paso_v;
+	}
+	/* Inicialización del texture coord array */
+	for (i = 0; i < (gdet+1)*3; i += 3) {
+		texcoord[i][0] = texcoord[i+1][0] = texcoord[i+2][0] =
+			(i / 3) * paso_l;
+		texcoord[i][1]   = 0.0;
+		texcoord[i+1][1] = 0.5;
+		texcoord[i+2][1] = 1.0;
+	}
 	if (!gradas_textura)
 		gradas_textura = cargar_textura(c, valor_cadena(c, gs_tex));
-
 	lista = glGenLists(1);
 	if (lista == 0)
 		return 0;
@@ -72,38 +96,27 @@ int crear_grada_frontal(config_t c)
 	}
 	glEnd();
 	/* Escalones */
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, gradas_textura);
+	glVertexPointer(3, GL_FLOAT, 0, escalon[0]);
+	glTexCoordPointer(2, GL_FLOAT, 0, texcoord[0]);
 	glColor3f(1.0, 1.0, 1.0);
-	glBegin(GL_QUADS);
+	glPushMatrix();
+	glTranslatef(-x, 0.0, 0.0);
 	for (i = 0; i < gesc; ++i) {
-		smin += 0.3;
-		smax += 0.3;
-		if (smin > 1.0) {
-			smin -= 1.0;
-			smax -= 1.0;
-		}
+		glPushMatrix();
+		glTranslatef(0.0, paso_h * i, paso_v * i);
 		glNormal3f(0.0, -1.0, 0.0);
-		glTexCoord2f(smin, 0.0);
-		glVertex3f(-x, paso_h * i, paso_v * i);
-		glTexCoord2f(smax, 0.0);
-		glVertex3f(x, paso_h * i, paso_v * i);
-		glTexCoord2f(smax, 0.5);
-		glVertex3f(x, paso_h * i, paso_v * (i+1));
-		glTexCoord2f(smin, 0.5);
-		glVertex3f(-x, paso_h * i, paso_v * (i+1));
-
+		glDrawElements(GL_QUAD_STRIP, (gdet+1)*2, GL_UNSIGNED_INT,
+				e_vert);
 		glNormal3f(0.0, 0.0, 1.0);
-		glTexCoord2f(smin, 0.5);
-		glVertex3f(-x, paso_h * i, paso_v * (i+1));
-		glTexCoord2f(smax, 0.5);
-		glVertex3f(x, paso_h * i, paso_v * (i+1));
-		glTexCoord2f(smax, 1.0);
-		glVertex3f(x, paso_h * (i+1), paso_v * (i+1));
-		glTexCoord2f(smin, 1.0);
-		glVertex3f(-x, paso_h * (i+1), paso_v * (i+1));
+		glDrawElements(GL_QUAD_STRIP, (gdet+1)*2, GL_UNSIGNED_INT,
+				e_horiz);
+		glPopMatrix();
 	}
-	glEnd();
+	glPopMatrix();
 	glPopAttrib();
 	glEndList();
 	return lista;
@@ -114,7 +127,7 @@ int crear_grada_lateral(config_t c)
 {  /* {{{ */
 	int i, j, lista;
 	int gesc = valor_entero(c, gs_esc);  /* Escalones */
-	int gdet = valor_entero(c, g_l_det); /* Detalle (nº caras) */
+	int gdet = valor_entero(c, gs_det); /* Detalle (nº caras) */
 	int gap  = valor_entero(c, g_l_ap);  /* Apertura */
 	float r;
 	float radio_ex   = valor_decimal(c, c_l_radio)-valor_decimal(c, gs_sep);
@@ -165,8 +178,7 @@ int crear_grada_lateral(config_t c)
 		glBegin(GL_QUADS);
 		for (j = 0; j < gesc; ++j) {
 			r = radio_in + paso_h*j;
-			s = r*i*angulo_rad + j*0.3;
-			s = (s > 1.0 ? s - 1.0 : s);
+			s = r*i*angulo_rad;
 			ss = s + r*angulo_rad; 
 			/* Parte horizontal de los escalones */
 			glNormal3f(0.0, 0.0, 1.0);

@@ -97,6 +97,7 @@ int crear_suelo_interior(config_t c)
 int crear_suelo_arena(config_t c)
 {  /* {{{ */
 	int lista, i, j, textura;
+	float b = valor_decimal(c, sa_btam) / 2.0;
 	float x = (valor_decimal(c, c_fr_ancho)/2) - 
 		valor_decimal(c, p_radio) - valor_decimal(c, sa_psep);
 	float y = valor_decimal(c, c_l_radio) - valor_decimal(c, gs_largo) -
@@ -105,11 +106,11 @@ int crear_suelo_arena(config_t c)
 		{x, -y, 0.01}, {x, y, 0.01}};
 	float texcoord[4][2] = {{0.0, 0.0}, {0.0, y*2}, {x*2, 0.0}, {x*2, y*2}};
 	float b_frontal[4][3] = {
-		{-(x+0.05), -0.05, -0.05}, {-(x+0.05), -0.05, 0.05},
-		{x+0.05, -0.05, 0.05}, {x+0.05, -0.05, -0.05}};
+		{-(x+b), -b, -b}, {-(x+b), -b, b},
+		{x+b, -b, b}, {x+b, -b, -b}};
 	float b_lateral[4][3] = {
-		{0.05, y+0.05, -0.05}, {0.05, y+0.05, 0.05},
-		{0.05, -(y+0.05), 0.05}, {0.05, -(y+0.05), -0.05}};
+		{b, y+b, -b}, {b, y+b, b},
+		{b, -(y+b), b}, {b, -(y+b), -b}};
 
 	textura = cargar_textura(c, valor_cadena(c, sa_tex));
 	lista = glGenLists(1);
@@ -155,5 +156,4 @@ int crear_suelo_arena(config_t c)
 	glEndList();
 	return lista;
 }  /* }}} */
-
 

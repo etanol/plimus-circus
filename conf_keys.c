@@ -53,6 +53,7 @@ const char se_det[]  = "suelo_exterior_detalle"; /* int */
 const char se_tex[]  = "suelo_exterior_textura"; /* string */
 const char si_det[]  = "suelo_interior_detalle"; /* int */
 const char si_tex[]  = "suelo_interior_textura"; /* string */
+const char sa_btam[] = "suelo_arena_borde";      /* float */
 const char sa_gsep[] = "suelo_arena_sep_gradas"; /* float */
 const char sa_psep[] = "suelo_arena_sep_postes"; /* float */
 const char sa_det[]  = "suelo_arena_detalle";    /* int */
@@ -77,10 +78,10 @@ const char gs_alto[]   = "gradas_alto";            /* float */
 const char gs_largo[]  = "gradas_largo";           /* float */
 const char gs_sep[]    = "gradas_sep_carpa";       /* float */
 const char gs_esc[]    = "gradas_escalones";       /* int */
+const char gs_det[]    = "gradas_detalle";         /* int */
 const char gs_tex[]    = "gradas_textura";         /* string */
 const char g_f_ancho[] = "grada_frontal_ancho";    /* float */
 const char g_l_ap[]    = "grada_lateral_apertura"; /* int */
-const char g_l_det[]   = "grada_lateral_detalle";  /* int */
 
 /* Parámetros de los postes */
 const char p_radio[] = "poste_radio";            /* float */
