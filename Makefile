@@ -21,7 +21,7 @@
 
 practica := circo
 etapas   := etapa1 etapa2 etapa3
-ejemplos := robot
+ejemplos := robot checker
 
 ejemplos := $(patsubst %,ejemplos/%,$(ejemplos))
 BINFILES := $(etapas) $(ejemplos) $(practica)
