@@ -30,6 +30,7 @@
 int crear_poste(struct config *c)
 {
 	int lista;
+	float brillo[3] = {0.3, 0.3, 0.3};
 	GLUquadricObj *cilindro;
 	
 	lista = glGenLists(1);
@@ -40,14 +41,18 @@ int crear_poste(struct config *c)
 	gluQuadricOrientation(cilindro, GLU_OUTSIDE);
 	gluQuadricNormals(cilindro, GLU_SMOOTH);
 	glNewList(lista, GL_COMPILE);
+	glPushAttrib(GL_LIGHTING_BIT);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, brillo); 
+	glMaterialf(GL_FRONT, GL_SHININESS, 30.0);
 	gluCylinder(cilindro, c->poste_radio, c->poste_radio,
 			c->carpa_faldon_alto + c->carpa_techo_alto +
-			c->poste_extra_alto, 8, 4);
+			c->poste_extra_alto, c->poste_caras, 4);
 	glPushMatrix();
 	glTranslatef(0.0, 0.0, c->carpa_faldon_alto + c->carpa_techo_alto +
 			c->poste_extra_alto);
-	gluDisk(cilindro, 0, c->poste_radio, 8, 1);
+	gluDisk(cilindro, 0, c->poste_radio, c->poste_caras, 1);
 	glPopMatrix();
+	glPopAttrib();
 	glEndList();
 	gluDeleteQuadric(cilindro);
 	return lista;

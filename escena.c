@@ -62,24 +62,23 @@ static void actualiza_viewport(int ancho, int alto)
 
 static void escena(void)
 {
-
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 	/*
 	 * La Base
 	 */
-	glDisable(GL_LIGHTING);
 	glBindTexture(GL_TEXTURE_2D, texs.suelo_exterior);
 	glEnable(GL_TEXTURE_2D);
 	glBegin(GL_QUADS);
+	glColor3f(1.0, 1.0, 1.0);
+	glNormal3f(0.0, 1.0, 0.0);
 	glTexCoord2i(0, 0); glVertex3f(-20.0, 0.0, -20.0);
 	glTexCoord2i(40, 0); glVertex3f(20.0, 0.0, -20.0);
 	glTexCoord2i(40, 40); glVertex3f(20.0, 0.0, 20.0);
 	glTexCoord2i(0, 40); glVertex3f(-20.0, 0.0, 20.0);
 	glEnd();
-	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
-	
+
 	glPushMatrix();
 	/*
 	 * Ya que se dibuja todo visto desde arriba (como si se dibujara en
@@ -144,6 +143,7 @@ static void escena(void)
 	/*
 	 * Gradas
 	 */
+	glBindTexture(GL_TEXTURE_2D, texs.grada);
 	glColor3f(0.7, 0.0, 0.1);
 	glPushMatrix();
 	glTranslatef(0.0, conf.carpa_lateral_radio-conf.gradas_largo-SEP_GRADAS_CARPA, 0.0);

@@ -77,7 +77,9 @@ static void procesar_linea(char *clave, char *valor, struct config *cfg)
 		cfg->poste_radio = valorf;
 	} else if (strcmp(clave, "poste_extra_alto") == 0) {
 		cfg->poste_extra_alto = valorf;
-	} 
+	} else if (strcmp(clave, "poste_caras") == 0) {
+		cfg->poste_caras = (int)valorf;
+	}
 }
 
 

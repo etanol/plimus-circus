@@ -26,8 +26,10 @@
 #define FICHERO_CONFIG "medidas_circo.cfg"
 #ifdef THIS_IS_UNIX
 #define TEXTURA_SUELO_EXTERIOR "imagen/cesped1.tga"
+#define TEXTURA_GRADA "imagen/madera1.tga"
 #else
 #define TEXTURA_SUELO_EXTERIOR "imagen\\cesped1.tga"
+#define TEXTURA_GRADA "imagen\\madera1.tga"
 #endif
 
 #include <GL/gl.h>
@@ -54,6 +56,7 @@ int main(int argc, char **argv)
 	glEnable(GL_DEPTH_TEST);
 	/* Ahora que ya tenemos inicializado OpenGL, cargamos las texturas */
 	texes.suelo_exterior = cargar_textura(TEXTURA_SUELO_EXTERIOR);
+	texes.grada          = cargar_textura(TEXTURA_GRADA);
 	/* Llamamos a los módulos */
 	init_interaccion();
 	init_escena(&cfg, &texes);

@@ -57,7 +57,7 @@ $(etapas): %: %.c
 circo: circo.o escena.o textura.o interaccion.o config.o $(piezas:%.c=%.o)
 	$(mk_bingl)
 
-test_pieza: test_pieza.o config.o $(piezas:%.c=%.o)
+test_pieza: test_pieza.o config.o textura.o $(piezas:%.c=%.o)
 	$(mk_bingl)
 
 #

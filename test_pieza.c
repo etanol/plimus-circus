@@ -33,6 +33,7 @@
 
 #include "config.h"
 #include "piezas.h"
+#include "textura.h"
 
 const char menu[] = 
 "Piezas disponibles:\n\
@@ -90,10 +91,13 @@ void activa_objeto(enum Pieza p, struct config *c)
 			break;
 		case GRADA_FRONTAL:
 			color[0] = 0.7; color[2] = 0.2;
+			(void)cargar_textura("imagen/madera1.tga");
 			lst_pieza = crear_grada_frontal(c);
 			break;
 		case GRADA_LATERAL:
 			color[0] = 0.7; color[2] = 0.2;
+			(void)cargar_textura("imagen/madera1.tga");
+			lst_pieza = crear_grada_frontal(c);
 			lst_pieza = crear_grada_lateral(c);
 			break;
 		default:

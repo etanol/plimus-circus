@@ -58,6 +58,7 @@ struct config {
 	/* Poste */
 	float poste_radio;
 	float poste_extra_alto;
+	int   poste_caras;
 };
 
 void leer_config(char *, struct config *);
