@@ -51,10 +51,10 @@ $(etapas): %: %.c
 $(ejemplos): %: %.c
 	$(mk_bingl)
 
-circo: circo.o escena.o interaccion.o $(piezas:%.c=%.o)
+circo: circo.o escena.o interaccion.o config.o $(piezas:%.c=%.o)
 	$(mk_bingl)
 
-test_pieza: test_pieza.o $(piezas:%.c=%.o)
+test_pieza: test_pieza.o config.o $(piezas:%.c=%.o)
 	$(mk_bingl)
 
 #
@@ -62,11 +62,13 @@ test_pieza: test_pieza.o $(piezas:%.c=%.o)
 #
 interaccion.o: interaccion.c interaccion.h camaras.h
 	$(mk_obj)
-escena.o: escena.c escena.h
+escena.o: escena.c escena.h config.h
 	$(mk_obj)
-carpa.o: carpa.c piezas.h
+carpa.o: carpa.c piezas.h config.h
 	$(mk_obj)
-gradas.o: gradas.c piezas.h
+gradas.o: gradas.c piezas.h config.h
+	$(mk_obj)
+config.o: config.c config.h
 	$(mk_obj)
 
 .PHONY: clean 

@@ -23,14 +23,21 @@
  * $Id$
  */
 
+#define FICHERO_CONFIG "medidas_circo.cfg"
+
 #include <GL/gl.h>
 #include <GL/glut.h>
 
+#include "config.h"
 #include "escena.h"
 #include "interaccion.h"
 
 int main(int argc, char **argv)
 {
+	struct config cfg;
+
+	leer_config(FICHERO_CONFIG, &cfg);
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 	glutInitWindowSize(500, 500);
@@ -39,8 +46,8 @@ int main(int argc, char **argv)
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
 	/* Llamamos a los módulos */
-	init_escena();
 	init_interaccion();
+	init_escena(&cfg);
 	/* Dejamos que GLUT trabaje por nosotros */
 	glutMainLoop();
 	return 0;

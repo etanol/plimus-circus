@@ -28,12 +28,12 @@
 #include "piezas.h"
 
 
-int crear_grada_frontal(float altura, float longitud, float profundidad, int
-		num_esc)
+int crear_grada_frontal(struct config *c)
 {
 	int i, lista;
-	float paso_v = altura / (float)num_esc;
-	float paso_h = profundidad / (float)num_esc;
+	float x      = c->grada_frontal_ancho / 2;
+	float paso_v = c->gradas_alto  / (float)c->gradas_escalones;
+	float paso_h = c->gradas_largo / (float)c->gradas_escalones;
 	float datos[8][3];
 	float normal[6][3] = { /* Normales */
 		{0.0, -1.0, 0.0}, {0.0, 0.0, 1.0}, {-1.0, 0.0, 0.0},
@@ -46,19 +46,15 @@ int crear_grada_frontal(float altura, float longitud, float profundidad, int
 		{6, 7, 5, 4} /* Parte trasera de la grada */
 	};
 
-	longitud /= 2;
-
 	lista = glGenLists(1);
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	/* Escalones */
-	for (i = 0; i < num_esc; ++i) {
+	for (i = 0; i < c->gradas_escalones; ++i) {
 		/* Datos del escalón (laterales y base incluídos) */
-		datos[0][X] = datos[2][X] = datos[4][X] = datos[6][X] =
-			-longitud;
-		datos[1][X] = datos[3][X] = datos[5][X] = datos[7][X] =
-			longitud;
+		datos[0][X] = datos[2][X] = datos[4][X] = datos[6][X] = -x;
+		datos[1][X] = datos[3][X] = datos[5][X] = datos[7][X] = x;
 		datos[0][Y] = datos[1][Y] = datos[2][Y] = datos[3][Y] =
 			paso_h * i;
 		datos[4][Y] = datos[5][Y] = datos[6][Y] = datos[7][Y] =
@@ -91,19 +87,20 @@ int crear_grada_frontal(float altura, float longitud, float profundidad, int
 }
 
 
-int crear_grada_lateral(float radio_in, float radio_ex, float altura,
-		int num_esc, int num_caras, int omitir)
+int crear_grada_lateral(struct config *c)
 {
 	int i, j, lista;
 	float r;
-	float paso_v     = altura / (float)num_esc;
-	float paso_h     = (radio_ex - radio_in) / (float)num_esc;
-	float angulo     = 180.0 / num_caras;
-	float angulo_rad = M_PI / num_caras;
+	float radio_ex   = (c->carpa_largo / 2) - c->sep_gradas_carpa;
+	float radio_in   = radio_ex - c->gradas_largo;
+	float paso_v     = c->gradas_alto  / (float)c->gradas_escalones;
+	float paso_h     = c->gradas_largo / (float)c->gradas_escalones;
+	float angulo     = 180.0 / c->grada_lateral_caras;
+	float angulo_rad = M_PI  / c->grada_lateral_caras;
 	float sin_angulo = sinf(angulo_rad);
 	float cos_angulo = cosf(angulo_rad);
-	float datos[num_esc*4][3];
-	float ldatos[(num_esc*3)+1][3];
+	float datos[c->gradas_escalones*4][3];
+	float ldatos[(c->gradas_escalones*3)+1][3];
 
 	lista = glGenLists(1);
 	if (lista == 0)
@@ -111,7 +108,7 @@ int crear_grada_lateral(float radio_in, float radio_ex, float altura,
 
 	ldatos[0][X] = ldatos[0][Z] = 0.0;
 	ldatos[0][Y] = radio_in;
-	for (i = 0; i < num_esc; ++i) {
+	for (i = 0; i < c->gradas_escalones; ++i) {
 		j = i * 4;
 		r = radio_in + paso_h*i;
 		datos[j][Z] = datos[j+1][Z] = datos[j+2][Z] = datos[j+3][Z] = 
@@ -136,27 +133,27 @@ int crear_grada_lateral(float radio_in, float radio_ex, float altura,
 	glInterleavedArrays(GL_V3F, 0, ldatos[0]);
 	glNormal3f(-1.0, 0.0, 0.0);
 	glPushMatrix();
-	glRotatef(-(angulo*omitir), 0.0, 0.0, 1.0);
-	for (i = 0; i < num_esc; ++i) 
+	glRotatef(-(angulo*c->grada_lateral_apertura), 0.0, 0.0, 1.0);
+	for (i = 0; i < c->gradas_escalones; ++i) 
 		glDrawArrays(GL_QUADS, i * 3, 4);
 	glPopMatrix();
 	glNormal3f(1.0, 0.0, 0.0);
 	glPushMatrix();
-	glRotatef(-180.0 + (angulo*omitir), 0.0, 0.0, 1.0);
-	for (i = 0; i < num_esc; ++i) 
+	glRotatef(-180.0 + (angulo*c->grada_lateral_apertura), 0.0, 0.0, 1.0);
+	for (i = 0; i < c->gradas_escalones; ++i) 
 		glDrawArrays(GL_QUADS, i * 3, 4);
 	glPopMatrix();
 	/* Resto de grada */
 	glInterleavedArrays(GL_V3F, 0, datos[0]);
-	for (i = omitir; i < (num_caras - omitir); ++i) {
+	for (i = c->grada_lateral_apertura; i < (c->grada_lateral_caras - c->grada_lateral_apertura); ++i) {
 		glPushMatrix();
 		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
 		/* Parte horizontal de los escalones */
 		glNormal3f(0.0, 0.0, 1.0);
-		glDrawArrays(GL_QUADS, 0, num_esc*4);
+		glDrawArrays(GL_QUADS, 0, c->gradas_escalones*4);
 		/* Parte vertical de los escalones */
 		glBegin(GL_QUADS);
-		for (j = 0; j < num_esc; ++j) {
+		for (j = 0; j < c->gradas_escalones; ++j) {
 			r = radio_in + paso_h*j;
 			glNormal3f(0.0, -1.0, 0.0);
 			glVertex3f(0.0, r, paso_v * j);
@@ -174,9 +171,9 @@ int crear_grada_lateral(float radio_in, float radio_ex, float altura,
 		/* Trasero */
 		glNormal3f(0.0, 1.0, 0.0);
 		glVertex3f(0.0, radio_ex, 0.0);
-		glVertex3f(0.0, radio_ex, altura);
+		glVertex3f(0.0, radio_ex, c->gradas_alto);
 		glNormal3f(sin_angulo, cos_angulo, 0.0);
-		glVertex3f(radio_ex*sin_angulo, radio_ex*cos_angulo, altura);
+		glVertex3f(radio_ex*sin_angulo, radio_ex*cos_angulo, c->gradas_alto);
 		glVertex3f(radio_ex*sin_angulo, radio_ex*cos_angulo, 0.0);
 		glEnd();
 		glPopMatrix();

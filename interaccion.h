@@ -29,4 +29,4 @@
 
 extern void init_interaccion(void);
 
-#endif /* _INTERACT_H_ */
+#endif 

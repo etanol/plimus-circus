@@ -23,12 +23,15 @@
  * $Id$
  */
 
+#define TEST_CONFIG "medidas_testpieza.cfg"
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "config.h"
 #include "piezas.h"
 
 const char menu[] = 
@@ -70,37 +73,32 @@ void rotar(int, int, int);
 void display(void);
 
 
-void activa_objeto(enum Pieza p)
+void activa_objeto(enum Pieza p, struct config *c)
 {
 	switch (p) {
 		case FALDON_FRONTAL:
 			glColor3f(0.8, 0.8, 0.0);
-			lst_pieza = crear_faldon_frontal(altura, longitud);
+			lst_pieza = crear_faldon_frontal(c);
 			break;
 		case FALDON_LATERAL:
 			glColor3f(0.8, 0.8, 0.0);
-			lst_pieza = crear_faldon_lateral(radio_ext, altura,
-					caras);
+			lst_pieza = crear_faldon_lateral(c);
 			break;
 		case TECHO_FRONTAL:
 			glColor3f(0.8, 0.8, 0.0);
-			lst_pieza = crear_techo_frontal(radio_ext, altura,
-					longitud);
+			lst_pieza = crear_techo_frontal(c);
 			break;
 		case TECHO_LATERAL:
 			glColor3f(0.8, 0.8, 0.0);
-			lst_pieza = crear_techo_lateral(radio_ext, altura,
-					caras);
+			lst_pieza = crear_techo_lateral(c);
 			break;
 		case GRADA_FRONTAL:
 			glColor3f(0.7, 0.0, 0.2);
-			lst_pieza = crear_grada_frontal(altura, longitud,
-					profundidad, escalones);
+			lst_pieza = crear_grada_frontal(c);
 			break;
 		case GRADA_LATERAL:
 			glColor3f(0.7, 0.0, 0.2);
-			lst_pieza = crear_grada_lateral(radio_int, radio_ext,
-					altura, caras, escalones, omitir);
+			lst_pieza = crear_grada_lateral(c);
 			break;
 		default:
 			fputs("Pieza no reconocida.\n", stderr);
@@ -116,22 +114,11 @@ void activa_objeto(enum Pieza p)
 int main(int argc, char **argv)
 {
 	int choice;
+	struct config cfg;
 
+	leer_config(TEST_CONFIG, &cfg);
+	
 	glutInit(&argc, argv);
-	if (argc > 1) {
-		choice = strtol(argv[1], (char **)NULL, 10);
-		if (choice > 0)
-			caras = choice;
-		--argc;
-	}
-	if (argc > 1) {
-		choice = strtol(argv[2], (char **)NULL, 10);
-		if (choice > 0)
-			escalones = choice;
-		--argc;
-	}
-	if (argc > 1) 
-		omitir = strtol(argv[3], (char **)NULL, 10);
 
 	fwrite(menu, 1, sizeof(menu)-1, stdout);
 	scanf("%d", &choice);
@@ -156,7 +143,7 @@ int main(int argc, char **argv)
 	glOrtho(-10.0, 10.0, -10.0, 10.0, -15.0, 15.0);
 	glMatrixMode(GL_MODELVIEW);
 
-	activa_objeto((enum Pieza) choice);
+	activa_objeto((enum Pieza) choice, &cfg);
 	glutMainLoop();
 	return 0;
 }
