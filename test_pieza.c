@@ -53,15 +53,11 @@ enum Pieza {
 	GRADA_LATERAL
 };
 
-float r_horizontal = 0.0;
-float r_vertical   = 0.0;
-float r_z          = 0.0;
 int lst_pieza;
 int win_h, win_w;
 
 /* Funciones auxiliares */
 void teclado(unsigned char, int, int);
-void rotar(int, int, int);
 void display(void);
 void ventana(int, int);
 
@@ -125,11 +121,10 @@ int main(int argc, char **argv)
 	scanf("%d", &choice);
 
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
-	glutInitWindowSize(700, 700);
-	glutInitWindowPosition(50, 50);
+	glutInitWindowSize(500, 500);
+	glutInitWindowPosition(100, 50);
 	glutCreateWindow("Test de piezas.");
 	glutKeyboardFunc(teclado);
-	glutSpecialFunc(rotar);
 	glutDisplayFunc(display);
 	glutReshapeFunc(ventana);
 
@@ -148,7 +143,6 @@ int main(int argc, char **argv)
 
 void ventana(int w, int h)
 {
-	glLoadIdentity();
 	win_w = w;
 	win_h = h;
 }
@@ -158,36 +152,28 @@ void teclado(unsigned char tecla, int x, int y)
 {
 	switch (tecla) {
 		case '0':
-			r_horizontal = 0.0;
-			r_vertical   = 0.0;
-			r_z = 0.0;
+			glLoadIdentity();
+			break;
+		case 'x':
+			glRotatef(3.0, 1.0, 0.0, 0.0);
+			break;
+		case 'X':
+			glRotatef(-3.0, 1.0, 0.0, 0.0);
+			break;
+		case 'y':
+			glRotatef(3.0, 0.0, 1.0, 0.0);
+			break;
+		case 'Y':
+			glRotatef(-3.0, 0.0, 1.0, 0.0);
 			break;
 		case 'z':
+			glRotatef(3.0, 0.0, 0.0, 1.0);
+			break;
 		case 'Z':
-			r_z += 3.0;
+			glRotatef(-3.0, 0.0, 0.0, 1.0);
 			break;
 		case 27:
 			exit(0);
-	}
-	glutPostRedisplay();
-}
-
-
-void rotar(int tecla, int x, int y)
-{
-	switch (tecla) {
-		case GLUT_KEY_LEFT:
-			r_horizontal -= 3.0;
-			break;
-		case GLUT_KEY_RIGHT:
-			r_horizontal += 3.0;
-			break;
-		case GLUT_KEY_DOWN:
-			r_vertical -= 3.0;
-			break;
-		case GLUT_KEY_UP:
-			r_vertical += 3.0;
-			break;
 	}
 	glutPostRedisplay();
 }
@@ -208,12 +194,8 @@ void display(void)
 	glLoadIdentity();
 	glOrtho(-10.0, 10.0, -10.0, 10.0, -15.0, 15.0);
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glRotatef(r_z, 0.0, 0.0, 1.0);
-	glRotatef(r_horizontal, 0.0, 1.0, 0.0);
-	glRotatef(r_vertical, 1.0, 0.0, 0.0);
-	glPushMatrix(); /* 1 */
 	glCallList(lst_pieza);
+	glPushMatrix(); /* 1 */
 
 	/* Dibujamos el estado actual de la rotación */
 	glViewport(0, 0, win_w/5, win_h/5);
