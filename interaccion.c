@@ -54,9 +54,20 @@ float camara_y = 0.6;
 float camara_z = 0.0;
 
 static config_t C;
-static int   light_flag     = 1; /* Flags manipulados por el menú */
-static int   smooth_flag    = 1;
-static int   animation_flag = 1;
+static int light_flag      = 1; /* Flags manipulados por el menú */
+static int smooth_flag     = 1;
+static int animation_flag  = 1;
+static int fullscreen_flag = 0;
+
+/* Entradas de menú */
+static const char *m_enable[] = {
+	"Activar iluminación", "Modelo de shading SMOOTH", 
+	"Activar animación", "Pantalla completa (F5)"
+};
+static const char *m_disable[] = {
+	"Desactivar iluminación", "Modelo de shading FLAT", 
+	"Desactivar animación", "Restaurar ventana (F5)"
+};
 
 /* Privadísimo */
 static float Li_cfa, Li_cta, Li_clr, Li_cfc, Li_cfra2;
@@ -172,8 +183,6 @@ static void giro_camara(float sentido, enum tipo_de_giro g)
 
 static void teclado_especial(int tecla, int x, int y)
 {  /* {{{ */
-	static int is_full = 0;
-
 	switch (tecla) {
 		case GLUT_KEY_UP:        /* Paso hacia adelante */
 			paso_frontal(-1.0);
@@ -205,12 +214,15 @@ static void teclado_especial(int tecla, int x, int y)
 			}
 			break;
 		case GLUT_KEY_F5:	/* Pantalla completa */
-			if (is_full)
+			if (fullscreen_flag) {
 				glutReshapeWindow(valor_entero(C, v_width),
 						valor_entero(C, v_height));
-			else
+				glutChangeToMenuEntry(4, m_enable[3], 3);
+			} else {
 				glutFullScreen();
-			is_full = !is_full;
+				glutChangeToMenuEntry(4, m_disable[3], 3);
+			}
+			fullscreen_flag = !fullscreen_flag;
 			break;
 		default:
 			return;
@@ -291,21 +303,34 @@ static void menu(int valor)
 {  /* {{{ */
 	switch (valor) {
 		case 0:
-			if (light_flag)
+			if (light_flag) {
 				glDisable(GL_LIGHTING);
-			else
+				glutChangeToMenuEntry(1, m_enable[0], 0);
+			} else {
 				glEnable(GL_LIGHTING);
+				glutChangeToMenuEntry(1, m_disable[0], 0);
+			}
 			light_flag = !light_flag;
 			break;
 		case 1:
-			if (smooth_flag)
+			if (smooth_flag) {
 				glShadeModel(GL_FLAT);
-			else
+				glutChangeToMenuEntry(2, m_enable[1], 1);
+			} else {
 				glShadeModel(GL_SMOOTH);
+				glutChangeToMenuEntry(2, m_disable[1], 1);
+			}
 			smooth_flag = !smooth_flag;
 			break;
 		case 2:
+			if (animation_flag)
+				glutChangeToMenuEntry(3, m_enable[2], 2);
+			else
+				glutChangeToMenuEntry(3, m_disable[2], 2);
 			animation_flag = !animation_flag;
+			break;
+		case 3:
+			teclado_especial(GLUT_KEY_F5, 0, 0);
 			break;
 	}
 }  /* }}} */
@@ -341,15 +366,15 @@ void init_interaccion(config_t conf)
 	Li_ag    = valor_decimal(C, a_giro);
 	Li_av    = valor_entero(C, a_vel);
 
-	
 	glutKeyboardFunc(teclado);
 	glutSpecialFunc(teclado_especial);
 	glutMotionFunc(raton);
 	glutCreateMenu(menu);
 	glutTimerFunc(Li_av, animacion, 0);
-	glutAddMenuEntry("Activar/Desactivar iluminación.", 0);
-	glutAddMenuEntry("Modelo de shading FLAT/SMOOTH.",  1);
-	glutAddMenuEntry("Activar/Desactivar animación.",   2);
+	glutAddMenuEntry(m_disable[0], 0);
+	glutAddMenuEntry(m_disable[1], 1);
+	glutAddMenuEntry(m_disable[2], 2);
+	glutAddMenuEntry(m_enable[3], 3);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	comprueba_situacion(VERTICAL);
 }  /* }}} */
