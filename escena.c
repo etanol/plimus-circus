@@ -41,15 +41,15 @@ static void cupula(void)
 {
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex3f(0.0, 1.0, 0.0);
-	glVertex3f(-1.0, 0.0, 0.5);
-	glVertex3f(-0.5, 0.0, 1.0);
-	glVertex3f(0.5, 0.0, 1.0);
-	glVertex3f(1.0, 0.0, 0.5);
-	glVertex3f(1.0, 0.0, -0.5);
-	glVertex3f(0.5, 0.0, -1.0);
-	glVertex3f(-0.5, 0.0, -1.0);
-	glVertex3f(-1.0, 0.0, -0.5);
-	glVertex3f(-1.0, 0.0, 0.5);
+	glVertex3f(-2.0, 0.0, 1.0);
+	glVertex3f(-1.0, 0.0, 2.0);
+	glVertex3f(1.0, 0.0, 2.0);
+	glVertex3f(2.0, 0.0, 1.0);
+	glVertex3f(2.0, 0.0, -1.0);
+	glVertex3f(1.0, 0.0, -2.0);
+	glVertex3f(-1.0, 0.0, -2.0);
+	glVertex3f(-2.0, 0.0, -1.0);
+	glVertex3f(-2.0, 0.0, 1.0);
 	glEnd();
 }
 
@@ -57,24 +57,24 @@ static void cupula(void)
 static void base(void)
 {
 	glBegin(GL_QUAD_STRIP);
-	glVertex3f(-3.5, 1.0, 1.0);
-	glVertex3f(-3.5, 0.0, 1.0);
-	glVertex3f(-4.0, 1.0, 0.5);
-	glVertex3f(-4.0, 0.0, 0.5);
-	glVertex3f(-4.0, 1.0, -0.5);
-	glVertex3f(-4.0, 0.0, -0.5);
-	glVertex3f(-3.5, 1.0, -1.0);
-	glVertex3f(-3.5, 0.0, -1.0);
-	glVertex3f(3.5, 1.0, -1.0);
-	glVertex3f(3.5, 0.0, -1.0);
-	glVertex3f(4.0, 1.0, -0.5);
-	glVertex3f(4.0, 0.0, -0.5);
-	glVertex3f(4.0, 1.0, 0.5);
-	glVertex3f(4.0, 0.0, 0.5);
-	glVertex3f(3.5, 1.0, 1.0);
-	glVertex3f(3.5, 0.0, 1.0);
-	glVertex3f(-3.5, 1.0, 1.0);
-	glVertex3f(-3.5, 0.0, 1.0);
+	glVertex3f(-4.0, 1.0, 2.0);
+	glVertex3f(-4.0, 0.0, 2.0);
+	glVertex3f(-5.0, 1.0, 1.0);
+	glVertex3f(-5.0, 0.0, 1.0);
+	glVertex3f(-5.0, 1.0, -1.0);
+	glVertex3f(-5.0, 0.0, -1.0);
+	glVertex3f(-4.0, 1.0, -2.0);
+	glVertex3f(-4.0, 0.0, -2.0);
+	glVertex3f(4.0, 1.0, -2.0);
+	glVertex3f(4.0, 0.0, -2.0);
+	glVertex3f(5.0, 1.0, -1.0);
+	glVertex3f(5.0, 0.0, -1.0);
+	glVertex3f(5.0, 1.0, 1.0);
+	glVertex3f(5.0, 0.0, 1.0);
+	glVertex3f(4.0, 1.0, 2.0);
+	glVertex3f(4.0, 0.0, 2.0);
+	glVertex3f(-4.0, 1.0, 2.0);
+	glVertex3f(-4.0, 0.0, 2.0);
 	glEnd();
 }
 
