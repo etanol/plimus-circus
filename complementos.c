@@ -132,7 +132,6 @@ int crear_arena(struct config *c)
 	glColor3f(1.0, 1.0, 1.0);
 	glNormal3f(0.0, 0.0, 1.0);
 	glEvalMesh2(GL_FILL, 0, c->arena_detalle, 0, c->arena_detalle);
-	glEnd();
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_MAP2_TEXTURE_COORD_2);
 	glColor3f(0.8, 0.8, 0.8);
@@ -162,6 +161,98 @@ int crear_arena(struct config *c)
 		}
 		glPopMatrix();
 	}
+	glEndList();
+	return lista;
+}
+
+
+int crear_banco(struct config *c)
+{
+	int lista;
+	GLUquadric *cilindro;
+	
+	lista = glGenLists(1);
+	if (lista == 0)
+		return 0;
+	cilindro = gluNewQuadric();
+	gluQuadricDrawStyle(cilindro, GLU_FILL);
+	gluQuadricOrientation(cilindro, GLU_OUTSIDE);
+	gluQuadricNormals(cilindro, GLU_SMOOTH);
+	glNewList(lista, GL_COMPILE);
+	glColor3f(0.8, 0.4, 0.0);
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, 0.2);
+	gluDisk(cilindro, 0, 0.5, 20, 1);
+	glPopMatrix();
+	gluCylinder(cilindro, 0.5, 0.5, 0.2, 20, 1);
+	glEndList();
+	gluDeleteQuadric(cilindro);
+	return lista;
+}
+
+
+int crear_cartel(struct config *c)
+{
+	int lista, i;
+	float cartel[4][3] = {
+		{-2.0, 0.0, 0.0},
+		{-2.0, 0.0, 3.0},
+		{2.0, 0.0, 3.0},
+		{2.0, 0.0, 0.0}};
+	float foto[4][2] = {{0.0, 0.0}, {0.0, 1.0}, {1.0, 1.0}, {1.0, 0.0}};
+	float signo;
+
+	lista = glGenLists(1);
+	if (lista == 0)
+		return 0;
+	glNewList(lista, GL_COMPILE);
+	glEnable(GL_TEXTURE_2D);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, cartel[0]);
+	glTexCoordPointer(2, GL_FLOAT, 0, foto[0]);
+	/* Foto y marco */
+	glPushMatrix();
+		glTranslatef(0.0, 0.0, 1.0);
+		glColor3f(1.0, 1.0, 1.0);
+		glNormal3f(0.0, -1.0, 0.0);
+		glPushMatrix();
+		glTranslatef(0.0, -0.05, 0.0);
+		glDrawArrays(GL_QUADS, 0, 4);
+		glPopMatrix();
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisable(GL_TEXTURE_2D);
+		glPushAttrib(GL_CURRENT_BIT|GL_LIGHTING_BIT);
+		glDisable(GL_LIGHTING);
+		glColor3f(0.4, 0.2, 0.0);
+		glDrawArrays(GL_QUADS, 0, 4);
+		glBegin(GL_QUAD_STRIP);
+		for (i = 0; i < 4; ++i) {
+			glVertex3fv(cartel[i]);
+			glVertex3f(cartel[i][0], -0.05, cartel[i][2]);
+		}
+		glEnd();
+	glPopMatrix();
+	/* Patas */
+	for (i = 0; i < 2; ++i) {
+		signo = (i ? -1.0 : 1.0);
+		glPushMatrix();
+		glTranslatef(cartel[i*2][0], 0.0, 0.0);
+		glBegin(GL_QUAD_STRIP);
+		glVertex3f(0.0, -0.05, 0.0);
+		glVertex3f(0.0, -0.05, 1.0);
+		glVertex3f(signo * 0.05, -0.05, 0.0);
+		glVertex3f(signo * 0.05, -0.05, 1.0);
+		glVertex3f(signo * 0.05, 0.00, 0.0);
+		glVertex3f(signo * 0.05, 0.00, 1.0);
+		glVertex3f(0.0, 0.00, 0.0);
+		glVertex3f(0.0, 0.00, 1.0);
+		glVertex3f(0.0, -0.05, 0.0);
+		glVertex3f(0.0, -0.05, 1.0);
+		glEnd();
+		glPopMatrix();
+	}
+	glPopAttrib();
 	glEndList();
 	return lista;
 }

@@ -44,7 +44,9 @@ static int
 	grada_lateral,
 	poste,
 	suelo,
-	arena;
+	arena,
+	banco,
+	cartel;
 
 /* Configuración de la escena */
 static struct config conf;
@@ -121,11 +123,20 @@ static void escena(void)
 				conf.carpa_faldon_alto);
 		glCallList(techo_lateral);
 	glPopMatrix();
+	glBindTexture(GL_TEXTURE_2D, texs.plimus);
+	glPushMatrix();
+		glTranslatef(0.0, -(conf.carpa_lateral_radio+2.0), 0.0);
+		glCallList(cartel);
+	glPopMatrix();
 	/*
 	 * Arena (suelo interior)
 	 */
 	glBindTexture(GL_TEXTURE_2D, texs.arena);
 	glCallList(arena);
+	/*
+	 * Bancos pa los tigretones
+	 */
+	glCallList(banco);
 	/*
 	 * Gradas
 	 */
@@ -197,5 +208,7 @@ void init_escena(struct config *cfg, struct texturas *ts)
 	poste          = crear_poste(&conf);
 	suelo          = crear_suelo(&conf);
 	arena          = crear_arena(&conf);
+	banco          = crear_banco(&conf);
+	cartel         = crear_cartel(&conf);
 }
 
