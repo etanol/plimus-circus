@@ -50,7 +50,7 @@ $(etapas): %: %.c
 $(ejemplos): %: %.c
 	$(mk_bingl)
 
-$(practica): circo.o escena.o
+$(practica): circo.o escena.o interaccion.o
 	$(mk_bingl)
 
 .PHONY: clean 

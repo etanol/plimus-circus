@@ -15,45 +15,18 @@
  +----------------------------------------------------------------------------*/
 
 /*
- * escena.c
+ * interaccion.h
  *
- * Primitivas para dibujar la escena completa.
+ * Funciones para gestionar la interacción con el usuario.
  *
  * $Id$
  */
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
+#ifndef _INTERACT_H_
+#define _INTERACT_H_
 
-void dibuja_escena(void)
-{
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	glPushMatrix();
-	glRotatef(90.0, -1.0, 0.0, 0.0);
-	glBegin(GL_TRIANGLE_FAN);
-	glColor3f(0.0, 1.0, 0.0);
-	glVertex3f(0.0, 0.0, 1.0);
-	glColor3f(1.0, 0.0, 0.0);
-	glVertex3f(1.0, 1.0, 0.0);
-	glColor3f(0.0, 0.0, 1.0);
-	glVertex3f(1.2, 0.8, 0.0);
-	glColor3f(0.0, 1.0, 0.0);
-	glVertex3f(1.2, -0.8, 0.0);
-	glColor3f(0.0, 1.0, 1.0);
-	glVertex3f(1.0, -1.0, 0.0);
-	glColor3f(1.0, 1.0, 0.0);
-	glVertex3f(-1.0, -1.0, 0.0);
-	glColor3f(1.0, 0.0, 1.0);
-	glVertex3f(-1.2, -0.8, 0.0);
-	glColor3f(0.0, 1.0, 0.0);
-	glVertex3f(-1.2, 0.8, 0.0);
-	glColor3f(0.0, 0.5, 0.5);
-	glVertex3f(-1.0, 1.0, 0.0);
-	glColor3f(0.5, 0.5, 0.0);
-	glVertex3f(1.0, 1.0, 0.0);
-	glEnd();
-	glPopMatrix();
+extern void teclado_especial(int, int, int);
+extern void teclado         (unsigned char, int, int);
+extern void redimensionado  (int, int);
 
-	//glutSwapBuffers();
-}
+#endif /* _INTERACT_H_ */
