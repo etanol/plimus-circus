@@ -21,6 +21,7 @@ void init(void)
 	glShadeModel(GL_FLAT);
 	glMap1f(GL_MAP1_VERTEX_3, 0.0, 1.0, 3, 4, ctrlpoints[0]);
 	glEnable(GL_MAP1_VERTEX_3);
+	glMapGrid1f(30, 0.0, 1.0);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 5.0);
@@ -34,10 +35,7 @@ void display(void)
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glColor3f(1.0, 1.0, 1.0);
-	glBegin(GL_LINE_STRIP);
-	for (i = 0; i <= 30; ++i)
-		glEvalCoord1f((GLfloat) i/30.0);
-	glEnd();
+	glEvalMesh1(GL_LINE, 0, 30);
 	/* Y mostramos los puntos de control */
 	glPointSize(5.0);
 	glColor3f(1.0, 1.0, 0.0);
