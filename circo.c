@@ -68,7 +68,7 @@ int main(int argc, char **argv)
 	texes.grada          = cargar_textura(TEXTURA_GRADA);
 	texes.plimus         = cargar_textura(TEXTURA_PLIMUS);
 	/* Llamamos a los módulos */
-	init_interaccion();
+	init_interaccion(&cfg);
 	init_escena(&cfg, &texes);
 	/* Dejamos que GLUT trabaje por nosotros */
 	glutMainLoop();

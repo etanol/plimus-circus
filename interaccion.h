@@ -27,7 +27,11 @@
 #ifndef _INTERACT_H_
 #define _INTERACT_H_
 
-extern void init_interaccion(void);
+#include "config.h"
+
+extern int modo_exterior;
+
+extern void init_interaccion(struct config *);
 extern void actualiza_camara(void);
 
 #endif 
