@@ -32,7 +32,8 @@ struct texturas {
 	int carpa;
 };
 
-int cargar_textura(const char *);
+extern int cargar_textura(const char *);
+extern int gen_textura_carpa(void);
 
 #endif
 

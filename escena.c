@@ -91,11 +91,11 @@ static void escena(void)
 	 * TODO: Colocar todas las luces manteniendo las interiores apagadas y
 	 * las exteriores encendidas. Dibujar el suelo exterior.
 	 */
-	glColor3f(0.8, 0.8, 0.0);
 
 	/*
 	 * Dibujamos la carpa. TODO: ¿Suelo interior?
 	 */
+	glBindTexture(GL_TEXTURE_1D, texs.carpa);
 	glPushMatrix();
 	glTranslatef(0.0, conf.carpa_lateral_radio, 0.0);
 	glCallList(faldon_frontal);
@@ -194,6 +194,9 @@ void init_escena(struct config *cfg, struct texturas *ts)
 {
 	memcpy(&conf, cfg, sizeof(struct config));
 	memcpy(&texs, ts, sizeof(struct texturas));
+
+	/* Creamos una textura 1D para la carpa, para molar */
+	texs.carpa = gen_textura_carpa();
 
 	glutDisplayFunc(escena);
 	glutReshapeFunc(actualiza_viewport);

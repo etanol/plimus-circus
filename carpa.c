@@ -39,6 +39,7 @@ int crear_faldon_frontal(struct config *c)
 {
 	int i, j, lista;
 	float control[4][4][3];
+	float texcoord[4] = {0.0, 3.0, 0.0, 3.0};
 	float paso_z = c->carpa_faldon_alto / 3.0;
 	float paso_x = c->carpa_frontal_ancho / 3.0;
 	float x      = c->carpa_frontal_ancho / 2.0;
@@ -54,14 +55,20 @@ int crear_faldon_frontal(struct config *c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
+	glEnable(GL_TEXTURE_1D);
 	glEnable(GL_MAP2_VERTEX_3);
+	glEnable(GL_MAP2_TEXTURE_COORD_1);
 	glEnable(GL_AUTO_NORMAL);
 	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 12, 4, 0.0, 1.0, 3, 4,
 			control[0][0]);
+	glMap2f(GL_MAP2_TEXTURE_COORD_1, 0.0, 1.0, 0, 2, 0.0, 1.0, 1, 2,
+			texcoord);
 	glMapGrid2f(c->carpa_detalle_vert, 0.0, 1.0, c->carpa_detalle_horiz,
 			0.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
 	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_vert, 0,
 			c->carpa_detalle_horiz);
+	glDisable(GL_TEXTURE_1D);
 	glEndList();
 	return lista;
 }	
@@ -71,6 +78,7 @@ int crear_faldon_lateral(struct config *c)
 {
 	int i, lista;
 	float control[4][4][3];
+	float texcoord[4] = {0.0, 6.0, 0.0, 6.0};
 	float paso_z  = c->carpa_faldon_alto / 3.0;
 	float caida_y = c->carpa_lateral_radio + CAIDA_FALDON; 
 
@@ -90,14 +98,20 @@ int crear_faldon_lateral(struct config *c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
+	glEnable(GL_TEXTURE_1D);
 	glEnable(GL_MAP2_VERTEX_3);
+	glEnable(GL_MAP2_TEXTURE_COORD_1);
 	glEnable(GL_AUTO_NORMAL);
 	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 12, 4, 0.0, 1.0, 3, 4,
 			control[0][0]);
+	glMap2f(GL_MAP2_TEXTURE_COORD_1, 0.0, 1.0, 0, 2, 0.0, 1.0, 1, 2,
+			texcoord);
 	glMapGrid2f(c->carpa_detalle_vert, 0.0, 1.0, c->carpa_detalle_horiz,
 			0.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
 	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_vert, 0,
 			c->carpa_detalle_horiz);
+	glDisable(GL_TEXTURE_1D);
 	glEndList();
 	return lista;
 }
@@ -107,6 +121,7 @@ int crear_techo_frontal(struct config *c)
 {
 	int i, j, lista;
 	float control[4][4][3];
+	float texcoord[4] = {0.0, 3.0, 0.0, 3.0};
 	float paso_x = c->carpa_frontal_ancho / 3.0;
 	float paso_y = c->carpa_lateral_radio / 3.0;
 	float paso_z = c->carpa_techo_alto    / 3.0;
@@ -128,14 +143,20 @@ int crear_techo_frontal(struct config *c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
+	glEnable(GL_TEXTURE_1D);
 	glEnable(GL_MAP2_VERTEX_3);
+	glEnable(GL_MAP2_TEXTURE_COORD_1);
 	glEnable(GL_AUTO_NORMAL);
 	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 3, 4, 0.0, 1.0, 12, 4,
 			control[0][0]);
+	glMap2f(GL_MAP2_TEXTURE_COORD_1, 0.0, 1.0, 1, 2, 0.0, 1.0, 0, 2,
+			texcoord);
 	glMapGrid2f(c->carpa_detalle_horiz, 0.0, 1.0, c->carpa_detalle_vert,
 			0.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
 	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_horiz, 0,
 			c->carpa_detalle_vert);
+	glDisable(GL_TEXTURE_1D);
 	glEndList();
 	return lista;
 }
@@ -145,6 +166,7 @@ int crear_techo_lateral(struct config *c)
 {
 	int i, lista;
 	float control[4][4][3]; 
+	float texcoord[4] = {0.0, 6.0, 0.0, 6.0};
 	float paso_y = c->carpa_lateral_radio / 3.0;
 	float paso_z = c->carpa_techo_alto    / 3.0;
 	float zeta[4] = 
@@ -164,14 +186,20 @@ int crear_techo_lateral(struct config *c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
+	glEnable(GL_TEXTURE_1D);
 	glEnable(GL_MAP2_VERTEX_3);
+	glEnable(GL_MAP2_TEXTURE_COORD_1);
 	glEnable(GL_AUTO_NORMAL);
 	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 3, 4, 0.0, 1.0, 12, 4,
 			control[0][0]);
+	glMap2f(GL_MAP2_TEXTURE_COORD_1, 0.0, 1.0, 1, 2, 0.0, 1.0, 0, 2,
+			texcoord);
 	glMapGrid2f(c->carpa_detalle_horiz, 0.0, 1.0, c->carpa_detalle_vert,
 			0.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
 	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_horiz, 0,
 			c->carpa_detalle_vert);
+	glDisable(GL_TEXTURE_1D);
 	glEndList();
 	return lista;
 }
