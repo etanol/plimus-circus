@@ -59,6 +59,13 @@ struct config {
 	float poste_radio;
 	float poste_extra_alto;
 	int   poste_caras;
+
+	/* Suelo */
+	float suelo_lado;
+	int suelo_detalle;
+	
+	/* Arena */
+	int arena_detalle;
 };
 
 void leer_config(char *, struct config *);

@@ -27,7 +27,7 @@
 
 struct texturas {
 	int suelo_exterior;
-	int suelo_interior;
+	int arena;
 	int grada;
 	int carpa;
 };

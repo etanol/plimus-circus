@@ -79,6 +79,12 @@ static void procesar_linea(char *clave, char *valor, struct config *cfg)
 		cfg->poste_extra_alto = valorf;
 	} else if (strcmp(clave, "poste_caras") == 0) {
 		cfg->poste_caras = (int)valorf;
+	} else if (strcmp(clave, "suelo_lado") == 0) {
+		cfg->suelo_lado = valorf;
+	} else if (strcmp(clave, "suelo_detalle") == 0) {
+		cfg->suelo_detalle = (int)valorf;
+	} else if (strcmp(clave, "arena_detalle") == 0) {
+		cfg->arena_detalle = (int)valorf;
 	}
 }
 

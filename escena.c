@@ -43,7 +43,8 @@ static int
 	grada_frontal,
 	grada_lateral,
 	poste,
-	suelo;
+	suelo,
+	arena;
 
 /* Configuración de la escena */
 static struct config conf;
@@ -121,6 +122,11 @@ static void escena(void)
 		glCallList(techo_lateral);
 	glPopMatrix();
 	/*
+	 * Arena (suelo interior)
+	 */
+	glBindTexture(GL_TEXTURE_2D, texs.arena);
+	glCallList(arena);
+	/*
 	 * Gradas
 	 */
 	glBindTexture(GL_TEXTURE_2D, texs.grada);
@@ -190,4 +196,6 @@ void init_escena(struct config *cfg, struct texturas *ts)
 	grada_lateral  = crear_grada_lateral(&conf);
 	poste          = crear_poste(&conf);
 	suelo          = crear_suelo(&conf);
+	arena          = crear_arena(&conf);
 }
+

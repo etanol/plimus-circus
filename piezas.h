@@ -51,5 +51,6 @@ extern int crear_grada_lateral(struct config *);
  */
 extern int crear_poste(struct config *);
 extern int crear_suelo(struct config *);
+extern int crear_arena(struct config *);
 
 #endif

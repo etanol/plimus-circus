@@ -108,6 +108,8 @@ static void giro_camara(float sentido, enum tipo_de_giro g)
 
 static void teclado_especial(int tecla, int x, int y)
 {
+	static int is_full = 0;
+	
 	switch (tecla) {
 		case GLUT_KEY_UP:        /* Paso hacia adelante */
 			paso_frontal(-1.0);
@@ -127,6 +129,13 @@ static void teclado_especial(int tecla, int x, int y)
 		case GLUT_KEY_PAGE_DOWN: /* Descenso */
 			if (camara_y > 0.6f)
 				camara_y -= AVANCE;
+			break;
+		case GLUT_KEY_F5:	/* Pantalla completa */
+			if (is_full)
+				glutReshapeWindow(500, 500);
+			else
+				glutFullScreen();
+			is_full = !is_full;
 			break;
 		default:
 			return;
