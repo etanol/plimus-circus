@@ -118,7 +118,11 @@ static void init_luces(void)
 	float interior_difusa[4]    = {0.8, 0.8, 0.8, 1.0};
 	float interior_especular[4] = {0.2, 0.2, 0.2, 1.0};
 
+	glEnable(GL_LIGHTING);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambiente_global);
+
 	/* Luz solar */
 	glLightfv(GL_LIGHT0, GL_AMBIENT, sol_ambiente);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, sol_difusa);
@@ -355,14 +359,10 @@ void init_escena(struct config *cfg, struct texturas *ts)
 	/* Creamos una textura 1D para la carpa, para molar */
 	T->carpa = gen_textura_carpa();
 
+	init_luces();
+
 	glutDisplayFunc(escena);
 	glutReshapeFunc(actualiza_viewport);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-
-	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-	init_luces();
 
 	faldon_frontal = crear_faldon_frontal(C);
 	faldon_lateral = crear_faldon_lateral(C);
@@ -376,7 +376,5 @@ void init_escena(struct config *cfg, struct texturas *ts)
 	arena          = crear_arena(C);
 	banco          = crear_banco(C);
 	cartel         = crear_cartel(C);
-
-	glColor3f(1.0, 1.0, 1.0);
 }  /* }}} */
 
