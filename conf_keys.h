@@ -70,4 +70,10 @@ extern const char p_radio[];
 extern const char p_ealto[];
 extern const char p_deth[];
 extern const char p_detv[];
+extern const char b_alto[];
+extern const char b_rmay[];
+extern const char b_rmen[];
+extern const char b_det[];
+extern const char b_tex[];
+extern const char crt_foto[];
 

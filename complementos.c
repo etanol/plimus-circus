@@ -30,7 +30,7 @@
 #endif
 
 #include "piezas.h"
-
+#include "textura.h"
 
 int crear_poste(config_t c)
 {  /* {{{ */
@@ -68,9 +68,13 @@ int crear_poste(config_t c)
 
 int crear_banqueta(config_t c)
 {  /* {{{ */
-	int lista;
+	int lista, textura;
+	float alto = valor_decimal(c, b_alto);
+	float rm = valor_decimal(c, b_rmen);
+	int  det = valor_entero(c, b_det);
 	GLUquadric *cilindro;
 	
+	textura = cargar_textura(c, valor_cadena(c, b_tex));
 	lista = glGenLists(1);
 	if (lista == 0)
 		return 0;
@@ -80,15 +84,17 @@ int crear_banqueta(config_t c)
 	gluQuadricNormals(cilindro, GLU_SMOOTH);
 	gluQuadricTexture(cilindro, GL_TRUE);
 	glNewList(lista, GL_COMPILE);
+	glPushAttrib(GL_ENABLE_BIT);
+	glColor3f(0.6, 0.6, 1.0);
+	gluCylinder(cilindro, valor_decimal(c, b_rmay), rm, alto, det, 1);
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, 0.3);
+	glTranslatef(0.0, 0.0, alto);
 	glColor3f(1.0, 1.0, 1.0);
 	glEnable(GL_TEXTURE_2D);
-	gluDisk(cilindro, 0, 0.5, 20, 1);
-	glDisable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, textura);
+	gluDisk(cilindro, 0, rm, det, 1);
 	glPopMatrix();
-	glColor3f(0.6, 0.6, 1.0);
-	gluCylinder(cilindro, 0.7, 0.5, 0.3, 20, 1);
+	glPopAttrib();
 	glEndList();
 	gluDeleteQuadric(cilindro);
 	return lista;
@@ -97,7 +103,7 @@ int crear_banqueta(config_t c)
 
 int crear_cartel(config_t c)
 {  /* {{{ */
-	int lista, i;
+	int lista, i, textura;
 	float faldon_alto = valor_decimal(c, c_f_alto);
 	float cartel[4][3] = {
 		{-2.0, 0.05, 0.0},
@@ -106,12 +112,14 @@ int crear_cartel(config_t c)
 		{2.0, 0.05, 0.0}};
 	float foto[4][2] = {{0.0, 0.0}, {0.0, 1.0}, {1.0, 1.0}, {1.0, 0.0}};
 
+	textura = cargar_textura(c, valor_cadena(c, crt_foto));
 	lista = glGenLists(1);
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	glPushAttrib(GL_ENABLE_BIT);
 	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, textura);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, cartel[0]);

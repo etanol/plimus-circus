@@ -37,7 +37,6 @@
 
 #include "config.h"
 #include "piezas.h"
-#include "textura.h"
 
 const char menu[] = 
 "Piezas disponibles:\n\
@@ -58,7 +57,6 @@ enum Pieza {
 	GRADA_LATERAL
 };
 
-float color[3] = {0.0, 0.0, 0.0};
 int lst_pieza;
 int win_h, win_w;
 
@@ -78,34 +76,21 @@ void activa_objeto(enum Pieza p, config_t c)
 	};
 	switch (p) {
 		case FALDON_FRONTAL:
-			color[0] = color[1] = 0.8;
-			(void)gen_textura_carpa();
 			lst_pieza = crear_faldon_frontal(c);
 			break;
 		case FALDON_LATERAL:
-			color[0] = color[1] = 0.8;
-			(void)gen_textura_carpa();
 			lst_pieza = crear_faldon_lateral(c);
 			break;
 		case TECHO_FRONTAL:
-			color[0] = color[1] = 0.8;
-			(void)gen_textura_carpa();
 			lst_pieza = crear_techo_frontal(c);
 			break;
 		case TECHO_LATERAL:
-			color[0] = color[1] = 0.8;
-			(void)gen_textura_carpa();
 			lst_pieza = crear_techo_lateral(c);
 			break;
 		case GRADA_FRONTAL:
-			color[0] = 0.7; color[2] = 0.2;
-			(void)cargar_textura("imagen/madera1.tga");
 			lst_pieza = crear_grada_frontal(c);
 			break;
 		case GRADA_LATERAL:
-			color[0] = 0.7; color[2] = 0.2;
-			(void)cargar_textura("imagen/madera1.tga");
-			lst_pieza = crear_grada_frontal(c);
 			lst_pieza = crear_grada_lateral(c);
 			break;
 		default:
@@ -134,9 +119,11 @@ int main(int argc, char **argv)
 	scanf("%d", &choice);
 
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-	glutInitWindowSize(500, 500);
-	glutInitWindowPosition(100, 50);
-	glutCreateWindow("Test de piezas.");
+	glutInitWindowSize(valor_entero(cfg, v_width),
+			valor_entero(cfg, v_height));
+	glutInitWindowPosition(valor_entero(cfg, v_posx),
+			valor_entero(cfg, v_posy));
+	glutCreateWindow(valor_cadena(cfg, v_title));
 	glutKeyboardFunc(teclado);
 	glutDisplayFunc(display);
 	glutReshapeFunc(ventana);
@@ -206,7 +193,6 @@ void display(void)
 	glLoadIdentity();
 	glOrtho(-10.0, 10.0, -10.0, 10.0, -15.0, 15.0);
 	glMatrixMode(GL_MODELVIEW);
-	glColor3fv(color);
 	glCallList(lst_pieza);
 	glPushMatrix(); /* 1 */
 

@@ -25,18 +25,9 @@
 #ifndef _TEXTURA_H_
 #define _TEXTURA_H_
 
-struct texturas {
-	int suelo_exterior;
-	int suelo_interior;
-	int cielo;
-	int arena;
-	int grada;
-	int carpa;
-	int plimus;
-	int banqueta;
-};
+#include "config.h"
 
-extern int cargar_textura(const char *);
+extern int cargar_textura(config_t, const char *);
 extern int gen_textura_carpa(void);
 
 #endif

@@ -24,24 +24,8 @@
  */
 
 #define FICHERO_CONFIG "circo.cfg"
-#ifdef THIS_IS_UNIX
-#define TEXTURA_SUELO_EXTERIOR "imagen/cesped1.tga"
-#define TEXTURA_SUELO_INTERIOR "imagen/suelo2.tga"
-#define TEXTURA_CIELO "imagen/cielo2.tga"
-#define TEXTURA_ARENA "imagen/arena3.tga"
-#define TEXTURA_GRADA "imagen/madera1.tga"
-#define TEXTURA_PLIMUS "imagen/plimus.tga"
-#define TEXTURA_BANQUETA "imagen/nieve1.tga"
-#else
-#define TEXTURA_SUELO_EXTERIOR "imagen\\cesped1.tga"
-#define TEXTURA_SUELO_INTERIOR "imagen\\suelo2.tga"
-#define TEXTURA_CIELO "imagen\\cielo2.tga"
-#define TEXTURA_ARENA "imagen\\arena3.tga"
-#define TEXTURA_GRADA "imagen\\madera1.tga"
-#define TEXTURA_PLIMUS "imagen\\plimus.tga"
-#define TEXTURA_BANQUETA "imagen\\nieve1.tga"
-#endif
 
+#include <stdio.h>
 #ifdef THIS_IS_UNIX
 #include <GL/gl.h>
 #include <GL/glut.h>
@@ -52,16 +36,31 @@
 #include "config.h"
 #include "escena.h"
 #include "interaccion.h"
-#include "textura.h"
 
 int main(int argc, char **argv)
 {
 	config_t cfg;
-	struct texturas texes;
-
-	cfg = leer_config(FICHERO_CONFIG);
+	FILE *test;
 
 	glutInit(&argc, argv);
+
+	/* Aquí ofrecemos la posibilidad de cargar un fichero de configuración
+	 * distinto al fichero por defecto si así lo indicamos en la línea de
+	 * comandos (y si el fichero es accesible, obviamente). */
+	if (argc > 1) {
+		test = fopen(argv[1], "r");
+		if (test == NULL) {
+			printf("El fichero %s no se pudo abrir, utilizando \
+					configuración por defecto.\n", argv[1]);
+			cfg = leer_config(FICHERO_CONFIG);
+		} else {
+			fclose(test);
+			cfg = leer_config(argv[1]);
+		}
+	} else {
+		cfg = leer_config(FICHERO_CONFIG);
+	}
+
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(valor_entero(cfg, v_width),
 			valor_entero(cfg, v_height));
@@ -70,17 +69,9 @@ int main(int argc, char **argv)
 	glutCreateWindow(valor_cadena(cfg, v_title));
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
-	/* Ahora que ya tenemos inicializado OpenGL, cargamos las texturas */
-	texes.suelo_exterior = cargar_textura(TEXTURA_SUELO_EXTERIOR);
-	texes.suelo_interior = cargar_textura(TEXTURA_SUELO_INTERIOR);
-	texes.cielo          = cargar_textura(TEXTURA_CIELO);
-	texes.arena          = cargar_textura(TEXTURA_ARENA);
-	texes.grada          = cargar_textura(TEXTURA_GRADA);
-	texes.plimus         = cargar_textura(TEXTURA_PLIMUS);
-	texes.banqueta       = cargar_textura(TEXTURA_BANQUETA);
 	/* Llamamos a los módulos */
 	init_interaccion(cfg);
-	init_escena(cfg, &texes);
+	init_escena(cfg);
 	/* Dejamos que GLUT trabaje por nosotros */
 	glutMainLoop();
 	return 0;

@@ -31,14 +31,13 @@
 #include <GL/glut.h>
 #endif
 
-/* 
- * NOTA MENTAL: Quizá podríamos poner la configuración de las luces por
- * separado (luces.h, luces.c).
- */
 #include "escena.h"
 #include "interaccion.h"
+#include "textura.h"
+
 
 /* Objetos de la escena */
+static int tex_cielo;
 static int 
 	faldon_frontal,
 	faldon_lateral,
@@ -56,7 +55,6 @@ static int
 
 /* Configuración de la escena */
 static config_t C;
-static struct texturas *T;
 
 /* Muy muy privado */
 static float Le_cfra, Le_cfra2, Le_clr, Le_cfa, Le_gsl, Le_gss, Le_pr, Le_calt;
@@ -81,6 +79,7 @@ static void cielo(void)
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, tex_cielo);
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
@@ -219,10 +218,8 @@ static void escena(void)
 {   /* {{{ */
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-	if (modo_exterior) {
-		glBindTexture(GL_TEXTURE_2D, T->cielo);
+	if (modo_exterior) 
 		cielo(); 
-	}
 	actualiza_camara();
 	/*
 	 * Ya que se dibuja todo visto desde arriba (como si se dibujara en
@@ -234,10 +231,8 @@ static void escena(void)
 
 	if (modo_exterior) {
 		/* Suelo */
-		glBindTexture(GL_TEXTURE_2D, T->suelo_exterior);
 		glCallList(suelo_exterior);
 		/* Carpa */
-		glBindTexture(GL_TEXTURE_2D, T->carpa);
 		glPushMatrix();
 		glTranslatef(0.0, Le_clr, 0.0);
 		glCallList(faldon_frontal);
@@ -275,7 +270,6 @@ static void escena(void)
 		glCallList(techo_lateral);
 		/* Cartel */
 		glPopMatrix();
-		glBindTexture(GL_TEXTURE_2D, T->plimus);
 		glPushMatrix();
 		glTranslatef(-(Le_cfra/2.0 + Le_clr), -(Le_clr*1.5), 0.0);
 		glRotatef(angulo_anim, 0.0, 0.0, 1.0);
@@ -283,10 +277,8 @@ static void escena(void)
 		glPopMatrix();
 	} else {
 		/* Suelo */
-		glBindTexture(GL_TEXTURE_2D, T->suelo_interior);
 		glCallList(suelo_interior);
 		/* Arena */
-		glBindTexture(GL_TEXTURE_2D, T->arena);
 		glCallList(suelo_arena);
 		/* Bola y tablón */
 		glCallList(tablon);
@@ -295,7 +287,6 @@ static void escena(void)
 			float x = (Le_cfra2 - Le_pr - 0.1) / 2.0;
 			float y = (Le_clr - Le_gsl - Le_gss - 0.5) / 2.0;
 
-			glBindTexture(GL_TEXTURE_2D, T->banqueta);
 			glPushMatrix();
 			glTranslatef(x, y, 0.0);
 			glCallList(banqueta);
@@ -314,7 +305,6 @@ static void escena(void)
 			glPopMatrix();
 		}
 		/* Gradas */
-		glBindTexture(GL_TEXTURE_2D, T->grada);
 		glPushMatrix();
 		glTranslatef(0.0, Le_clr - Le_gsl - Le_gss, 0.0);
 		glCallList(grada_frontal);
@@ -348,10 +338,9 @@ static void escena(void)
 }   /* }}} */
 
 
-void init_escena(config_t cfg, struct texturas *ts)
+void init_escena(config_t cfg)
 {  /* {{{ */
 	C = cfg;
-	T = ts;
 
 	/* Copiamos valores de la configuración localmente para ahorrarnos
 	 * algunas consultas */
@@ -367,8 +356,8 @@ void init_escena(config_t cfg, struct texturas *ts)
 	Le_znear = valor_decimal(C, c_znear);
 	Le_zfar  = valor_decimal(C, c_zfar);
 
-	/* Creamos una textura 2D para la carpa, para molar */
-	T->carpa = gen_textura_carpa();
+	/* Textura para el cielo */
+	tex_cielo = cargar_textura(C, valor_cadena(C, ci_tex));
 
 	init_luces();
 

@@ -31,8 +31,10 @@
 #endif
 
 #include "piezas.h"
+#include "textura.h"
 
 static const float color_lateral[3] = {0.7, 0.0, 0.1};
+static int gradas_textura = 0;
 
 int crear_grada_frontal(config_t c)
 {  /* {{{ */
@@ -43,6 +45,9 @@ int crear_grada_frontal(config_t c)
 	float paso_h = valor_decimal(c, gs_largo) / (float)gesc;
 	float smin   = 0.0;
 	float smax   = valor_decimal(c, g_f_ancho);
+
+	if (!gradas_textura)
+		gradas_textura = cargar_textura(c, valor_cadena(c, gs_tex));
 
 	lista = glGenLists(1);
 	if (lista == 0)
@@ -68,6 +73,7 @@ int crear_grada_frontal(config_t c)
 	glEnd();
 	/* Escalones */
 	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, gradas_textura);
 	glColor3f(1.0, 1.0, 1.0);
 	glBegin(GL_QUADS);
 	for (i = 0; i < gesc; ++i) {
@@ -121,6 +127,9 @@ int crear_grada_lateral(config_t c)
 	float cos_angulo = cosf(angulo_rad);
 	float s, ss;
 
+	if (!gradas_textura)
+		gradas_textura = cargar_textura(c, valor_cadena(c, gs_tex));
+
 	lista = glGenLists(1);
 	if (lista == 0)
 		return 0;
@@ -148,6 +157,7 @@ int crear_grada_lateral(config_t c)
 	}
 	/* Escalones */
 	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, gradas_textura);
 	glColor3f(1.0, 1.0, 1.0);
 	for (i = gap; i < (gdet - gap); ++i) {
 		glPushMatrix();

@@ -72,19 +72,19 @@ conf_keys.o: conf_keys.c conf_keys.h
 	$(mk_obj)
 test_config.o: test_config.c config.h 
 	$(mk_obj)
-textura.o: textura.c textura.h
+textura.o: textura.c textura.h config.h conf_keys.h
 	$(mk_obj)
 
 # Piezas
-escena.o: escena.c escena.h config.h conf_keys.h
+escena.o: escena.c escena.h config.h conf_keys.h textura.h
 	$(mk_obj)
-carpa.o: carpa.c piezas.h config.h conf_keys.h
+carpa.o: carpa.c piezas.h config.h conf_keys.h textura.h
 	$(mk_obj)
-gradas.o: gradas.c piezas.h config.h conf_keys.h
+gradas.o: gradas.c piezas.h config.h conf_keys.h textura.h
 	$(mk_obj)
-suelo.o: suelo.c piezas.h config.h conf_keys.h
+suelo.o: suelo.c piezas.h config.h conf_keys.h textura.h
 	$(mk_obj)
-complementos.o: complementos.c piezas.h config.h conf_keys.h
+complementos.o: complementos.c piezas.h config.h conf_keys.h textura.h
 	$(mk_obj)
 
 .PHONY: clean wdist wdistclean changelog

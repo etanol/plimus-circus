@@ -30,6 +30,7 @@
 #endif
 
 #include "piezas.h"
+#include "textura.h"
 
 
 static void suelo(float *limites, float *tex, int detalle)
@@ -47,19 +48,21 @@ static void suelo(float *limites, float *tex, int detalle)
 
 int crear_suelo_exterior(config_t c)
 {  /* {{{ */
-	int lista;
+	int lista, textura;
 	float l = valor_decimal(c, se_lado) / 2.0;
 	float limites[4][3] = {{-l, -l, 0.0}, {-l, l, 0.0},
 		{l, -l, 0.0}, {l, l, 0.0}};
-	float textura[4][2] = {{0.0, 0.0}, {0.0, l*2}, {l*2, 0.0}, {l*2, l*2}};
+	float texcoord[4][2] = {{0.0, 0.0}, {0.0, l*2}, {l*2, 0.0}, {l*2, l*2}};
 
+	textura = cargar_textura(c, valor_cadena(c, se_tex));
 	lista = glGenLists(1);
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	glPushAttrib(GL_ENABLE_BIT);
 	glEnable(GL_TEXTURE_2D);
-	suelo(limites[0], textura[0], valor_entero(c, se_det));
+	glBindTexture(GL_TEXTURE_2D, textura);
+	suelo(limites[0], texcoord[0], valor_entero(c, se_det));
 	glPopAttrib();
 	glEndList();
 	return lista;
@@ -68,21 +71,23 @@ int crear_suelo_exterior(config_t c)
 
 int crear_suelo_interior(config_t c)
 {  /* {{{ */
-	int lista;
+	int lista, textura;
 	float x = (valor_decimal(c, c_fr_ancho) / 2.0) +
 		valor_decimal(c, c_l_radio);
 	float y = valor_decimal(c, c_l_radio);
 	float limites[4][3] = {{-x, -y, 0.0}, {-x, y, 0.0},
 		{x, -y, 0.0}, {x, y, 0.0}};
-	float textura[4][2] = {{0.0, 0.0}, {0.0, y*2}, {x*2, 0.0}, {x*2, y*2}};
+	float texcoord[4][2] = {{0.0, 0.0}, {0.0, y*2}, {x*2, 0.0}, {x*2, y*2}};
 
+	textura = cargar_textura(c, valor_cadena(c, si_tex));
 	lista = glGenLists(1);
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	glPushAttrib(GL_ENABLE_BIT);
 	glEnable(GL_TEXTURE_2D);
-	suelo(limites[0], textura[0], valor_entero(c, si_det));
+	glBindTexture(GL_TEXTURE_2D, textura);
+	suelo(limites[0], texcoord[0], valor_entero(c, si_det));
 	glPopAttrib();
 	glEndList();
 	return lista;
@@ -91,14 +96,14 @@ int crear_suelo_interior(config_t c)
 
 int crear_suelo_arena(config_t c)
 {  /* {{{ */
-	int lista, i, j;
+	int lista, i, j, textura;
 	float x = (valor_decimal(c, c_fr_ancho)/2) - 
 		valor_decimal(c, p_radio) - valor_decimal(c, sa_psep);
 	float y = valor_decimal(c, c_l_radio) - valor_decimal(c, gs_largo) -
 		valor_decimal(c, gs_sep) - valor_decimal(c, sa_gsep);
 	float limites[4][3] = {{-x, -y, 0.01}, {-x, y, 0.01},
 		{x, -y, 0.01}, {x, y, 0.01}};
-	float textura[4][2] = {{0.0, 0.0}, {0.0, y*2}, {x*2, 0.0}, {x*2, y*2}};
+	float texcoord[4][2] = {{0.0, 0.0}, {0.0, y*2}, {x*2, 0.0}, {x*2, y*2}};
 	float b_frontal[4][3] = {
 		{-(x+0.05), -0.05, -0.05}, {-(x+0.05), -0.05, 0.05},
 		{x+0.05, -0.05, 0.05}, {x+0.05, -0.05, -0.05}};
@@ -106,6 +111,7 @@ int crear_suelo_arena(config_t c)
 		{0.05, y+0.05, -0.05}, {0.05, y+0.05, 0.05},
 		{0.05, -(y+0.05), 0.05}, {0.05, -(y+0.05), -0.05}};
 
+	textura = cargar_textura(c, valor_cadena(c, sa_tex));
 	lista = glGenLists(1);
 	if (lista == 0)
 		return 0;
@@ -143,7 +149,8 @@ int crear_suelo_arena(config_t c)
 	}
 	/* Textura de arena */
 	glEnable(GL_TEXTURE_2D);
-	suelo(limites[0], textura[0], valor_entero(c, sa_det));
+	glBindTexture(GL_TEXTURE_2D, textura);
+	suelo(limites[0], texcoord[0], valor_entero(c, sa_det));
 	glPopAttrib();
 	glEndList();
 	return lista;

@@ -24,7 +24,7 @@
  * $Id$
  */
 
-const char t_dir[] = "texturas_subidr"; /* string */
+const char t_dir[] = "texturas_subdir"; /* string */
 
 /* Parámetros iniciales de la ventana */
 const char v_width[]  = "ventana_ancho_inicial"; /* int */
@@ -87,4 +87,14 @@ const char p_radio[] = "poste_radio";            /* float */
 const char p_ealto[] = "poste_extra_alto";       /* float */
 const char p_deth[]  = "poste_detalle_caras";    /* int */
 const char p_detv[]  = "poste_detalle_vertical"; /* int */
+
+/* Parámetros de las banquetas */
+const char b_alto[] = "banqueta_alto";        /* float */
+const char b_rmay[] = "banqueta_radio_mayor"; /* float */
+const char b_rmen[] = "banqueta_radio_menor"; /* float */
+const char b_det[]  = "banqueta_detalle";     /* int */
+const char b_tex[]  = "banqueta_textura";     /* string */
+
+/* Parámetros del cartel */
+const char crt_foto[] = "cartel_foto"; /* string */
 
