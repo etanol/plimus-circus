@@ -72,6 +72,8 @@ static void actualiza_viewport(int ancho, int alto)
 
 static void cielo(void)
 {  /* {{{ */
+	glColor3f(1.0, 1.0, 1.0);
+	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
@@ -96,27 +98,27 @@ static void cielo(void)
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
-	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
+	glPopAttrib();
 }  /* }}} */
 
 
 static void init_luces(void)
 {  /* {{{ */
-	float sol_ambiente[4]  = {0.2, 0.2, 0.2, 1.0};
+	float ambiente_global[4] = {0.0, 0.0, 0.0, 1.0};
+	float sol_ambiente[4]  = {0.25, 0.25, 0.25, 1.0};
 	float sol_difusa[4]    = {1.0, 1.0, 1.0, 1.0};
 	float sol_especular[4] = {0.5, 0.5, 0.5, 1.0};
 	float foco_ambiente[4]   = {1.0, 1.0, 1.0, 1.0};
 	float foco_difusa[4]     = {1.0, 1.0, 1.0, 1.0};
 	float foco_especular[4]  = {1.0, 1.0, 1.0, 1.0};
-	float foco_atenuacion[3] = {0.8, 0.5, 0.0};
-	float foco_apertura      = 30.0;
-	float foco_exponente     = 5.0;
-	float interior_ambiente[4]  = {0.2, 0.2, 0.2, 1.0}; 
+	float foco_atenuacion[3] = {0.9, 0.4, 0.0};
+	float foco_apertura      = 25.0;
+	float foco_exponente     = 7.0;
+	float interior_ambiente[4]  = {0.1, 0.1, 0.1, 1.0}; 
 	float interior_difusa[4]    = {0.8, 0.8, 0.8, 1.0};
 	float interior_especular[4] = {0.2, 0.2, 0.2, 1.0};
 
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambiente_global);
 	/* Luz solar */
 	glLightfv(GL_LIGHT0, GL_AMBIENT, sol_ambiente);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, sol_difusa);
@@ -166,9 +168,9 @@ static void init_luces(void)
 	glLightfv(GL_LIGHT5, GL_AMBIENT, interior_ambiente);
 	glLightfv(GL_LIGHT5, GL_DIFFUSE, interior_difusa);
 	glLightfv(GL_LIGHT5, GL_SPECULAR, interior_especular);
-	glLightf (GL_LIGHT5, GL_CONSTANT_ATTENUATION, 0.0);
-	glLightf (GL_LIGHT5, GL_LINEAR_ATTENUATION, 0.0);
-	glLightf (GL_LIGHT5, GL_QUADRATIC_ATTENUATION, 0.1);
+	glLightf (GL_LIGHT5, GL_CONSTANT_ATTENUATION, 0.5);
+	glLightf (GL_LIGHT5, GL_LINEAR_ATTENUATION, 0.15);
+	glLightf (GL_LIGHT5, GL_QUADRATIC_ATTENUATION, 0.0);
 	glLightf (GL_LIGHT5, GL_SPOT_CUTOFF, 180.0);
 }  /* }}} */
 
@@ -176,9 +178,10 @@ static void init_luces(void)
 static void luces(void)
 {  /* {{{ */
 	float sol_posicion[4]   = {-1.0, -1.0, 0.7, 0.0};
-	float foco_posicion[4]  = {0.0, 0.0,
-		C->carpa_faldon_alto+C->carpa_techo_alto, 1.0};
+	float foco_posicion[4]  = {0.0, 0.0, 0.0, 1.0};
 	float foco_direccion[4] = {0.0, 0.0, -1.0, 0.0};
+	float interior_posicion[4] = {0.0, 0.0, 
+		C->carpa_faldon_alto+C->carpa_techo_alto, 1.0};
 	if (modo_exterior) {
 		glDisable(GL_LIGHT1);
 		glDisable(GL_LIGHT2);
@@ -191,7 +194,10 @@ static void luces(void)
 		glDisable(GL_LIGHT0);
 		glEnable(GL_LIGHT1);
 		glPushMatrix();
-		glRotatef(15.0, 0.0, 1.0, 0.0);
+		glTranslatef(0.0, 0.0, C->carpa_faldon_alto +
+				C->carpa_techo_alto);
+		glRotatef(angulo_anim*3.0, 0.0, 0.0, 1.0);
+		glRotatef(45.0, 0.0, 1.0, 0.0);
 		glLightfv(GL_LIGHT1, GL_POSITION, foco_posicion);
 		glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, foco_direccion);
 		glPopMatrix();
@@ -199,7 +205,7 @@ static void luces(void)
 		glEnable(GL_LIGHT3);
 		glEnable(GL_LIGHT4); */
 		glEnable(GL_LIGHT5); 
-		glLightfv(GL_LIGHT5, GL_POSITION, foco_posicion);
+		glLightfv(GL_LIGHT5, GL_POSITION, interior_posicion);
 	}
 }  /* }}} */
 
