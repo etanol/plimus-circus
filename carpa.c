@@ -70,6 +70,7 @@ int crear_faldon_frontal(struct config *c)
 			texcoord);
 	glMapGrid2f(c->carpa_detalle_vert, 0.0, 1.0, c->carpa_detalle_horiz,
 			0.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
 	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_vert, 0,
 			c->carpa_detalle_horiz);
 	glPopAttrib();
@@ -113,6 +114,7 @@ int crear_faldon_lateral(struct config *c)
 			texcoord);
 	glMapGrid2f(c->carpa_detalle_vert, 0.0, 1.0, c->carpa_detalle_horiz,
 			0.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
 	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_vert, 0,
 			c->carpa_detalle_horiz);
 	glPopAttrib();
@@ -158,6 +160,7 @@ int crear_techo_frontal(struct config *c)
 			texcoord);
 	glMapGrid2f(c->carpa_detalle_horiz, 0.0, 1.0, c->carpa_detalle_vert,
 			0.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
 	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_horiz, 0,
 			c->carpa_detalle_vert);
 	glPopAttrib();

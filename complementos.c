@@ -46,7 +46,7 @@ int crear_poste(struct config *c)
 	gluQuadricOrientation(cilindro, GLU_OUTSIDE);
 	gluQuadricNormals(cilindro, GLU_SMOOTH);
 	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_LIGHTING_BIT | GL_CURRENT_BIT);
+	glPushAttrib(GL_LIGHTING_BIT);
 	glColor3f(0.7, 0.7, 0.7);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, brillo); 
 	glMaterialf(GL_FRONT, GL_SHININESS, 30.0);
@@ -92,6 +92,7 @@ int crear_suelo_exterior(struct config *c)
 			textura[0]);
 	glMapGrid2f(c->suelo_detalle, 0.0, 1.0, c->suelo_detalle, 0.0, 1.0);
 	glNormal3f(0.0, 0.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
 	glEvalMesh2(GL_FILL, 0, c->suelo_detalle, 0, c->suelo_detalle);
 	glPopAttrib();
 	glEndList();
@@ -121,6 +122,7 @@ int crear_suelo_interior(struct config *c)
 			textura[0]);
 	glMapGrid2f(c->suelo_detalle, 0.0, 1.0, c->suelo_detalle, 0.0, 1.0);
 	glNormal3f(0.0, 0.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
 	glEvalMesh2(GL_FILL, 0, c->suelo_detalle, 0, c->suelo_detalle);
 	glPopAttrib();
 	glEndList();
@@ -154,19 +156,7 @@ int crear_arena(struct config *c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_ENABLE_BIT | GL_CURRENT_BIT);
-	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_MAP2_VERTEX_3);
-	glEnable(GL_MAP2_TEXTURE_COORD_2);
-	/* Textura de arena */
-	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 6, 2, 0.0, 1.0, 3, 2, limites[0]);
-	glMap2f(GL_MAP2_TEXTURE_COORD_2, 0.0, 1.0, 2, 2, 0.0, 1.0, 4, 2,
-			textura[0]);
-	glMapGrid2f(c->arena_detalle, 0.0, 1.0, c->arena_detalle, 0.0, 1.0);
-	glNormal3f(0.0, 0.0, 1.0);
-	glEvalMesh2(GL_FILL, 0, c->arena_detalle, 0, c->arena_detalle);
-	glDisable(GL_TEXTURE_2D);
-	glDisable(GL_MAP2_TEXTURE_COORD_2);
+	glPushAttrib(GL_ENABLE_BIT);
 	/* Bordes de la arena */
 	glColor3f(0.8, 0.8, 0.8);
 	glInterleavedArrays(GL_V3F, 0, b_frontal[0]);
@@ -197,6 +187,17 @@ int crear_arena(struct config *c)
 		}
 		glPopMatrix();
 	}
+	/* Textura de arena */
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_MAP2_VERTEX_3);
+	glEnable(GL_MAP2_TEXTURE_COORD_2);
+	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 6, 2, 0.0, 1.0, 3, 2, limites[0]);
+	glMap2f(GL_MAP2_TEXTURE_COORD_2, 0.0, 1.0, 2, 2, 0.0, 1.0, 4, 2,
+			textura[0]);
+	glMapGrid2f(c->arena_detalle, 0.0, 1.0, c->arena_detalle, 0.0, 1.0);
+	glNormal3f(0.0, 0.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
+	glEvalMesh2(GL_FILL, 0, c->arena_detalle, 0, c->arena_detalle);
 	glPopAttrib();
 	glEndList();
 	return lista;
@@ -216,14 +217,12 @@ int crear_banco(struct config *c)
 	gluQuadricOrientation(cilindro, GLU_OUTSIDE);
 	gluQuadricNormals(cilindro, GLU_SMOOTH);
 	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_CURRENT_BIT);
 	glColor3f(0.8, 0.4, 0.0);
 	glPushMatrix();
 	glTranslatef(0.0, 0.0, 0.2);
 	gluDisk(cilindro, 0, 0.5, 20, 1);
 	glPopMatrix();
 	gluCylinder(cilindro, 0.5, 0.5, 0.2, 20, 1);
-	glPopAttrib();
 	glEndList();
 	gluDeleteQuadric(cilindro);
 	return lista;
@@ -244,7 +243,7 @@ int crear_cartel(struct config *c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_LIGHTING_BIT | GL_ENABLE_BIT | GL_CURRENT_BIT);
+	glPushAttrib(GL_ENABLE_BIT);
 	glEnable(GL_TEXTURE_2D);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
