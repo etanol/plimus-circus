@@ -86,8 +86,8 @@ static void escena(void)
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.0, -conf.carpa_lateral_radio, 0.0);
-	glRotatef(180.0, 0.0, 0.0, 1.0);
+	glScalef(1.0, -1.0, 1.0);
+	glTranslatef(0.0, conf.carpa_lateral_radio, 0.0);
 	glCallList(faldon_frontal);
 	glPopMatrix();
 
@@ -97,8 +97,8 @@ static void escena(void)
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-conf.carpa_frontal_ancho/2, 0.0, 0.0);
-	glRotatef(180.0, 0.0, 0.0, 1.0);
+	glScalef(-1.0, 1.0, 1.0);
+	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
 	glCallList(faldon_lateral);
 	glPopMatrix();
 
@@ -108,8 +108,8 @@ static void escena(void)
 	glPopMatrix();
 
 	glPushMatrix();
+	glScalef(1.0, -1.0, 1.0);
 	glTranslatef(0.0, 0.0, conf.carpa_faldon_alto);
-	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(techo_frontal);
 	glPopMatrix();
 
@@ -119,23 +119,22 @@ static void escena(void)
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-conf.carpa_frontal_ancho/2, 0.0, conf.carpa_faldon_alto);
-	glRotatef(180.0, 0.0, 0.0, 1.0);
+	glScalef(-1.0, 1.0, 1.0);
+	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, conf.carpa_faldon_alto);
 	glCallList(techo_lateral);
 	glPopMatrix();
 	/*
 	 * Gradas
 	 */
 	glBindTexture(GL_TEXTURE_2D, texs.grada);
-	glColor3f(0.7, 0.0, 0.1);
 	glPushMatrix();
 	glTranslatef(0.0, conf.carpa_lateral_radio-conf.gradas_largo-SEP_GRADAS_CARPA, 0.0);
 	glCallList(grada_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.0, conf.gradas_largo+SEP_GRADAS_CARPA-conf.carpa_lateral_radio, 0.0);
-	glRotatef(180.0, 0.0, 0.0, 1.0);
+	glScalef(1.0, -1.0, 1.0);
+	glTranslatef(0.0, conf.carpa_lateral_radio-conf.gradas_largo-SEP_GRADAS_CARPA, 0.0);
 	glCallList(grada_frontal);
 	glPopMatrix();
 
@@ -145,8 +144,8 @@ static void escena(void)
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-conf.carpa_frontal_ancho/2, 0.0, 0.0);
-	glRotatef(180.0, 0.0, 0.0, 1.0);
+	glScalef(-1.0, 1.0, 1.0);
+	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
 	glCallList(grada_lateral);
 	glPopMatrix();
 	/*

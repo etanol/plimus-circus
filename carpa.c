@@ -39,7 +39,7 @@ int crear_faldon_frontal(struct config *c)
 {
 	int i, j, lista;
 	float control[4][4][3];
-	float texcoord[4] = {0.0, 3.0, 0.0, 3.0};
+	float texcoord[4] = {0.0, 2.5, 0.0, 2.5};
 	float paso_z = c->carpa_faldon_alto / 3.0;
 	float paso_x = c->carpa_frontal_ancho / 3.0;
 	float x      = c->carpa_frontal_ancho / 2.0;
@@ -78,7 +78,7 @@ int crear_faldon_lateral(struct config *c)
 {
 	int i, lista;
 	float control[4][4][3];
-	float texcoord[4] = {0.0, 6.0, 0.0, 6.0};
+	float texcoord[4] = {0.5, 6.0, 0.5, 6.0};
 	float paso_z  = c->carpa_faldon_alto / 3.0;
 	float caida_y = c->carpa_lateral_radio + CAIDA_FALDON; 
 
@@ -121,7 +121,7 @@ int crear_techo_frontal(struct config *c)
 {
 	int i, j, lista;
 	float control[4][4][3];
-	float texcoord[4] = {0.0, 3.0, 0.0, 3.0};
+	float texcoord[4] = {0.0, 2.5, 0.0, 2.5};
 	float paso_x = c->carpa_frontal_ancho / 3.0;
 	float paso_y = c->carpa_lateral_radio / 3.0;
 	float paso_z = c->carpa_techo_alto    / 3.0;
@@ -166,7 +166,7 @@ int crear_techo_lateral(struct config *c)
 {
 	int i, lista;
 	float control[4][4][3]; 
-	float texcoord[4] = {0.0, 6.0, 0.0, 6.0};
+	float texcoord[4] = {0.5, 6.0, 0.5, 6.0};
 	float paso_y = c->carpa_lateral_radio / 3.0;
 	float paso_z = c->carpa_techo_alto    / 3.0;
 	float zeta[4] = 

@@ -27,6 +27,7 @@
 #include <GL/glut.h>
 #include <math.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "camaras.h"
 
@@ -41,7 +42,7 @@ static const float DEFINICION = 1.5;
 static float angulo_h = 0.0; /* Ángulo de rotación horizontal */
 static float angulo_v = 0.0; /* Ángulo de rotación vertical */
 static float camara_x = 0.0; /* Posición de la cámara */
-static float camara_y = 0.0;
+static float camara_y = 0.6;
 static float camara_z = 0.0;
 
 
@@ -122,7 +123,8 @@ static void teclado_especial(int tecla, int x, int y)
 			camara_y += AVANCE;
 			break;
 		case GLUT_KEY_PAGE_DOWN: /* Descenso */
-			camara_y -= AVANCE;
+			if (camara_y > 0.6f)
+				camara_y -= AVANCE;
 			break;
 		default:
 			return;
@@ -147,6 +149,12 @@ static void teclado(unsigned char tecla, int x, int y)
 			break;
 		case 'f':  /* Giro de cámara hacia abajo */
 			giro_camara(-1.0, VERTICAL);
+			break;
+		case 'p': /* Imprimimos el estado actual de la cámara */
+			printf("Angulo H: %f\n", angulo_h);
+			printf("Angulo V: %f\n", angulo_v);
+			printf("Camara (x, y, z): (%f, %f, %f)\n", camara_x,
+					camara_y, camara_z);
 			break;
 		case ESC:  /* Salimos del programa */
 			exit(0);
@@ -197,4 +205,5 @@ void init_interaccion(void)
 	glutKeyboardFunc(teclado);
 	glutSpecialFunc(teclado_especial);
 	glutMotionFunc(raton);
+	actualiza_camara();
 }
