@@ -10,23 +10,21 @@
 
 tmp_header="header$$.tmp"
 
-for file in `find . -path '*CVS' -prune -o -type f -printf "%P "`; do
+for file in `find . -type f -printf '%P '`; do
 	
-	test -r $file -a -w $file || continue
+	test -r $file -a -w $file || continue 
 	case "$file" in
-		.*|*.[oO]|do_header|template.*) continue ;;
-		*.[cChH]) template_file="template.h" ;;
-		Makefile) template_file="template.hash" ;;
-		       *) template_file="template.plain" 
-		          test -f $template_file || \
-			  sed -e 's/^#//' template.hash >$template_file ;;
+		template*)	continue ;;
+		*.[ch])		template_file="template.h" ;;
+		Makefile)	template_file="template.hash" ;;
+		*)		continue ;;
 	esac
 
 	sed -n -e '0,/^[ 	]*$/p' $file >$tmp_header
 	
 	if diff $tmp_header $template_file >/dev/null 2>&1; then
 		# Cabeceras iguales 
-		echo "Fichero $file no necestia actualización."
+		echo "El fichero $file no necestia actualización."
 	else
 		# Cabeceras distintas. Reemplazar
 		tfile="$file.s"
@@ -38,4 +36,4 @@ for file in `find . -path '*CVS' -prune -o -type f -printf "%P "`; do
 	
 done
 
-rm -f template.plain $tmp_header
+rm -f $tmp_header
