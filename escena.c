@@ -63,6 +63,7 @@ static void escena(void)
 	 * TODO: Colocar todas las luces manteniendo las interiores apagadas y
 	 * las exteriores encendidas. Dibujar el suelo exterior.
 	 */
+	glColor3f(0.8, 0.8, 0.0);
 
 	/*
 	 * Dibujamos la carpa. TODO: ¿Suelo interior?
@@ -80,13 +81,13 @@ static void escena(void)
 
 	glPushMatrix();
 	glTranslatef(ancho / 2, 0.0, 0.0);
-	faldon_lateral(radio, alto_faldon, num_caras);
+	faldon_lateral(radio, alto_faldon, num_caras, 0);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-(ancho / 2), 0.0, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
-	faldon_lateral(radio, alto_faldon, num_caras);
+	faldon_lateral(radio, alto_faldon, num_caras, 0);
 	glPopMatrix();
 
 	glPushMatrix();
@@ -114,6 +115,7 @@ static void escena(void)
 	/*
 	 * Gradas
 	 */
+	glColor3f(0.7, 0.0, 0.1);
 	glPushMatrix();
 	glTranslatef(0.0, (radio / 2) - 0.05, 0.0);
 	grada_frontal(alto_faldon - 0.2, ancho - 0.3, radio / 2, 14);
@@ -127,13 +129,13 @@ static void escena(void)
 
 	glPushMatrix();
 	glTranslatef(ancho / 2, 0.0, 0.0);
-	grada_lateral((radio/2)-0.05, radio-0.05, alto_faldon-0.2, 14, num_caras);
+	grada_lateral((radio/2)-0.05, radio-0.05, alto_faldon-0.2, 14, num_caras, 1);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-(ancho / 2), 0.0, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
-	grada_lateral((radio/2)-0.05, radio-0.05, alto_faldon-0.2, 14, num_caras);
+	grada_lateral((radio/2)-0.05, radio-0.05, alto_faldon-0.2, 14, num_caras, 1);
 	glPopMatrix();
 
 	/*

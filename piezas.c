@@ -38,7 +38,6 @@ void faldon_frontal(float altura, float longitud)
 {
 	float x = longitud / 2;
 
-	glColor3f(0.8, 0.8, 0.0);
 	glNormal3f(0.0, 1.0, 0.0);
 	glBegin(GL_QUADS);
 	glVertex3f(-x, 0.0, 0.0);
@@ -49,7 +48,7 @@ void faldon_frontal(float altura, float longitud)
 }	
 
 
-void faldon_lateral(float radio, float altura, int num_caras)
+void faldon_lateral(float radio, float altura, int num_caras, int exclude)
 {
 	float angulo, angulo_rad, cos_angulo, sin_angulo, x, y;
 	int i;
@@ -61,8 +60,7 @@ void faldon_lateral(float radio, float altura, int num_caras)
 	x = radio * sin_angulo;
 	y = radio * cos_angulo;
 
-	glColor3f(0.8, 0.8, 0.0);
-	for (i = 0; i < num_caras; ++i) {
+	for (i = exclude; i < (num_caras - exclude); ++i) {
 		glPushMatrix();
 		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
 		glBegin(GL_POLYGON);
@@ -81,10 +79,10 @@ void faldon_lateral(float radio, float altura, int num_caras)
 void techo_frontal(float radio, float altura, float longitud)
 {
 	float x = longitud / 2;
+	float hipotenusa = hypotf(altura, radio);
 
-	glColor3f(0.8, 0.8, 0.0);
 	glBegin(GL_QUADS);
-	glNormal3f(0.0, 0.0, 1.0);
+	glNormal3f(0.0, altura / hipotenusa, radio / hipotenusa);
 	glVertex3f(x, 0.0, altura);
 	glVertex3f(-x, 0.0, altura);
 	glNormal3f(0.0, 1.0, 0.0);
@@ -97,6 +95,7 @@ void techo_frontal(float radio, float altura, float longitud)
 void techo_lateral(float radio, float altura, int num_caras)
 {
 	float angulo, angulo_rad, cos_angulo, sin_angulo, x, y;
+	float normal[3][3], hipotenusa[2];
 	int i;
 
 	angulo     = 180.0 / num_caras;
@@ -105,17 +104,27 @@ void techo_lateral(float radio, float altura, int num_caras)
 	sin_angulo = sinf(angulo_rad);
 	x = radio * sin_angulo;
 	y = radio * cos_angulo;
+	hipotenusa[0] = sqrtf((2*(altura*altura)*(1-cos_angulo))+radio*radio*sin_angulo*sin_angulo);
+	hipotenusa[1] = hypotf(altura, radio);
+	normal[0][0] = (altura * (cos_angulo-1)) / hipotenusa[0];
+	normal[0][1] = (altura * sin_angulo) / hipotenusa[0];
+	normal[0][2] = (radio * sin_angulo) / hipotenusa[0];
+	normal[1][0] = 0.0;
+	normal[1][1] = altura / hipotenusa[1];
+	normal[1][2] = radio / hipotenusa[1];
+	normal[2][0] = (altura*sin_angulo) / hipotenusa[1];
+	normal[2][1] = (altura*cos_angulo) / hipotenusa[1];
+	normal[2][2] = radio / hipotenusa[1];
 
-	glColor3f(0.8, 0.8, 0.0);
 	for (i = 0; i < num_caras; ++i) {
 		glPushMatrix();
 		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
 		glBegin(GL_TRIANGLES);
-		glNormal3f(0.0, 0.0, 1.0);
+		glNormal3fv(normal[0]);
 		glVertex3f(0.0, 0.0, altura);
-		glNormal3f(0.0, 1.0, 0.0);
+		glNormal3fv(normal[1]);
 		glVertex3f(0.0, radio, 0.0);
-		glNormal3f(sin_angulo, cos_angulo, 0.0);
+		glNormal3fv(normal[2]);
 		glVertex3f(x, y, 0.0);
 		glEnd();
 		glPopMatrix();
@@ -132,7 +141,6 @@ void grada_frontal(float altura, float longitud, float profundidad, int num_esc)
 	paso_h = profundidad / (float)num_esc;
 	longitud /= 2;
 
-	glColor3f(0.7, 0.0, 0.1);
 	glBegin(GL_QUADS);
 	/* Trasero */
 	glNormal3f(0.0, 1.0, 0.0);
@@ -178,7 +186,7 @@ void grada_frontal(float altura, float longitud, float profundidad, int num_esc)
 
 
 void grada_lateral(float radio_in, float radio_ex, float altura, 
-		int num_esc, int num_caras)
+		int num_esc, int num_caras, int exclude)
 {
 	float paso_v, paso_h, angulo, angulo_rad, sin_angulo, cos_angulo, r;
 	int i, j;
@@ -190,9 +198,7 @@ void grada_lateral(float radio_in, float radio_ex, float altura,
 	sin_angulo = sinf(angulo_rad);
 	cos_angulo = cosf(angulo_rad);
 
-	glColor3f(0.7, 0.0, 0.1);
-	/* Escalones */
-	for (i = 0; i < num_caras; ++i) {
+	for (i = exclude; i < (num_caras - exclude); ++i) {
 		glPushMatrix();
 		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
 		glBegin(GL_QUADS);
@@ -222,20 +228,31 @@ void grada_lateral(float radio_in, float radio_ex, float altura,
 		glPopMatrix();
 	}
 	/* Laterales */
-	for (i = 0; i < num_esc; ++i) {
-		r = radio_in + paso_h*i;
-		glBegin(GL_QUADS);
-		glNormal3f(-1.0, 0.0, 0.0);
-		glVertex3f(0.0, r, 0.0);
-		glVertex3f(0.0, r, paso_v * (i+1));
-		glVertex3f(0.0, r + paso_h, paso_v * (i+1));
-		glVertex3f(0.0, r + paso_h, 0.0);
-		glVertex3f(0.0, -r, 0.0);
-		glVertex3f(0.0, -r, paso_v * (i+1));
-		glVertex3f(0.0, -(r + paso_h), paso_v * (i+1));
-		glVertex3f(0.0, -(r + paso_h), 0.0);
-		glEnd();
-	}
+	glPushMatrix();
+	glRotatef(-angulo * exclude, 0.0, 0.0, 1.0);
+	glBegin(GL_QUADS);
+	glNormal3f(-1.0, 0.0, 0.0);
+		for (i = 0; i < num_esc; ++i) {
+			r = radio_in + paso_h*i;
+			glVertex3f(0.0, r, 0.0);
+			glVertex3f(0.0, r, paso_v * (i+1));
+			glVertex3f(0.0, r + paso_h, paso_v * (i+1));
+			glVertex3f(0.0, r + paso_h, 0.0);
+		}
+	glEnd();
+	glPopMatrix();
+	glPushMatrix();
+	glRotatef(angulo * exclude, 0.0, 0.0, 1.0);
+	glBegin(GL_QUADS);
+		for (i = 0; i < num_esc; ++i) {
+			r = radio_in + paso_h*i;
+			glVertex3f(0.0, -r, 0.0);
+			glVertex3f(0.0, -r, paso_v * (i+1));
+			glVertex3f(0.0, -(r + paso_h), paso_v * (i+1));
+			glVertex3f(0.0, -(r + paso_h), 0.0);
+		}
+	glEnd();
+	glPopMatrix();
 	/* Trasero */
-	faldon_lateral(radio_ex, altura, num_caras);
+	faldon_lateral(radio_ex, altura, num_caras, exclude);
 }

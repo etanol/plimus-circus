@@ -62,6 +62,7 @@ const float radio_ext   = 9.0;
 const float radio_int   = 3.0;
 int caras     = 25;
 int escalones = 14;
+int omitir    = 0;
 
 
 void teclado(unsigned char tecla, int x, int y)
@@ -106,23 +107,29 @@ void display(void)
 	glRotatef(r_vertical, 1.0, 0.0, 0.0);
 	switch (p) {
 		case FALDON_FRONTAL:
+			glColor3f(0.8, 0.8, 0.0);
 			faldon_frontal(altura, longitud);
 			break;
 		case FALDON_LATERAL:
-			faldon_lateral(radio_ext, altura, caras);
+			glColor3f(0.8, 0.8, 0.0);
+			faldon_lateral(radio_ext, altura, caras, omitir);
 			break;
 		case TECHO_FRONTAL:
+			glColor3f(0.8, 0.8, 0.0);
 			techo_frontal(radio_ext, altura, longitud);
 			break;
 		case TECHO_LATERAL:
+			glColor3f(0.8, 0.8, 0.0);
 			techo_lateral(radio_ext, altura, caras);
 			break;
 		case GRADA_FRONTAL:
+			glColor3f(0.7, 0.0, 0.1);
 			grada_frontal(altura, longitud, profundidad, escalones);
 			break;
 		case GRADA_LATERAL:
+			glColor3f(0.7, 0.0, 0.1);
 			grada_lateral(radio_int, radio_ext, altura,
-					escalones, caras);
+					escalones, caras, omitir);
 			break;
 		default:
 			fputs("Pieza no reconocida.\n", stderr);
@@ -138,11 +145,19 @@ int main(int argc, char **argv)
 
 	glutInit(&argc, argv);
 	if (argc > 1) {
-		caras = strtol(argv[1], (char **)NULL, 10);
+		choice = strtol(argv[1], (char **)NULL, 10);
+		if (choice > 0)
+			caras = choice;
 		--argc;
 	}
-	if (argc > 1)
-		escalones = strtol(argv[2], (char **)NULL, 10);
+	if (argc > 1) {
+		choice = strtol(argv[2], (char **)NULL, 10);
+		if (choice > 0)
+			escalones = choice;
+		--argc;
+	}
+	if (argc > 1) 
+		omitir = strtol(argv[3], (char **)NULL, 10);
 
 	fwrite(menu, 1, sizeof(menu)-1, stdout);
 	scanf("%d", &choice);
