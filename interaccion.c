@@ -37,8 +37,9 @@
 #define M_PI 3.14159265
 #endif
 
-#include "camaras.h"
 #include "config.h"
+#include "camaras.h"
+#include "escena.h"
 
 #define ESC 27
 
@@ -50,11 +51,11 @@ float desp_cielo_h = 0.0;
 float desp_cielo_v = 0.0;
 float angulo_anim  = 0.0;
 
-float angulo_h = 0.0; /* Ángulo de rotación horizontal */
-float angulo_v = 0.0; /* Ángulo de rotación vertical */
-float camara_x = 0.0; /* Posición de la cámara */
-float camara_y = 0.6;
-float camara_z = 0.0;
+       float angulo_h = 0.0; /* Ángulo de rotación horizontal */
+static float angulo_v = 0.0; /* Ángulo de rotación vertical */
+static float camara_x = 0.0; /* Posición de la cámara */
+static float camara_y = 0.6;
+static float camara_z = 0.0;
 
 static config_t C;
 static int light_flag      = 1; /* Flags manipulados por el menú */
@@ -65,18 +66,18 @@ static int fullscreen_flag = 0;
 
 /* Entradas de menú */
 static const char *m_enable[] = {
-	"Activar iluminación", "Modelo de shading SMOOTH",
+	"Activar iluminación", "Modelo de shading SMOOTH (espacio)",
 	"Activar niebla exterior", "Activar animación",
 	"Pantalla completa (F5)"
 };
 static const char *m_disable[] = {
-	"Desactivar iluminación", "Modelo de shading FLAT", 
+	"Desactivar iluminación", "Modelo de shading FLAT (espacio)", 
 	"Desactivar niebla exterior", "Desactivar animación",
 	"Restaurar ventana (F5)"
 };
 
 /* Privadísimo */
-static float Li_cfa, Li_cta, Li_clr, Li_cfc, Li_cfra2;
+static float Li_cfa, Li_cta, Li_clr, Li_cfc, Li_cfra2, Li_sel2;
 static float Li_mp, Li_mg, Li_mrs, Li_cid, Li_ag;
 static int   Li_av;
 
@@ -124,7 +125,7 @@ static void comprueba_situacion(enum tipo_de_giro t)
 			modo_exterior = 0;
 		} else if (cx <= (x + radio)) {
 			/* x < cx <= x + radio */
-			modo_exterior = (hypotf(cx-x, cz) <= radio ? 0 : 1);
+			modo_exterior = ((float)hypot(cx-x, cz) <= radio?0:1);
 		} else {
 			/* x < x + radio < cx */
 			modo_exterior = 1;
@@ -242,23 +243,72 @@ static void teclado(unsigned char tecla, int x, int y)
 	int i;
 
 	switch (tecla) {
-		case 'd':  /* Giro de cámara a la izquierda */
+		case 'H':
+		case 'h':  /* Giro de cámara a la izquierda */
 			giro_camara(1.0, HORIZONTAL);
 			break;
-		case 'g':  /* Giro de cámara a la derecha */
+		case 'K':
+		case 'k':  /* Giro de cámara a la derecha */
 			giro_camara(-1.0, HORIZONTAL);
 			break;
-		case 'r':  /* Giro de cámara hacia arriba */
+		case 'U':
+		case 'u':  /* Giro de cámara hacia arriba */
 			giro_camara(1.0, VERTICAL);
 			break;
-		case 'f':  /* Giro de cámara hacia abajo */
+		case 'J':
+		case 'j':  /* Giro de cámara hacia abajo */
 			giro_camara(-1.0, VERTICAL);
 			break;
+		case 'P':
 		case 'p': /* Imprimimos el estado actual de la cámara */
 			printf("Angulo H: %f\n", angulo_h);
 			printf("Angulo V: %f\n", angulo_v);
 			printf("Camara (x, y, z): (%f, %f, %f)\n", camara_x,
 					camara_y, camara_z);
+			break;
+		case ' ': /* Cambio entre GL_FLAT y GL_SMOOTH */
+			if (smooth_flag) {
+				glShadeModel(GL_FLAT);
+				glutChangeToMenuEntry(2, m_enable[1], 1);
+			} else {
+				glShadeModel(GL_SMOOTH);
+				glutChangeToMenuEntry(2, m_disable[1], 1);
+			}
+			smooth_flag = !smooth_flag;
+			break;
+		case 'A':
+		case 'a':  /* Desplazamiento del sol en la coordenada X */
+			sol_posicion[0] += Li_mp;
+			break;
+		case 'Z':
+		case 'z':
+			sol_posicion[0] -= Li_mp;
+			break;
+		case 'S':
+		case 's':  /* Desplazamiento del sol en la coordenada Y */
+			sol_posicion[2] += Li_mp;
+			break;
+		case 'X':
+		case 'x':
+			sol_posicion[2] -= Li_mp;
+			break;
+		case 'D':
+		case 'd':  /* Desplazamiento del sol en la coordenada Z */
+			sol_posicion[1] += Li_mp;
+			break;
+		case 'C':
+		case 'c':
+			sol_posicion[1] -= Li_mp;
+			break;
+		case 'Q':
+		case 'q':  /* Posición inicial del sol */
+			sol_posicion[0] = sol_posicion[1] = -Li_sel2;
+			sol_posicion[2] = 0.7 * Li_sel2;
+			sol_posicion[3] = 0.0;
+			break;
+		case 'W':
+		case 'w':  /* Conmutar entre sol posicional o direccional */
+			sol_posicion[3] = (sol_posicion[3] == 0.0 ? 1.0 : 0.0);
 			break;
 		case ESC:  /* Salimos del programa */
 			exit(0);
@@ -319,14 +369,7 @@ static void menu(int valor)
 			light_flag = !light_flag;
 			break;
 		case 1:
-			if (smooth_flag) {
-				glShadeModel(GL_FLAT);
-				glutChangeToMenuEntry(2, m_enable[1], 1);
-			} else {
-				glShadeModel(GL_SMOOTH);
-				glutChangeToMenuEntry(2, m_disable[1], 1);
-			}
-			smooth_flag = !smooth_flag;
+			teclado(' ', 0, 0);
 			break;
 		case 2:
 			if (fog_flag)
@@ -373,12 +416,17 @@ void init_interaccion(config_t conf)
 	Li_clr   = valor_decimal(C, c_l_radio);
 	Li_cfc   = valor_decimal(C, c_f_caida);
 	Li_cfra2 = valor_decimal(C, c_fr_ancho) / 2.0;
+	Li_sel2  = valor_decimal(C, se_lado)    / 2.0;
 	Li_mp    = valor_decimal(C, m_paso);
 	Li_mg    = valor_decimal(C, m_giro);
 	Li_mrs   = valor_decimal(C, m_rsen);
 	Li_cid   = valor_decimal(C, ci_desp);
 	Li_ag    = valor_decimal(C, a_giro);
 	Li_av    = valor_entero(C, a_vel);
+
+	sol_posicion[0] = sol_posicion[1] = -Li_sel2;
+	sol_posicion[2] = 0.7 * Li_sel2;
+	sol_posicion[3] = 0.0;
 
 	glutKeyboardFunc(teclado);
 	glutSpecialFunc(teclado_especial);
@@ -394,3 +442,4 @@ void init_interaccion(config_t conf)
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	comprueba_situacion(VERTICAL);
 }  /* }}} */
+

@@ -69,6 +69,7 @@ int main(int argc, char **argv)
 	glutCreateWindow(valor_cadena(cfg, v_title));
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	/* Llamamos a los módulos */
 	init_interaccion(cfg);
 	init_escena(cfg);

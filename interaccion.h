@@ -34,12 +34,7 @@ extern int   modo_exterior;
 extern float desp_cielo_h;
 extern float desp_cielo_v;
 extern float angulo_anim;
-
 extern float angulo_h;
-extern float angulo_v;
-extern float camara_x;
-extern float camara_y;
-extern float camara_z;
 
 extern void init_interaccion(config_t);
 extern void actualiza_camara(void);

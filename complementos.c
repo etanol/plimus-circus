@@ -195,6 +195,7 @@ int crear_tablon(config_t c)
 	return lista;
 }  /* }}} */
 
+
 int crear_arbol(config_t c)
 {  /* {{{ */
 	int lista, textura;
@@ -211,7 +212,6 @@ int crear_arbol(config_t c)
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 	glBindTexture(GL_TEXTURE_2D, textura);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBegin(GL_QUADS);
 	glColor3f(1.0, 1.0, 1.0);
 	glTexCoord2i(0, 0); glVertex3f(-x, 0.0, 0.0);
@@ -221,6 +221,30 @@ int crear_arbol(config_t c)
 	glEnd();
 	glPopAttrib();
 	glEndList();
+	return lista;
+}  /* }}} */
+
+
+int crear_sol(config_t c)
+{  /* {{{ */
+	int lista;
+	GLUquadric *sol;
+
+	lista = glGenLists(1);
+	if (lista == 0)
+		return 0;
+	sol = gluNewQuadric();
+	gluQuadricDrawStyle(sol, GLU_FILL);
+	glNewList(lista, GL_COMPILE);
+	glPushAttrib(GL_ENABLE_BIT);
+	glColor3f(1.0, 1.0, 0.0);
+	glDisable(GL_LIGHTING);
+	glDisable(GL_FOG);
+	gluSphere(sol, valor_decimal(c, l_s_radio), valor_entero(c, l_s_det),
+			valor_entero(c, l_s_det));
+	glPopAttrib();
+	glEndList();
+	gluDeleteQuadric(sol);
 	return lista;
 }  /* }}} */
 

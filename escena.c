@@ -31,10 +31,12 @@
 #include <GL/glut.h>
 #endif
 
-#include "escena.h"
+#include "config.h"
 #include "interaccion.h"
 #include "textura.h"
+#include "piezas.h"
 
+float sol_posicion[4];
 
 /* Objetos de la escena */
 static int tex_cielo;
@@ -52,7 +54,8 @@ static int
 	banqueta,
 	tablon,
 	cartel,
-	arbol;
+	arbol,
+	sol;
 
 /* Configuración de la escena */
 static config_t C;
@@ -184,7 +187,6 @@ static void init_luces_niebla(void)
 
 static void luces_niebla(void)
 {  /* {{{ */
-	float sol_posicion[4]   = {-1.0, -1.0, 0.7, 0.0};
 	float foco_posicion[4]  = {0.0, 0.0, 0.0, 1.0};
 	float foco_direccion[4] = {0.0, 0.0, -1.0, 0.0};
 	float interior_posicion[4] = {0.0, 0.0, Le_calt, 1.0};
@@ -200,6 +202,10 @@ static void luces_niebla(void)
 			glEnable(GL_FOG);
 		else
 			glDisable(GL_FOG);
+		glPushMatrix();
+		glTranslatef(sol_posicion[0], sol_posicion[1], sol_posicion[2]);
+		glCallList(sol);
+		glPopMatrix();
 	} else {
 		glDisable(GL_LIGHT0);
 		glEnable(GL_LIGHT1);
@@ -416,5 +422,6 @@ void init_escena(config_t cfg)
 	tablon         = crear_tablon(C);
 	cartel         = crear_cartel(C);
 	arbol          = crear_arbol(C);
+	sol            = crear_sol(C);
 }  /* }}} */
 

@@ -39,6 +39,8 @@ extern const char a_giro[];
 extern const char m_paso[];
 extern const char m_giro[];
 extern const char m_rsen[];
+extern const char l_s_radio[];
+extern const char l_s_det[];
 extern const char l_f_ang[];
 extern const char l_f_ap[];
 extern const char l_f_exp[];

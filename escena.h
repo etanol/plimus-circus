@@ -28,7 +28,8 @@
 #define _ESCENA_H_
 
 #include "config.h"
-#include "piezas.h"
+
+extern float sol_posicion[4];
 
 extern void init_escena(config_t);
 
