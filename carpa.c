@@ -2,15 +2,15 @@
          (o o)
  +----oOO-{_}-OOo--------------------------------------------------------------+
  |                                                                             |
- |                            I N F O R M Á T I C A                            |
- |                                G R Á F I C A                                |
+ |                          P L I M U S   C I R C U S                          |
  |                                                                             |
- |                                                                             |
- |       Alumnos : Isaac Jurado Peinado        (etanol@telefonica.net)         |
- |                 Esteban Martínez Tristancho (estebanmartinez@ono.com)       |
- |       Estudios: Ingeniería Técnica en Informática de Gestión (TIG2)         |
- |       Curso   : 2003/2004                                                   |
- |       Facultad: Universitat de les Illes Balears (UIB)                      |
+ |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
+ |                  Esteban Martínez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: Informática Gráfica I                                      |
+ |      Profesor  : Jose María Buades Rubio                                    |
+ |      Curso     : 2003/2004                                                  |
+ |      Estudios  : Ingeniería Técnica en Informática de Gestión (TIG2)        |
+ |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
 
