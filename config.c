@@ -27,9 +27,9 @@
 #include <string.h>
 
 #include "config.h"
-/* Visual C++ no consigue linkar config.c como objeto independiente */
+/* Visual C++ no consigue linkar conf_keys.c como objeto independiente */
 #ifndef THIS_IS_UNIX
-#include "config.cpp"
+#include "conf_keys.cpp"
 #endif
 
 #define GROW_STEP 4
