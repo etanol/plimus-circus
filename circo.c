@@ -40,7 +40,7 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 #else
-#include <glut.h>
+#include <GL/glut.h>
 #endif
 
 #include "config.h"

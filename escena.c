@@ -22,14 +22,14 @@
  * $Id$
  */
 
+#include <string.h>
 #ifdef THIS_IS_UNIX
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
 #else
-#include <glut.h>
+#include <GL/glut.h>
 #endif
-#include <string.h>
 
 /* 
  * NOTA MENTAL: Quizá podríamos poner la configuración de las luces por

@@ -26,7 +26,7 @@
 #ifdef THIS_IS_UNIX
 #include <GL/gl.h>
 #else
-#include <glut.h>
+#include <GL/glut.h>
 #define M_PI 3.1415927
 #endif
 

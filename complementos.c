@@ -26,7 +26,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #else
-#include <glut.h>
+#include <GL/glut.h>
 #endif
 
 #include "piezas.h"

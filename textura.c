@@ -29,7 +29,7 @@
 #ifdef THIS_IS_UNIX
 #include <GL/gl.h>
 #else
-#include <glut.h>
+#include <GL/glut.h>
 #endif
 
 #define CHECK_ERROR(condicion) do {\

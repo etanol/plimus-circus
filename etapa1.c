@@ -25,7 +25,7 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #else
-#include <glut.h>
+#include <GL/glut.h>
 #endif
 
 /* Tamaño incial de la ventana */
