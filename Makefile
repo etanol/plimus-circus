@@ -24,9 +24,9 @@ etapas   := etapa1 etapa2 etapa3
 ejemplos := robot checker
 piezas   := carpa.c gradas.c
 
-ejemplos  := $(patsubst %,ejemplos/%,$(ejemplos))
-BINFILES  := $(etapas) $(ejemplos) $(practica)
-DISTFILES := *.c *.h $(practica)
+ejemplos   := $(patsubst %,ejemplos/%,$(ejemplos))
+BINFILES   := $(etapas) $(ejemplos) $(practica)
+WDISTFILES := Makefile README.* *.c *.h ChangeLog
 
 
 CFLAGS := -pipe -Wall 
@@ -52,10 +52,10 @@ $(etapas): %: %.c
 $(ejemplos): %: %.c
 	$(mk_bingl)
 
-circo: circo.o escena.o interaccion.o $(piezas:%.c=%.o)
+circo: circo.o escena.o interaccion.o config.o $(piezas:%.c=%.o)
 	$(mk_bingl)
 
-test_pieza: test_pieza.o $(piezas:%.c=%.o)
+test_pieza: test_pieza.o config.o $(piezas:%.c=%.o)
 	$(mk_bingl)
 
 #
@@ -63,30 +63,34 @@ test_pieza: test_pieza.o $(piezas:%.c=%.o)
 #
 interaccion.o: interaccion.c interaccion.h camaras.h
 	$(mk_obj)
-escena.o: escena.c escena.h
+escena.o: escena.c escena.h config.h
 	$(mk_obj)
-carpa.o: carpa.c piezas.h
+carpa.o: carpa.c piezas.h config.h
 	$(mk_obj)
-gradas.o: gradas.c piezas.h
+gradas.o: gradas.c piezas.h config.h
+	$(mk_obj)
+config.o: config.c config.h
 	$(mk_obj)
 
-.PHONY: clean dist distclean
+.PHONY: clean wdist wdistclean changelog
 clean:
 	-rm -f $(wildcard *.o ejemplos/*.o $(BINFILES) gmon.out ejemplos/gmon.out)
 
-dist: $(practica)
+wdist: changelog
 	@test -d IG1 || mkdir IG1; \
-	cp -v $(DISTFILES) IG1; rm IG1/template.h; \
+	cp -v $(WDISTFILES) IG1; rm IG1/template.h; \
 	for i in IG1/*.c; do \
 		mv -v $$i $${i%.c}.cpp; \
 	done; \
 	for i in IG1/*; do \
 		perl -pi -e's/\n/\r\n/g' $$i; \
 	done; \
-	mv -v IG1/circo IG1/circo.linux; \
-	mv -v IG1/test_pieza IG1/test_pieza.linux; \
+	perl -pi -e's/\.c([^a-z])/.cpp$$1/g' IG1/Makefile; \
 	zip -r IG1.zip IG1
 
-distclean: clean
-	-rm -rf IG1 IG1.zip IG1.tar.gz
+changelog:
+	@test -f ChangeLog || cvs2cl
+
+wdistclean: 
+	-rm -rf IG1 IG1.zip ChangeLog*
 
