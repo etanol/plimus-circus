@@ -46,4 +46,9 @@ extern int crear_techo_lateral(struct config *);
 extern int crear_grada_frontal(struct config *);
 extern int crear_grada_lateral(struct config *);
 
+/*
+ * complementos.c
+ */
+extern int crear_poste(struct config *);
+
 #endif

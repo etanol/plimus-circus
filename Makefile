@@ -21,13 +21,13 @@
 
 practica := circo test_pieza
 etapas   := etapa1 etapa2 etapa3
-piezas   := carpa.c carpa_simple.c gradas.c
+piezas   := carpa.c carpa_simple.c gradas.c complementos.c
 
 BINFILES   := $(etapas) $(practica)
 WDISTFILES := Makefile README.* *.c *.h ChangeLog
 
 
-CFLAGS := -pipe -Wall 
+CFLAGS := -pipe -Wall -DTHIS_IS_UNIX
 ifdef debug
  CFLAGS += -O0 -pg -g
  STRIP  := 
@@ -54,7 +54,7 @@ etapas: $(etapas)
 $(etapas): %: %.c
 	$(mk_bingl)
 
-circo: circo.o escena.o interaccion.o config.o $(piezas:%.c=%.o)
+circo: circo.o escena.o textura.o interaccion.o config.o $(piezas:%.c=%.o)
 	$(mk_bingl)
 
 test_pieza: test_pieza.o config.o $(piezas:%.c=%.o)
@@ -72,6 +72,8 @@ carpa.o: carpa.c piezas.h config.h
 gradas.o: gradas.c piezas.h config.h
 	$(mk_obj)
 config.o: config.c config.h
+	$(mk_obj)
+textura.o: textura.c textura.h
 	$(mk_obj)
 
 .PHONY: clean wdist wdistclean changelog

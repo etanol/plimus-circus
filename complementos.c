@@ -15,51 +15,40 @@
  +----------------------------------------------------------------------------*/
 
 /*
- * config.h
+ * complementos.c
  *
- * Definición de los parámetros configurables del circo.
+ * Miscelánea de piezas para la escena.
  *
  * $Id$
  */
 
-#ifndef _CONFIG_H_
-#define _CONFIG_H_
+#include <GL/gl.h>
+#include <GL/glu.h>
 
-#define SEP_GRADAS_CARPA   0.1
-#define CAIDA_TECHO_POSTES 0.8
-#define CAIDA_FALDON       0.5
+#include "piezas.h"
 
-struct config {
-	/* Campo de visión */
-	float fov;
-	float z_near;
-	float z_far;
+int crear_poste(struct config *c)
+{
+	int lista;
+	GLUquadricObj *cilindro;
 	
-	/* Carpa */
-	float carpa_faldon_alto;
-	float carpa_techo_alto;
-	float carpa_frontal_ancho;
-	float carpa_lateral_radio;
-#ifdef CARPA_SIMPLE
- 	int   carpa_lateral_caras; 
-#else
-	int   carpa_detalle_horiz;
-	int   carpa_detalle_vert;
-#endif
-
-	/* Gradas */
-	float gradas_alto;
-	float gradas_largo;
-	int   gradas_escalones;
-	float grada_frontal_ancho;
-	int   grada_lateral_apertura;
-	int   grada_lateral_caras;
-
-	/* Poste */
-	float poste_radio;
-	float poste_extra_alto;
-};
-
-void leer_config(char *, struct config *);
-
-#endif
+	lista = glGenLists(1);
+	if (lista == 0)
+		return 0;
+	cilindro = gluNewQuadric();
+	gluQuadricDrawStyle(cilindro, GLU_FILL);
+	gluQuadricOrientation(cilindro, GLU_OUTSIDE);
+	gluQuadricNormals(cilindro, GLU_SMOOTH);
+	glNewList(lista, GL_COMPILE);
+	gluCylinder(cilindro, c->poste_radio, c->poste_radio,
+			c->carpa_faldon_alto + c->carpa_techo_alto +
+			c->poste_extra_alto, 8, 4);
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, c->carpa_faldon_alto + c->carpa_techo_alto +
+			c->poste_extra_alto);
+	gluDisk(cilindro, 0, c->poste_radio, 8, 1);
+	glPopMatrix();
+	glEndList();
+	gluDeleteQuadric(cilindro);
+	return lista;
+}

@@ -24,6 +24,11 @@
  */
 
 #define FICHERO_CONFIG "medidas_circo.cfg"
+#ifdef THIS_IS_UNIX
+#define TEXTURA_SUELO_EXTERIOR "imagen/cesped1.tga"
+#else
+#define TEXTURA_SUELO_EXTERIOR "imagen\\cesped1.tga"
+#endif
 
 #include <GL/gl.h>
 #include <GL/glut.h>
@@ -31,10 +36,12 @@
 #include "config.h"
 #include "escena.h"
 #include "interaccion.h"
+#include "textura.h"
 
 int main(int argc, char **argv)
 {
 	struct config cfg;
+	struct texturas texes;
 
 	leer_config(FICHERO_CONFIG, &cfg);
 
@@ -45,9 +52,11 @@ int main(int argc, char **argv)
 	glutCreateWindow("Plimus Circus");
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
+	/* Ahora que ya tenemos inicializado OpenGL, cargamos las texturas */
+	texes.suelo_exterior = cargar_textura(TEXTURA_SUELO_EXTERIOR);
 	/* Llamamos a los módulos */
 	init_interaccion();
-	init_escena(&cfg);
+	init_escena(&cfg, &texes);
 	/* Dejamos que GLUT trabaje por nosotros */
 	glutMainLoop();
 	return 0;

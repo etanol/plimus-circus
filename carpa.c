@@ -25,7 +25,6 @@
 #ifndef CARPA_SIMPLE
 
 #include <GL/gl.h>
-#include <math.h>
 
 #include "piezas.h"
 

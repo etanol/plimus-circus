@@ -28,7 +28,9 @@
 #define _ESCENA_H_
 
 #include "config.h"
+#include "textura.h"
+#include "piezas.h"
 
-extern void init_escena(struct config *);
+extern void init_escena(struct config *, struct texturas *);
 
 #endif

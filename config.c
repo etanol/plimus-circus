@@ -73,7 +73,11 @@ static void procesar_linea(char *clave, char *valor, struct config *cfg)
 		cfg->grada_lateral_apertura = (int)valorf;
 	} else if (strcmp(clave, "grada_lateral_caras") == 0) {
 		cfg->grada_lateral_caras = (int)valorf;
-	}
+	} else if (strcmp(clave, "poste_radio") == 0) {
+		cfg->poste_radio = valorf;
+	} else if (strcmp(clave, "poste_extra_alto") == 0) {
+		cfg->poste_extra_alto = valorf;
+	} 
 }
 
 

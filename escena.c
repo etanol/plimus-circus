@@ -31,8 +31,7 @@
  * NOTA MENTAL: Quizá podríamos poner la configuración de las luces por
  * separado (luces.h, luces.c).
  */
-#include "config.h"
-#include "piezas.h"
+#include "escena.h"
 
 
 /* Objetos de la escena */
@@ -42,11 +41,12 @@ static int
 	techo_frontal,
 	techo_lateral,
 	grada_frontal,
-	grada_lateral;
+	grada_lateral,
+	poste;
 
 /* Configuración de la escena */
 static struct config conf;
-
+static struct texturas texs;
 
 static void actualiza_viewport(int ancho, int alto)
 {
@@ -64,6 +64,22 @@ static void escena(void)
 {
 
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+	/*
+	 * La Base
+	 */
+	glDisable(GL_LIGHTING);
+	glBindTexture(GL_TEXTURE_2D, texs.suelo_exterior);
+	glEnable(GL_TEXTURE_2D);
+	glBegin(GL_QUADS);
+	glTexCoord2i(0, 0); glVertex3f(-20.0, 0.0, -20.0);
+	glTexCoord2i(40, 0); glVertex3f(20.0, 0.0, -20.0);
+	glTexCoord2i(40, 40); glVertex3f(20.0, 0.0, 20.0);
+	glTexCoord2i(0, 40); glVertex3f(-20.0, 0.0, 20.0);
+	glEnd();
+	glEnable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
+	
 	glPushMatrix();
 	/*
 	 * Ya que se dibuja todo visto desde arriba (como si se dibujara en
@@ -152,6 +168,20 @@ static void escena(void)
 	glPopMatrix();
 
 	/*
+	 * Postes
+	 */
+	glColor3f(0.7, 0.7, 0.7);
+	glPushMatrix();
+	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
+	glCallList(poste);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-conf.carpa_frontal_ancho/2, 0.0, 0.0);
+	glCallList(poste);
+	glPopMatrix();
+
+	/*
 	 * TODO: Apagar las luces exteriores, encender las luces interiores y
 	 * dibujar los objetos del interior de la carpa.
 	 */
@@ -160,8 +190,10 @@ static void escena(void)
 }
 
 
-void init_escena(struct config *cfg)
+void init_escena(struct config *cfg, struct texturas *ts)
 {
+	memcpy(&conf, cfg, sizeof(struct config));
+	memcpy(&texs, ts, sizeof(struct texturas));
 
 	glutDisplayFunc(escena);
 	glutReshapeFunc(actualiza_viewport);
@@ -170,12 +202,11 @@ void init_escena(struct config *cfg)
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
-	memcpy(&conf, cfg, sizeof(struct config));
-
 	faldon_frontal = crear_faldon_frontal(&conf);
 	faldon_lateral = crear_faldon_lateral(&conf);
 	techo_frontal  = crear_techo_frontal(&conf);
 	techo_lateral  = crear_techo_lateral(&conf);
 	grada_frontal  = crear_grada_frontal(&conf);
 	grada_lateral  = crear_grada_lateral(&conf);
+	poste          = crear_poste(&conf);
 }
