@@ -55,16 +55,25 @@ enum Pieza {
 
 float r_horizontal = 0.0;
 float r_vertical   = 0.0;
+float r_z          = 0.0;
 int lst_pieza;
+int win_h, win_w;
 
 /* Funciones auxiliares */
 void teclado(unsigned char, int, int);
 void rotar(int, int, int);
 void display(void);
+void ventana(int, int);
 
 
 void activa_objeto(enum Pieza p, struct config *c)
 {
+	static GLfloat ejes[] = {
+		0.0, 0.0, 0.0,
+		1.0, 0.0, 0.0,
+		0.0, 1.0, 0.0,
+		0.0, 0.0, 1.0
+	};
 	switch (p) {
 		case FALDON_FRONTAL:
 			glColor3f(0.8, 0.8, 0.0);
@@ -98,6 +107,8 @@ void activa_objeto(enum Pieza p, struct config *c)
 		fputs("No se pudo crear la pieza.\n", stderr);
 		exit(3);
 	}
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, ejes);
 }
 
 
@@ -120,6 +131,7 @@ int main(int argc, char **argv)
 	glutKeyboardFunc(teclado);
 	glutSpecialFunc(rotar);
 	glutDisplayFunc(display);
+	glutReshapeFunc(ventana);
 
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
@@ -128,15 +140,19 @@ int main(int argc, char **argv)
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-10.0, 10.0, -10.0, 10.0, -15.0, 15.0);
-	glMatrixMode(GL_MODELVIEW);
-
 	activa_objeto((enum Pieza) choice, &cfg);
 	glutMainLoop();
 	return 0;
 }
+
+
+void ventana(int w, int h)
+{
+	glLoadIdentity();
+	win_w = w;
+	win_h = h;
+}
+
 
 void teclado(unsigned char tecla, int x, int y)
 {
@@ -144,6 +160,11 @@ void teclado(unsigned char tecla, int x, int y)
 		case '0':
 			r_horizontal = 0.0;
 			r_vertical   = 0.0;
+			r_z = 0.0;
+			break;
+		case 'z':
+		case 'Z':
+			r_z += 3.0;
 			break;
 		case 27:
 			exit(0);
@@ -174,11 +195,46 @@ void rotar(int tecla, int x, int y)
 
 void display(void)
 {
+	GLubyte todos[] = {0, 1, 0, 2, 0, 3};
+	GLubyte ejex[] = {0, 1};
+	GLubyte ejey[] = {0, 2};
+	GLubyte ejez[] = {0, 3};
+
+	/* Dibujamos la pieza */	
+	glViewport(0, 0, win_w, win_h);
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_LIGHTING);
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	glOrtho(-10.0, 10.0, -10.0, 10.0, -15.0, 15.0);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glRotatef(r_z, 0.0, 0.0, 1.0);
 	glRotatef(r_horizontal, 0.0, 1.0, 0.0);
 	glRotatef(r_vertical, 1.0, 0.0, 0.0);
+	glPushMatrix(); /* 1 */
 	glCallList(lst_pieza);
+
+	/* Dibujamos el estado actual de la rotación */
+	glViewport(0, 0, win_w/5, win_h/5);
+	glDisable(GL_LIGHTING);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glPushAttrib(GL_CURRENT_BIT);
+	glColor3f(0.0, 0.0, 0.0);
+	glDrawElements(GL_LINES, 6, GL_UNSIGNED_BYTE, todos);
+	glPopMatrix(); /* 1 */
+	glColor3f(1.0, 0.0, 0.0);
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_BYTE, ejex);
+	glColor3f(0.0, 1.0, 0.0);
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_BYTE, ejey);
+	glColor3f(0.0, 0.0, 1.0);
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_BYTE, ejez);
+	glPopAttrib();
+	glFlush();
 	glutSwapBuffers();
 }
 
