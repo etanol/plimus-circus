@@ -42,12 +42,14 @@
 #define AVANCE		0.1
 #define ROTACION	3.0
 #define DEFINICION	1.5
+#define VELOCIDAD_ANIMACION 50
 
 enum tipo_de_giro {HORIZONTAL, VERTICAL};
 
 int modo_exterior;
 float desp_cielo_h = 0.0;
 float desp_cielo_v = 0.0;
+float angulo_anim  = 0.0;
 
 static struct config *C;
 static float angulo_h = 0.0; /* Ángulo de rotación horizontal */
@@ -55,6 +57,9 @@ static float angulo_v = 0.0; /* Ángulo de rotación vertical */
 static float camara_x = 0.0; /* Posición de la cámara */
 static float camara_y = 0.6;
 static float camara_z = 0.0;
+static int   light_flag     = 1; /* Flags manipulados por el menú */
+static int   smooth_flag    = 1;
+static int   animation_flag = 1;
 
 
 void actualiza_camara(void)
@@ -283,9 +288,6 @@ static void raton(int x, int y)
 
 static void menu(int valor)
 {  /* {{{ */
-	static int light_flag = 1;
-	static int smooth_flag = 1;
-	static int animation_flag = 1;
 
 	switch (valor) {
 		case 0:
@@ -303,8 +305,23 @@ static void menu(int valor)
 			smooth_flag = !smooth_flag;
 			break;
 		case 2:
+			animation_flag = !animation_flag;
 			break;
 	}
+}  /* }}} */
+
+
+static void animacion(int i)
+{  /* {{{ */
+	if (animation_flag) {
+		angulo_anim += 1.0;
+		if (angulo_anim > 360.0)
+			angulo_anim -= 360.0;
+	} else {
+		angulo_anim = 0.0;
+	}
+	glutPostRedisplay();
+	glutTimerFunc(VELOCIDAD_ANIMACION, animacion, 0);
 }  /* }}} */
 
 
@@ -315,6 +332,7 @@ void init_interaccion(struct config *conf)
 	glutSpecialFunc(teclado_especial);
 	glutMotionFunc(raton);
 	glutCreateMenu(menu);
+	glutTimerFunc(VELOCIDAD_ANIMACION, animacion, 0);
 	glutAddMenuEntry("Activar/Desactivar iluminación.", 0);
 	glutAddMenuEntry("Modelo de shading FLAT/SMOOTH.", 1);
 	glutAddMenuEntry("Activar/Desactivar animación.", 2);

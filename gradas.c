@@ -33,10 +33,9 @@
 #include "piezas.h"
 
 static const float color_lateral[3] = {0.7, 0.0, 0.1};
-static const float color_madera[3] = {1.0, 1.0, 1.0};
 
 int crear_grada_frontal(struct config *c)
-{
+{  /* {{{ */
 	int i, lista;
 	float x      = c->grada_frontal_ancho / 2;
 	float paso_v = c->gradas_alto  / (float)c->gradas_escalones;
@@ -48,8 +47,8 @@ int crear_grada_frontal(struct config *c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
+	glPushAttrib(GL_ENABLE_BIT | GL_CURRENT_BIT);
 	glEnable(GL_TEXTURE_2D);
-	glColor3fv(color_madera);
 	/* Escalones */
 	glBegin(GL_QUADS);
 	for (i = 0; i < c->gradas_escalones; ++i) {
@@ -97,13 +96,14 @@ int crear_grada_frontal(struct config *c)
 		glVertex3f(x, paso_h * (i+1), 0.0);
 	}
 	glEnd();
+	glPopAttrib();
 	glEndList();
 	return lista;
-}
+}  /* }}} */
 
 
 int crear_grada_lateral(struct config *c)
-{
+{  /* {{{ */
 	int i, j, lista;
 	float r;
 	float radio_ex   = c->carpa_lateral_radio - SEP_GRADAS_CARPA;
@@ -121,31 +121,12 @@ int crear_grada_lateral(struct config *c)
 		return 0;
 
 	glNewList(lista, GL_COMPILE);
-	/* Laterales */
-	glNormal3f(-1.0, 0.0, 0.0);
-	glColor3fv(color_lateral);
-	for (i = 0; i < 2; ++i) {
-		glPushMatrix();
-		if (i) 
-			glScalef(1.0, -1.0, 1.0);
-		glRotatef(angulo * c->grada_lateral_apertura, 0.0, 0.0, -1.0);
-		glBegin(GL_QUADS);
-		for (j = 0; j < c->gradas_escalones; ++j) {
-			r = radio_in + paso_h*j;
-			glVertex3f(0.0, r, 0.0);
-			glVertex3f(0.0, r, paso_v * (j+1));
-			glVertex3f(0.0, r + paso_h, paso_v * (j+1));
-			glVertex3f(0.0, r + paso_h, 0.0);
-		}
-		glEnd();
-		glPopMatrix();
-	}
+	glPushAttrib(GL_ENABLE_BIT | GL_CURRENT_BIT);
 	/* Escalones */
 	glEnable(GL_TEXTURE_2D);
 	for (i = c->grada_lateral_apertura; i < (c->grada_lateral_caras - c->grada_lateral_apertura); ++i) {
 		glPushMatrix();
 		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
-		glColor3fv(color_madera);
 		glBegin(GL_QUADS);
 		for (j = 0; j < c->gradas_escalones; ++j) {
 			r = radio_in + paso_h*j;
@@ -178,7 +159,28 @@ int crear_grada_lateral(struct config *c)
 		glEnd();
 		glPopMatrix();
 	}
+	/* Laterales */
 	glDisable(GL_TEXTURE_2D);
+	glNormal3f(-1.0, 0.0, 0.0);
+	glColor3fv(color_lateral);
+	for (i = 0; i < 2; ++i) {
+		glPushMatrix();
+		if (i) 
+			glScalef(1.0, -1.0, 1.0);
+		glRotatef(angulo * c->grada_lateral_apertura, 0.0, 0.0, -1.0);
+		glBegin(GL_QUADS);
+		for (j = 0; j < c->gradas_escalones; ++j) {
+			r = radio_in + paso_h*j;
+			glVertex3f(0.0, r, 0.0);
+			glVertex3f(0.0, r, paso_v * (j+1));
+			glVertex3f(0.0, r + paso_h, paso_v * (j+1));
+			glVertex3f(0.0, r + paso_h, 0.0);
+		}
+		glEnd();
+		glPopMatrix();
+	}
+	glPopAttrib();
 	glEndList();
 	return lista;
-}
+}  /* }}} */
+

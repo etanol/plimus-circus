@@ -72,7 +72,6 @@ static void actualiza_viewport(int ancho, int alto)
 
 static void cielo(void)
 {  /* {{{ */
-	glColor3f(1.0, 1.0, 1.0);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
@@ -105,7 +104,7 @@ static void cielo(void)
 
 static void init_luces(void)
 {  /* {{{ */
-	float sol_ambiente[4]  = {0.5, 0.5, 0.5, 1.0};
+	float sol_ambiente[4]  = {0.2, 0.2, 0.2, 1.0};
 	float sol_difusa[4]    = {1.0, 1.0, 1.0, 1.0};
 	float sol_especular[4] = {0.5, 0.5, 0.5, 1.0};
 	float foco_ambiente[4]   = {1.0, 1.0, 1.0, 1.0};
@@ -176,7 +175,7 @@ static void init_luces(void)
 
 static void luces(void)
 {  /* {{{ */
-	float sol_posicion[4]   = {1.0, 1.0, 0.0, 0.0};
+	float sol_posicion[4]   = {-1.0, -1.0, 0.7, 0.0};
 	float foco_posicion[4]  = {0.0, 0.0,
 		C->carpa_faldon_alto+C->carpa_techo_alto, 1.0};
 	float foco_direccion[4] = {0.0, 0.0, -1.0, 0.0};
@@ -269,7 +268,9 @@ static void escena(void)
 		glPopMatrix();
 		glBindTexture(GL_TEXTURE_2D, T->plimus);
 		glPushMatrix();
-		glTranslatef(0.0, -(C->carpa_lateral_radio + 2.0), 0.0);
+		glTranslatef(-(C->carpa_frontal_ancho/2.0+C->carpa_lateral_radio),
+					-(C->carpa_lateral_radio*1.5), 0.0);
+		glRotatef(angulo_anim, 0.0, 0.0, 1.0);
 		glCallList(cartel);
 		glPopMatrix();
 	} else {
@@ -327,7 +328,6 @@ static void escena(void)
 		glPopMatrix();
 	}
 	/* Postes */
-	glColor3f(0.7, 0.7, 0.7);
 	glPushMatrix();
 	glTranslatef(C->carpa_frontal_ancho / 2.0, 0.0, 0.0);
 	glCallList(poste);
@@ -370,5 +370,7 @@ void init_escena(struct config *cfg, struct texturas *ts)
 	arena          = crear_arena(C);
 	banco          = crear_banco(C);
 	cartel         = crear_cartel(C);
+
+	glColor3f(1.0, 1.0, 1.0);
 }  /* }}} */
 
