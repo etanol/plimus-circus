@@ -10,7 +10,7 @@
 
 tmp_header="header$$.tmp"
 
-for file in `find . -type f -not -printf "%P "`; do
+for file in `find . -path '*CVS' -prune -o -type f -printf "%P "`; do
 	
 	test -r $file -a -w $file || continue
 	case "$file" in
