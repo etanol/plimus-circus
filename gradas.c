@@ -121,7 +121,6 @@ int crear_grada_frontal(config_t c)
 	}
 	glEnd();
 	/* Escalones */
-	glEnable(GL_TEXTURE_2D);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnable(GL_TEXTURE_2D);

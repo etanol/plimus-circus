@@ -104,11 +104,12 @@ const char p_deth[]   = "poste_detalle_caras";    /* int */
 const char p_detv[]   = "poste_detalle_vertical"; /* int */
 
 /* Parámetros de las banquetas */
-const char b_alto[] = "banqueta_alto";        /* float */
-const char b_rmay[] = "banqueta_radio_mayor"; /* float */
-const char b_rmen[] = "banqueta_radio_menor"; /* float */
-const char b_det[]  = "banqueta_detalle";     /* int */
-const char b_tex[]  = "banqueta_textura";     /* string */
+const char b_alto[]   = "banqueta_alto";        /* float */
+const char b_rmay[]   = "banqueta_radio_mayor"; /* float */
+const char b_rmen[]   = "banqueta_radio_menor"; /* float */
+const char b_brillo[] = "banqueta_brillo";      /* float */
+const char b_det[]    = "banqueta_detalle";     /* int */
+const char b_tex[]    = "banqueta_textura";     /* string */
 
 /* Parámetros del cartel */
 const char crt_ancho[]  = "cartel_ancho";     /* float */
@@ -116,6 +117,7 @@ const char crt_largo[]  = "cartel_largo";     /* float */
 const char crt_f_alto[] = "cartel_foto_alto"; /* float */
 const char crt_b_alto[] = "cartel_base_alto"; /* float */
 const char crt_sep[]    = "cartel_sep_carpa"; /* float (también para árbol) */
+const char crt_tex[]    = "cartel_textura";   /* string */
 const char crt_foto[]   = "cartel_foto";      /* string */
 
 /* Parámetros del árbol */
@@ -124,6 +126,7 @@ const char ar_alto[]  = "arbol_alto";    /* float */
 const char ar_tex[]   = "arbol_textura"; /* string */
 
 /* Parámetros para el tablón */
+const char t_brillo[]   = "tablon_brillo";            /* float */
 const char t_b_radio[]  = "tablon_bola_radio";        /* float */
 const char t_b_det[]    = "tablon_bola_detalle";      /* int */
 const char t_t_grueso[] = "tablon_tabla_grueso";      /* float */

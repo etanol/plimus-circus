@@ -74,6 +74,7 @@ static void actualiza_viewport(int ancho, int alto)
 static void cielo(void)
 {
 	glColor3f(1.0, 1.0, 1.0);
+	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glBindTexture(GL_TEXTURE_2D, tex_cielo);
@@ -98,9 +99,7 @@ static void cielo(void)
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
-	glEnable(GL_DEPTH_TEST);
-	if (light_flag)
-		glEnable(GL_LIGHTING);
+	glPopAttrib();
 }
 
 
@@ -302,10 +301,6 @@ static void escena(void)
 		glTranslatef(sol_posicion[0], sol_posicion[1], sol_posicion[2]);
 		glCallList(sol);
 		glPopMatrix();
-		if (fog_flag)
-			glEnable(GL_FOG);
-		if (light_flag)
-			glEnable(GL_LIGHTING);
 	} else {
 		/* Suelo */
 		glCallList(suelo_interior);

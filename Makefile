@@ -93,7 +93,7 @@ clean:
 
 wdist: wdistclean changelog
 	@mkdir IG1; \
-	cp -v $(WDISTFILES) IG1; rm IG1/template.h; \
+	cp -v $(WDISTFILES) IG1; rm IG1/template.h IG1/test_*; \
 	for i in IG1/*.c; do \
 		mv -v $$i $${i%.c}.cpp; \
 	done; \
