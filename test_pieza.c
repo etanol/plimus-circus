@@ -26,14 +26,29 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "piezas.h"
 
+const char menu[] = 
+"Piezas disponibles:\n\
+\t(1) Faldón frontal\n\
+\t(2) Faldón lateral\n\
+\t(3) Techo frontal\n\
+\t(4) Techo lateral\n\n\
+Selecciona (1 .. 4): ";
+
+enum Pieza {
+	FALDON_FRONTAL = 1,
+	FALDON_LATERAL,
+	TECHO_FRONTAL,
+	TECHO_LATERAL
+};
+
 static float r_horizontal = 0.0;
 static float r_vertical   = 0.0;
+static enum Pieza p;
 
 void teclado(unsigned char tecla, int x, int y)
 {
@@ -75,19 +90,43 @@ void display(void)
 	glLoadIdentity();
 	glRotatef(r_horizontal, 0.0, 1.0, 0.0);
 	glRotatef(r_vertical, 1.0, 0.0, 0.0);
-	techo_lateral(3.0, 3.0, 30);
+	switch (p) {
+		case FALDON_FRONTAL:
+			faldon_frontal(7.0, 4.0);
+			break;
+		case FALDON_LATERAL:
+			faldon_lateral(4.0, 4.0, 25);
+			break;
+		case TECHO_FRONTAL:
+//			techo_frontal(0.0, 0.0, 0.0);
+			break;
+		case TECHO_LATERAL:
+			techo_lateral(4.0, 4.0, 25);
+			break;
+		default:
+			printf("Pieza no reconocida.\n");
+			exit(1);
+	}
 	glutSwapBuffers();
 }
 
 
 int main(int argc, char **argv)
 {
+	int choice;
+
+	fwrite(menu, 1, sizeof(menu)-1, stdout);
+	scanf("%d", &choice);
+	p = (enum Pieza) choice;
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
 	glutInitWindowSize(700, 700);
 	glutInitWindowPosition(50, 50);
 	glutCreateWindow("Test de fichas.");
+	glutKeyboardFunc(teclado);
+	glutSpecialFunc(rotar);
+	glutDisplayFunc(display);
 
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glEnable(GL_DEPTH_TEST);
@@ -95,14 +134,11 @@ int main(int argc, char **argv)
 	glEnable(GL_LIGHT0);
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-
-	glutKeyboardFunc(teclado);
-	glutSpecialFunc(rotar);
-	glutDisplayFunc(display);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 5.0);
 	glMatrixMode(GL_MODELVIEW);
+
 	glutMainLoop();
 	return 0;
 }
