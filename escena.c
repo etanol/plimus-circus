@@ -112,6 +112,20 @@ static void escena(void)
 	glPopMatrix();
 
 	/*
+	 * Gradas
+	 */
+	glPushMatrix();
+	glTranslatef(0.0, (radio / 2) - 0.05, 0.0);
+	grada_frontal(alto_faldon - 0.2, ancho - 0.3, radio / 2, 14);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.0, -(radio / 2) + 0.05, 0.0);
+	glRotatef(180.0, 0.0, 0.0, 1.0);
+	grada_frontal(alto_faldon - 0.2, ancho - 0.3, radio / 2, 14);
+	glPopMatrix();
+
+	/*
 	 * TODO: Apagar las luces exteriores, encender las luces interiores y
 	 * dibujar los objetos del interior de la carpa.
 	 */

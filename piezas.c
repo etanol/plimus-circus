@@ -122,3 +122,56 @@ void techo_lateral(float radio, float altura, int num_caras)
 	}
 }
 
+
+void grada_frontal(float altura, float longitud, float profundidad, int num_esc)
+{
+	float paso_v, paso_h;
+	int i;
+
+	paso_v = altura / (float)num_esc;
+	paso_h = profundidad / (float)num_esc;
+	longitud /= 2;
+
+	glColor3f(0.7, 0.0, 0.1);
+	glBegin(GL_QUADS);
+	/* Trasero */
+	glNormal3f(0.0, 1.0, 0.0);
+	glVertex3f(-longitud, profundidad, 0.0);
+	glVertex3f(-longitud, profundidad, altura);
+	glVertex3f(longitud, profundidad, altura);
+	glVertex3f(longitud, profundidad, 0.0);
+	/* Base */
+	glNormal3f(0.0, 0.0, -1.0);
+	glVertex3f(-longitud, 0.0, 0.0);
+	glVertex3f(-longitud, profundidad, 0.0);
+	glVertex3f(longitud, profundidad, 0.0);
+	glVertex3f(longitud, 0.0, 0.0);
+	glEnd();
+	for (i = 0; i < num_esc; ++i) {
+		glBegin(GL_QUADS);
+		/* Escalón */
+		glNormal3f(0.0, -1.0, 0.0);
+		glVertex3f(-longitud, paso_h * i, paso_v * i);
+		glVertex3f(-longitud, paso_h * i, paso_v * (i+1));
+		glVertex3f(longitud, paso_h * i, paso_v * (i+1));
+		glVertex3f(longitud, paso_h * i, paso_v * i);
+		glNormal3f(0.0, 0.0, 1.0);
+		glVertex3f(-longitud, paso_h * i, paso_v * (i+1));
+		glVertex3f(-longitud, paso_h * (i+1), paso_v * (i+1));
+		glVertex3f(longitud, paso_h * (i+1), paso_v * (i+1));
+		glVertex3f(longitud, paso_h * i, paso_v * (i+1));
+		/* Laterales */
+		glNormal3f(-1.0, 0.0, 0.0);
+		glVertex3f(-longitud, paso_h * i, 0.0);
+		glVertex3f(-longitud, paso_h * i, paso_v * (i+1));
+		glVertex3f(-longitud, paso_h * (i+1), paso_v * (i+1));
+		glVertex3f(-longitud, paso_h * (i+1), 0.0);
+		glNormal3f(1.0, 0.0, 0.0);
+		glVertex3f(longitud, paso_h * i, 0.0);
+		glVertex3f(longitud, paso_h * i, paso_v * (i+1));
+		glVertex3f(longitud, paso_h * (i+1), paso_v * (i+1));
+		glVertex3f(longitud, paso_h * (i+1), 0.0);
+		glEnd();
+
+	}
+}
