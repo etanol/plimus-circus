@@ -175,3 +175,67 @@ void grada_frontal(float altura, float longitud, float profundidad, int num_esc)
 
 	}
 }
+
+
+void grada_lateral(float radio_in, float radio_ex, float altura, 
+		int num_esc, int num_caras)
+{
+	float paso_v, paso_h, angulo, angulo_rad, sin_angulo, cos_angulo, r;
+	int i, j;
+
+	paso_v = altura / (float)num_esc;
+	paso_h = (radio_ex - radio_in) / (float)num_esc;
+	angulo = 180.0 / num_caras;
+	angulo_rad = M_PI / num_caras;
+	sin_angulo = sinf(angulo_rad);
+	cos_angulo = cosf(angulo_rad);
+
+	glColor3f(0.7, 0.0, 0.1);
+	/* Escalones */
+	for (i = 0; i < num_caras; ++i) {
+		glPushMatrix();
+		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
+		glBegin(GL_QUADS);
+		/* Escalones */
+		for (j = 0; j < num_esc; ++j) {
+			r = radio_in + paso_h*j;
+			glNormal3f(0.0, -1.0, 0.0);
+			glVertex3f(0.0, r, paso_v * j);
+			glVertex3f(0.0, r, paso_v * (j+1));
+			glNormal3f(-sin_angulo, -cos_angulo, 0.0);
+			glVertex3f(r*sin_angulo, r*cos_angulo, paso_v * (j+1));
+			glVertex3f(r*sin_angulo, r*cos_angulo, paso_v * j);
+			glNormal3f(0.0, 0.0, 1.0);
+			glVertex3f(0.0, r, paso_v * (j+1));
+			glVertex3f(r*sin_angulo, r*cos_angulo, paso_v * (j+1));
+			r = radio_in + paso_h*(j+1);
+			glVertex3f(r*sin_angulo, r*cos_angulo, paso_v * (j+1));
+			glVertex3f(0.0, r, paso_v * (j+1));
+		}
+		/* Base */
+		glNormal3f(0.0, 0.0, -1.0);
+		glVertex3f(0.0, radio_in, 0.0);
+		glVertex3f(0.0, radio_ex, 0.0);
+		glVertex3f(radio_ex*sin_angulo, radio_ex*cos_angulo, 0.0);
+		glVertex3f(radio_in*sin_angulo, radio_in*cos_angulo, 0.0);
+		glEnd();
+		glPopMatrix();
+	}
+	/* Laterales */
+	for (i = 0; i < num_esc; ++i) {
+		r = radio_in + paso_h*i;
+		glBegin(GL_QUADS);
+		glNormal3f(-1.0, 0.0, 0.0);
+		glVertex3f(0.0, r, 0.0);
+		glVertex3f(0.0, r, paso_v * (i+1));
+		glVertex3f(0.0, r + paso_h, paso_v * (i+1));
+		glVertex3f(0.0, r + paso_h, 0.0);
+		glVertex3f(0.0, -r, 0.0);
+		glVertex3f(0.0, -r, paso_v * (i+1));
+		glVertex3f(0.0, -(r + paso_h), paso_v * (i+1));
+		glVertex3f(0.0, -(r + paso_h), 0.0);
+		glEnd();
+	}
+	/* Trasero */
+	faldon_lateral(radio_ex, altura, num_caras);
+}

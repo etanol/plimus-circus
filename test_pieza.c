@@ -38,8 +38,9 @@ const char menu[] =
 \t(3) Techo frontal\n\
 \t(4) Techo lateral\n\
 \t(5) Grada frontal\n\
-\t(6) Cono GLUT\n\n\
-Selecciona (1 .. 6): ";
+\t(6) Grada lateral\n\
+\t(7) Cono GLUT\n\n\
+Selecciona (1 .. 7): ";
 
 enum Pieza {
 	FALDON_FRONTAL = 1,
@@ -47,6 +48,7 @@ enum Pieza {
 	TECHO_FRONTAL,
 	TECHO_LATERAL,
 	GRADA_FRONTAL,
+	GRADA_LATERAL,
 	CONO_GLUT
 };
 
@@ -99,7 +101,7 @@ void display(void)
 			faldon_frontal(7.0, 4.0);
 			break;
 		case FALDON_LATERAL:
-			faldon_lateral(4.0, 4.0, 25);
+			faldon_lateral(4.0, 4.0, 7);
 			break;
 		case TECHO_FRONTAL:
 			techo_frontal(4.0, 4.0, 4.0);
@@ -109,6 +111,9 @@ void display(void)
 			break;
 		case GRADA_FRONTAL:
 			grada_frontal(4.0, 4.5, 3.5, 10);
+			break;
+		case GRADA_LATERAL:
+			grada_lateral(1.0, 4.0, 4.5, 10, 25);
 			break;
 		case CONO_GLUT:
 			glColor3f(0.8, 0.8, 0.0);
