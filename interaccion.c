@@ -32,15 +32,15 @@
 
 #define ESC 27
 
-static const GLfloat AVANCE     = 0.1;
-static const GLfloat ROTACION   = 3.0;
-static const GLfloat DEFINICION = 1.5;
+static const float AVANCE     = 0.1;
+static const float ROTACION   = 3.0;
+static const float DEFINICION = 1.5;
 
-static GLfloat angulo_h = 0.0; /* Ángulo de rotación horizontal */
-static GLfloat angulo_v = 0.0; /* Ángulo de rotación vertical */
-static GLfloat camara_x = 0.0; /* Posición de la cámara */
-static GLfloat camara_y = 0.0;
-static GLfloat camara_z = 0.0;
+static float angulo_h = 0.0; /* Ángulo de rotación horizontal */
+static float angulo_v = 0.0; /* Ángulo de rotación vertical */
+static float camara_x = 0.0; /* Posición de la cámara */
+static float camara_y = 0.0;
+static float camara_z = 0.0;
 
 
 static inline void corrige_angulo(GLfloat *angulo)
@@ -61,16 +61,18 @@ static inline void actualiza_camara(void)
 	 *    3. Girar la cámara verticalmente (plano ZY).
 	 */
 	glLoadIdentity();
-	glRotatef(angulo_v, 1.0, 0.0, 0.0);            /* 3 */
-	glRotatef(angulo_h, 0.0, 1.0, 0.0);            /* 2 */
-	glTranslatef(-camara_x, -camara_y, -camara_z); /* 1 */
+	glRotatef((GLfloat) angulo_v, 1.0, 0.0, 0.0);	/* 3 */
+	glRotatef((GLfloat) angulo_h, 0.0, 1.0, 0.0);	/* 2 */
+	glTranslatef(	(GLfloat) -camara_x,
+			(GLfloat) -camara_y,
+			(GLfloat) -camara_z);		/* 1 */
 	glutPostRedisplay();
 }
 
 
 static void teclado_especial(int tecla, int x, int y)
 {
-	GLfloat radianes, grados = 0.0, avance = 0.0;
+	float radianes, grados = 0.0, avance = 0.0;
 
 	switch (tecla) {
 		case GLUT_KEY_UP:        /* Paso hacia adelante */
@@ -157,7 +159,7 @@ static void teclado(unsigned char tecla, int x, int y)
 static void raton(int x, int y)
 {
 	static int ox = 0, oy = 0;
-	GLfloat giro = ROTACION / DEFINICION;
+	float giro = ROTACION / DEFINICION;
 
 	if (x > ox)
 		angulo_h += giro;
