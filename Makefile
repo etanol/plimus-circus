@@ -89,7 +89,7 @@ wdist: changelog
 	zip -r IG1.zip IG1
 
 changelog:
-	@cvs2cl -P -b -T --show-dead
+	@cvs2cl -S -P -b -T --show-dead
 
 wdistclean: 
 	@-rm -rf IG1 IG1.zip ChangeLog*
