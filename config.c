@@ -52,8 +52,12 @@ static void procesar_linea(char *clave, char *valor, struct config *cfg)
 		cfg->carpa_frontal_ancho = valorf;
 	} else if (strcmp(clave, "carpa_lateral_radio") == 0) {
 		cfg->carpa_lateral_radio = valorf;
-	} else if (strcmp(clave, "carpa_lateral_caras") == 0) {
-		cfg->carpa_lateral_caras = (int)valorf;
+	} else if (strcmp(clave, "carpa_detalle_horiz") == 0) {
+		cfg->carpa_detalle_horiz = (int)valorf;
+	} else if (strcmp(clave, "carpa_detalle_vert") == 0) {
+		cfg->carpa_detalle_vert = (int)valorf;
+/*	} else if (strcmp(clave, "carpa_lateral_caras") == 0) {
+		cfg->carpa_lateral_caras = (int)valorf; */
 	} else if (strcmp(clave, "gradas_alto") == 0) {
 		cfg->gradas_alto = valorf;
 	} else if (strcmp(clave, "gradas_largo") == 0) {
