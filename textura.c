@@ -46,7 +46,7 @@ const GLubyte TGA_tipo[12] = {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 int cargar_textura(config_t cfg, const char *tex_file)
 {  /* {{{ */
 	char *tex_dir = valor_cadena(cfg, t_dir);
-	char fichero[strlen(tex_dir) + strlen(tex_file) + 2];
+	char *fichero;
 	FILE *f;
 	int textura;	/* Valor de retorno */
 	int e;		/* Comodín para comprobar errores */
@@ -56,6 +56,8 @@ int cargar_textura(config_t cfg, const char *tex_file)
 	unsigned char cabecera_tga[6];
 	GLubyte *imagen;
 
+	fichero = (char *) malloc(strlen(tex_dir) + strlen(tex_file) + 2);
+	CHECK_ERROR(fichero == NULL);
 #ifdef THIS_IS_UNIX
 	sprintf(fichero, "%s/%s", tex_dir, tex_file);
 #else

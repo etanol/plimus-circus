@@ -23,11 +23,16 @@
  */
 
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 #ifdef THIS_IS_UNIX
 #include <GL/gl.h>
 #else
 #include <GL/glut.h>
-#define M_PI 3.1415927
+#endif
+
+#ifndef M_PI
+#define M_PI 3.14159265f
 #endif
 
 #include "piezas.h"
@@ -35,6 +40,19 @@
 
 static const float color_lateral[3] = {0.7, 0.0, 0.1};
 static int gradas_textura = 0;
+
+static void *my_malloc(size_t s)
+{  /* {{{ */ 
+	void *r;
+
+	r = malloc(s);
+	if (r == NULL) {
+		fprintf(stderr, "Error al reservar memoria para grada.\n");
+		exit(6);
+	}
+	return r;
+}  /* }}} */
+
 
 int crear_grada_frontal(config_t c)
 {  /* {{{ */
@@ -45,31 +63,35 @@ int crear_grada_frontal(config_t c)
 	float paso_v = valor_decimal(c, gs_alto)  / (float)gesc;
 	float paso_h = valor_decimal(c, gs_largo) / (float)gesc;
 	float paso_l = valor_decimal(c, g_f_ancho) / (float)gdet;
-	float escalon[(gdet+1)*3][3], texcoord[(gdet+1)*3][2];
-	GLuint e_vert[(gdet+1)*2], e_horiz[(gdet+1)*2];
+	float *escalon, *texcoord;
+	GLuint *e_vert, *e_horiz;
 
 	/* Inicialización de los índices del vertex array */
+	e_vert  = (GLuint *) my_malloc(((gdet+1)*2)*sizeof(GLuint));
+	e_horiz = (GLuint *) my_malloc(((gdet+1)*2)*sizeof(GLuint));
 	for (i = 0; i < (gdet+1)*2; i += 2) {
 		e_vert[i] = (i / 2) * 3;
 		e_vert[i+1] = e_horiz[i] = (i / 2) * 3 + 1;
 		e_horiz[i+1] = (i / 2) * 3 + 2;
 	}
 	/* Inicialización del vertex array */
+	escalon  = (float *) my_malloc((((gdet+1)*3)*3)*sizeof(float));
 	for (i = 0; i < (gdet+1)*3; i += 3) {
-		escalon[i][X] = escalon[i+1][X] = escalon[i+2][X] = 
+		*(escalon+i*3+X) = *(escalon+(i+1)*3+X) = *(escalon+(i+2)*3+X) =
 			(i / 3) * paso_l;
-		escalon[i][Y] = escalon[i+1][Y] = 0.0;
-		escalon[i+2][Y] = paso_h;
-		escalon[i][Z] = 0.0;
-		escalon[i+1][Z] = escalon[i+2][Z] = paso_v;
+		*(escalon+i*3+Y)     = *(escalon+(i+1)*3+Y) = 0.0;
+		*(escalon+(i+2)*3+Y) = paso_h;
+		*(escalon+i*3+Z)     = 0.0;
+		*(escalon+(i+1)*3+Z) = *(escalon+(i+2)*3+Z) = paso_v;
 	}
 	/* Inicialización del texture coord array */
+	texcoord = (float *) my_malloc((((gdet+1)*3)*2)*sizeof(float));
 	for (i = 0; i < (gdet+1)*3; i += 3) {
-		texcoord[i][0] = texcoord[i+1][0] = texcoord[i+2][0] =
+		*(texcoord+i*2) = *(texcoord+(i+1)*2) = *(texcoord+(i+2)*2) =
 			(i / 3) * paso_l;
-		texcoord[i][1]   = 0.0;
-		texcoord[i+1][1] = 0.5;
-		texcoord[i+2][1] = 1.0;
+		*(texcoord+i*2+1)     = 0.0;
+		*(texcoord+(i+1)*2+1) = 0.5;
+		*(texcoord+(i+2)*2+1) = 1.0;
 	}
 	if (!gradas_textura)
 		gradas_textura = cargar_textura(c, valor_cadena(c, gs_tex));
@@ -100,8 +122,8 @@ int crear_grada_frontal(config_t c)
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, gradas_textura);
-	glVertexPointer(3, GL_FLOAT, 0, escalon[0]);
-	glTexCoordPointer(2, GL_FLOAT, 0, texcoord[0]);
+	glVertexPointer(3, GL_FLOAT, 0, escalon);
+	glTexCoordPointer(2, GL_FLOAT, 0, texcoord);
 	glColor3f(1.0, 1.0, 1.0);
 	glPushMatrix();
 	glTranslatef(-x, 0.0, 0.0);
