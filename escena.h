@@ -17,8 +17,9 @@
 /*
  * escena.h
  *
- * Librería con primitivas para dibujar la escena. Sólo se exporta la función
- * para dibujar la escena completa.
+ * Módulo que gestiona el manejo de la ventana: dibujar la escena, atender al
+ * cambio de tamaño. Sólo se exporta una función que se encarga de configurar
+ * todo lo necesario para dibujar la escena en la ventana.
  *
  * $Id$
  */
@@ -26,6 +27,6 @@
 #ifndef _ESCENA_H_
 #define _ESCENA_H_
 
-void dibuja_escena(void);
+extern void init_escena(void);
 
 #endif

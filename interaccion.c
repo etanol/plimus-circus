@@ -17,7 +17,7 @@
 /*
  * interaccion.c
  *
- * Implementación de la gestión de teclado y ventana
+ * Implementación de la gestión de teclado y ratón.
  *
  * $Id$
  */
@@ -26,15 +26,28 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <math.h>
+#include <stdlib.h>
 
-static const GLfloat MOV_STEP = 0.1;
-static const GLfloat ROT_STEP = 3.0;
+#define ESC 27
+
+static const GLfloat AVANCE   = 0.1;
+static const GLfloat ROTACION = 3.0;
 
 static GLfloat angulo_h = 0.0; /* Ángulo de rotación horizontal */
 static GLfloat angulo_v = 0.0; /* Ángulo de rotación vertical */
 static GLfloat camara_x = 0.0; /* Posición de la cámara */
 static GLfloat camara_y = 0.0;
 static GLfloat camara_z = 0.0;
+
+
+static inline void corrige_angulo(GLfloat *angulo)
+{
+	if (*angulo < 0.0)
+		*angulo += 360.0;
+	else if (*angulo > 360.0)
+		*angulo -= 360.0;
+}
+
 
 static inline void actualiza_camara(void)
 {
@@ -45,88 +58,86 @@ static inline void actualiza_camara(void)
 	 *    3. Girar la cámara verticalmente (plano ZY).
 	 */
 	glLoadIdentity();
-	glRotatef(angulo_v, 1.0, 0.0, 0.0); /* 3 */
-	glRotatef(angulo_h, 0.0, 1.0, 0.0); /* 2 */
+	glRotatef(angulo_v, 1.0, 0.0, 0.0);            /* 3 */
+	glRotatef(angulo_h, 0.0, 1.0, 0.0);            /* 2 */
 	glTranslatef(-camara_x, -camara_y, -camara_z); /* 1 */
 	glutPostRedisplay();
 }
 
-void teclado_especial(int tecla, int x, int y)
+
+static void teclado_especial(int tecla, int x, int y)
 {
-	GLfloat radianes;
+	GLfloat radianes, grados = 0.0, avance = 0.0;
+
 	switch (tecla) {
-		case GLUT_KEY_DOWN:
-			radianes = ((angulo_h + 90.0) * M_PI) / 180.0;
-			camara_z += sinf(radianes) * MOV_STEP;
-			camara_x += cosf(radianes) * MOV_STEP;
+		case GLUT_KEY_UP:    /* Paso hacia adelante */
+			grados = angulo_h + 90.0;
+			avance = -AVANCE;
 			break;
-		case GLUT_KEY_UP:
-			radianes = ((angulo_h + 90.0) * M_PI) / 180.0;
-			camara_z -= sinf(radianes) * MOV_STEP;
-			camara_x -= cosf(radianes) * MOV_STEP;
+		case GLUT_KEY_DOWN:  /* Paso hacia atrás */
+			grados = angulo_h + 90.0;
+			avance = AVANCE;
 			break;
-		case GLUT_KEY_LEFT:
-			radianes = (angulo_h * M_PI) / 180.0;
-			camara_z -= sinf(radianes) * MOV_STEP;
-			camara_x -= cosf(radianes) * MOV_STEP;
+		case GLUT_KEY_LEFT:  /* Paso hacia la izquierda */
+			grados = angulo_h;
+			avance = -AVANCE;
 			break;
-		case GLUT_KEY_RIGHT:
-			radianes = (angulo_h * M_PI) / 180.0;
-			camara_z += sinf(radianes) * MOV_STEP;
-			camara_x += cosf(radianes) * MOV_STEP;
+		case GLUT_KEY_RIGHT: /* Paso hacia la derecha */
+			grados = angulo_h;
+			avance = AVANCE;
 			break;
-		case GLUT_KEY_F1:
+		case GLUT_KEY_F1:    /* Camara 1. Hay que cambiar la tecla */
 			camara_x = 0.0;
 			camara_y = 0.0;
 			camara_z = 0.0;
 			angulo_h = 0.0;
 			angulo_v = 0.0;
+			actualiza_camara();
+			/* NO BREAK */
+		default:
+			return;
 	}
+	radianes = (grados * M_PI) / 180.0;
+	camara_x += cosf(radianes) * avance;
+	camara_z += sinf(radianes) * avance;
 	actualiza_camara();
 }
 
-void teclado(unsigned char tecla, int x, int y)
+
+static void teclado(unsigned char tecla, int x, int y)
 {
 	switch (tecla) {
-		case 'a':
-			/* Elevación */
-			camara_y += MOV_STEP;
+		case 'a':  /* Elevación */
+			camara_y += AVANCE;
 			break;
-		case 'z':
-			/* Descenso */
-			camara_y -= MOV_STEP;
+		case 'z':  /* Descenso */
+			camara_y -= AVANCE;
 			break;
-		case 'd':
-			angulo_h -= 2*ROT_STEP;
-			/* NO BREAK */
-		case 'g':
-			angulo_h += ROT_STEP;
-			if (angulo_h < 0.0)
-				angulo_h += 360.0;
-			else if (angulo_h > 360.0)
-				angulo_h -= 360.0;
+		case 'd':  /* Giro de cámara a la izquierda */
+			angulo_h -= ROTACION;
+			corrige_angulo(&angulo_h);
 			break;
-		case 'f':
-			angulo_v += 2*ROT_STEP;
-			/* NO BREAK */
-		case 'r':
-			angulo_v -= ROT_STEP;
-			if (angulo_v < 0.0)
-				angulo_v += 360.0;
-			else if (angulo_v > 360.0)
-				angulo_v -= 360.0;
+		case 'g':  /* Giro de cámara a la derecha */
+			angulo_h += ROTACION;
+			corrige_angulo(&angulo_h);
 			break;
+		case 'r':  /* Giro de cámara hacia arriba */
+			angulo_v -= ROTACION;
+			corrige_angulo(&angulo_v);
+			break;
+		case 'f':  /* Giro de cámara hacia abajo */
+			angulo_v += ROTACION;
+			corrige_angulo(&angulo_v);
+			break;
+		case ESC:  /* Salimos del programa */
+			exit(0);
 	}
 	actualiza_camara();
 }
 
-void redimensionado(int ancho, int alto)
-{
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(45.0, (GLdouble)ancho / (GLdouble)alto, 0.5, 10.0);
-	glMatrixMode(GL_MODELVIEW);
-	glViewport(0, 0, ancho, alto);
-	glutPostRedisplay();
-}
 
+void init_interaccion(void)
+{
+	glutKeyboardFunc(teclado);
+	glutSpecialFunc(teclado_especial);
+}

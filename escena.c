@@ -26,7 +26,17 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-void dibuja_escena(void)
+static void actualiza_viewport(int ancho, int alto)
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45.0, (GLdouble)ancho / (GLdouble)alto, 0.5, 10.0);
+	glMatrixMode(GL_MODELVIEW);
+	glViewport(0, 0, ancho, alto);
+	glutPostRedisplay();
+}
+
+static void dibuja_escena(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
@@ -56,4 +66,10 @@ void dibuja_escena(void)
 	glPopMatrix();
 
 	glutSwapBuffers();
+}
+
+void init_escena(void)
+{
+	glutDisplayFunc(dibuja_escena);
+	glutReshapeFunc(actualiza_viewport);
 }

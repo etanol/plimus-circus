@@ -17,6 +17,9 @@
 /*
  * circo.c
  *
+ * Programa principal que queda trivializado ya que los módulos también
+ * realizan inicialización de los elementos que vayan a manipular.
+ *
  * $Id$
  */
 
@@ -30,17 +33,15 @@ int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
-	//glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE);
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("Plimus Circus");
-
-	glutDisplayFunc(dibuja_escena);
-	glutKeyboardFunc(teclado);
-	glutSpecialFunc(teclado_especial);
-	glutReshapeFunc(redimensionado);
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glEnable(GL_DEPTH_TEST);
+	/* Llamamos a los módulos */
+	init_escena();
+	init_interaccion();
+	/* Dejamos que GLUT trabaje por nosotros */
 	glutMainLoop();
 	return 0;
 }

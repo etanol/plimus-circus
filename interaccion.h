@@ -17,7 +17,9 @@
 /*
  * interaccion.h
  *
- * Funciones para gestionar la interacción con el usuario.
+ * Módulo que gestiona la interacción con el usuario (respuestas a eventos de
+ * teclado y ratón). Al igual que en escena.h, sólo se exporta una función para
+ * configurarlo todo.
  *
  * $Id$
  */
@@ -25,8 +27,6 @@
 #ifndef _INTERACT_H_
 #define _INTERACT_H_
 
-extern void teclado_especial(int, int, int);
-extern void teclado         (unsigned char, int, int);
-extern void redimensionado  (int, int);
+extern void init_interaccion(void);
 
 #endif /* _INTERACT_H_ */
