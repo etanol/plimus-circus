@@ -204,7 +204,7 @@ int crear_arena(struct config *c)
 }  /* }}} */
 
 
-int crear_banco(struct config *c)
+int crear_banqueta(struct config *c)
 {  /* {{{ */
 	int lista;
 	GLUquadric *cilindro;
@@ -216,13 +216,17 @@ int crear_banco(struct config *c)
 	gluQuadricDrawStyle(cilindro, GLU_FILL);
 	gluQuadricOrientation(cilindro, GLU_OUTSIDE);
 	gluQuadricNormals(cilindro, GLU_SMOOTH);
+	gluQuadricTexture(cilindro, GL_TRUE);
 	glNewList(lista, GL_COMPILE);
-	glColor3f(0.8, 0.4, 0.0);
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, 0.2);
+	glTranslatef(0.0, 0.0, 0.3);
+	glColor3f(1.0, 1.0, 1.0);
+	glEnable(GL_TEXTURE_2D);
 	gluDisk(cilindro, 0, 0.5, 20, 1);
+	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
-	gluCylinder(cilindro, 0.5, 0.5, 0.2, 20, 1);
+	glColor3f(0.1, 0.1, 0.4);
+	gluCylinder(cilindro, 0.7, 0.5, 0.3, 20, 1);
 	glEndList();
 	gluDeleteQuadric(cilindro);
 	return lista;
@@ -287,3 +291,35 @@ int crear_cartel(struct config *c)
 	return lista;
 }  /* }}} */
 
+int crear_tablon(struct config *c)
+{  /* {{{ */
+	int lista;
+	float radio = 0.2;
+	GLUquadric *bola;
+	
+	lista = glGenLists(1);
+	if (lista == 0)
+		return 0;
+	bola = gluNewQuadric();
+	gluQuadricDrawStyle(bola, GLU_FILL);
+	gluQuadricOrientation(bola, GLU_OUTSIDE);
+	gluQuadricNormals(bola, GLU_SMOOTH);
+	//gluQuadricTexture(bola, GL_TRUE);
+	glNewList(lista, GL_COMPILE);
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, radio);
+	glColor3f(0.1, 0.4, 0.1);
+	gluSphere(bola, radio, 20, 10);
+	glColor3f(0.8, 0.3, 0.1);
+	glNormal3f(0.0, 0.0, 1.0);
+	glBegin(GL_QUADS);
+	glVertex3f(-1.0, radio, radio);
+	glVertex3f(-1.0, -radio, radio);
+	glVertex3f(1.0, -radio, radio);
+	glVertex3f(1.0, radio, radio);
+	glEnd();
+	glPopMatrix();
+	glEndList();
+	gluDeleteQuadric(bola);
+	return lista;
+}  /* }}} */

@@ -33,6 +33,7 @@ struct texturas {
 	int grada;
 	int carpa;
 	int plimus;
+	int banqueta;
 };
 
 extern int cargar_textura(const char *);

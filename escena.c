@@ -50,7 +50,8 @@ static int
 	suelo_exterior,
 	suelo_interior,
 	arena,
-	banco,
+	banqueta,
+	tablon,
 	cartel;
 
 /* Configuración de la escena */
@@ -290,6 +291,8 @@ static void escena(void)
 		/* Arena */
 		glBindTexture(GL_TEXTURE_2D, T->arena);
 		glCallList(arena);
+		/* Bola y tablón */
+		glCallList(tablon);
 		/* Bancos pa los tigretones */
 		{
 			float x = ((C->carpa_frontal_ancho/2.0) -
@@ -297,21 +300,22 @@ static void escena(void)
 			float y = ((C->carpa_lateral_radio) -
 				C->gradas_largo-SEP_GRADAS_CARPA-0.5)/2.0;
 
+			glBindTexture(GL_TEXTURE_2D, T->banqueta);
 			glPushMatrix();
 			glTranslatef(x, y, 0.0);
-			glCallList(banco);
+			glCallList(banqueta);
 			glPopMatrix();
 			glPushMatrix();
 			glTranslatef(-x, y, 0.0);
-			glCallList(banco);
+			glCallList(banqueta);
 			glPopMatrix();
 			glPushMatrix();
 			glTranslatef(-x, -y, 0.0);
-			glCallList(banco);
+			glCallList(banqueta);
 			glPopMatrix();
 			glPushMatrix();
 			glTranslatef(x, -y, 0.0);
-			glCallList(banco);
+			glCallList(banqueta);
 			glPopMatrix();
 		}
 		/* Gradas */
@@ -374,7 +378,8 @@ void init_escena(struct config *cfg, struct texturas *ts)
 	suelo_exterior = crear_suelo_exterior(C);
 	suelo_interior = crear_suelo_interior(C);
 	arena          = crear_arena(C);
-	banco          = crear_banco(C);
+	banqueta       = crear_banqueta(C);
+	tablon         = crear_tablon(C);
 	cartel         = crear_cartel(C);
 }  /* }}} */
 

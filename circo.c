@@ -31,6 +31,7 @@
 #define TEXTURA_ARENA "imagen/arena3.tga"
 #define TEXTURA_GRADA "imagen/madera1.tga"
 #define TEXTURA_PLIMUS "imagen/plimus.tga"
+#define TEXTURA_BANQUETA "imagen/nieve1.tga"
 #else
 #define TEXTURA_SUELO_EXTERIOR "imagen\\cesped1.tga"
 #define TEXTURA_SUELO_INTERIOR "imagen\\suelo2.tga"
@@ -38,6 +39,7 @@
 #define TEXTURA_ARENA "imagen\\arena3.tga"
 #define TEXTURA_GRADA "imagen\\madera1.tga"
 #define TEXTURA_PLIMUS "imagen\\plimus.tga"
+#define TEXTURA_BANQUETA "imagen\\nieve1.tga"
 #endif
 
 #ifdef THIS_IS_UNIX
@@ -73,6 +75,7 @@ int main(int argc, char **argv)
 	texes.arena          = cargar_textura(TEXTURA_ARENA);
 	texes.grada          = cargar_textura(TEXTURA_GRADA);
 	texes.plimus         = cargar_textura(TEXTURA_PLIMUS);
+	texes.banqueta       = cargar_textura(TEXTURA_BANQUETA);
 	/* Llamamos a los módulos */
 	init_interaccion(&cfg);
 	init_escena(&cfg, &texes);
