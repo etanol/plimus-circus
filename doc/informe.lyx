@@ -3005,12 +3005,12 @@ Changelog
 
 
 \begin_inset ERT
-status Collapsed
+status Open
 
 \layout Standard
 
 \backslash 
-verbatimtabinput[4]{$HOME/work/grafica/ChangeLoggggg}
+verbatimtabinput[4]{../ChangeLog}
 \end_inset 
 
 
