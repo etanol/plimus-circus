@@ -129,7 +129,7 @@ int main(int argc, char **argv)
 	fwrite(menu, 1, sizeof(menu)-1, stdout);
 	scanf("%d", &choice);
 
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(100, 50);
 	glutCreateWindow("Test de piezas.");

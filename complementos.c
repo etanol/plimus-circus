@@ -61,21 +61,34 @@ int crear_poste(struct config *c)
 int crear_suelo(struct config *c)
 {
 	int lista;
+	float limites[4][3] = {
+		{-20.0, -20.0, 0.0},
+		{-20.0, 20.0, 0.0},
+		{20.0, -20.0, 0.0},
+		{20.0, 20.0, 0.0}};
+	float textura[4][2] = {
+		{0.0, 0.0},
+		{0.0, 40.0},
+		{40.0, 0.0},
+		{40.0, 40.0}};
 
 	lista = glGenLists(1);
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	glEnable(GL_TEXTURE_2D);
-	glBegin(GL_QUADS);
-	glNormal3f(0.0, 0.0, 1.0);
+	glEnable(GL_MAP2_VERTEX_3);
+	glEnable(GL_MAP2_TEXTURE_COORD_2);
+	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 6, 2, 0.0, 1.0, 3, 2, limites[0]);
+	glMap2f(GL_MAP2_TEXTURE_COORD_2, 0.0, 1.0, 2, 2, 0.0, 1.0, 4, 2,
+			textura[0]);
+	glMapGrid2f(20, 0.0, 1.0, 20, 0.0, 1.0);
 	glColor3f(1.0, 1.0, 1.0);
-	glTexCoord2i(0, 0); glVertex3f(-20.0, -20.0, 0.0);
-	glTexCoord2i(40, 0); glVertex3f(20.0, -20.0, 0.0);
-	glTexCoord2i(40, 40); glVertex3f(20.0, 20.0, 0.0);
-	glTexCoord2i(0, 40); glVertex3f(-20.0, 20.0, 0.0);
+	glNormal3f(0.0, 0.0, 1.0);
+	glEvalMesh2(GL_FILL, 0, 20, 0, 20);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_MAP2_TEXTURE_COORD_2);
 	glEndList();
 	return lista;
 }

@@ -33,11 +33,11 @@
 
 #define ESC 27
 
-enum tipo_de_giro {HORIZONTAL, VERTICAL};
+#define AVANCE		0.1
+#define ROTACION	3.0
+#define DEFINICION	1.5
 
-static const float AVANCE     = 0.1;
-static const float ROTACION   = 3.0;
-static const float DEFINICION = 1.5;
+enum tipo_de_giro {HORIZONTAL, VERTICAL};
 
 static float angulo_h = 0.0; /* Ángulo de rotación horizontal */
 static float angulo_v = 0.0; /* Ángulo de rotación vertical */
@@ -46,7 +46,7 @@ static float camara_y = 0.6;
 static float camara_z = 0.0;
 
 
-static inline void actualiza_camara(void)
+void actualiza_camara(void)
 {
 	/*
 	 * Pasos:
@@ -60,11 +60,10 @@ static inline void actualiza_camara(void)
 	glTranslatef(	(GLfloat) -camara_x,
 			(GLfloat) -camara_y,
 			(GLfloat) -camara_z);		/* 1 */
-	glutPostRedisplay();
 }
 
 
-static inline void paso_frontal(float sentido)
+static void paso_frontal(float sentido)
 {
 	float radianes;
 
@@ -74,7 +73,7 @@ static inline void paso_frontal(float sentido)
 }
 
 
-static inline void paso_lateral(float sentido)
+static void paso_lateral(float sentido)
 {
 	float radianes;
 
@@ -84,7 +83,7 @@ static inline void paso_lateral(float sentido)
 }
 
 
-static inline void giro_camara(float sentido, enum tipo_de_giro g)
+static void giro_camara(float sentido, enum tipo_de_giro g)
 {
 	float *angulo;
 
@@ -95,6 +94,9 @@ static inline void giro_camara(float sentido, enum tipo_de_giro g)
 		case HORIZONTAL:
 			angulo = &angulo_h;
 			break;
+		default:
+			angulo = NULL;
+			return;
 	}
 	*angulo += ROTACION * sentido;
 	if (*angulo < -360.0)
@@ -129,7 +131,7 @@ static void teclado_especial(int tecla, int x, int y)
 		default:
 			return;
 	}
-	actualiza_camara();
+	glutPostRedisplay();
 }
 
 
@@ -178,7 +180,7 @@ static void teclado(unsigned char tecla, int x, int y)
 		default:   /* Cualquier otra tecla, ignorada */
 			return;
 	}
-	actualiza_camara();
+	glutPostRedisplay();
 }
 
 
@@ -196,7 +198,7 @@ static void raton(int x, int y)
 	else if (y < oy)
 		giro_camara(0.7, VERTICAL);
 	oy = y;
-	actualiza_camara();
+	glutPostRedisplay();
 }
 
 
@@ -205,5 +207,4 @@ void init_interaccion(void)
 	glutKeyboardFunc(teclado);
 	glutSpecialFunc(teclado_especial);
 	glutMotionFunc(raton);
-	actualiza_camara();
 }

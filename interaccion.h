@@ -28,5 +28,6 @@
 #define _INTERACT_H_
 
 extern void init_interaccion(void);
+extern void actualiza_camara(void);
 
 #endif 

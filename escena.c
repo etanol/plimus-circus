@@ -32,7 +32,7 @@
  * separado (luces.h, luces.c).
  */
 #include "escena.h"
-
+#include "interaccion.h"
 
 /* Objetos de la escena */
 static int 
@@ -49,6 +49,7 @@ static int
 static struct config conf;
 static struct texturas texs;
 
+
 static void actualiza_viewport(int ancho, int alto)
 {
 	glMatrixMode(GL_PROJECTION);
@@ -64,7 +65,8 @@ static void actualiza_viewport(int ancho, int alto)
 static void escena(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	glPushMatrix();
+
+	actualiza_camara();
 	/*
 	 * Ya que se dibuja todo visto desde arriba (como si se dibujara en
 	 * planta) rotamos 90º sobre el eje X para orientarlo a la posición
@@ -81,92 +83,84 @@ static void escena(void)
 	 */
 	glBindTexture(GL_TEXTURE_1D, texs.carpa);
 	glPushMatrix();
-	glTranslatef(0.0, conf.carpa_lateral_radio, 0.0);
-	glCallList(faldon_frontal);
+		glTranslatef(0.0, conf.carpa_lateral_radio, 0.0);
+		glCallList(faldon_frontal);
 	glPopMatrix();
-
 	glPushMatrix();
-	glScalef(1.0, -1.0, 1.0);
-	glTranslatef(0.0, conf.carpa_lateral_radio, 0.0);
-	glCallList(faldon_frontal);
+		glScalef(1.0, -1.0, 1.0);
+		glTranslatef(0.0, conf.carpa_lateral_radio, 0.0);
+		glCallList(faldon_frontal);
 	glPopMatrix();
-
 	glPushMatrix();
-	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
-	glCallList(faldon_lateral);
+		glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
+		glCallList(faldon_lateral);
 	glPopMatrix();
-
 	glPushMatrix();
-	glScalef(-1.0, 1.0, 1.0);
-	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
-	glCallList(faldon_lateral);
+		glScalef(-1.0, 1.0, 1.0);
+		glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
+		glCallList(faldon_lateral);
 	glPopMatrix();
-
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, conf.carpa_faldon_alto);
-	glCallList(techo_frontal);
+		glTranslatef(0.0, 0.0, conf.carpa_faldon_alto);
+		glCallList(techo_frontal);
 	glPopMatrix();
-
 	glPushMatrix();
-	glScalef(1.0, -1.0, 1.0);
-	glTranslatef(0.0, 0.0, conf.carpa_faldon_alto);
-	glCallList(techo_frontal);
+		glScalef(1.0, -1.0, 1.0);
+		glTranslatef(0.0, 0.0, conf.carpa_faldon_alto);
+		glCallList(techo_frontal);
 	glPopMatrix();
-
 	glPushMatrix();
-	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, conf.carpa_faldon_alto);
-	glCallList(techo_lateral);
+		glTranslatef(conf.carpa_frontal_ancho/2, 0.0,
+				conf.carpa_faldon_alto);
+		glCallList(techo_lateral);
 	glPopMatrix();
-
 	glPushMatrix();
-	glScalef(-1.0, 1.0, 1.0);
-	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, conf.carpa_faldon_alto);
-	glCallList(techo_lateral);
+		glScalef(-1.0, 1.0, 1.0);
+		glTranslatef(conf.carpa_frontal_ancho/2, 0.0,
+				conf.carpa_faldon_alto);
+		glCallList(techo_lateral);
 	glPopMatrix();
 	/*
 	 * Gradas
 	 */
 	glBindTexture(GL_TEXTURE_2D, texs.grada);
 	glPushMatrix();
-	glTranslatef(0.0, conf.carpa_lateral_radio-conf.gradas_largo-SEP_GRADAS_CARPA, 0.0);
-	glCallList(grada_frontal);
+		glTranslatef(0.0, conf.carpa_lateral_radio - conf.gradas_largo
+				- SEP_GRADAS_CARPA, 0.0);
+		glCallList(grada_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glScalef(1.0, -1.0, 1.0);
-	glTranslatef(0.0, conf.carpa_lateral_radio-conf.gradas_largo-SEP_GRADAS_CARPA, 0.0);
-	glCallList(grada_frontal);
+		glScalef(1.0, -1.0, 1.0);
+		glTranslatef(0.0, conf.carpa_lateral_radio - conf.gradas_largo
+				- SEP_GRADAS_CARPA, 0.0);
+		glCallList(grada_frontal);
 	glPopMatrix();
-
 	glPushMatrix();
-	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
-	glCallList(grada_lateral);
+		glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
+		glCallList(grada_lateral);
 	glPopMatrix();
-
 	glPushMatrix();
-	glScalef(-1.0, 1.0, 1.0);
-	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
-	glCallList(grada_lateral);
+		glScalef(-1.0, 1.0, 1.0);
+		glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
+		glCallList(grada_lateral);
 	glPopMatrix();
 	/*
 	 * Postes
 	 */
 	glColor3f(0.7, 0.7, 0.7);
 	glPushMatrix();
-	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
-	glCallList(poste);
+		glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
+		glCallList(poste);
 	glPopMatrix();
-
 	glPushMatrix();
-	glTranslatef(-conf.carpa_frontal_ancho/2, 0.0, 0.0);
-	glCallList(poste);
+		glTranslatef(-conf.carpa_frontal_ancho/2, 0.0, 0.0);
+		glCallList(poste);
 	glPopMatrix();
-
 	/*
 	 * TODO: Apagar las luces exteriores, encender las luces interiores y
 	 * dibujar los objetos del interior de la carpa.
 	 */
-	glPopMatrix();
 	glFlush();
 	glutSwapBuffers();
 }
@@ -184,6 +178,7 @@ void init_escena(struct config *cfg, struct texturas *ts)
 	glutReshapeFunc(actualiza_viewport);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
