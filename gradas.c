@@ -92,7 +92,7 @@ int crear_grada_frontal(float altura, float longitud, float profundidad, int
 
 
 int crear_grada_lateral(float radio_in, float radio_ex, float altura,
-		int num_esc, int num_caras)
+		int num_esc, int num_caras, int omitir)
 {
 	int i, j, lista;
 	float r;
@@ -135,17 +135,20 @@ int crear_grada_lateral(float radio_in, float radio_ex, float altura,
 	/* Laterales */
 	glInterleavedArrays(GL_V3F, 0, ldatos[0]);
 	glNormal3f(-1.0, 0.0, 0.0);
+	glPushMatrix();
+	glRotatef(-(angulo*omitir), 0.0, 0.0, 1.0);
 	for (i = 0; i < num_esc; ++i) 
 		glDrawArrays(GL_QUADS, i * 3, 4);
-	glPushMatrix();
-	glRotatef(-180.0, 0.0, 0.0, 1.0);
+	glPopMatrix();
 	glNormal3f(1.0, 0.0, 0.0);
+	glPushMatrix();
+	glRotatef(-180.0 + (angulo*omitir), 0.0, 0.0, 1.0);
 	for (i = 0; i < num_esc; ++i) 
 		glDrawArrays(GL_QUADS, i * 3, 4);
 	glPopMatrix();
 	/* Resto de grada */
 	glInterleavedArrays(GL_V3F, 0, datos[0]);
-	for (i = 0; i < num_caras; ++i) {
+	for (i = omitir; i < (num_caras - omitir); ++i) {
 		glPushMatrix();
 		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
 		/* Parte horizontal de los escalones */

@@ -174,5 +174,5 @@ void init_escena(void)
 	techo_frontal  = crear_techo_frontal(radio, alto_faldon, ancho);
 	techo_lateral  = crear_techo_lateral(radio, alto_faldon, num_caras);
 	grada_frontal  = crear_grada_frontal(alto_faldon-0.2, ancho-0.3, radio/2, 14);
-	grada_lateral  = crear_grada_lateral((radio/2)-0.05, radio-0.05, alto_faldon-0.2, 14, num_caras);
+	grada_lateral  = crear_grada_lateral((radio/2)-0.05, radio-0.05, alto_faldon-0.2, 14, num_caras, 2);
 }

@@ -44,6 +44,6 @@ extern int crear_techo_lateral(float radio, float altura, int num_caras);
 extern int crear_grada_frontal(float altura, float longitud, float profundidad,
 		int num_esc);
 extern int crear_grada_lateral(float radio_in, float radio_ex, float altura,
-		int num_esc, int num_caras);
+		int num_esc, int num_caras, int omitir);
 
 #endif

@@ -100,7 +100,7 @@ void activa_objeto(enum Pieza p)
 		case GRADA_LATERAL:
 			glColor3f(0.7, 0.0, 0.2);
 			lst_pieza = crear_grada_lateral(radio_int, radio_ext,
-					altura, caras, escalones);
+					altura, caras, escalones, omitir);
 			break;
 		default:
 			fputs("Pieza no reconocida.\n", stderr);
