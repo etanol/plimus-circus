@@ -24,8 +24,9 @@ etapas   := etapa1 etapa2 etapa3
 ejemplos := robot checker
 piezas   := carpa.c gradas.c
 
-ejemplos := $(patsubst %,ejemplos/%,$(ejemplos))
-BINFILES := $(etapas) $(ejemplos) $(practica)
+ejemplos  := $(patsubst %,ejemplos/%,$(ejemplos))
+BINFILES  := $(etapas) $(ejemplos) $(practica)
+DISTFILES := *.c *.h $(practica)
 
 
 CFLAGS := -pipe -Wall 
@@ -69,7 +70,21 @@ carpa.o: carpa.c piezas.h
 gradas.o: gradas.c piezas.h
 	$(mk_obj)
 
-.PHONY: clean 
+.PHONY: clean dist distclean
 clean:
 	-rm -f $(wildcard *.o ejemplos/*.o $(BINFILES) gmon.out ejemplos/gmon.out)
+
+dist: $(practica)
+	@test -d IG1 || mkdir IG1; \
+	cp -v $(DISTFILES) IG1; rm IG1/template.h; \
+	for i in IG1/*.c; do \
+		mv -v $$i $${i%.c}.cpp; \
+	done; \
+	mv -v IG1/circo IG1/circo.linux; \
+	mv -v IG1/test_pieza IG1/test_pieza.linux; \
+	tar czvf IG1.tar.gz IG1; \
+	zip -r IG1.zip IG1
+
+distclean: clean
+	-rm -rf IG1 IG1.zip IG1.tar.gz
 
