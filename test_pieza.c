@@ -57,16 +57,6 @@ float r_horizontal = 0.0;
 float r_vertical   = 0.0;
 int lst_pieza;
 
-/* Parámetros para dibujar las piezas */
-const float altura      = 7.0;
-const float longitud    = 9.0;
-const float profundidad = 10.0;
-const float radio_ext   = 9.0;
-const float radio_int   = 3.0;
-int caras     = 25;
-int escalones = 14;
-int omitir    = 0;
-
 /* Funciones auxiliares */
 void teclado(unsigned char, int, int);
 void rotar(int, int, int);

@@ -82,45 +82,45 @@ static void escena(void)
 	 * Dibujamos la carpa. TODO: ¿Suelo interior?
 	 */
 	glPushMatrix();
-	glTranslatef(0.0, conf.carpa_largo/2, 0.0);
+	glTranslatef(0.0, conf.carpa_lateral_radio, 0.0);
 	glCallList(faldon_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.0, -conf.carpa_largo/2, 0.0);
+	glTranslatef(0.0, -conf.carpa_lateral_radio, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(faldon_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef((conf.carpa_ancho-conf.carpa_largo)/2, 0.0, 0.0);
+	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
 	glCallList(faldon_lateral);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-(conf.carpa_ancho-conf.carpa_largo)/2, 0.0, 0.0);
+	glTranslatef(-conf.carpa_frontal_ancho/2, 0.0, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(faldon_lateral);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, conf.faldon_alto);
+	glTranslatef(0.0, 0.0, conf.carpa_faldon_alto);
 	glCallList(techo_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, conf.faldon_alto);
+	glTranslatef(0.0, 0.0, conf.carpa_faldon_alto);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(techo_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef((conf.carpa_ancho-conf.carpa_largo)/2, 0.0, conf.faldon_alto);
+	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, conf.carpa_faldon_alto);
 	glCallList(techo_lateral);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-(conf.carpa_ancho-conf.carpa_largo)/2, 0.0, conf.faldon_alto);
+	glTranslatef(-conf.carpa_frontal_ancho/2, 0.0, conf.carpa_faldon_alto);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(techo_lateral);
 	glPopMatrix();
@@ -130,23 +130,23 @@ static void escena(void)
 	 */
 	glColor3f(0.7, 0.0, 0.1);
 	glPushMatrix();
-	glTranslatef(0.0, (conf.carpa_largo/2)-(conf.sep_gradas_carpa+conf.gradas_largo), 0.0);
+	glTranslatef(0.0, conf.carpa_lateral_radio-conf.gradas_largo-SEP_GRADAS_CARPA, 0.0);
 	glCallList(grada_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.0, conf.sep_gradas_carpa+conf.gradas_largo-(conf.carpa_largo/2), 0.0);
+	glTranslatef(0.0, conf.gradas_largo+SEP_GRADAS_CARPA-conf.carpa_lateral_radio, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(grada_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef((conf.carpa_ancho-conf.carpa_largo)/2, 0.0, 0.0);
+	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
 	glCallList(grada_lateral);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-(conf.carpa_ancho-conf.carpa_largo)/2, 0.0, 0.0);
+	glTranslatef(-conf.carpa_frontal_ancho/2, 0.0, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(grada_lateral);
 	glPopMatrix();

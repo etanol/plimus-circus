@@ -44,28 +44,26 @@ static void procesar_linea(char *clave, char *valor, struct config *cfg)
 		cfg->z_near = valorf;
 	} else if (strcmp(clave, "z_far") == 0) {
 		cfg->z_far = valorf;
-	} else if (strcmp(clave, "carpa_ancho") == 0) {
-		cfg->carpa_ancho = valorf;
-	} else if (strcmp(clave, "carpa_largo") == 0) {
-		cfg->carpa_largo = valorf;
-	} else if (strcmp(clave, "faldon_alto") == 0) {
-		cfg->faldon_alto = valorf;
-	} else if (strcmp(clave, "techo_alto") == 0) {
-		cfg->techo_alto = valorf;
+	} else if (strcmp(clave, "carpa_faldon_alto") == 0) {
+		cfg->carpa_faldon_alto = valorf;
+	} else if (strcmp(clave, "carpa_techo_alto") == 0) {
+		cfg->carpa_techo_alto = valorf;
+	} else if (strcmp(clave, "carpa_frontal_ancho") == 0) {
+		cfg->carpa_frontal_ancho = valorf;
+	} else if (strcmp(clave, "carpa_lateral_radio") == 0) {
+		cfg->carpa_lateral_radio = valorf;
 	} else if (strcmp(clave, "carpa_lateral_caras") == 0) {
 		cfg->carpa_lateral_caras = (int)valorf;
-	} else if (strcmp(clave, "sep_gradas_carpa") == 0) {
-		cfg->sep_gradas_carpa = valorf;
 	} else if (strcmp(clave, "gradas_alto") == 0) {
 		cfg->gradas_alto = valorf;
 	} else if (strcmp(clave, "gradas_largo") == 0) {
 		cfg->gradas_largo = valorf;
+	} else if (strcmp(clave, "gradas_escalones") == 0) {
+		cfg->gradas_escalones = (int)valorf;
 	} else if (strcmp(clave, "grada_frontal_ancho") == 0) {
 		cfg->grada_frontal_ancho = valorf;
 	} else if (strcmp(clave, "grada_lateral_apertura") == 0) {
 		cfg->grada_lateral_apertura = (int)valorf;
-	} else if (strcmp(clave, "gradas_escalones") == 0) {
-		cfg->gradas_escalones = (int)valorf;
 	} else if (strcmp(clave, "grada_lateral_caras") == 0) {
 		cfg->grada_lateral_caras = (int)valorf;
 	}

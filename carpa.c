@@ -31,7 +31,7 @@
 int crear_faldon_frontal(struct config *c)
 {
 	int lista;
-	float x = (c->carpa_ancho - c->carpa_largo) / 2;
+	float x = c->carpa_frontal_ancho / 2;
 	float normal[][3] = {
 		{0.0, 1.0, 0.0}
 	};
@@ -39,9 +39,9 @@ int crear_faldon_frontal(struct config *c)
 		normal[0][X], normal[0][Y], normal[0][Z],
 		-x, 0.0, 0.0,
 		normal[0][X], normal[0][Y], normal[0][Z],
-		-x, 0.0, c->faldon_alto,
+		-x, 0.0, c->carpa_faldon_alto,
 		normal[0][X], normal[0][Y], normal[0][Z],
-		x, 0.0, c->faldon_alto,
+		x, 0.0, c->carpa_faldon_alto,
 		normal[0][X], normal[0][Y], normal[0][Z],
 		x, 0.0, 0.0
 	};
@@ -60,7 +60,6 @@ int crear_faldon_frontal(struct config *c)
 int crear_faldon_lateral(struct config *c)
 {
 	int i, lista;
-	float radio      = c->carpa_largo / 2;
 	float angulo     = 180.0 / c->carpa_lateral_caras;
 	float angulo_rad = M_PI  / c->carpa_lateral_caras;
 	float cos_angulo = cosf(angulo_rad);
@@ -71,13 +70,13 @@ int crear_faldon_lateral(struct config *c)
 	};
 	float datos[] = {
 		normal[0][X], normal[0][Y], normal[0][Z],
-		0.0, radio, 0.0,
+		0.0, c->carpa_lateral_radio, 0.0,
 		normal[0][X], normal[0][Y], normal[0][Z],
-		0.0, radio, c->faldon_alto,
+		0.0, c->carpa_lateral_radio, c->carpa_faldon_alto,
 		normal[1][X], normal[1][Y], normal[1][Z],
-		radio*sin_angulo, radio*cos_angulo, c->faldon_alto,
+		c->carpa_lateral_radio*sin_angulo, c->carpa_lateral_radio*cos_angulo, c->carpa_faldon_alto,
 		normal[1][X], normal[1][Y], normal[1][Z],
-		radio*sin_angulo, radio*cos_angulo, 0.0
+		c->carpa_lateral_radio*sin_angulo, c->carpa_lateral_radio*cos_angulo, 0.0
 	};
 
 	lista = glGenLists(1);
@@ -99,21 +98,20 @@ int crear_faldon_lateral(struct config *c)
 int crear_techo_frontal(struct config *c)
 {
 	int lista;
-	float radio = c->carpa_largo / 2;
-	float x     = (c->carpa_ancho - c->carpa_largo) / 2;
-	float hipotenusa = hypotf(c->techo_alto, radio);
+	float x     = c->carpa_frontal_ancho / 2;
+	float hipotenusa = hypotf(c->carpa_techo_alto, c->carpa_lateral_radio);
 	float normal[][3] = {
-		{0.0, c->techo_alto/hipotenusa, radio/hipotenusa}
+		{0.0, c->carpa_techo_alto/hipotenusa, c->carpa_lateral_radio/hipotenusa}
 	};
 	float datos[] = {
 		normal[0][X], normal[0][Y], normal[0][Z],
-		x, 0.0, c->techo_alto,
+		x, 0.0, c->carpa_techo_alto,
 		normal[0][X], normal[0][Y], normal[0][Z],
-		-x, 0.0, c->techo_alto,
+		-x, 0.0, c->carpa_techo_alto,
 		normal[0][X], normal[0][Y], normal[0][Z],
-		-x, radio, 0.0,
+		-x, c->carpa_lateral_radio, 0.0,
 		normal[0][X], normal[0][Y], normal[0][Z],
-		x, radio, 0.0
+		x, c->carpa_lateral_radio, 0.0
 	};
 
 	lista = glGenLists(1);
@@ -130,14 +128,13 @@ int crear_techo_frontal(struct config *c)
 int crear_techo_lateral(struct config *c)
 {
 	int i, lista;
-	float radio      = c->carpa_largo / 2;
 	float angulo     = 180.0 / c->carpa_lateral_caras;
 	float angulo_rad = M_PI  / c->carpa_lateral_caras;
 	float cos_angulo = cosf(angulo_rad);
 	float sin_angulo = sinf(angulo_rad);
-	float hipotenusa = hypotf(c->techo_alto, radio);
-	float altDhip    = c->techo_alto / hipotenusa;
-	float radDhip    = radio  / hipotenusa;
+	float hipotenusa = hypotf(c->carpa_techo_alto, c->carpa_lateral_radio);
+	float altDhip    = c->carpa_techo_alto / hipotenusa;
+	float radDhip    = c->carpa_lateral_radio  / hipotenusa;
 	float normal[][3] = {
 		{altDhip*sinf(angulo_rad/2), altDhip*cosf(angulo_rad/2), radDhip},
 		{0.0, altDhip, radDhip},
@@ -145,11 +142,11 @@ int crear_techo_lateral(struct config *c)
 	};
 	float datos[] = {
 		normal[0][X], normal[0][Y], normal[0][Z],
-		0.0, 0.0, c->techo_alto,
+		0.0, 0.0, c->carpa_techo_alto,
 		normal[1][X], normal[1][Y], normal[1][Z],
-		0.0, radio, 0.0,
+		0.0, c->carpa_lateral_radio, 0.0,
 		normal[2][X], normal[2][Y], normal[2][Z],
-		radio*sin_angulo, radio*cos_angulo, 0.0
+		c->carpa_lateral_radio*sin_angulo, c->carpa_lateral_radio*cos_angulo, 0.0
 	};
 
 	lista = glGenLists(1);

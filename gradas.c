@@ -91,7 +91,7 @@ int crear_grada_lateral(struct config *c)
 {
 	int i, j, lista;
 	float r;
-	float radio_ex   = (c->carpa_largo / 2) - c->sep_gradas_carpa;
+	float radio_ex   = c->carpa_lateral_radio - SEP_GRADAS_CARPA;
 	float radio_in   = radio_ex - c->gradas_largo;
 	float paso_v     = c->gradas_alto  / (float)c->gradas_escalones;
 	float paso_h     = c->gradas_largo / (float)c->gradas_escalones;
