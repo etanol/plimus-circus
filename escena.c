@@ -50,13 +50,15 @@ static int
 	tablon,
 	cartel,
 	arbol,
-	sol;
+	sol,
+	payaso,
+	payaso_ext;
 
 /* Configuración de la escena */
 static config_t C;
 
 /* Muy muy privado */
-static float Le_cfra2, Le_clr, Le_calt, Le_crtsep;
+static float Le_cfra2, Le_clr, Le_calt, Le_crtsep, Le_pasep;
 static float Le_fov, Le_znear, Le_zfar, Le_fang;
 
 
@@ -296,6 +298,12 @@ static void escena(void)
 		glRotatef(angulo_h, 0.0, 0.0, 1.0);
 		glCallList(arbol);
 		glPopMatrix();
+		/* Payaso de fuera */
+		glPushMatrix();
+		glTranslatef(Le_cfra2, -Le_pasep, 0.0);
+		glRotatef(angulo_h, 0.0, 0.0, 1.0);
+		glCallList(payaso_ext);
+		glPopMatrix();
 		/* Sol */
 		glPushMatrix();
 		glTranslatef(sol_posicion[0], sol_posicion[1], sol_posicion[2]);
@@ -329,6 +337,11 @@ static void escena(void)
 		glRotatef(180.0, 0.0, 0.0, 1.0);
 		glCallList(grada_lateral);
 		glPopMatrix();
+		/* Payasito */
+		glPushMatrix();
+		glRotatef(angulo_h, 0.0, 0.0, 1.0);
+		glCallList(payaso);
+		glPopMatrix();
 	}
 	glFlush();
 	glutSwapBuffers();
@@ -348,6 +361,8 @@ void init_escena(config_t cfg)
 	Le_fov    = valor_decimal(C, c_fov);
 	Le_znear  = valor_decimal(C, c_znear);
 	Le_zfar   = valor_decimal(C, c_zfar);
+	Le_pasep  = Le_clr + valor_decimal(C, c_e_largo) +
+		valor_decimal(C, pa_e_sep);
 
 	/* Textura para el cielo */
 	tex_cielo = cargar_textura(C, valor_cadena(C, ci_tex));
@@ -373,5 +388,7 @@ void init_escena(config_t cfg)
 	cartel         = crear_cartel(C);
 	arbol          = crear_arbol(C);
 	sol            = crear_sol(C);
+	payaso         = crear_payaso(C);
+	payaso_ext     = crear_payaso_ext(C);
 }
 

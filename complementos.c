@@ -302,3 +302,66 @@ int crear_sol(config_t c)
 	return lista;
 }
 
+
+int crear_payaso(config_t c)
+{
+	int lista, textura;
+	float x = valor_decimal(c, pa_ancho) / 2.0;
+	float z = valor_decimal(c, pa_alto);
+
+	/*
+	 * NOTA: Lo de cambiar las normales está hecho a propósito para
+	 * conseguir un efecto de iluminación curioso gracias a que colocamos
+	 * el payaso justo debajo de un foco.
+	 */
+	textura = cargar_textura(c, valor_cadena(c, pa_i_tex));
+	lista = glGenLists(1);
+	if (lista == 0)
+		return 0;
+	glNewList(lista, GL_COMPILE);
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, 2.0 * valor_decimal(c, t_b_radio) + 
+			valor_decimal(c, t_t_grueso));
+	glBindTexture(GL_TEXTURE_2D, textura);
+	glBegin(GL_QUADS);
+	glColor3f(1.0, 1.0, 1.0);
+	glNormal3f(0.0, -1.0, 0.0);
+	glTexCoord2i(1, 0); glVertex3f(x, 0.0, 0.0);
+	glTexCoord2i(0, 0); glVertex3f(-x, 0.0, 0.0);
+	glNormal3f(0.0, 0.0, 1.0); /* Ver NOTA */
+	glTexCoord2i(0, 1); glVertex3f(-x, 0.0, z);
+	glTexCoord2i(1, 1); glVertex3f(x, 0.0, z);
+	glEnd();
+	glPopMatrix();
+	glEndList();
+	return lista;
+}
+
+
+/* Esto es una chapuza de última hora */
+int crear_payaso_ext(config_t c)
+{
+	int lista, textura;
+	float x = valor_decimal(c, pa_ancho) / 2.0;
+	float z = valor_decimal(c, pa_alto);
+
+	textura = cargar_textura(c, valor_cadena(c, pa_e_tex));
+	lista = glGenLists(1);
+	if (lista == 0)
+		return 0;
+	glNewList(lista, GL_COMPILE);
+	glPushAttrib(GL_ENABLE_BIT);
+	glDisable(GL_LIGHTING);
+	glBindTexture(GL_TEXTURE_2D, textura);
+	glBegin(GL_QUADS);
+	glColor3f(1.0, 1.0, 1.0);
+	glTexCoord2i(0, 0); glVertex3f(x, 0.0, 0.0);
+	glTexCoord2i(1, 0); glVertex3f(-x, 0.0, 0.0);
+	glTexCoord2i(1, 1); glVertex3f(-x, 0.0, z);
+	glTexCoord2i(0, 1); glVertex3f(x, 0.0, z);
+	glEnd();
+	glPopAttrib();
+	glEndList();
+	return lista;
+}
+

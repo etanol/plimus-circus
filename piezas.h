@@ -63,5 +63,7 @@ extern int crear_cartel(config_t);
 extern int crear_tablon(config_t);
 extern int crear_arbol(config_t);
 extern int crear_sol(config_t);
+extern int crear_payaso(config_t);
+extern int crear_payaso_ext(config_t);
 
 #endif

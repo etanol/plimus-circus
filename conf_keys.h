@@ -105,4 +105,9 @@ extern const char t_b_det[];
 extern const char t_t_grueso[];
 extern const char t_t_prop[];
 extern const char t_t_eancho[];
+extern const char pa_ancho[];
+extern const char pa_alto[];
+extern const char pa_e_sep[];
+extern const char pa_e_tex[];
+extern const char pa_i_tex[];
 

@@ -133,3 +133,10 @@ const char t_t_grueso[] = "tablon_tabla_grueso";      /* float */
 const char t_t_prop[]   = "tablon_tabla_proporcion";  /* float */
 const char t_t_eancho[] = "tablon_tabla_extra_ancho"; /* float */
 
+/* Parámetros del payaso */
+const char pa_ancho[] = "payaso_ancho";            /* float */
+const char pa_alto[]  = "payaso_alto";             /* float */
+const char pa_e_sep[] = "payaso_exterior_sep";     /* float */
+const char pa_e_tex[] = "payaso_exterior_textura"; /* string */
+const char pa_i_tex[] = "payaso_interior_textura"; /* string */
+
