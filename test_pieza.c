@@ -53,6 +53,7 @@ enum Pieza {
 	GRADA_LATERAL
 };
 
+float color[3] = {0.0, 0.0, 0.0};
 int lst_pieza;
 int win_h, win_w;
 
@@ -72,27 +73,27 @@ void activa_objeto(enum Pieza p, struct config *c)
 	};
 	switch (p) {
 		case FALDON_FRONTAL:
-			glColor3f(0.8, 0.8, 0.0);
+			color[0] = color[1] = 0.8;
 			lst_pieza = crear_faldon_frontal(c);
 			break;
 		case FALDON_LATERAL:
-			glColor3f(0.8, 0.8, 0.0);
+			color[0] = color[1] = 0.8;
 			lst_pieza = crear_faldon_lateral(c);
 			break;
 		case TECHO_FRONTAL:
-			glColor3f(0.8, 0.8, 0.0);
+			color[0] = color[1] = 0.8;
 			lst_pieza = crear_techo_frontal(c);
 			break;
 		case TECHO_LATERAL:
-			glColor3f(0.8, 0.8, 0.0);
+			color[0] = color[1] = 0.8;
 			lst_pieza = crear_techo_lateral(c);
 			break;
 		case GRADA_FRONTAL:
-			glColor3f(0.7, 0.0, 0.2);
+			color[0] = 0.7; color[2] = 0.2;
 			lst_pieza = crear_grada_frontal(c);
 			break;
 		case GRADA_LATERAL:
-			glColor3f(0.7, 0.0, 0.2);
+			color[0] = 0.7; color[2] = 0.2;
 			lst_pieza = crear_grada_lateral(c);
 			break;
 		default:
@@ -189,23 +190,23 @@ void display(void)
 	/* Dibujamos la pieza */	
 	glViewport(0, 0, win_w, win_h);
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_LIGHTING);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-10.0, 10.0, -10.0, 10.0, -15.0, 15.0);
 	glMatrixMode(GL_MODELVIEW);
+	glColor3fv(color);
 	glCallList(lst_pieza);
 	glPushMatrix(); /* 1 */
 
 	/* Dibujamos el estado actual de la rotación */
 	glViewport(0, 0, win_w/5, win_h/5);
-	glDisable(GL_LIGHTING);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glPushAttrib(GL_CURRENT_BIT);
+	glPushAttrib(GL_CURRENT_BIT|GL_ENABLE_BIT);
+	glDisable(GL_LIGHTING);
 	glColor3f(0.0, 0.0, 0.0);
 	glDrawElements(GL_LINES, 6, GL_UNSIGNED_BYTE, todos);
 	glPopMatrix(); /* 1 */
