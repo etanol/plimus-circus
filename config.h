@@ -40,9 +40,12 @@ struct config {
 	float carpa_techo_alto;
 	float carpa_frontal_ancho;
 	float carpa_lateral_radio;
+#ifdef CARPA_SIMPLE
+ 	int   carpa_lateral_caras; 
+#else
 	int   carpa_detalle_horiz;
 	int   carpa_detalle_vert;
-/* 	int   carpa_lateral_caras; */
+#endif
 
 	/* Gradas */
 	float gradas_alto;

@@ -22,6 +22,8 @@
  * $Id$
  */
 
+#ifndef CARPA_SIMPLE
+
 #include <GL/gl.h>
 #include <math.h>
 
@@ -175,3 +177,4 @@ int crear_techo_lateral(struct config *c)
 	return lista;
 }
 
+#endif /* !CARPA_SIMPLE */

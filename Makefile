@@ -21,22 +21,27 @@
 
 practica := circo test_pieza
 etapas   := etapa1 etapa2 etapa3
-piezas   := carpa.c gradas.c
+piezas   := carpa.c carpa_simple.c gradas.c
 
 BINFILES   := $(etapas) $(practica)
 WDISTFILES := Makefile README.* *.c *.h ChangeLog
 
 
 CFLAGS := -pipe -Wall 
-ifeq ($(debug),yes)
-CFLAGS += -O0 -pg -g
-STRIP  := 
+ifdef debug
+ CFLAGS += -O0 -pg -g
+ STRIP  := 
 else
-CFLAGS += -O2 -fomit-frame-pointer 
-STRIP  := -Wl,-s 
+ CFLAGS += -O2 -fomit-frame-pointer 
+ STRIP  := -Wl,-s 
 endif
-ifeq ($(wired),yes)
-CFLAGS += -DWIRED_CARPA
+ifdef simple
+ # wired y simple no son compatibles.
+ override wired =
+ CFLAGS += -DCARPA_SIMPLE
+endif
+ifdef wired 
+ CFLAGS += -DWIRED_CARPA
 endif
 
 join_obj = $(CC) $(CFLAGS) -Wl,-r -o $@ $^
