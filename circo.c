@@ -29,8 +29,8 @@
 int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
-	//glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
-	glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
+	//glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE);
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("Plimus Circus");

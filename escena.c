@@ -55,5 +55,5 @@ void dibuja_escena(void)
 	glEnd();
 	glPopMatrix();
 
-	//glutSwapBuffers();
+	glutSwapBuffers();
 }
