@@ -21,11 +21,9 @@
 
 practica := circo test_pieza
 etapas   := etapa1 etapa2 etapa3
-ejemplos := robot checker
 piezas   := carpa.c gradas.c
 
-ejemplos   := $(patsubst %,ejemplos/%,$(ejemplos))
-BINFILES   := $(etapas) $(ejemplos) $(practica)
+BINFILES   := $(etapas) $(practica)
 WDISTFILES := Makefile README.* *.c *.h ChangeLog
 
 
@@ -44,12 +42,8 @@ mk_bingl = $(CC) $(CFLAGS) $(STRIP) -lGL -lGLU -lglut -o $@ $(filter-out %.h,$^)
 
 all: $(practica)
 etapas: $(etapas)
-ejemplos: $(ejemplos)
 
 $(etapas): %: %.c
-	$(mk_bingl)
-
-$(ejemplos): %: %.c
 	$(mk_bingl)
 
 circo: circo.o escena.o interaccion.o config.o $(piezas:%.c=%.o)

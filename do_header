@@ -8,16 +8,15 @@
 # $Id$
 #
 
-tmp_header="header$$.tmp"
+tmp_header="/tmp/header$$.tmp"
 
-for file in `find . -type f -printf '%P '`; do
+for file in *.c *.h Makefile; do
 	
 	test -r $file -a -w $file || continue 
 	case "$file" in
 		template*)	continue ;;
-		*.[ch])		template_file="template.h" ;;
 		Makefile)	template_file="template.hash" ;;
-		*)		continue ;;
+		*)		template_file="template.h" ;;
 	esac
 
 	sed -n -e '0,/^[ 	]*$/p' $file >$tmp_header
