@@ -25,7 +25,9 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
-#define SEP_GRADAS_CARPA 0.05
+#define SEP_GRADAS_CARPA   0.1
+#define CAIDA_TECHO_POSTES 0.8
+#define CAIDA_FALDON       0.5
 
 struct config {
 	/* Campo de visión */
@@ -38,7 +40,9 @@ struct config {
 	float carpa_techo_alto;
 	float carpa_frontal_ancho;
 	float carpa_lateral_radio;
-	int   carpa_lateral_caras;
+	int   carpa_detalle_horiz;
+	int   carpa_detalle_vert;
+/* 	int   carpa_lateral_caras; */
 
 	/* Gradas */
 	float gradas_alto;

@@ -27,31 +27,40 @@
 
 #include "piezas.h"
 
+#ifdef WIRED_CARPA
+#define TIPO_RELLENO GL_LINE
+#else
+#define TIPO_RELLENO GL_FILL
+#endif
+
 
 int crear_faldon_frontal(struct config *c)
 {
-	int lista;
-	float x = c->carpa_frontal_ancho / 2;
-	float normal[][3] = {
-		{0.0, 1.0, 0.0}
-	};
-	float datos[] = {
-		normal[0][X], normal[0][Y], normal[0][Z],
-		-x, 0.0, 0.0,
-		normal[0][X], normal[0][Y], normal[0][Z],
-		-x, 0.0, c->carpa_faldon_alto,
-		normal[0][X], normal[0][Y], normal[0][Z],
-		x, 0.0, c->carpa_faldon_alto,
-		normal[0][X], normal[0][Y], normal[0][Z],
-		x, 0.0, 0.0
-	};
+	int i, j, lista;
+	float control[4][4][3];
+	float paso_z = c->carpa_faldon_alto / 3.0;
+	float paso_x = c->carpa_frontal_ancho / 3.0;
+	float x      = c->carpa_frontal_ancho / 2.0;
+	
+	for (i = 0; i < 4; ++i) 
+		for (j = 0; j < 4; ++j) {
+			control[i][j][X] = (j * paso_x) - x;
+			control[i][j][Y] = (i ? 0.0 : CAIDA_FALDON);
+			control[i][j][Z] = i * paso_z;
+		}
 
 	lista = glGenLists(1);
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glInterleavedArrays(GL_N3F_V3F, 0, datos);
-	glDrawArrays(GL_QUADS, 0, sizeof(datos)/(6*sizeof(float)));
+	glEnable(GL_MAP2_VERTEX_3);
+	glEnable(GL_AUTO_NORMAL);
+	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 12, 4, 0.0, 1.0, 3, 4,
+			control[0][0]);
+	glMapGrid2f(c->carpa_detalle_vert, 0.0, 1.0, c->carpa_detalle_horiz,
+			0.0, 1.0);
+	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_vert, 0,
+			c->carpa_detalle_horiz);
 	glEndList();
 	return lista;
 }	
@@ -60,36 +69,34 @@ int crear_faldon_frontal(struct config *c)
 int crear_faldon_lateral(struct config *c)
 {
 	int i, lista;
-	float angulo     = 180.0 / c->carpa_lateral_caras;
-	float angulo_rad = M_PI  / c->carpa_lateral_caras;
-	float cos_angulo = cosf(angulo_rad);
-	float sin_angulo = sinf(angulo_rad);
-	float normal[][3] = {
-		{0.0, 1.0, 0.0},
-		{sin_angulo, cos_angulo, 0.0}
-	};
-	float datos[] = {
-		normal[0][X], normal[0][Y], normal[0][Z],
-		0.0, c->carpa_lateral_radio, 0.0,
-		normal[0][X], normal[0][Y], normal[0][Z],
-		0.0, c->carpa_lateral_radio, c->carpa_faldon_alto,
-		normal[1][X], normal[1][Y], normal[1][Z],
-		c->carpa_lateral_radio*sin_angulo, c->carpa_lateral_radio*cos_angulo, c->carpa_faldon_alto,
-		normal[1][X], normal[1][Y], normal[1][Z],
-		c->carpa_lateral_radio*sin_angulo, c->carpa_lateral_radio*cos_angulo, 0.0
-	};
+	float control[4][4][3];
+	float paso_z  = c->carpa_faldon_alto / 3.0;
+	float caida_y = c->carpa_lateral_radio + CAIDA_FALDON; 
+
+	for (i = 0; i < 4; ++i) {
+		control[i][0][Z] = control[i][1][Z] = control[i][2][Z] = 
+			control[i][3][Z] = i * paso_z;
+		control[i][0][Y] = control[i][1][Y] = 
+			(i ? c->carpa_lateral_radio : caida_y);
+		control[i][2][Y] = control[i][3][Y] = 
+			(i ? -c->carpa_lateral_radio : -caida_y);
+		control[i][0][X] = control[i][3][X] = 0.0;
+		control[i][1][X] = control[i][2][X] =
+			(control[i][0][Y] * 4.0) / 3.0 ;
+	}
 
 	lista = glGenLists(1);
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glInterleavedArrays(GL_N3F_V3F, 0, datos);
-	for (i = 0; i < c->carpa_lateral_caras; ++i) {
-		glPushMatrix();
-		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
-		glDrawArrays(GL_QUADS, 0, sizeof(datos)/(6*sizeof(float)));
-		glPopMatrix();
-	}
+	glEnable(GL_MAP2_VERTEX_3);
+	glEnable(GL_AUTO_NORMAL);
+	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 12, 4, 0.0, 1.0, 3, 4,
+			control[0][0]);
+	glMapGrid2f(c->carpa_detalle_vert, 0.0, 1.0, c->carpa_detalle_horiz,
+			0.0, 1.0);
+	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_vert, 0,
+			c->carpa_detalle_horiz);
 	glEndList();
 	return lista;
 }
@@ -97,29 +104,37 @@ int crear_faldon_lateral(struct config *c)
 
 int crear_techo_frontal(struct config *c)
 {
-	int lista;
-	float x     = c->carpa_frontal_ancho / 2;
-	float hipotenusa = hypotf(c->carpa_techo_alto, c->carpa_lateral_radio);
-	float normal[][3] = {
-		{0.0, c->carpa_techo_alto/hipotenusa, c->carpa_lateral_radio/hipotenusa}
-	};
-	float datos[] = {
-		normal[0][X], normal[0][Y], normal[0][Z],
-		x, 0.0, c->carpa_techo_alto,
-		normal[0][X], normal[0][Y], normal[0][Z],
-		-x, 0.0, c->carpa_techo_alto,
-		normal[0][X], normal[0][Y], normal[0][Z],
-		-x, c->carpa_lateral_radio, 0.0,
-		normal[0][X], normal[0][Y], normal[0][Z],
-		x, c->carpa_lateral_radio, 0.0
-	};
+	int i, j, lista;
+	float control[4][4][3];
+	float paso_x = c->carpa_frontal_ancho / 3.0;
+	float paso_y = c->carpa_lateral_radio / 3.0;
+	float paso_z = c->carpa_techo_alto    / 3.0;
+	float x      = c->carpa_frontal_ancho / 2.0;
+	float zeta[4] =
+		{c->carpa_techo_alto, paso_z + (paso_z/2.0), paso_z/2.0, 0.0};
+
+	for (i = 0; i < 4; ++i) 
+		for (j = 0; j < 4; ++j) {
+			control[i][j][X] = (paso_x * j) - x;
+			control[i][j][Y] = i * paso_y;
+			control[i][j][Z] = zeta[i];
+		}
+	/* Corrección para la caída entre poste y poste */
+	control[0][1][Z] -= CAIDA_TECHO_POSTES;
+	control[0][2][Z] -= CAIDA_TECHO_POSTES;
 
 	lista = glGenLists(1);
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glInterleavedArrays(GL_N3F_V3F, 0, datos);
-	glDrawArrays(GL_QUADS, 0, sizeof(datos)/(6*sizeof(float)));
+	glEnable(GL_MAP2_VERTEX_3);
+	glEnable(GL_AUTO_NORMAL);
+	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 3, 4, 0.0, 1.0, 12, 4,
+			control[0][0]);
+	glMapGrid2f(c->carpa_detalle_horiz, 0.0, 1.0, c->carpa_detalle_vert,
+			0.0, 1.0);
+	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_horiz, 0,
+			c->carpa_detalle_vert);
 	glEndList();
 	return lista;
 }
@@ -128,38 +143,34 @@ int crear_techo_frontal(struct config *c)
 int crear_techo_lateral(struct config *c)
 {
 	int i, lista;
-	float angulo     = 180.0 / c->carpa_lateral_caras;
-	float angulo_rad = M_PI  / c->carpa_lateral_caras;
-	float cos_angulo = cosf(angulo_rad);
-	float sin_angulo = sinf(angulo_rad);
-	float hipotenusa = hypotf(c->carpa_techo_alto, c->carpa_lateral_radio);
-	float altDhip    = c->carpa_techo_alto / hipotenusa;
-	float radDhip    = c->carpa_lateral_radio  / hipotenusa;
-	float normal[][3] = {
-		{altDhip*sinf(angulo_rad/2), altDhip*cosf(angulo_rad/2), radDhip},
-		{0.0, altDhip, radDhip},
-		{altDhip*sin_angulo, altDhip*cos_angulo, radDhip}
-	};
-	float datos[] = {
-		normal[0][X], normal[0][Y], normal[0][Z],
-		0.0, 0.0, c->carpa_techo_alto,
-		normal[1][X], normal[1][Y], normal[1][Z],
-		0.0, c->carpa_lateral_radio, 0.0,
-		normal[2][X], normal[2][Y], normal[2][Z],
-		c->carpa_lateral_radio*sin_angulo, c->carpa_lateral_radio*cos_angulo, 0.0
-	};
+	float control[4][4][3]; 
+	float paso_y = c->carpa_lateral_radio / 3.0;
+	float paso_z = c->carpa_techo_alto    / 3.0;
+	float zeta[4] = 
+		{c->carpa_techo_alto, paso_z + (paso_z/2.0), paso_z/2.0, 0.0};
+
+	for (i = 0; i < 4; ++i) {
+		control[i][0][Z] = control[i][1][Z] = control[i][2][Z] =
+			control[i][3][Z] = zeta[i];
+		control[i][0][Y] = control[i][1][Y] = (i?paso_y * i:0.0001);
+		control[i][2][Y] = control[i][3][Y] = (i?-paso_y * i:-0.0001);
+		control[i][0][X] = control[i][3][X] = 0.0;
+		control[i][1][X] = control[i][2][X] =
+			(control[i][0][Y] * 4.0) / 3.0 ;
+	}
 
 	lista = glGenLists(1);
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glInterleavedArrays(GL_N3F_V3F, 0, datos);
-	for (i = 0; i < c->carpa_lateral_caras; ++i) {
-		glPushMatrix();
-		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(datos)/(6*sizeof(float)));
-		glPopMatrix();
-	}
+	glEnable(GL_MAP2_VERTEX_3);
+	glEnable(GL_AUTO_NORMAL);
+	glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 3, 4, 0.0, 1.0, 12, 4,
+			control[0][0]);
+	glMapGrid2f(c->carpa_detalle_horiz, 0.0, 1.0, c->carpa_detalle_vert,
+			0.0, 1.0);
+	glEvalMesh2(TIPO_RELLENO, 0, c->carpa_detalle_horiz, 0,
+			c->carpa_detalle_vert);
 	glEndList();
 	return lista;
 }

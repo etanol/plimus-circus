@@ -35,6 +35,9 @@ else
 CFLAGS += -O2 -fomit-frame-pointer 
 STRIP  := -Wl,-s 
 endif
+ifeq ($(wired),yes)
+CFLAGS += -DWIRED_CARPA
+endif
 
 join_obj = $(CC) $(CFLAGS) -Wl,-r -o $@ $^
 mk_obj   = $(CC) $(CFLAGS) -c -o $@ $(filter-out %.h,$^)
