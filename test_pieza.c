@@ -39,8 +39,7 @@ const char menu[] =
 \t(4) Techo lateral\n\
 \t(5) Grada frontal\n\
 \t(6) Grada lateral\n\
-\t(7) Cono GLUT\n\n\
-Selecciona (1 .. 7): ";
+Selecciona un número: ";
 
 enum Pieza {
 	FALDON_FRONTAL = 1,
@@ -48,13 +47,22 @@ enum Pieza {
 	TECHO_FRONTAL,
 	TECHO_LATERAL,
 	GRADA_FRONTAL,
-	GRADA_LATERAL,
-	CONO_GLUT
+	GRADA_LATERAL
 };
 
-static float r_horizontal = 0.0;
-static float r_vertical   = 0.0;
-static enum Pieza p;
+float r_horizontal = 0.0;
+float r_vertical   = 0.0;
+enum Pieza p;
+
+/* Parámetros para dibujar las piezas */
+const float altura      = 7.0;
+const float longitud    = 9.0;
+const float profundidad = 10.0;
+const float radio_ext   = 9.0;
+const float radio_int   = 3.0;
+int caras     = 25;
+int escalones = 14;
+
 
 void teclado(unsigned char tecla, int x, int y)
 {
@@ -98,29 +106,26 @@ void display(void)
 	glRotatef(r_vertical, 1.0, 0.0, 0.0);
 	switch (p) {
 		case FALDON_FRONTAL:
-			faldon_frontal(7.0, 4.0);
+			faldon_frontal(altura, longitud);
 			break;
 		case FALDON_LATERAL:
-			faldon_lateral(4.0, 4.0, 7);
+			faldon_lateral(radio_ext, altura, caras);
 			break;
 		case TECHO_FRONTAL:
-			techo_frontal(4.0, 4.0, 4.0);
+			techo_frontal(radio_ext, altura, longitud);
 			break;
 		case TECHO_LATERAL:
-			techo_lateral(4.0, 4.0, 25);
+			techo_lateral(radio_ext, altura, caras);
 			break;
 		case GRADA_FRONTAL:
-			grada_frontal(4.0, 4.5, 3.5, 10);
+			grada_frontal(altura, longitud, profundidad, escalones);
 			break;
 		case GRADA_LATERAL:
-			grada_lateral(1.0, 4.0, 4.5, 10, 25);
-			break;
-		case CONO_GLUT:
-			glColor3f(0.8, 0.8, 0.0);
-			glutSolidCone(4.0, 4.0, 50, 50);
+			grada_lateral(radio_int, radio_ext, altura,
+					escalones, caras);
 			break;
 		default:
-			printf("Pieza no reconocida.\n");
+			fputs("Pieza no reconocida.\n", stderr);
 			exit(1);
 	}
 	glutSwapBuffers();
@@ -131,11 +136,18 @@ int main(int argc, char **argv)
 {
 	int choice;
 
+	glutInit(&argc, argv);
+	if (argc > 1) {
+		caras = strtol(argv[1], (char **)NULL, 10);
+		--argc;
+	}
+	if (argc > 1)
+		escalones = strtol(argv[2], (char **)NULL, 10);
+
 	fwrite(menu, 1, sizeof(menu)-1, stdout);
 	scanf("%d", &choice);
 	p = (enum Pieza) choice;
 
-	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 	glutInitWindowSize(700, 700);
 	glutInitWindowPosition(50, 50);
@@ -152,7 +164,7 @@ int main(int argc, char **argv)
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 5.0);
+	glOrtho(-10.0, 10.0, -10.0, 10.0, -15.0, 15.0);
 	glMatrixMode(GL_MODELVIEW);
 
 	glutMainLoop();
