@@ -266,7 +266,7 @@ begin{center}
 \backslash 
 includegraphics[width=
 \backslash 
-textwidth]{doc/figura1-1}
+textwidth]{../doc/figura1-1}
 \layout Standard
 
 \backslash 
@@ -407,7 +407,7 @@ begin{center}
 \backslash 
 includegraphics[width=
 \backslash 
-textwidth]{doc/figura3-1}
+textwidth]{../doc/figura3-1}
 \layout Standard
 
 \backslash 
@@ -1278,8 +1278,8 @@ y se realiza invocando a la función
  activar las diferentes luces y definir las propiedades que tendrán (atenuación,
  componente ambiente, difusa y especular, ángulo de apertura y exponente).
 \layout Standard
-
-También se ha activado las propiedades del material del que estará compuesto
+\added_space_bottom medskip 
+También se han activado las propiedades del material del que estará compuesto
  cada objeto, es decir, de qué forma reaccionará cada objeto con la luz
  que le llegue, pues hay objetos que son más brillantes y otros más mates,
  y esto es debido a su composición.
@@ -1306,6 +1306,11 @@ También se ha activado las propiedades del material del que estará compuesto
 \end_inset 
 
 .
+\layout Standard
+
+Se ha añadido una opción en el menú para activar la iluminación o desactivarla.
+ Este menú se puede mostrar con solo pulsar el botón derecho del ratón en
+ cualquier punto de la ventana que contiene la escena virtual.
 \layout Section
 
 Focos interiores
@@ -1327,13 +1332,55 @@ El escenario no es más que un rectángulo dividido a su vez en muchos cuadrados
  más pequeños.
 \layout Standard
 \added_space_bottom medskip 
-Uno de ellos ilumina el centro de la carpa, que está compuesta por la arena
- que forma el escenario.
+Como se puede observar en la figura 
+\begin_inset LatexCommand \ref{fig:figura5-1}
+
+\end_inset 
+
+, uno de ellos ilumina el centro de la carpa, que está compuesta por la
+ arena que forma el escenario.
  Los otros dos focos iluminan las gradas y parte del escenario y al estar
  animados, van iluminando de forma rotativa, las gradas laterales y las
  gradas frontales.
 \layout Standard
-\added_space_bottom bigskip 
+
+
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+begin{figure}[ht!]
+\layout Standard
+
+\backslash 
+begin{center}
+\layout Standard
+
+\backslash 
+includegraphics[width=
+\backslash 
+textwidth]{../doc/figura5-1}
+\layout Standard
+
+\backslash 
+caption{Etapa 5: Iluminación: Focos interiores}
+\backslash 
+label{fig:figura5-1}
+\layout Standard
+
+\backslash 
+end{center}
+\layout Standard
+
+\backslash 
+end{figure}
+\end_inset 
+
+
+\layout Standard
+\added_space_top medskip \added_space_bottom bigskip 
 Con las funciones 
 \begin_inset Formula $glLight$
 \end_inset 
@@ -1577,7 +1624,50 @@ Para conseguir una escena más realista se ha añadido una luz direccional
 
  de OpenGL.
  La luz solar se activa en el momento en el que la posición de la cámara
- está situada fuera de la carpa, y a su vez se desactivan las luces interiores.
+ está situada fuera de la carpa, y a su vez se desactivan las luces interiores
+ (ver figura 
+\begin_inset LatexCommand \ref{fig:figura5-2}
+
+\end_inset 
+
+).
+\layout Standard
+
+
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+begin{figure}[ht!]
+\layout Standard
+
+\backslash 
+begin{center}
+\layout Standard
+
+\backslash 
+includegraphics[width=
+\backslash 
+textwidth]{../doc/figura5-2}
+\layout Standard
+
+\backslash 
+caption{Etapa 5: Iluminación: Luz solar}
+\backslash 
+label{fig:figura5-2}
+\layout Standard
+
+\backslash 
+end{center}
+\layout Standard
+
+\backslash 
+end{figure}
+\end_inset 
+
+
 \layout Standard
 \added_space_bottom medskip 
 Está claro que se tendrán que definir las mismas propiedades que las luces
@@ -1724,6 +1814,37 @@ Esta luz corresponde a la luz
  
 \layout Section
 
+Materiales
+\layout Standard
+
+Para definir las características de los objetos, hemos empleado estas dos
+ funciones 
+\begin_inset Formula $glMaterialf$
+\end_inset 
+
+ y 
+\begin_inset Formula $glMaterialfv$
+\end_inset 
+
+.
+ A cada uno de los objetos en la escena se le han definido las propiedades
+ de brillo, componente especular, etc.
+ Un ejemplo de ello es lo siguiente:
+\layout Standard
+
+
+\begin_inset Formula \[
+\begin{array}{l}
+\ldots\\
+glMaterialfv(GL\_ FRONT,\, GL\_ SPECULAR,\, brillo);\\
+glMaterialf(GL\_ FRONT,\, GL\_ SHININESS,\, valor\_ decimal(c,p\_ brillo);\\
+\ldots\end{array}\]
+
+\end_inset 
+
+
+\layout Section
+
 Incidencias
 \layout Standard
 \added_space_bottom medskip 
@@ -1739,20 +1860,107 @@ Después de probar e investigar el problema a fondo, se ha conseguido averiguar
  para soportar la aceleración por hardware de las tarjetas ATI en Linux.
 \layout Standard
 
-Se ha solucionado
-\layout Standard
+El problema estaba al emplear las funciones 
+\begin_inset Formula $glPushAttrib$
+\end_inset 
 
-glPushAttrib, glPopAttrib, problemas con las luces debido a un fallo en
- la implementación de las DRI por parte de los drivers de ATI para Linux.
+ y 
+\begin_inset Formula $glPopAttrib$
+\end_inset 
+
+.
+ Se ha solucionado eliminando todas las referencias a dichas funciones y
+ adecuando el código para que genere el mismo resultado visual y funcional.
 \layout Chapter
 
 Etapa 6: Shading
 \layout Standard
-
-escena.c
+\added_space_bottom medskip 
+En nuestra siguiente etapa, siguiendo el objetivo de realizar una escena
+ virtual lo más realista posible, se ha añadido el sombreado (
+\emph on 
+shading
+\emph default 
+).
+ No hay que confudirlo con las sombras (
+\emph on 
+shearing
+\emph default 
+) que ese es otro tema aparte y no está soportado directamente por OpenGL.
 \layout Standard
+\added_space_bottom medskip 
+El sombreado da un efecto más suavizado a las caras de los polígonos que
+ forman los objetos, definiendo un vector normal para cada vértice que forma
+ el polígono, de forma que la luz que se refleja sea constante e interpolada
+ entre dos caras contiguas de un mismo polígono.
+\layout Standard
+\added_space_bottom medskip 
+Está claro que activar el sombreado requiere un mayor coste computacional,
+ pero vale la pena invertir más en coste computacional pues el resultado
+ final es mucho mejor visualmente y gráficamente.
+ Aún así, con las tarjetas gráficas de hoy en día, y en una escena 
+\begin_inset Quotes eld
+\end_inset 
 
-interaccion.c
+sencilla
+\begin_inset Quotes erd
+\end_inset 
+
+ como la del 
+\series bold 
+circo
+\series default 
+, no relantiza mucho el sistema ni el tiempo de renderizado.
+\layout Standard
+\added_space_bottom medskip 
+Activar o desactivar el sombreado es posible realizarlo pulsando la tecla
+ 
+\begin_inset Formula $espacio$
+\end_inset 
+
+ o bien eligiendo la opción 
+\begin_inset Quotes eld
+\end_inset 
+
+Modelo de Shading FLAT
+\begin_inset Quotes erd
+\end_inset 
+
+ o 
+\begin_inset Quotes eld
+\end_inset 
+
+Modelo de Shading SMOOTH
+\begin_inset Quotes erd
+\end_inset 
+
+, respectivamente, del menú auxiliar, que se muestra pulsando con el botón
+ derecho del ratón en cualquier punto de la ventana que contiene la escena.
+ OpenGL permite renderizar una escena con el sombreado o sin él.
+ Tenemos dos tipos de sombreado que podemos habilitar llamando a la función
+ 
+\begin_inset Formula $glShadeModel$
+\end_inset 
+
+:
+\layout Enumerate
+
+
+\begin_inset Formula $GL\_ FLAT$
+\end_inset 
+
+.
+ Selecciona el color calculado de un vértice y lo asigna a todos píxeles
+ generados mediante la rasterización de una única primitiva.
+\layout Enumerate
+
+
+\begin_inset Formula $GL\_ SMOOTH$
+\end_inset 
+
+.
+ Este es el tipo de sombreado que viene por defecto en OpenGL.
+ Interpola los colores calculados de los vértices a cada pixel resultante.
 \layout Chapter
 
 Etapa 7: Realismo
@@ -1765,6 +1973,11 @@ texturas.c
 \layout Section
 
 Niebla
+\layout Standard
+
+La niebla se puede activar o desctivar desde el menú auxiliar que se muestra
+ pulsando con el botón derecho del ratón en cualquier punto de la ventana
+ que contiene la escena.
 \layout Standard
 
 escena.c
@@ -1785,6 +1998,11 @@ escena.c
 Animación
 \layout Standard
 
+La animación se puede activar o desctivar desde el menú auxiliar que se
+ muestra pulsando con el botón derecho del ratón en cualquier punto de la
+ ventana que contiene la escena.
+\layout Standard
+
 interaccion.c
 \layout Section
 
@@ -1803,7 +2021,7 @@ Parametrización del circo
 (figura árbol de tries)
 \layout Section
 
-Displaylists
+Displaylist
 \layout Section
 
 Vertex array
@@ -1812,10 +2030,13 @@ Vertex array
 Estructura del código fuente
 \layout Chapter
 
-Fuentes de información
+Fuentes de información y bibliografía
 \layout Itemize
 
-OpenGL Programming guide v.1.2 (red book)
+OpenGL Programming Guide.
+ Ed.
+ Addison-Wesley.
+ 1995 (red book)
 \layout Itemize
 
 
@@ -1853,6 +2074,25 @@ OpenGL Programming guide v.1.2 (red book)
 
 \begin_inset LatexCommand \htmlurl[Información sobre la práctica: ]{dmi.uib.es/~josemaria}
 
+\end_inset 
+
+
+\layout Itemize
+
+Apuntes de la asignatura dados en clase y existentes en Campus Extens.
+\layout Chapter
+
+Changelog
+\layout Standard
+
+
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+verbatimtabinput[4]{$HOME/work/grafica/ChangeLog}
 \end_inset 
 
 
