@@ -54,7 +54,7 @@ void init(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, checkImageWidth, checkImageHeight,
+	glTexImage2D(GL_TEXTURE_2D, 0, 4, checkImageWidth, checkImageHeight,
 				 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 }
 
@@ -74,10 +74,12 @@ void display(void)
 	glTexCoord2f(0.0, 0.0); glVertex3f(1.0, -1.0, 0.0);
 	glTexCoord2f(0.0, 1.0); glVertex3f(1.0, 1.0, 0.0);
 	glTexCoord2f(1.0, 1.0); glVertex3f(2.41421, 1.0, -1.41421);
-	glTexCoord2f(1.0, 1.0); glVertex3f(2.41421, -1.0, -1.41421);
+	glTexCoord2f(1.0, 0.0); glVertex3f(2.41421, -1.0, -1.41421);
 	glEnd();
 	glFlush();
 	glDisable(GL_TEXTURE_2D);
+	glFlush();
+	glutSwapBuffers();
 }
 
 
@@ -86,11 +88,13 @@ void reshape(int w, int h)
 	glViewport(0, 0, (GLsizei) w, (GLsizei) h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0, (GLfloat) w/(GLfloat) h, 1.0, 30.0);
+	if (w >= h)
+		gluPerspective(60.0, (GLfloat) w/(GLfloat) h, 1.0, 30.0);
+	else
+		gluPerspective(60.0, (GLfloat) h/(GLfloat) w, 1.0, 30.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0.0, 0.0, -3.6);
-	glutSwapBuffers();
 }
 
 
