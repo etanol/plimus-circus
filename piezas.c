@@ -34,102 +34,12 @@
  */
 
 
-void faldon_frontal(float altura, float longitud)
-{
-	float x = longitud / 2;
-
-	glNormal3f(0.0, 1.0, 0.0);
-	glBegin(GL_QUADS);
-	glVertex3f(-x, 0.0, 0.0);
-	glVertex3f(-x, 0.0, altura);
-	glVertex3f(x, 0.0, altura);
-	glVertex3f(x, 0.0, 0.0);
-	glEnd();
-}	
 
 
-void faldon_lateral(float radio, float altura, int num_caras, int exclude)
-{
-	float angulo, angulo_rad, cos_angulo, sin_angulo, x, y;
-	int i;
-
-	angulo     = 180.0 / num_caras;
-	angulo_rad = M_PI / num_caras;
-	cos_angulo = cosf(angulo_rad);
-	sin_angulo = sinf(angulo_rad);
-	x = radio * sin_angulo;
-	y = radio * cos_angulo;
-
-	for (i = exclude; i < (num_caras - exclude); ++i) {
-		glPushMatrix();
-		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
-		glBegin(GL_POLYGON);
-		glNormal3f(0.0, 1.0, 0.0);
-		glVertex3f(0.0, radio, 0.0);
-		glVertex3f(0.0, radio, altura);
-		glNormal3f(sin_angulo, cos_angulo, 0.0);
-		glVertex3f(x, y, altura);
-		glVertex3f(x, y, 0.0);
-		glEnd();
-		glPopMatrix();
-	}
-}
 
 
-void techo_frontal(float radio, float altura, float longitud)
-{
-	float x = longitud / 2;
-	float hipotenusa = hypotf(altura, radio);
-
-	glBegin(GL_QUADS);
-	glNormal3f(0.0, altura / hipotenusa, radio / hipotenusa);
-	glVertex3f(x, 0.0, altura);
-	glVertex3f(-x, 0.0, altura);
-	glNormal3f(0.0, 1.0, 0.0);
-	glVertex3f(-x, radio, 0.0);
-	glVertex3f(x, radio, 0.0);
-	glEnd();
-}
 
 
-void techo_lateral(float radio, float altura, int num_caras)
-{
-	float angulo, angulo_rad, cos_angulo, sin_angulo, x, y;
-	float normal[3][3], hipotenusa[2];
-	int i;
-
-	angulo     = 180.0 / num_caras;
-	angulo_rad = M_PI / num_caras;
-	cos_angulo = cosf(angulo_rad);
-	sin_angulo = sinf(angulo_rad);
-	x = radio * sin_angulo;
-	y = radio * cos_angulo;
-	hipotenusa[0] = sqrtf((2*(altura*altura)*(1-cos_angulo))+radio*radio*sin_angulo*sin_angulo);
-	hipotenusa[1] = hypotf(altura, radio);
-	normal[0][0] = (altura * (cos_angulo-1)) / hipotenusa[0];
-	normal[0][1] = (altura * sin_angulo) / hipotenusa[0];
-	normal[0][2] = (radio * sin_angulo) / hipotenusa[0];
-	normal[1][0] = 0.0;
-	normal[1][1] = altura / hipotenusa[1];
-	normal[1][2] = radio / hipotenusa[1];
-	normal[2][0] = (altura*sin_angulo) / hipotenusa[1];
-	normal[2][1] = (altura*cos_angulo) / hipotenusa[1];
-	normal[2][2] = radio / hipotenusa[1];
-
-	for (i = 0; i < num_caras; ++i) {
-		glPushMatrix();
-		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
-		glBegin(GL_TRIANGLES);
-		glNormal3fv(normal[0]);
-		glVertex3f(0.0, 0.0, altura);
-		glNormal3fv(normal[1]);
-		glVertex3f(0.0, radio, 0.0);
-		glNormal3fv(normal[2]);
-		glVertex3f(x, y, 0.0);
-		glEnd();
-		glPopMatrix();
-	}
-}
 
 
 void grada_frontal(float altura, float longitud, float profundidad, int num_esc)

@@ -19,7 +19,8 @@
 # $Id$
 #
 
-practica := circo test_pieza
+#practica := circo test_pieza
+practica := test_pieza
 etapas   := etapa1 etapa2 etapa3
 ejemplos := robot checker
 
@@ -63,7 +64,7 @@ interaccion.o: interaccion.c interaccion.h camaras.h
 	$(mk_obj)
 escena.o: escena.c escena.h
 	$(mk_obj)
-piezas.o: piezas.c piezas.h
+piezas.o: carpa.c piezas.h
 	$(mk_obj)
 
 .PHONY: clean 

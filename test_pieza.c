@@ -52,7 +52,7 @@ enum Pieza {
 
 float r_horizontal = 0.0;
 float r_vertical   = 0.0;
-enum Pieza p;
+int lst_pieza;
 
 /* Parámetros para dibujar las piezas */
 const float altura      = 7.0;
@@ -64,6 +64,92 @@ int caras     = 25;
 int escalones = 14;
 int omitir    = 0;
 
+/* Funciones auxiliares */
+void teclado(unsigned char, int, int);
+void rotar(int, int, int);
+void display(void);
+
+
+void activa_objeto(enum Pieza p)
+{
+	switch (p) {
+		case FALDON_FRONTAL:
+			glColor3f(0.8, 0.8, 0.0);
+			lst_pieza = crear_faldon_frontal(altura, longitud);
+			break;
+		case FALDON_LATERAL:
+			glColor3f(0.8, 0.8, 0.0);
+			lst_pieza = crear_faldon_lateral(radio_ext, altura,
+					caras);
+			break;
+		case TECHO_FRONTAL:
+			glColor3f(0.8, 0.8, 0.0);
+			lst_pieza = crear_techo_frontal(radio_ext, altura,
+					longitud);
+			break;
+		case TECHO_LATERAL:
+			glColor3f(0.8, 0.8, 0.0);
+			lst_pieza = crear_techo_lateral(radio_ext, altura,
+					caras);
+			break;
+		default:
+			fputs("Pieza no reconocida.\n", stderr);
+			exit(1);
+	}
+	if (lst_pieza == 0) {
+		fputs("No se pudo crear la pieza.\n", stderr);
+		exit(3);
+	}
+}
+
+
+int main(int argc, char **argv)
+{
+	int choice;
+
+	glutInit(&argc, argv);
+	if (argc > 1) {
+		choice = strtol(argv[1], (char **)NULL, 10);
+		if (choice > 0)
+			caras = choice;
+		--argc;
+	}
+	if (argc > 1) {
+		choice = strtol(argv[2], (char **)NULL, 10);
+		if (choice > 0)
+			escalones = choice;
+		--argc;
+	}
+	if (argc > 1) 
+		omitir = strtol(argv[3], (char **)NULL, 10);
+
+	fwrite(menu, 1, sizeof(menu)-1, stdout);
+	scanf("%d", &choice);
+
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+	glutInitWindowSize(700, 700);
+	glutInitWindowPosition(50, 50);
+	glutCreateWindow("Test de fichas.");
+	glutKeyboardFunc(teclado);
+	glutSpecialFunc(rotar);
+	glutDisplayFunc(display);
+
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-10.0, 10.0, -10.0, 10.0, -15.0, 15.0);
+	glMatrixMode(GL_MODELVIEW);
+
+	activa_objeto((enum Pieza) choice);
+	glutMainLoop();
+	return 0;
+}
 
 void teclado(unsigned char tecla, int x, int y)
 {
@@ -105,84 +191,7 @@ void display(void)
 	glLoadIdentity();
 	glRotatef(r_horizontal, 0.0, 1.0, 0.0);
 	glRotatef(r_vertical, 1.0, 0.0, 0.0);
-	switch (p) {
-		case FALDON_FRONTAL:
-			glColor3f(0.8, 0.8, 0.0);
-			faldon_frontal(altura, longitud);
-			break;
-		case FALDON_LATERAL:
-			glColor3f(0.8, 0.8, 0.0);
-			faldon_lateral(radio_ext, altura, caras, omitir);
-			break;
-		case TECHO_FRONTAL:
-			glColor3f(0.8, 0.8, 0.0);
-			techo_frontal(radio_ext, altura, longitud);
-			break;
-		case TECHO_LATERAL:
-			glColor3f(0.8, 0.8, 0.0);
-			techo_lateral(radio_ext, altura, caras);
-			break;
-		case GRADA_FRONTAL:
-			glColor3f(0.7, 0.0, 0.1);
-			grada_frontal(altura, longitud, profundidad, escalones);
-			break;
-		case GRADA_LATERAL:
-			glColor3f(0.7, 0.0, 0.1);
-			grada_lateral(radio_int, radio_ext, altura,
-					escalones, caras, omitir);
-			break;
-		default:
-			fputs("Pieza no reconocida.\n", stderr);
-			exit(1);
-	}
+	glCallList(lst_pieza);
 	glutSwapBuffers();
-}
-
-
-int main(int argc, char **argv)
-{
-	int choice;
-
-	glutInit(&argc, argv);
-	if (argc > 1) {
-		choice = strtol(argv[1], (char **)NULL, 10);
-		if (choice > 0)
-			caras = choice;
-		--argc;
-	}
-	if (argc > 1) {
-		choice = strtol(argv[2], (char **)NULL, 10);
-		if (choice > 0)
-			escalones = choice;
-		--argc;
-	}
-	if (argc > 1) 
-		omitir = strtol(argv[3], (char **)NULL, 10);
-
-	fwrite(menu, 1, sizeof(menu)-1, stdout);
-	scanf("%d", &choice);
-	p = (enum Pieza) choice;
-
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
-	glutInitWindowSize(700, 700);
-	glutInitWindowPosition(50, 50);
-	glutCreateWindow("Test de fichas.");
-	glutKeyboardFunc(teclado);
-	glutSpecialFunc(rotar);
-	glutDisplayFunc(display);
-
-	glClearColor(1.0, 1.0, 1.0, 1.0);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-10.0, 10.0, -10.0, 10.0, -15.0, 15.0);
-	glMatrixMode(GL_MODELVIEW);
-
-	glutMainLoop();
-	return 0;
 }
 
