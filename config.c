@@ -75,7 +75,7 @@ void leer_config(char *fichero, struct config *cfg)
 	FILE *f;
 	char linea[82];
 	char *valor;
-	int repetir;
+	int repetir, i;
 
 	memset(cfg, 0, sizeof(struct config));
 	linea[81] = '\n';   /* Centinela */
@@ -86,15 +86,18 @@ void leer_config(char *fichero, struct config *cfg)
 		exit(5);
 	}
 	do {
-		valor = linea;
+		i = 0;
 		fgets(linea, 80, f);
-		/* Los comentarios se omiten */
-		if (*valor == '#')
+		/* Saltamos espacios en blanco iniciales */
+		while (linea[i] == ' ' || linea[i] == '\t')
+			++i;
+		valor = linea + i;
+		/* Los comentarios y las líneas en blanco se omiten */
+		if (*valor == '#' || *valor == '\n')
 			continue;
 		repetir = 1;
 		while (repetir) {
 			switch (*valor) {
-				/* Casos terminales */
 				case '=':
 				case '\n':
 					repetir = 0;
@@ -107,14 +110,14 @@ void leer_config(char *fichero, struct config *cfg)
 			}
 		}
 		if (*valor == '\n')
-			continue; /* No contiene valor, omitir */
+			continue; /* Línea mal formada, omitir */
 		/* Partimos la línea en dos cadenas: clave y valor */
 		*valor = '\0';
 		++valor;
 		/* Saltamos espacios en blanco */
 		while (*valor == ' ' || *valor == '\t')
 			++valor;
-		procesar_linea(linea, valor, cfg);
+		procesar_linea(linea + i, valor, cfg);
 	} while (!feof(f));
 	fclose(f);
 }
