@@ -38,7 +38,14 @@ void makeCheckImage(void)
 
 	for (i = 0; i < checkImageHeight; i++) {
 		for (j = 0; j < checkImageWidth; j++) {
-				c = (((i&0x8) == 0)^((j&0x8) == 0)) * 255;
+				/*
+				 *	Para saber que color asignar a cada cuadro, si blanco,
+				 *	o negro conforme a la estuctura de un tablero de ajedrez.
+				 */
+				if (((i & 8) == 0) == ((j & 8) == 0))
+					c = 255;
+				else
+					c = 0;
 				checkImage[i][j][0] = (GLubyte) c;
 				checkImage[i][j][1] = (GLubyte) c;
 				checkImage[i][j][2] = (GLubyte) c;
