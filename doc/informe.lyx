@@ -68,7 +68,7 @@ Profesores:
 \emph on 
 
 \newline 
-Jose María Buades Rubio
+José María Buades Rubio
 \newline 
 María José Abásolo Guerrero
 \newline 
@@ -86,8 +86,8 @@ María José Abásolo Guerrero
 Introducción
 \layout Standard
 \added_space_bottom bigskip 
-Hoy en día, las técnicas de simulación por odenador han avanzado mucho en
- muy poco tiempo.
+Hoy en día, las técnicas de simulación por ordenador han avanzado mucho
+ en muy poco tiempo.
  Gracias al avance tecnológico del hardware que permite realizar estas simulacio
 nes, ha surgido la necesidad de tener un estándar para desarrollar aplicaciones
  que puedan realizar simulaciones por ordenador.
@@ -101,11 +101,13 @@ Como parte de la asignatura de
 \emph on 
 Informática Gráfica I
 \emph default 
- dentro del plan de estudios de la ingeniería técnica de informática de
- gestión, se ha propuesto por parte del personal docente, la realización
- de una práctica que contemple muchas de las técnicas empleadas para la
- simulación y la renderización de escenas virtuales que están soportadas
- por OpenGL.
+ dentro del plan de estudios de la 
+\emph on 
+ingeniería técnica de informática de gestión
+\emph default 
+, se ha propuesto por parte del personal docente, la realización de una
+ práctica que contemple muchas de las técnicas empleadas para la simulación
+ y la renderización de escenas virtuales que están soportadas por OpenGL.
 \layout Standard
 \added_space_bottom bigskip 
 Para que la práctica no sea muy extensa, debido al tiempo que se dispone
@@ -114,7 +116,7 @@ Para que la práctica no sea muy extensa, debido al tiempo que se dispone
 circo
 \series default 
  en tres dimensiones, utilizando las técnicas y funciones que están descritas
- y soportadas por OpenGL.
+ y soportadas por OpenGL y las librerías auxiliares.
  La mayoría de microprocesadores ensamblados en las tarjetas gráficas de
  las computadoras soportan este estándar; por lo cual, el código necesario
  para desarrollar estas escenas virtuales, es portable a multitud de plataformas
@@ -194,7 +196,7 @@ Unix
 Make
 \series default 
  Utilidad de línea de comandos para mantener grupos de programas.
- Útil para automatizar y minimar las recompilaciones.
+ Útil para automatizar y minimizar las recompilaciones.
 \layout List
 \labelwidthstring 00.00.0000
 
@@ -270,7 +272,7 @@ textwidth]{../doc/figura1-1}
 \layout Standard
 
 \backslash 
-caption{Etapa 1}
+caption{Etapa 1. Primer programa en OpenGL.}
 \backslash 
 label{fig:figura1-1}
 \layout Standard
@@ -289,7 +291,7 @@ end{figure}
 Dicho ejemplo está extraído directamente de la página web de uno de los
  profesores y tomando como punto de partida dicho ejemplo, a través de las
  diferentes etapas, iremos adaptando el código fuente al ejemplo concreto
- de un circo 3D.
+ de un circo en tres dimensiones.
 \layout Standard
 \added_space_top medskip 
 Cabe destacar la utilización de las librerías GLUT para la creación de la
@@ -299,29 +301,24 @@ Cabe destacar la utilización de las librerías GLUT para la creación de la
 
 Etapa 2: Doble buffer y escalado
 \layout Standard
-
+\added_space_bottom bigskip 
 La segunda etapa consiste en la adaptación del ejemplo visto en la primera
  etapa para resolver una pequeña carencia visual, como es evitar que se
  vea cómo se repinta la escena cada vez.
  Para ello simplemente basta con utilizar la función incluida en la librería
  GLUT que permite la utilización de un doble buffer.
- Dicha función es:
-\layout Standard
-
-
-\begin_inset Formula \[
-glutSwapBuffers()\]
-
-\end_inset 
-
-
-\layout Standard
-\added_space_bottom medskip 
-La función 
+ Dicha función es 
 \begin_inset Formula $glutSwapBuffers$
 \end_inset 
 
- es necesario invocarla cada vez que se dibuja la escena.
+.
+\layout Standard
+\added_space_bottom bigskip 
+Es necesario invocar a la función 
+\begin_inset Formula $glutSwapBuffers$
+\end_inset 
+
+ cada vez que se dibuja la escena.
  Por ello se incluye dentro de la función 
 \emph on 
 Display
@@ -339,12 +336,12 @@ s todos los objetos, se pueda invocar a esta función para la utilización
 \end_inset 
 
  que le pasamos a la función 
-\begin_inset Formula $glutInitDisplayMode().$
+\begin_inset Formula $glutInitDisplayMode.$
 \end_inset 
 
 
 \layout Standard
-\added_space_bottom medskip 
+\added_space_bottom bigskip 
 También se añade un polígono cuadrado en medio del triángulo formado por
  tres triángulos más pequeños y una nueva funcionalidad.
  Esta funcionalidad es el escalado de la escena dependiendo del tamaño de
@@ -362,12 +359,12 @@ Esto se implementa en la función
 
 \emph default 
  a la cual se le pasan los parámetros de ancho y alto que forman la ventana.
- Aparte de esto, se centran los polígonos con respecto al ancho de la ventana,
- en el caso de que la amplitud sea mayor a la altura, en número de 
+ Aparte de esto, se centran los polígonos con respecto al ancho en número
+ de 
 \emph on 
 pixels
 \emph default 
-.
+ de la ventana, en el caso de que la amplitud sea mayor a la altura.
  En caso contrario, se centra con respecto a la altura.
 \layout Chapter
 
@@ -377,7 +374,8 @@ Etapa 3: Escena 3D
 La siguiente etapa consiste en crear nuestra primera escena en tres dimensiones.
  Para ello, dibujamos un cubo sólido de un color determinado, colocamos
  la cámara en un punto determinado, y a través de la pulsación de una tecla,
- permitimos que el cubo vaya rotando con una rotación predeterminada.
+ permitimos que el cubo vaya rotando con un ángulo de rotación predeterminada
+ sobre dos ejes.
  Para apreciar de una forma más clara el movimiento del cubo, se ha dibujado
  un cubo 
 \emph on 
@@ -415,7 +413,7 @@ textwidth]{../doc/figura3-1}
 \layout Standard
 
 \backslash 
-caption{Etapa 3: Escena 3D}
+caption{Etapa 3. Escena 3D.}
 \backslash 
 label{fig:figura3-1}
 \layout Standard
@@ -477,7 +475,7 @@ Display
 .
 \layout Enumerate
 
-Posicionar la cámara en un punto detereminado.
+Posicionar la cámara en un punto determinado.
  Para ello utilizamos la función 
 \begin_inset Formula $gluLookAt$
 \end_inset 
@@ -490,7 +488,7 @@ Posicionar la cámara en un punto detereminado.
 \begin_inset Formula $eye_{x},eye_{y},eye_{z}\rightarrow$
 \end_inset 
 
- Punto en coordenadas mundo donde se situa la cámara.
+ Punto en coordenadas mundo donde se sitúa la cámara.
 \layout Enumerate
 
 
@@ -881,7 +879,7 @@ Movimiento
 
 
 \series bold 
-Descripición
+Descripción
 \end_inset 
 </cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
@@ -987,7 +985,7 @@ Abajo
 
 \layout Standard
 
-Giro de la cámara habia abajo
+Giro de la cámara hacia abajo
 \end_inset 
 </cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
@@ -1062,7 +1060,7 @@ Movimiento
 
 
 \series bold 
-Descripición
+Descripción
 \end_inset 
 </cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
@@ -1350,7 +1348,32 @@ Como se puede observar en la figura
  arena que forma el escenario.
  Los otros dos focos iluminan las gradas y parte del escenario y al estar
  animados, van iluminando de forma rotativa, las gradas laterales y las
- gradas frontales.
+ gradas frontales
+\begin_inset Foot
+collapsed true
+
+\layout Standard
+
+A la hora de visualizar los efectos producidos por la iluminación de los
+ focos en el interior de la carpa, han surgido una serie de problemas en
+ el hecho de que con diferentes tarjetas, y empleando el mismo código, en
+ un caso, los focos interiores se movían con respecto a la rotación deseada,
+ pero en otro caso, se movían por otro camino distinto.
+ Después de probar e investigar el problema a fondo, se ha conseguido averiguar
+ que el fallo era debido a la implementación de las librerías DRI necesarias
+ para soportar la aceleración por hardware de las tarjetas ATI en Linux.
+ El problema estaba al emplear las funciones 
+\begin_inset Formula $glPushAttrib$
+\end_inset 
+
+ y 
+\begin_inset Formula $glPopAttrib$
+\end_inset 
+
+.
+\end_inset 
+
+.
 \layout Standard
 
 
@@ -1374,7 +1397,7 @@ textwidth]{../doc/figura5-1}
 \layout Standard
 
 \backslash 
-caption{Etapa 5: Iluminación: Focos interiores}
+caption{Etapa 5. Iluminación: Focos interiores.}
 \backslash 
 label{fig:figura5-1}
 \layout Standard
@@ -1663,7 +1686,7 @@ textwidth]{../doc/figura5-2}
 \layout Standard
 
 \backslash 
-caption{Etapa 5: Iluminación: Luz solar}
+caption{Etapa 5. Iluminación: Luz solar.}
 \backslash 
 label{fig:figura5-2}
 \layout Standard
@@ -1852,34 +1875,6 @@ glMaterialf(GL\_ FRONT,\, GL\_ SHININESS,\, valor\_ decimal(c,p\_ brillo);\\
 \end_inset 
 
 
-\layout Section
-
-Incidencias
-\layout Standard
-\added_space_bottom medskip 
-A la hora de visualizar los efectos producidos por la iluminación de los
- focos en el interior de la carpa, han surgido una serie de problemas en
- el hecho de que con diferentes tarjetas, y empleando el mismo código, en
- un caso, los focos interiores se movían con respecto a la rotación deseada,
- pero en otro caso, se movían por otro camino distinto.
-\layout Standard
-\added_space_bottom medskip 
-Después de probar e investigar el problema a fondo, se ha conseguido averiguar
- que el fallo era debido a la implementación de las librerías DRI necesarias
- para soportar la aceleración por hardware de las tarjetas ATI en Linux.
-\layout Standard
-
-El problema estaba al emplear las funciones 
-\begin_inset Formula $glPushAttrib$
-\end_inset 
-
- y 
-\begin_inset Formula $glPopAttrib$
-\end_inset 
-
-.
- Se ha solucionado eliminando todas las referencias a dichas funciones y
- adecuando el código para que genere el mismo resultado visual y funcional.
 \layout Chapter
 
 Etapa 6: Shading
@@ -1891,7 +1886,7 @@ En nuestra siguiente etapa, siguiendo el objetivo de realizar una escena
 shading
 \emph default 
 ).
- No hay que confudirlo con las sombras (
+ No hay que confundirlo con las sombras (
 \emph on 
 shearing
 \emph default 
@@ -1908,18 +1903,14 @@ Está claro que activar el sombreado requiere un mayor coste computacional,
  pero vale la pena invertir más en coste computacional pues el resultado
  final es mucho mejor visualmente y gráficamente.
  Aún así, con las tarjetas gráficas de hoy en día, y en una escena 
-\begin_inset Quotes eld
-\end_inset 
-
+\emph on 
 sencilla
-\begin_inset Quotes erd
-\end_inset 
-
+\emph default 
  como la del 
 \series bold 
 circo
 \series default 
-, no relantiza mucho el sistema ni el tiempo de renderizado.
+, no ralentiza mucho el sistema ni el tiempo de renderizado.
 \layout Standard
 \added_space_bottom medskip 
 Activar o desactivar el sombreado es posible realizarlo pulsando la tecla
@@ -1990,7 +1981,7 @@ La inclusión de texturas dentro de la escena que conforma el
 circo
 \series default 
  supone un gran incremento cualitativo con respecto al resultado visual.
- De las opciones incluídas en este capítulo ésta es la que da a la escena
+ De las opciones incluidas en este capítulo ésta es la que da a la escena
  un mayor realismo.
  Bien es cierto que el resto de opciones añadidas, como la niebla, superficies
  curvas, etc., incrementan la calidad visual de la escena final.
@@ -2076,7 +2067,7 @@ Este paso es opcional en el caso de que a la hora de poner una textura a
  desde un fichero que esté en disco.
  Aparte de implementar una función para copiar la imagen del fichero a una
  zona de memoria, para posteriormente, pasarle en puntero de esa zona de
- memoria a OpenGL, es nesario conocer en qué formato está la imagen almacenada
+ memoria a OpenGL, es necesario conocer en qué formato está la imagen almacenada
  en el fichero.
  
 \layout Standard
@@ -2143,35 +2134,50 @@ Así pues, los pasos a realizar son:
 Enlazar la textura.
  Indicar a OpenGL, la zona de memoria donde tenemos cargada la textura que
  ha de utilizar como la textura actual.
+ Para ello utilizamos la función 
 \begin_inset Formula $glBindTexture$
 \end_inset 
 
-
+ indicándole el tipo de textura y el puntero a la zona de memoria donde
+ está cargada la textura.
 \layout Itemize
 
+Indicar los puntos de control para indicar a qué punto de la imagen corresponde
+ cada vértice y si es necesario repetir la textura, en el caso de que el
+ polígono sea mayor que la textura, o si hay que hacer un escalado.
+ Este escalado para adaptar la textura al tamaño del polígono, lo hace OpenGL.
+ Hay dos formas de indicar estos puntos de control dependiendo de si utilizamos
+ curvas de Bézier para generar un polígono, o no:
+\begin_deeper 
+\layout Itemize
 
+Utilizando curvas de Bézier.
+ Indicaremos los puntos de control, en nuestro caso utilizamos la función
+ 
 \begin_inset Formula $glMap2f$
 \end_inset 
 
-
+.
 \layout Itemize
 
-
-\begin_inset Formula $glMapGrid2f$
+Sin utilizar curvas de Bézier.
+ En el caso más simple utilizamos la función 
+\begin_inset Formula $glTexCoord2f()$
 \end_inset 
 
-
-\layout Itemize
-
-
-\begin_inset Formula $glEvalMesh2$
-\end_inset 
-
-
+ para indicar qué puntos de la textura corresponden con qué vértices del
+ polígono, del cual queremos mapear la textura.
+ 
+\end_deeper 
 \layout Standard
 
 Un ejemplo, de cómo se ha implementado tanto el enlace como el mapeado es:
 \layout Standard
+
+
+\begin_inset LatexCommand \label{sec:ejemplo-codigo-texturas}
+
+\end_inset 
 
 
 \begin_inset Formula \[
@@ -2201,7 +2207,7 @@ El efecto de niebla está soportado por OpenGL de forma sencilla.
 \begin_inset Formula $glEnable$
 \end_inset 
 
- pasándole como parámentro 
+ pasándole como parámetro 
 \begin_inset Formula $GL\_ FOG$
 \end_inset 
 
@@ -2280,10 +2286,68 @@ La niebla se puede activar o desactivar desde el menú auxiliar que se muestra
  que contiene la escena.
 \layout Section
 
-Superficies de Bezier
+Superficies de Bézier
+\layout Standard
+\added_space_bottom medskip 
+Uno de los métodos más utilizados en los gráficos escalables es la descripción
+ de las curvas como curvas de Bézier.
+ Un ejemplo de este tipo de curvas lo podemos ver en la figura 
+\begin_inset LatexCommand \ref{fig:figura7-3-1}
+
+\end_inset 
+
+.
+ Consideramos que un segmento AB es una curva de Bézier.
+ Entonces, los puntos E y F se llaman 
+\series bold 
+puntos de control 
+\series default 
+porque actúan como 
+\emph on 
+imanes
+\emph default 
+ que atraen a la curva y le dan su forma característica.
 \layout Standard
 
-Para realizar las superficies curvas se han utilizado ocho 
+
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+begin{figure}[ht!]
+\layout Standard
+
+\backslash 
+begin{center}
+\layout Standard
+
+\backslash 
+includegraphics[width=
+\backslash 
+textwidth]{../doc/figura7-3-1}
+\layout Standard
+
+\backslash 
+caption{Etapa 7. Realismo: Superficies de Bézier.}
+\backslash 
+label{fig:figura7-3-1}
+\layout Standard
+
+\backslash 
+end{center}
+\layout Standard
+
+\backslash 
+end{figure}
+\end_inset 
+
+
+\layout Standard
+\added_space_bottom medskip 
+A través de las curvas de Bézier, se pueden generar curvas de Bézier.
+ Para realizar las superficies curvas se han utilizado ocho 
 \emph on 
 evaluators
 \emph default 
@@ -2303,23 +2367,43 @@ evaluators
 
 2.
 \layout Standard
+\added_space_bottom medskip 
+Para generar los puntos de control que formarán la malla, se utiliza la
+ función 
+\begin_inset Formula $glMapGrid2f$
+\end_inset 
+
+.
+ A su vez, para crear la superficie (dos dimensiones) una vez definidos
+ los puntos de control, se invoca a la función 
+\begin_inset Formula $glEvalMesh2$
+\end_inset 
+
+.
+ En el caso de que deseemos crear una curva (una dimensión), se utilizará
+ la función 
+\begin_inset Formula $glEvalMesh1$
+\end_inset 
+
+.
+ Un ejemplo de esto lo podemos encontrar en el apartado 
+\begin_inset LatexCommand \vref{sec:ejemplo-codigo-texturas}
+
+\end_inset 
+
+.
+\layout Standard
 
 Aparte de las dimensiones de la superficie y su forma, en función de la
  colocación de los puntos de control, es posible modificar el nivel de detalle
  a través del fichero de configuración.
-\layout Standard
-
-glMap2f, glMapGridf,glEvalMesh2
-\layout Standard
-
-carpa.c, suelo.c
 \layout Section
 
 Varias fuentes de luz
 \layout Standard
 
-Ver apartado 
-\begin_inset LatexCommand \ref{sec:Focos-interiores}
+Ver el apartado 
+\begin_inset LatexCommand \vref{sec:Focos-interiores}
 
 \end_inset 
 
@@ -2328,22 +2412,82 @@ Ver apartado
 
 Animación
 \layout Standard
+\added_space_bottom medskip 
+Además de renderizar gran parte de la escena de objetos estáticos, se ha
+ aplicado una animación a varios de los objetos en particular.
+ En el caso de esta práctica, el circo, contiene en su exterior un cartel
+ publicitario.
+ Así pues, para dar más realismo a la escena, se ha animado el cartel de
+ forma que gira sobre si mismo con una velocidad determinada.
+ La velocidad de giro se puede modificar a través del fichero de configuración
+ 
+\series bold 
+circo.cfg
+\series default 
+.
+ También, en el interior del circo hay situados tres focos
+\begin_inset Foot
+collapsed true
 
-La animación se puede activar o desctivar desde el menú auxiliar que se
- muestra pulsando con el botón derecho del ratón en cualquier punto de la
- ventana que contiene la escena.
 \layout Standard
 
+Ver el apartado 
+\begin_inset LatexCommand \vref{sec:Focos-interiores}
+
+\end_inset 
+
+
+\end_inset 
+
+ a los cuales se le ha aplicado una animación que consiste en que giren
+ sobre si mismos con un ángulo de rotación determinados.
+ De esta forma, las gradas del circo se van iluminando de forma alternativa.
+\layout Standard
+\added_space_bottom medskip 
+Para crear la animación se ha creado una función llamada 
+\emph on 
+animacion 
+\emph default 
+en el módulo 
+\series bold 
 interaccion.c
+\series default 
+,
+\series bold 
+ 
+\series default 
+la cual se encarga de ir cambiando el ángulo de giro cada vez que se produce
+ un evento de reloj.
+ A OpenGL tenemos que indicarle qué función será la encargada de tratar
+ el evento de reloj o 
+\emph on 
+timer
+\emph default 
+ a través de la función 
+\begin_inset Formula $glutTimerFunc$
+\end_inset 
+
+, donde además de pasarle el nombre de la función que crearemos nosotros,
+ le pasamos el intervalo de tiempo en milisegundos a transcurrir entre un
+ evento de reloj y el siguiente.
+ Cada vez que tratamos un evento de reloj, es necesario volver a invocar
+ a la función 
+\begin_inset Formula $glutTimerFunc$
+\end_inset 
+
+ para que genere otro evento de reloj una vez transcurrido el intervalo
+ de tiempo indicado.
+\layout Standard
+
+La animación se puede activar o desactivar desde el menú auxiliar que se
+ muestra pulsando con el botón derecho del ratón en cualquier punto de la
+ ventana que contiene la escena.
 \layout Chapter
 
 Extras
 \layout Section
 
 Parametrización del circo
-\layout Standard
-
-(figura árbol de tries)
 \layout Standard
 
 Es posible modificar las propiedades escalares de los objetos que componen
@@ -2358,8 +2502,12 @@ Sintaxis
 
 Para asignar valor a una propiedad se utiliza la siguiente sintaxis:
 \layout Standard
+\added_space_top smallskip \added_space_bottom smallskip \align center 
 
-nombre_propiedad = valor
+\begin_inset Formula $nombre\_ propiedad=valor$
+\end_inset 
+
+
 \layout Standard
 
 Donde 
@@ -2377,12 +2525,24 @@ nombre_propiedad
  Cada asignación puede ocupar, como máximo, una sola línea de hasta 80 caractere
 s.
  Si se pasa de 80 caracteres, se ignoran.
+ Las líneas en blanco o las que comiencen por '#' serán ignoradas.
+ Por ejemplo:
 \layout Standard
 
-Las líneas en blanco o las que comiencen por '#' serán ignoradas.
-\layout Standard
 
-Ejemplo
+\begin_inset Formula \[
+\begin{array}{lcl}
+\ldots\\
+ventana\_ ancho\_ inicial & = & 500\\
+\ldots\\
+camara\_ apertura\_ angular & = & 65.0\\
+\ldots\\
+suelo\_ exterior\_ textura & = & "cesped1.tga"\\
+\ldots\end{array}\]
+
+\end_inset 
+
+
 \layout Subsection
 
 Implementación del analizador
@@ -2398,7 +2558,8 @@ Para cargar todos los valores del fichero de configuración en memoria, de
 diccionario
 \emph default 
 .
- Esta estructura se adapta bien como solución ya que solo necesitamos 
+ Esta estructura se adapta bien como solución ya que solo necesitamos tener
+ implementadas las operaciones de 
 \emph on 
 inserción
 \emph default 
@@ -2412,14 +2573,14 @@ consulta
  manera:
 \layout Standard
 
-(figura)
+(ARBOL DE TRIES)
 \layout Section
 
 
 \emph on 
 Display Lists
 \layout Standard
-
+\added_space_bottom medskip 
 Debido a que prácticamente casi toda la escena está compuesta por elementos
  estáticos, realizar los cálculos de dimensionado de los objetos para cada
  
@@ -2439,7 +2600,7 @@ lists
 \emph default 
 .
 \layout Standard
-
+\added_space_bottom medskip 
 Las 
 \emph on 
 display
@@ -2455,20 +2616,78 @@ lists
  colores, etc.) de cada objeto.
 \layout Standard
 
-Ejemplo de creación y de llamada:
+A la hora de crear una 
+\emph on 
+display list
+\emph default 
+ es necesario llamar a la función 
+\begin_inset Formula $glGenLists$
+\end_inset 
+
+ pasando como parámetro el número de 
+\emph on 
+display lists 
+\emph default 
+que OpenGL creará vacías.
+ Después, llamamos a la función 
+\begin_inset Formula $glNewList$
+\end_inset 
+
+ para crear la 
+\emph on 
+display list
+\emph default 
+, pasándole el identificador devuelto por la función anterior y además indicando
+ si queremos compilar y ejecutar la 
+\emph on 
+display list
+\emph default 
+ o simplemente compilarla, para un posterior uso.
+ Por ejemplo:
+\layout Standard
+
+
+\begin_inset Formula \[
+\begin{array}{l}
+lista\,=\, glGenLists(1);\\
+if\,(lista==0)\, return\,0;\\
+\ldots\\
+glNewList(lista,\, GL\_ COMPILE);\\
+\ldots\,{\scriptstyle /*\, lista\, de\, comandos\, de\, OpenGL\,*/}\\
+glEndList();\end{array}\]
+
+\end_inset 
+
+
+\layout Standard
+
+Una vez creada la
+\emph on 
+ display list
+\emph default 
+ podemos emplearla en cualquier momento con simplemente llamar a la función
+ 
+\begin_inset Formula $glCallList$
+\end_inset 
+
+ indicando el identificador de 
+\emph on 
+display list
+\emph default 
+ queremos emplear.
 \layout Section
 
 
 \emph on 
 Cull Faces
 \layout Standard
-
+\added_space_bottom medskip 
 En OpenGL el orden en el que se van procesando los vértices para constituir
- un polígono, define la cara que se está dibujando.
- Por defecto OpenGL renderiza tanto la cara frontal y trasera de un mismo
- polígono, por lo que puede suponer el doble de trabajo.
+ un polígono define la cara que se está dibujando.
+ Por defecto OpenGL renderiza tanto la cara frontal como la cara trasera
+ de un mismo polígono, por lo que puede suponer el doble de trabajo.
 \layout Standard
-
+\added_space_bottom medskip 
 Es posible indicarle a OpenGL que únicamente renderice una de las dos caras
  de un polígono, según se ordenaron los vértices en sentido horario o anti-horar
 io
@@ -2487,15 +2706,41 @@ Además, podemos conmutar entre sentido horario y anti-horario para definir
 
 .
 \layout Standard
+\added_space_bottom medskip 
+Activar esta funcionalidad es muy sencillo.
+ Basta con llamar a la función 
+\begin_inset Formula $glEnable$
+\end_inset 
 
-Para activarlo: glenable(gl_cull_face), para elegir la cara a omitir glcullface(
-), por defecto gl_back
+ pasándole como parámetro 
+\begin_inset Formula $GL\_ CULL\_ FACE$
+\end_inset 
+
+.
+ Posteriormente, podemos elegir la cara a omitir llamando a la función 
+\begin_inset Formula $glCullFace$
+\end_inset 
+
+, que por defecto utiliza 
+\begin_inset Formula $GL\_ BACK$
+\end_inset 
+
+.
 \layout Standard
 
-Esta funcionalidad permite agilizar el renderizado de la escena completa.
+Esta funcionalidad permite agilizar el renderizado de la escena completa
+ de una manera notable ya que evita renderizar gran parte de las caras no
+ visibles de los polígonos, desde el punto de vista de la cámara por parte
+ del usuario.
+ Así pues, evita la realización de muchos cálculos por parte del hardware
+ específico.
 \layout Chapter
 \start_of_appendix 
 Estructura del código fuente
+\layout Standard
+
+Los módulos de código fuente que componen la aplicación en OpenGL que genera
+ el circo en 3D tienen la siguiente relación:
 \layout Chapter
 
 Fuentes de información y bibliografía
