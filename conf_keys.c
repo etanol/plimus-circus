@@ -47,6 +47,12 @@ const char m_paso[] = "movcam_paso";               /* float */
 const char m_giro[] = "movcam_angulo_giro";        /* float */
 const char m_rsen[] = "movcam_sensibilidad_raton"; /* float */
 
+/* Parámetros de las luces y la niebla */
+const char l_f_ang[] = "foco_interior_inclinacion"; /* float */
+const char l_f_ap[]  = "foco_interior_apertura";    /* float */
+const char l_f_exp[] = "foco_interior_exponente";   /* float */
+const char n_dens[]  = "niebla_exterior_densidad";  /* float */
+
 /* Parámetros del suelo */
 const char se_lado[] = "suelo_exterior_lado";    /* float */
 const char se_det[]  = "suelo_exterior_detalle"; /* int */

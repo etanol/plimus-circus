@@ -29,6 +29,7 @@
 
 #include "config.h"
 
+extern int   fog_flag;
 extern int   modo_exterior;
 extern float desp_cielo_h;
 extern float desp_cielo_v;

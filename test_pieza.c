@@ -110,6 +110,7 @@ int main(int argc, char **argv)
 {
 	int choice;
 	config_t cfg;
+	int bits[5];
 
 	cfg = leer_config(TEST_CONFIG);
 	
@@ -127,6 +128,14 @@ int main(int argc, char **argv)
 	glutKeyboardFunc(teclado);
 	glutDisplayFunc(display);
 	glutReshapeFunc(ventana);
+
+	glGetIntegerv(GL_RED_BITS, bits);
+	glGetIntegerv(GL_GREEN_BITS, bits + 1);
+	glGetIntegerv(GL_BLUE_BITS, bits + 2);
+	glGetIntegerv(GL_ALPHA_BITS, bits + 3);
+	glGetIntegerv(GL_DEPTH_BITS, bits + 4);
+	printf("R: %2d, G: %2d, B: %2d, A: %2d, Prof: %2d\n", bits[0], bits[1],
+		bits[2], bits[3], bits[4]);
 
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glEnable(GL_DEPTH_TEST);

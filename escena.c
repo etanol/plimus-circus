@@ -60,7 +60,7 @@ static config_t C;
 /* Muy muy privado */
 static float Le_cfra, Le_cfra2, Le_clr, Le_cfa, Le_gsl, Le_gss, Le_pr, Le_calt,
 	Le_crtsep;
-static float Le_fov, Le_znear, Le_zfar;
+static float Le_fov, Le_znear, Le_zfar, Le_fang;
 
 
 static void actualiza_viewport(int ancho, int alto)
@@ -107,7 +107,7 @@ static void cielo(void)
 }  /* }}} */
 
 
-static void init_luces(void)
+static void init_luces_niebla(void)
 {  /* {{{ */
 	float ambiente_global[4] = {0.0, 0.0, 0.0, 1.0};
 	float sol_ambiente[4]  = {0.25, 0.25, 0.25, 1.0};
@@ -117,11 +117,13 @@ static void init_luces(void)
 	float foco_difusa[4]     = {1.0, 1.0, 1.0, 1.0};
 	float foco_especular[4]  = {1.0, 1.0, 1.0, 1.0};
 	float foco_atenuacion[3] = {0.9, 0.4, 0.0};
-	float foco_apertura      = 25.0;
-	float foco_exponente     = 7.0;
+	float foco_apertura      = valor_decimal(C, l_f_ap);
+	float foco_exponente     = valor_decimal(C, l_f_exp);
 	float interior_ambiente[4]  = {0.1, 0.1, 0.1, 1.0}; 
 	float interior_difusa[4]    = {0.8, 0.8, 0.8, 1.0};
 	float interior_especular[4] = {0.2, 0.2, 0.2, 1.0};
+	float niebla_color[4] = {0.5, 0.72, 0.95, 0.0};
+	Le_fang = valor_decimal(C, l_f_ang);
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_COLOR_MATERIAL);
@@ -172,10 +174,15 @@ static void init_luces(void)
 	glLightf (GL_LIGHT5, GL_LINEAR_ATTENUATION, 0.15);
 	glLightf (GL_LIGHT5, GL_QUADRATIC_ATTENUATION, 0.0);
 	glLightf (GL_LIGHT5, GL_SPOT_CUTOFF, 180.0);
+
+	/* Niebla exterior */
+	glFogi(GL_FOG_MODE, GL_EXP2);
+	glFogfv(GL_FOG_COLOR, niebla_color);
+	glFogf(GL_FOG_DENSITY, valor_decimal(C, n_dens));
 }  /* }}} */
 
 
-static void luces(void)
+static void luces_niebla(void)
 {  /* {{{ */
 	float sol_posicion[4]   = {-1.0, -1.0, 0.7, 0.0};
 	float foco_posicion[4]  = {0.0, 0.0, 0.0, 1.0};
@@ -189,6 +196,10 @@ static void luces(void)
 		glDisable(GL_LIGHT5);
 		glEnable(GL_LIGHT0);
 		glLightfv(GL_LIGHT0, GL_POSITION, sol_posicion);
+		if (fog_flag)
+			glEnable(GL_FOG);
+		else
+			glDisable(GL_FOG);
 	} else {
 		glDisable(GL_LIGHT0);
 		glEnable(GL_LIGHT1);
@@ -200,11 +211,11 @@ static void luces(void)
 		glPushMatrix(); /* 2 */
 		glRotatef(angulo_anim*3.0, 0.0, 0.0, 1.0);
 		glPushMatrix(); /* 3 */
-		glRotatef(45.0, 0.0, 1.0, 0.0);
+		glRotatef(Le_fang, 0.0, 1.0, 0.0);
 		glLightfv(GL_LIGHT1, GL_POSITION, foco_posicion);
 		glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, foco_direccion);
 		glPopMatrix(); /* 3 */
-		glRotatef(-45.0, 0.0, 1.0, 0.0);
+		glRotatef(-Le_fang, 0.0, 1.0, 0.0);
 		glLightfv(GL_LIGHT2, GL_POSITION, foco_posicion);
 		glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, foco_direccion);
 		glPopMatrix(); /* 2 */
@@ -212,6 +223,7 @@ static void luces(void)
 		glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, foco_direccion);
 		glPopMatrix(); /* 1 */
 		glLightfv(GL_LIGHT5, GL_POSITION, interior_posicion);
+		glDisable(GL_FOG);
 	}
 }  /* }}} */
 
@@ -229,7 +241,7 @@ static void escena(void)
 	 * natural.
 	 */
 	glRotatef(90.0, -1.0, 0.0, 0.0);
-	luces();
+	luces_niebla();
 
 	/* Postes */
 	glPushMatrix();
@@ -385,7 +397,7 @@ void init_escena(config_t cfg)
 	/* Textura para el cielo */
 	tex_cielo = cargar_textura(C, valor_cadena(C, ci_tex));
 
-	init_luces();
+	init_luces_niebla();
 
 	glutDisplayFunc(escena);
 	glutReshapeFunc(actualiza_viewport);

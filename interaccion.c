@@ -58,15 +58,18 @@ static int light_flag      = 1; /* Flags manipulados por el menú */
 static int smooth_flag     = 1;
 static int animation_flag  = 1;
 static int fullscreen_flag = 0;
+       int fog_flag        = 1; /* La niebla la controla escena.c, exportar */
 
 /* Entradas de menú */
 static const char *m_enable[] = {
-	"Activar iluminación", "Modelo de shading SMOOTH", 
-	"Activar animación", "Pantalla completa (F5)"
+	"Activar iluminación", "Modelo de shading SMOOTH",
+	"Activar niebla exterior", "Activar animación",
+	"Pantalla completa (F5)"
 };
 static const char *m_disable[] = {
 	"Desactivar iluminación", "Modelo de shading FLAT", 
-	"Desactivar animación", "Restaurar ventana (F5)"
+	"Desactivar niebla exterior", "Desactivar animación",
+	"Restaurar ventana (F5)"
 };
 
 /* Privadísimo */
@@ -217,10 +220,10 @@ static void teclado_especial(int tecla, int x, int y)
 			if (fullscreen_flag) {
 				glutReshapeWindow(valor_entero(C, v_width),
 						valor_entero(C, v_height));
-				glutChangeToMenuEntry(4, m_enable[3], 3);
+				glutChangeToMenuEntry(6, m_enable[4], 5);
 			} else {
 				glutFullScreen();
-				glutChangeToMenuEntry(4, m_disable[3], 3);
+				glutChangeToMenuEntry(6, m_disable[4], 5);
 			}
 			fullscreen_flag = !fullscreen_flag;
 			break;
@@ -323,13 +326,23 @@ static void menu(int valor)
 			smooth_flag = !smooth_flag;
 			break;
 		case 2:
-			if (animation_flag)
+			if (fog_flag)
 				glutChangeToMenuEntry(3, m_enable[2], 2);
 			else
 				glutChangeToMenuEntry(3, m_disable[2], 2);
-			animation_flag = !animation_flag;
+			fog_flag = !fog_flag;
 			break;
 		case 3:
+			if (animation_flag)
+				glutChangeToMenuEntry(4, m_enable[3], 3);
+			else
+				glutChangeToMenuEntry(4, m_disable[3], 3);
+			animation_flag = !animation_flag;
+			break;
+		case 4:
+			angulo_anim = 0.0;
+			break;
+		case 5:
 			teclado_especial(GLUT_KEY_F5, 0, 0);
 			break;
 	}
@@ -342,10 +355,8 @@ static void animacion(int i)
 		angulo_anim += Li_ag;
 		if (angulo_anim > 360.0)
 			angulo_anim -= 360.0;
-	} else {
-		angulo_anim = 0.0;
+		glutPostRedisplay();
 	}
-	glutPostRedisplay();
 	glutTimerFunc(Li_av, animacion, 0);
 }  /* }}} */
 
@@ -374,7 +385,9 @@ void init_interaccion(config_t conf)
 	glutAddMenuEntry(m_disable[0], 0);
 	glutAddMenuEntry(m_disable[1], 1);
 	glutAddMenuEntry(m_disable[2], 2);
-	glutAddMenuEntry(m_enable[3], 3);
+	glutAddMenuEntry(m_disable[3], 3);
+	glutAddMenuEntry("Resetear animación", 4);
+	glutAddMenuEntry(m_enable[4], 5);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	comprueba_situacion(VERTICAL);
 }  /* }}} */
