@@ -97,10 +97,6 @@ SOURCE=..\complementos.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\conf_keys.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\config.cpp
 # End Source File
 # Begin Source File
