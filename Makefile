@@ -19,11 +19,12 @@
 # $Id$
 #
 
-etapas   := etapa1 etapa2
+practica := circo
+etapas   := etapa1 etapa2 etapa3
 ejemplos := robot
 
 ejemplos := $(patsubst %,ejemplos/%,$(ejemplos))
-BINFILES := $(etapas) $(ejemplos)
+BINFILES := $(etapas) $(ejemplos) $(practica)
 
 
 CFLAGS := -pipe -Wall 
@@ -31,7 +32,7 @@ ifeq ($(debug),yes)
 CFLAGS += -O0 -pg -g
 STRIP  := 
 else
-CFLAGS += -O2 -fomit-frame-pointer -Wl,-s
+CFLAGS += -O2 -fomit-frame-pointer 
 STRIP  := -Wl,-s 
 endif
 
@@ -39,7 +40,7 @@ join_obj = $(CC) $(CFLAGS) -Wl,-r -o $@ $^
 mk_obj   = $(CC) $(CFLAGS) -c -o $@ $^
 mk_bingl = $(CC) $(CFLAGS) $(STRIP) -lGL -lGLU -lglut -o $@ $^
 
-all: etapas
+all: $(practica)
 etapas: $(etapas)
 ejemplos: $(ejemplos)
 
@@ -47,6 +48,9 @@ $(etapas): %: %.c
 	$(mk_bingl)
 
 $(ejemplos): %: %.c
+	$(mk_bingl)
+
+$(practica): circo.o escena.o
 	$(mk_bingl)
 
 .PHONY: clean 
