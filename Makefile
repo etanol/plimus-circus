@@ -80,9 +80,11 @@ dist: $(practica)
 	for i in IG1/*.c; do \
 		mv -v $$i $${i%.c}.cpp; \
 	done; \
+	for i in IG1/*; do \
+		perl -pi -e's/\n/\r\n/g' $$i; \
+	done; \
 	mv -v IG1/circo IG1/circo.linux; \
 	mv -v IG1/test_pieza IG1/test_pieza.linux; \
-	tar czvf IG1.tar.gz IG1; \
 	zip -r IG1.zip IG1
 
 distclean: clean
