@@ -272,7 +272,7 @@ textwidth]{../doc/figura1-1}
 \layout Standard
 
 \backslash 
-caption{Etapa 1. Primer programa en OpenGL.}
+caption{Primer programa en OpenGL.}
 \backslash 
 label{fig:figura1-1}
 \layout Standard
@@ -413,7 +413,7 @@ textwidth]{../doc/figura3-1}
 \layout Standard
 
 \backslash 
-caption{Etapa 3. Escena 3D.}
+caption{Escena 3D.}
 \backslash 
 label{fig:figura3-1}
 \layout Standard
@@ -441,8 +441,8 @@ Activar el test de profundidad.
 \emph on 
 Z-Buffer
 \emph default 
-, permite a OpenGL distinguir entre aquellos puntos de un objeto determinado
- están delante de puntos de otros objetos.
+, permite a OpenGL distinguir entre aquellos puntos de un objeto que están
+ delante de otros puntos de otros objetos.
  Con ello se consigue dibujar únicamente aquellos puntos de los objetos
  que están más cerca del centro de proyección, y por ende, de la cámara
  desde donde se está visualizando la escena.
@@ -1191,14 +1191,10 @@ Restricciones
 Para restringir el movimiento vertical y dar una sensación más realista,
  se ha añadido una comprobación para no permitir que la cámara se sitúe
  por debajo del suelo de la escena.
- Simplemente se trata de comprobar que a la hora de descender, no se sobre
- pase el límite correspondiente a las coordenadas que forman el suelo.
+ Simplemente se trata de comprobar que a la hora de descender, no se sobrepase
+ el límite correspondiente a las coordenadas que forman el suelo.
  Para ello basta con comprobar que la posición de la cámara con respecto
- al eje vertical (
-\emph on 
-cámara_y
-\emph default 
-) no pasa el límite permitido.
+ al eje vertical no pasa el límite permitido.
 \layout Section
 
 Interior/exterior
@@ -1224,7 +1220,7 @@ El hecho de que se implemente la carpa que forma el circo con
 evaluators
 \emph default 
  hace la tarea un poco más compleja, ya que los cálculos necesarios para
- saber si la cámara está dentro o fuera de la carpa no sean tan precisos
+ saber si la cámara está dentro o fuera de la carpa no son tan precisos
  como si se implementara con superficies planas, en vez de curvas.
  Por lo tanto, puede ocurrir que haya un momento dado en el que la cámara
  esté dentro de la carpa, pero todavía no se renderice la escena interior,
@@ -1258,16 +1254,19 @@ Luz ambiental.
 OpenGL permite un máximo de ocho luces.
  Así pues, se han activado cinco de ellas para realizar la iluminación.
  La primera corresponde a la luz solar, las tres siguientes corresponden
- a los focos interiores, y las otra corresponde a la luz ambiental interior,
- respectivamente.
+ a los focos interiores, y las otra corresponde a la luz ambiental interior.
 \layout Standard
 \added_space_bottom medskip 
 Pasamos pues a activar la iluminación local que está soportada por OpenGL.
  Esto se lleva a cabo dentro de la función 
 \emph on 
-init_luces_niebla 
+init_luces_niebla
 \emph default 
-y se realiza invocando a la función 
+, en el módulo 
+\series bold 
+escena.c
+\series default 
+,y se realiza invocando a la función 
 \begin_inset Formula $glEnable$
 \end_inset 
 
@@ -1278,7 +1277,7 @@ y se realiza invocando a la función
 .
  Ahora bien, no basta con activar la iluminación local, sino que es necesario
  activar las diferentes luces y definir las propiedades que tendrán (atenuación,
- componente ambiente, difusa y especular, ángulo de apertura y exponente).
+ componente ambiente, difusa y especular, ángulo de apertura, etc.).
 \layout Standard
 \added_space_bottom medskip 
 También se han activado las propiedades del material del que estará compuesto
@@ -1324,9 +1323,9 @@ Focos interiores
 \layout Standard
 \added_space_bottom medskip 
 En el interior de la carpa se han colocado tres focos de forma que los tres
- focos están centrados en con respecto al interior de la carpa.
+ focos están centrados con respecto al interior de la carpa.
  En el momento en el que la cámara se sitúa dentro de la carpa, se activan
- estas luces y se desactiva la luz solar.
+ estas luces y se desactiva la luz exterior.
 \layout Standard
 \added_space_bottom medskip 
 El escenario no es más que un rectángulo dividido a su vez en muchos cuadrados
@@ -1397,7 +1396,7 @@ textwidth]{../doc/figura5-1}
 \layout Standard
 
 \backslash 
-caption{Etapa 5. Iluminación: Focos interiores.}
+caption{Focos interiores.}
 \backslash 
 label{fig:figura5-1}
 \layout Standard
@@ -1686,7 +1685,7 @@ textwidth]{../doc/figura5-2}
 \layout Standard
 
 \backslash 
-caption{Etapa 5. Iluminación: Luz solar.}
+caption{Luz solar (exterior).}
 \backslash 
 label{fig:figura5-2}
 \layout Standard
@@ -1705,8 +1704,10 @@ end{figure}
 Está claro que se tendrán que definir las mismas propiedades que las luces
  que hacen de focos interiores, pero tendrán unos valores distintos.
  De hecho, el ángulo de apertura de la luz solar será de 180º.
+ La esfera que forma el sol, tiene unos parámetros configurables, como son:
+ el radio de la escena y el nivel de detalle.
 \layout Standard
-\added_space_bottom medskip 
+
 Es posible mover la luz solar por la escena.
  Los movimientos y sus teclas asociadas son:
 \layout Standard
@@ -1816,15 +1817,6 @@ w
 \end_inset 
 
 
-\layout Standard
-\added_space_top medskip 
-La esfera que forma el sol, tiene unos parámetros configurables, como son:
-\layout Itemize
-
-Radio de la escena.
-\layout Itemize
-
-Nivel de detalle
 \layout Section
 
 Luz ambiente
@@ -1919,21 +1911,13 @@ Activar o desactivar el sombreado es posible realizarlo pulsando la tecla
 \end_inset 
 
  o bien eligiendo la opción 
-\begin_inset Quotes eld
-\end_inset 
-
+\emph on 
 Modelo de Shading FLAT
-\begin_inset Quotes erd
-\end_inset 
-
+\emph default 
  o 
-\begin_inset Quotes eld
-\end_inset 
-
+\emph on 
 Modelo de Shading SMOOTH
-\begin_inset Quotes erd
-\end_inset 
-
+\emph default 
 , respectivamente, del menú auxiliar, que se muestra pulsando con el botón
  derecho del ratón en cualquier punto de la ventana que contiene la escena.
  OpenGL permite renderizar una escena con el sombreado o sin él.
@@ -2060,12 +2044,14 @@ Así pues, para incluir texturas en la escena, es necesario realizar dos
 Carga desde un fichero
 \layout Standard
 \added_space_bottom medskip 
-Este paso es opcional en el caso de que a la hora de poner una textura a
- un polígono determinado, ya tengamos cargada en memoria la imagen que contiene
- la textura deseada.
+Este paso no es necesario en el caso de que a la hora de poner una textura
+ a un polígono determinado, ya tengamos cargada en memoria la imagen que
+ contiene la textura deseada.
  En caso contrario, es necesario cargar la imagen que contiene la textura
  desde un fichero que esté en disco.
- Aparte de implementar una función para copiar la imagen del fichero a una
+\layout Standard
+\added_space_bottom medskip 
+Aparte de implementar una función para copiar la imagen del fichero a una
  zona de memoria, para posteriormente, pasarle en puntero de esa zona de
  memoria a OpenGL, es necesario conocer en qué formato está la imagen almacenada
  en el fichero.
@@ -2086,7 +2072,7 @@ Ver apéndice
 
 \end_inset 
 
-, cargamos texturas en formato TGA sin comprimir.
+, cargamos texturas a través de imágenes que están en formato TGA sin comprimir.
  Llamamos a la función 
 \emph on 
 cargar_textura
@@ -2116,8 +2102,8 @@ Este paso es obligatorio en todos los casos en los que se desee asignar
 \emph on 
 bind)
 \emph default 
- a ninguna textura, OpenGL asigna la textura que está seleccionada en un
- paso anterior.
+ a ninguna textura, OpenGL asigna la textura que estaba seleccionada en
+ el paso anterior.
 \layout Standard
 \added_space_bottom medskip 
 Entonces, antes de mapear la textura para un polígono en particular, es
@@ -2131,7 +2117,11 @@ Entonces, antes de mapear la textura para un polígono en particular, es
 Así pues, los pasos a realizar son:
 \layout Itemize
 
-Enlazar la textura.
+
+\emph on 
+Enlazar la textura
+\emph default 
+.
  Indicar a OpenGL, la zona de memoria donde tenemos cargada la textura que
  ha de utilizar como la textura actual.
  Para ello utilizamos la función 
@@ -2142,9 +2132,13 @@ Enlazar la textura.
  está cargada la textura.
 \layout Itemize
 
-Indicar los puntos de control para indicar a qué punto de la imagen corresponde
- cada vértice y si es necesario repetir la textura, en el caso de que el
- polígono sea mayor que la textura, o si hay que hacer un escalado.
+
+\emph on 
+Definir los puntos de control
+\emph default 
+ para indicar a qué punto de la imagen corresponde cada vértice y si es
+ necesario repetir la textura, en el caso de que el polígono sea mayor que
+ la textura, o si hay que hacer un escalado.
  Este escalado para adaptar la textura al tamaño del polígono, lo hace OpenGL.
  Hay dos formas de indicar estos puntos de control dependiendo de si utilizamos
  curvas de Bézier para generar un polígono, o no:
@@ -2152,7 +2146,7 @@ Indicar los puntos de control para indicar a qué punto de la imagen corresponde
 \layout Itemize
 
 Utilizando curvas de Bézier.
- Indicaremos los puntos de control, en nuestro caso utilizamos la función
+ Definiremos los puntos de control, en nuestro caso utilizamos la función
  
 \begin_inset Formula $glMap2f$
 \end_inset 
@@ -2220,7 +2214,7 @@ En el caso particular de nuestra práctica, habilitamos la niebla por defecto,
 \series bold 
 interaccion.c
 \series default 
- tratamos el evento de teclado que habilita o deshabilita la niebla.
+ tratamos el evento que habilita o deshabilita la niebla.
 \layout Standard
 
 A su vez, es necesario especificar diversas propiedades de la niebla a generar,
@@ -2330,7 +2324,7 @@ textwidth]{../doc/figura7-3-1}
 \layout Standard
 
 \backslash 
-caption{Etapa 7. Realismo: Superficies de Bézier.}
+caption{Superficies de Bézier.}
 \backslash 
 label{fig:figura7-3-1}
 \layout Standard
@@ -2346,8 +2340,8 @@ end{figure}
 
 \layout Standard
 \added_space_bottom medskip 
-A través de las curvas de Bézier, se pueden generar curvas de Bézier.
- Para realizar las superficies curvas se han utilizado ocho 
+A través de las curvas de Bézier, se pueden generar superficies curvas.
+ Para ello se han utilizado ocho 
 \emph on 
 evaluators
 \emph default 
@@ -2380,7 +2374,7 @@ Para generar los puntos de control que formarán la malla, se utiliza la
 \end_inset 
 
 .
- En el caso de que deseemos crear una curva (una dimensión), se utilizará
+ En el caso de que deseemos crear una línea curva (una dimensión), se utilizará
  la función 
 \begin_inset Formula $glEvalMesh1$
 \end_inset 
@@ -2415,10 +2409,10 @@ Animación
 \added_space_bottom medskip 
 Además de renderizar gran parte de la escena de objetos estáticos, se ha
  aplicado una animación a varios de los objetos en particular.
- En el caso de esta práctica, el circo, contiene en su exterior un cartel
+ En el caso de esta práctica, el circo contiene en su exterior un cartel
  publicitario.
  Así pues, para dar más realismo a la escena, se ha animado el cartel de
- forma que gira sobre si mismo con una velocidad determinada.
+ forma que gire sobre si mismo con una velocidad determinada.
  La velocidad de giro se puede modificar a través del fichero de configuración
  
 \series bold 
@@ -2439,7 +2433,7 @@ Ver el apartado
 
 \end_inset 
 
- a los cuales se le ha aplicado una animación que consiste en que giren
+ a los cuales se les ha aplicado una animación que consiste en que giren
  sobre si mismos con un ángulo de rotación determinados.
  De esta forma, las gradas del circo se van iluminando de forma alternativa.
 \layout Standard
@@ -2569,11 +2563,176 @@ consulta
 \emph default 
 .
  La estructura aprovecha las frecuentes coincidencias de los prefijos de
- los nombres de las propiedades, de tal forma que el árbol queda de la siguiente
- manera:
+ los nombres de las propiedades, de tal forma que el árbol queda tal como
+ se indica en la figura 
+\begin_inset LatexCommand \ref{fig:figura8-1-2-1}
+
+\end_inset 
+
+.
 \layout Standard
 
-(ARBOL DE TRIES)
+
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+begin{figure}[ht!]
+\layout Standard
+
+\backslash 
+begin{center}
+\layout Standard
+
+\backslash 
+includegraphics[width=
+\backslash 
+textwidth]{../doc/figura8-1-2-1}
+\layout Standard
+
+\backslash 
+caption{Árbol de tries o diccionario.}
+\backslash 
+label{fig:figura8-1-2-1}
+\layout Standard
+
+\backslash 
+end{center}
+\layout Standard
+
+\backslash 
+end{figure}
+\end_inset 
+
+
+\layout Standard
+\added_space_top medskip 
+Cada nodo del árbol es un array de estructuras tal como esta:
+\layout Standard
+
+
+\begin_inset Formula \[
+\begin{array}{l}
+\mathbf{struct}\, nodo\,\{\\
+\,\,\,\,\,\,\,\,\mathbf{struct}\, item\,*d;\\
+\,\,\,\,\,\,\,\,\mathbf{int}\, tam;\\
+\,\,\,\,\,\,\,\,\mathbf{int}\, ult;\\
+\};\end{array}\]
+
+\end_inset 
+
+
+\layout Standard
+
+Un nodo es un array de 
+\emph on 
+struct item
+\emph default 
+ tal como este:
+\layout Standard
+
+
+\begin_inset Formula \[
+\begin{array}{l}
+\mathbf{struct}\, item\,\{\\
+\,\,\,\,\,\,\,\,\mathbf{char}\, c;\\
+\,\,\,\,\,\,\,\,\mathbf{enum}\, tipo\, t;\\
+\,\,\,\,\,\,\,\,\mathbf{union}\, valor\, v;\\
+\};\end{array}\]
+
+\end_inset 
+
+
+\layout Standard
+
+Cada 
+\emph on 
+item
+\emph default 
+ asocia un carácter 
+\emph on 
+c
+\emph default 
+ a un valor 
+\emph on 
+v
+\emph default 
+, y este valor 
+\emph on 
+v
+\emph default 
+ tiene un tipo 
+\emph on 
+t
+\emph default 
+ enumerado:
+\layout Standard
+\align center 
+
+\begin_inset Formula $\mathbf{enum}\, tipo\,\{ CFG\_ NODO,\, CFG\_ ENTERO,\, CFG\_ DECIMAL,\, CFG\_ CADENA\}$
+\end_inset 
+
+
+\layout Standard
+
+donde este tipo 
+\emph on 
+t
+\emph default 
+ define qué contiene 
+\emph on 
+valor,
+\emph default 
+ ya que 
+\emph on 
+valor
+\emph default 
+ es una unión como esta:
+\layout Standard
+
+
+\begin_inset Formula \[
+\begin{array}{l}
+\mathbf{union}\, valor\,\{\\
+\,\,\,\,\,\,\,\,\mathbf{struct}\, nodo\,*sig;\\
+\,\,\,\,\,\,\,\,\mathbf{int}\, entero;\\
+\,\,\,\,\,\,\,\,\mathbf{float}\, decimal;\\
+\,\,\,\,\,\,\,\,\mathbf{char}\,*cadena;\\
+\};\end{array}\]
+
+\end_inset 
+
+
+\layout Standard
+
+Así mismo, cada valor 
+\emph on 
+v
+\emph default 
+ puede ser:
+\layout Itemize
+
+Un puntero a un nodo, lo cual corresponde a un descenso en el árbol.
+\layout Itemize
+
+Un entero, lo cual corresponde al final de la rama y su correspondiente
+ valor.
+\layout Itemize
+
+Un 
+\emph on 
+float
+\emph default 
+, lo cual corresponde al final de la rama y su correspondiente valor.
+\layout Itemize
+
+Un 
+\emph on 
+string
+\emph default 
+, lo cual corresponde al final de la rama y su correspondiente valor.
 \layout Section
 
 
@@ -2587,7 +2746,7 @@ Debido a que prácticamente casi toda la escena está compuesta por elementos
 \emph on 
 frame
 \emph default 
-, puede llegar a requerir un alto coste computacional.
+ puede llegar a requerir un alto coste computacional.
  Para evitar recalcular la escena completa para cada movimiento de la cámara
  o de la animación, nos valemos de una funcionalidad que implementa OpenGL
  llamada 
@@ -2740,7 +2899,48 @@ Estructura del código fuente
 \layout Standard
 
 Los módulos de código fuente que componen la aplicación en OpenGL que genera
- el circo en 3D tienen la siguiente relación:
+ el 
+\series bold 
+circo
+\series default 
+ en tres dimensiones tienen la siguiente relación:
+\layout Standard
+
+
+\begin_inset ERT
+status Collapsed
+
+\layout Standard
+
+\backslash 
+begin{figure}[ht!]
+\layout Standard
+
+\backslash 
+begin{center}
+\layout Standard
+
+\backslash 
+includegraphics[width=
+\backslash 
+textwidth]{../doc/figuraA-1}
+\layout Standard
+
+\backslash 
+caption{Jerarquía e interrelación de los módulos.}
+\backslash 
+label{fig:figuraA-1}
+\layout Standard
+
+\backslash 
+end{center}
+\layout Standard
+
+\backslash 
+end{figure}
+\end_inset 
+
+
 \layout Chapter
 
 Fuentes de información y bibliografía
