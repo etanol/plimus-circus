@@ -32,6 +32,22 @@
  */
 #include "piezas.h"
 
+
+/* Objetos de la escena */
+static int 
+	faldon_frontal,
+	faldon_lateral,
+	techo_frontal,
+	techo_lateral,
+	grada_frontal,
+	grada_lateral;
+
+float alto_faldon = 1.5;
+float ancho = 2.0;
+float radio = 2.3;
+int num_caras = 20;
+
+
 static void actualiza_viewport(int ancho, int alto)
 {
 	glMatrixMode(GL_PROJECTION);
@@ -45,10 +61,6 @@ static void actualiza_viewport(int ancho, int alto)
 
 static void escena(void)
 {
-	float alto_faldon = 1.5;
-	float ancho = 2.0;
-	float radio = 2.3;
-	int num_caras = 20;
 
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
@@ -70,46 +82,46 @@ static void escena(void)
 	 */
 	glPushMatrix();
 	glTranslatef(0.0, radio, 0.0);
-	faldon_frontal(alto_faldon, ancho);
+	glCallList(faldon_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0.0, -radio, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
-	faldon_frontal(alto_faldon, ancho);
+	glCallList(faldon_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(ancho / 2, 0.0, 0.0);
-	faldon_lateral(radio, alto_faldon, num_caras, 0);
+	glCallList(faldon_lateral);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-(ancho / 2), 0.0, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
-	faldon_lateral(radio, alto_faldon, num_caras, 0);
+	glCallList(faldon_lateral);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0.0, 0.0, alto_faldon);
-	techo_frontal(radio, alto_faldon, ancho);
+	glCallList(techo_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0.0, 0.0, alto_faldon);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
-	techo_frontal(radio, alto_faldon, ancho);
+	glCallList(techo_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(ancho / 2, 0.0, alto_faldon);
-	techo_lateral(radio, alto_faldon, num_caras);
+	glCallList(techo_lateral);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-(ancho / 2), 0.0, alto_faldon);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
-	techo_lateral(radio, alto_faldon, num_caras);
+	glCallList(techo_lateral);
 	glPopMatrix();
 
 	/*
@@ -118,24 +130,24 @@ static void escena(void)
 	glColor3f(0.7, 0.0, 0.1);
 	glPushMatrix();
 	glTranslatef(0.0, (radio / 2) - 0.05, 0.0);
-	grada_frontal(alto_faldon - 0.2, ancho - 0.3, radio / 2, 14);
+	glCallList(grada_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0.0, -(radio / 2) + 0.05, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
-	grada_frontal(alto_faldon - 0.2, ancho - 0.3, radio / 2, 14);
+	glCallList(grada_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(ancho / 2, 0.0, 0.0);
-	grada_lateral((radio/2)-0.05, radio-0.05, alto_faldon-0.2, 14, num_caras, 1);
+	glCallList(grada_lateral);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-(ancho / 2), 0.0, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
-	grada_lateral((radio/2)-0.05, radio-0.05, alto_faldon-0.2, 14, num_caras, 1);
+	glCallList(grada_lateral);
 	glPopMatrix();
 
 	/*
@@ -149,10 +161,18 @@ static void escena(void)
 
 void init_escena(void)
 {
+
 	glutDisplayFunc(escena);
 	glutReshapeFunc(actualiza_viewport);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+
+	faldon_frontal = crear_faldon_frontal(alto_faldon, ancho);
+	faldon_lateral = crear_faldon_lateral(radio, alto_faldon, num_caras);
+	techo_frontal  = crear_techo_frontal(radio, alto_faldon, ancho);
+	techo_lateral  = crear_techo_lateral(radio, alto_faldon, num_caras);
+	grada_frontal  = crear_grada_frontal(alto_faldon-0.2, ancho-0.3, radio/2, 14);
+	grada_lateral  = crear_grada_lateral((radio/2)-0.05, radio-0.05, alto_faldon-0.2, 14, num_caras);
 }

@@ -19,10 +19,10 @@
 # $Id$
 #
 
-#practica := circo test_pieza
-practica := test_pieza
+practica := circo test_pieza
 etapas   := etapa1 etapa2 etapa3
 ejemplos := robot checker
+piezas   := carpa.c gradas.c
 
 ejemplos := $(patsubst %,ejemplos/%,$(ejemplos))
 BINFILES := $(etapas) $(ejemplos) $(practica)
@@ -51,10 +51,10 @@ $(etapas): %: %.c
 $(ejemplos): %: %.c
 	$(mk_bingl)
 
-circo: circo.o escena.o interaccion.o piezas.o
+circo: circo.o escena.o interaccion.o $(piezas:%.c=%.o)
 	$(mk_bingl)
 
-test_pieza: test_pieza.o piezas.o
+test_pieza: test_pieza.o $(piezas:%.c=%.o)
 	$(mk_bingl)
 
 #
@@ -64,7 +64,9 @@ interaccion.o: interaccion.c interaccion.h camaras.h
 	$(mk_obj)
 escena.o: escena.c escena.h
 	$(mk_obj)
-piezas.o: carpa.c piezas.h
+carpa.o: carpa.c piezas.h
+	$(mk_obj)
+gradas.o: gradas.c piezas.h
 	$(mk_obj)
 
 .PHONY: clean 

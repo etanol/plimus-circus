@@ -30,10 +30,20 @@
 #define Y 1
 #define Z 2
 
+/*
+ * carpa.c
+ */
 extern int crear_faldon_frontal(float altura, float longitud);
 extern int crear_faldon_lateral(float radio, float altura, int num_caras);
-
 extern int crear_techo_frontal(float radio, float altura, float longitud);
 extern int crear_techo_lateral(float radio, float altura, int num_caras);
 
-#endif /* _PIEZAS_H_H */
+/*
+ * gradas.c
+ */
+extern int crear_grada_frontal(float altura, float longitud, float profundidad,
+		int num_esc);
+extern int crear_grada_lateral(float radio_in, float radio_ex, float altura,
+		int num_esc, int num_caras);
+
+#endif

@@ -125,7 +125,7 @@ int crear_techo_frontal(float radio, float altura, float longitud)
 }
 
 
-int crear_techo_lateral(float altura, float radio, int num_caras)
+int crear_techo_lateral(float radio, float altura, int num_caras)
 {
 	int i, lista;
 	float angulo     = 180.0 / num_caras;
@@ -133,10 +133,12 @@ int crear_techo_lateral(float altura, float radio, int num_caras)
 	float cos_angulo = cosf(angulo_rad);
 	float sin_angulo = sinf(angulo_rad);
 	float hipotenusa = hypotf(altura, radio);
+	float altDhip    = altura / hipotenusa;
+	float radDhip    = radio  / hipotenusa;
 	float normal[][3] = {
-		{0.0, 0.0, 1.0},
-		{0.0, altura/hipotenusa, radio/hipotenusa},
-		{altura*sin_angulo/hipotenusa, altura*cos_angulo/hipotenusa, radio/hipotenusa}
+		{altDhip*sinf(angulo_rad/2), altDhip*cosf(angulo_rad/2), radDhip},
+		{0.0, altDhip, radDhip},
+		{altDhip*sin_angulo, altDhip*cos_angulo, radDhip}
 	};
 	float datos[] = {
 		normal[0][X], normal[0][Y], normal[0][Z],
