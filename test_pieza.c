@@ -120,7 +120,7 @@ int main(int argc, char **argv)
 	p = (enum Pieza) choice;
 
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 	glutInitWindowSize(700, 700);
 	glutInitWindowPosition(50, 50);
 	glutCreateWindow("Test de fichas.");
@@ -128,7 +128,7 @@ int main(int argc, char **argv)
 	glutSpecialFunc(rotar);
 	glutDisplayFunc(display);
 
-	glClearColor(1.0, 1.0, 1.0, 0.0);
+	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
