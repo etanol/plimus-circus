@@ -2280,10 +2280,39 @@ La niebla se puede activar o desactivar desde el menú auxiliar que se muestra
  que contiene la escena.
 \layout Section
 
-Evaluators y superficies de Bezier
+Superficies de Bezier
 \layout Standard
 
-carpa.c
+Para realizar las superficies curvas se han utilizado ocho 
+\emph on 
+evaluators
+\emph default 
+ de orden 4
+\begin_inset Formula $\times$
+\end_inset 
+
+4 para la carpa.
+ Para generar una malla para las superficies planas del suelo, y conseguir
+ el efecto de foco redondo, se han utilizado 
+\emph on 
+evaluators
+\emph default 
+ de orden 2
+\begin_inset Formula $\times$
+\end_inset 
+
+2.
+\layout Standard
+
+Aparte de las dimensiones de la superficie y su forma, en función de la
+ colocación de los puntos de control, es posible modificar el nivel de detalle
+ a través del fichero de configuración.
+\layout Standard
+
+glMap2f, glMapGridf,glEvalMesh2
+\layout Standard
+
+carpa.c, suelo.c
 \layout Section
 
 Varias fuentes de luz
@@ -2315,12 +2344,155 @@ Parametrización del circo
 \layout Standard
 
 (figura árbol de tries)
+\layout Standard
+
+Es posible modificar las propiedades escalares de los objetos que componen
+ la escena sin necesidad de recompilar el código fuente, gracias a la existencia
+ de un fichero de configuración.
+ Tales propiedades suelen ser: medidas de tamaño y distancia, niveles de
+ detalle, niveles de intensidad y valores de cadena (ficheros de texturas).
+\layout Subsection
+
+Sintaxis
+\layout Standard
+
+Para asignar valor a una propiedad se utiliza la siguiente sintaxis:
+\layout Standard
+
+nombre_propiedad = valor
+\layout Standard
+
+Donde 
+\emph on 
+valor
+\emph default 
+ puede ser un número entero, un número con punto flotante o una cadena de
+ caracteres delimitada por comillas dobles.
+ La clave 
+\emph on 
+nombre_propiedad
+\emph default 
+ deberá comenzar por una letra minúscula y sólo podrá constar de letras
+ minúsculas y caracteres de subrayado '_'.
+ Cada asignación puede ocupar, como máximo, una sola línea de hasta 80 caractere
+s.
+ Si se pasa de 80 caracteres, se ignoran.
+\layout Standard
+
+Las líneas en blanco o las que comiencen por '#' serán ignoradas.
+\layout Standard
+
+Ejemplo
+\layout Subsection
+
+Implementación del analizador
+\layout Standard
+
+Para cargar todos los valores del fichero de configuración en memoria, de
+ una forma eficiente, utilizamos un 
+\emph on 
+árbol de tries
+\emph default 
+ o 
+\emph on 
+diccionario
+\emph default 
+.
+ Esta estructura se adapta bien como solución ya que solo necesitamos 
+\emph on 
+inserción
+\emph default 
+ y 
+\emph on 
+consulta
+\emph default 
+.
+ La estructura aprovecha las frecuentes coincidencias de los prefijos de
+ los nombres de las propiedades, de tal forma que el árbol queda de la siguiente
+ manera:
+\layout Standard
+
+(figura)
 \layout Section
 
-Displaylist
+
+\emph on 
+Display Lists
+\layout Standard
+
+Debido a que prácticamente casi toda la escena está compuesta por elementos
+ estáticos, realizar los cálculos de dimensionado de los objetos para cada
+ 
+\emph on 
+frame
+\emph default 
+, puede llegar a requerir un alto coste computacional.
+ Para evitar recalcular la escena completa para cada movimiento de la cámara
+ o de la animación, nos valemos de una funcionalidad que implementa OpenGL
+ llamada 
+\emph on 
+display
+\emph default 
+ 
+\emph on 
+lists
+\emph default 
+.
+\layout Standard
+
+Las 
+\emph on 
+display
+\emph default 
+ 
+\emph on 
+lists
+\emph default 
+ sirven para almacenar comandos OpenGL de una forma eficiente y que al ejecutar
+ estos comandos almacenados, se realice también de forma eficiente y cómoda.
+ Con el añadido de que los valores numéricos de cada comando también se
+ almacenan, por lo que almacenamos las propiedades (vértices, normales,
+ colores, etc.) de cada objeto.
+\layout Standard
+
+Ejemplo de creación y de llamada:
 \layout Section
 
-Cull Face
+
+\emph on 
+Cull Faces
+\layout Standard
+
+En OpenGL el orden en el que se van procesando los vértices para constituir
+ un polígono, define la cara que se está dibujando.
+ Por defecto OpenGL renderiza tanto la cara frontal y trasera de un mismo
+ polígono, por lo que puede suponer el doble de trabajo.
+\layout Standard
+
+Es posible indicarle a OpenGL que únicamente renderice una de las dos caras
+ de un polígono, según se ordenaron los vértices en sentido horario o anti-horar
+io
+\begin_inset Foot
+collapsed true
+
+\layout Standard
+
+Además, podemos conmutar entre sentido horario y anti-horario para definir
+ la cara delantera, con la función 
+\begin_inset Formula $glFrontFace$
+\end_inset 
+
+.
+\end_inset 
+
+.
+\layout Standard
+
+Para activarlo: glenable(gl_cull_face), para elegir la cara a omitir glcullface(
+), por defecto gl_back
+\layout Standard
+
+Esta funcionalidad permite agilizar el renderizado de la escena completa.
 \layout Chapter
 \start_of_appendix 
 Estructura del código fuente
