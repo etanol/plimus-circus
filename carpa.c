@@ -28,10 +28,10 @@
 #include "piezas.h"
 
 
-int crear_faldon_frontal(float altura, float longitud)
+int crear_faldon_frontal(struct config *c)
 {
 	int lista;
-	float x = longitud / 2;
+	float x = c->carpa_frontal_ancho / 2;
 	float normal[][3] = {
 		{0.0, 1.0, 0.0}
 	};
@@ -39,9 +39,9 @@ int crear_faldon_frontal(float altura, float longitud)
 		normal[0][X], normal[0][Y], normal[0][Z],
 		-x, 0.0, 0.0,
 		normal[0][X], normal[0][Y], normal[0][Z],
-		-x, 0.0, altura,
+		-x, 0.0, c->carpa_faldon_alto,
 		normal[0][X], normal[0][Y], normal[0][Z],
-		x, 0.0, altura,
+		x, 0.0, c->carpa_faldon_alto,
 		normal[0][X], normal[0][Y], normal[0][Z],
 		x, 0.0, 0.0
 	};
@@ -57,11 +57,11 @@ int crear_faldon_frontal(float altura, float longitud)
 }	
 
 
-int crear_faldon_lateral(float radio, float altura, int num_caras)
+int crear_faldon_lateral(struct config *c)
 {
 	int i, lista;
-	float angulo     = 180.0 / num_caras;
-	float angulo_rad = M_PI  / num_caras;
+	float angulo     = 180.0 / c->carpa_lateral_caras;
+	float angulo_rad = M_PI  / c->carpa_lateral_caras;
 	float cos_angulo = cosf(angulo_rad);
 	float sin_angulo = sinf(angulo_rad);
 	float normal[][3] = {
@@ -70,13 +70,13 @@ int crear_faldon_lateral(float radio, float altura, int num_caras)
 	};
 	float datos[] = {
 		normal[0][X], normal[0][Y], normal[0][Z],
-		0.0, radio, 0.0,
+		0.0, c->carpa_lateral_radio, 0.0,
 		normal[0][X], normal[0][Y], normal[0][Z],
-		0.0, radio, altura,
+		0.0, c->carpa_lateral_radio, c->carpa_faldon_alto,
 		normal[1][X], normal[1][Y], normal[1][Z],
-		radio*sin_angulo, radio*cos_angulo, altura,
+		c->carpa_lateral_radio*sin_angulo, c->carpa_lateral_radio*cos_angulo, c->carpa_faldon_alto,
 		normal[1][X], normal[1][Y], normal[1][Z],
-		radio*sin_angulo, radio*cos_angulo, 0.0
+		c->carpa_lateral_radio*sin_angulo, c->carpa_lateral_radio*cos_angulo, 0.0
 	};
 
 	lista = glGenLists(1);
@@ -84,7 +84,7 @@ int crear_faldon_lateral(float radio, float altura, int num_caras)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	glInterleavedArrays(GL_N3F_V3F, 0, datos);
-	for (i = 0; i < num_caras; ++i) {
+	for (i = 0; i < c->carpa_lateral_caras; ++i) {
 		glPushMatrix();
 		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
 		glDrawArrays(GL_QUADS, 0, sizeof(datos)/(6*sizeof(float)));
@@ -95,23 +95,23 @@ int crear_faldon_lateral(float radio, float altura, int num_caras)
 }
 
 
-int crear_techo_frontal(float radio, float altura, float longitud)
+int crear_techo_frontal(struct config *c)
 {
 	int lista;
-	float x = longitud / 2;
-	float hipotenusa = hypotf(altura, radio);
+	float x     = c->carpa_frontal_ancho / 2;
+	float hipotenusa = hypotf(c->carpa_techo_alto, c->carpa_lateral_radio);
 	float normal[][3] = {
-		{0.0, altura/hipotenusa, radio/hipotenusa}
+		{0.0, c->carpa_techo_alto/hipotenusa, c->carpa_lateral_radio/hipotenusa}
 	};
 	float datos[] = {
 		normal[0][X], normal[0][Y], normal[0][Z],
-		x, 0.0, altura,
+		x, 0.0, c->carpa_techo_alto,
 		normal[0][X], normal[0][Y], normal[0][Z],
-		-x, 0.0, altura,
+		-x, 0.0, c->carpa_techo_alto,
 		normal[0][X], normal[0][Y], normal[0][Z],
-		-x, radio, 0.0,
+		-x, c->carpa_lateral_radio, 0.0,
 		normal[0][X], normal[0][Y], normal[0][Z],
-		x, radio, 0.0
+		x, c->carpa_lateral_radio, 0.0
 	};
 
 	lista = glGenLists(1);
@@ -125,16 +125,16 @@ int crear_techo_frontal(float radio, float altura, float longitud)
 }
 
 
-int crear_techo_lateral(float radio, float altura, int num_caras)
+int crear_techo_lateral(struct config *c)
 {
 	int i, lista;
-	float angulo     = 180.0 / num_caras;
-	float angulo_rad = M_PI  / num_caras;
+	float angulo     = 180.0 / c->carpa_lateral_caras;
+	float angulo_rad = M_PI  / c->carpa_lateral_caras;
 	float cos_angulo = cosf(angulo_rad);
 	float sin_angulo = sinf(angulo_rad);
-	float hipotenusa = hypotf(altura, radio);
-	float altDhip    = altura / hipotenusa;
-	float radDhip    = radio  / hipotenusa;
+	float hipotenusa = hypotf(c->carpa_techo_alto, c->carpa_lateral_radio);
+	float altDhip    = c->carpa_techo_alto / hipotenusa;
+	float radDhip    = c->carpa_lateral_radio  / hipotenusa;
 	float normal[][3] = {
 		{altDhip*sinf(angulo_rad/2), altDhip*cosf(angulo_rad/2), radDhip},
 		{0.0, altDhip, radDhip},
@@ -142,11 +142,11 @@ int crear_techo_lateral(float radio, float altura, int num_caras)
 	};
 	float datos[] = {
 		normal[0][X], normal[0][Y], normal[0][Z],
-		0.0, 0.0, altura,
+		0.0, 0.0, c->carpa_techo_alto,
 		normal[1][X], normal[1][Y], normal[1][Z],
-		0.0, radio, 0.0,
+		0.0, c->carpa_lateral_radio, 0.0,
 		normal[2][X], normal[2][Y], normal[2][Z],
-		radio*sin_angulo, radio*cos_angulo, 0.0
+		c->carpa_lateral_radio*sin_angulo, c->carpa_lateral_radio*cos_angulo, 0.0
 	};
 
 	lista = glGenLists(1);
@@ -154,7 +154,7 @@ int crear_techo_lateral(float radio, float altura, int num_caras)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	glInterleavedArrays(GL_N3F_V3F, 0, datos);
-	for (i = 0; i < num_caras; ++i) {
+	for (i = 0; i < c->carpa_lateral_caras; ++i) {
 		glPushMatrix();
 		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
 		glDrawArrays(GL_TRIANGLES, 0, sizeof(datos)/(6*sizeof(float)));

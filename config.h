@@ -15,20 +15,40 @@
  +----------------------------------------------------------------------------*/
 
 /*
- * escena.h
+ * config.h
  *
- * Módulo que gestiona el manejo de la ventana: dibujar la escena, atender al
- * cambio de tamaño. Sólo se exporta una función que se encarga de configurar
- * todo lo necesario para dibujar la escena en la ventana.
+ * Definición de los parámetros configurables del circo.
  *
  * $Id$
  */
 
-#ifndef _ESCENA_H_
-#define _ESCENA_H_
+#ifndef _CONFIG_H_
+#define _CONFIG_H_
 
-#include "config.h"
+#define SEP_GRADAS_CARPA 0.05
 
-extern void init_escena(struct config *);
+struct config {
+	/* Campo de visión */
+	float fov;
+	float z_near;
+	float z_far;
+	
+	/* Carpa */
+	float carpa_faldon_alto;
+	float carpa_techo_alto;
+	float carpa_frontal_ancho;
+	float carpa_lateral_radio;
+	int   carpa_lateral_caras;
+
+	/* Gradas */
+	float gradas_alto;
+	float gradas_largo;
+	int   gradas_escalones;
+	float grada_frontal_ancho;
+	int   grada_lateral_apertura;
+	int   grada_lateral_caras;
+};
+
+void leer_config(char *, struct config *);
 
 #endif

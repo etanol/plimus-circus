@@ -23,8 +23,10 @@
  * $Id$
  */
 
-#ifndef _PIEZAS_H_H
-#define _PIEZAS_H_H
+#ifndef _PIEZAS_H_
+#define _PIEZAS_H_
+
+#include "config.h"
 
 #define X 0
 #define Y 1
@@ -33,17 +35,15 @@
 /*
  * carpa.c
  */
-extern int crear_faldon_frontal(float altura, float longitud);
-extern int crear_faldon_lateral(float radio, float altura, int num_caras);
-extern int crear_techo_frontal(float radio, float altura, float longitud);
-extern int crear_techo_lateral(float radio, float altura, int num_caras);
+extern int crear_faldon_frontal(struct config *);
+extern int crear_faldon_lateral(struct config *);
+extern int crear_techo_frontal(struct config *);
+extern int crear_techo_lateral(struct config *);
 
 /*
  * gradas.c
  */
-extern int crear_grada_frontal(float altura, float longitud, float profundidad,
-		int num_esc);
-extern int crear_grada_lateral(float radio_in, float radio_ex, float altura,
-		int num_esc, int num_caras, int omitir);
+extern int crear_grada_frontal(struct config *);
+extern int crear_grada_lateral(struct config *);
 
 #endif

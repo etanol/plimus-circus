@@ -25,11 +25,13 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+#include <string.h>
 
 /* 
  * NOTA MENTAL: Quizá podríamos poner la configuración de las luces por
  * separado (luces.h, luces.c).
  */
+#include "config.h"
 #include "piezas.h"
 
 
@@ -42,17 +44,16 @@ static int
 	grada_frontal,
 	grada_lateral;
 
-float alto_faldon = 1.5;
-float ancho = 2.0;
-float radio = 2.3;
-int num_caras = 20;
+/* Configuración de la escena */
+static struct config conf;
 
 
 static void actualiza_viewport(int ancho, int alto)
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(45.0, (GLdouble)ancho / (GLdouble)alto, 0.5, 10.0);
+	gluPerspective(conf.fov, (GLdouble)ancho/(GLdouble)alto, 
+			conf.z_near, conf.z_far);
 	glMatrixMode(GL_MODELVIEW);
 	glViewport(0, 0, ancho, alto);
 	glutPostRedisplay();
@@ -81,45 +82,45 @@ static void escena(void)
 	 * Dibujamos la carpa. TODO: ¿Suelo interior?
 	 */
 	glPushMatrix();
-	glTranslatef(0.0, radio, 0.0);
+	glTranslatef(0.0, conf.carpa_lateral_radio, 0.0);
 	glCallList(faldon_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.0, -radio, 0.0);
+	glTranslatef(0.0, -conf.carpa_lateral_radio, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(faldon_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(ancho / 2, 0.0, 0.0);
+	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
 	glCallList(faldon_lateral);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-(ancho / 2), 0.0, 0.0);
+	glTranslatef(-conf.carpa_frontal_ancho/2, 0.0, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(faldon_lateral);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, alto_faldon);
+	glTranslatef(0.0, 0.0, conf.carpa_faldon_alto);
 	glCallList(techo_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, alto_faldon);
+	glTranslatef(0.0, 0.0, conf.carpa_faldon_alto);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(techo_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(ancho / 2, 0.0, alto_faldon);
+	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, conf.carpa_faldon_alto);
 	glCallList(techo_lateral);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-(ancho / 2), 0.0, alto_faldon);
+	glTranslatef(-conf.carpa_frontal_ancho/2, 0.0, conf.carpa_faldon_alto);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(techo_lateral);
 	glPopMatrix();
@@ -129,23 +130,23 @@ static void escena(void)
 	 */
 	glColor3f(0.7, 0.0, 0.1);
 	glPushMatrix();
-	glTranslatef(0.0, (radio / 2) - 0.05, 0.0);
+	glTranslatef(0.0, conf.carpa_lateral_radio-conf.gradas_largo-SEP_GRADAS_CARPA, 0.0);
 	glCallList(grada_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.0, -(radio / 2) + 0.05, 0.0);
+	glTranslatef(0.0, conf.gradas_largo+SEP_GRADAS_CARPA-conf.carpa_lateral_radio, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(grada_frontal);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(ancho / 2, 0.0, 0.0);
+	glTranslatef(conf.carpa_frontal_ancho/2, 0.0, 0.0);
 	glCallList(grada_lateral);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-(ancho / 2), 0.0, 0.0);
+	glTranslatef(-conf.carpa_frontal_ancho/2, 0.0, 0.0);
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(grada_lateral);
 	glPopMatrix();
@@ -159,7 +160,7 @@ static void escena(void)
 }
 
 
-void init_escena(void)
+void init_escena(struct config *cfg)
 {
 
 	glutDisplayFunc(escena);
@@ -169,10 +170,12 @@ void init_escena(void)
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
-	faldon_frontal = crear_faldon_frontal(alto_faldon, ancho);
-	faldon_lateral = crear_faldon_lateral(radio, alto_faldon, num_caras);
-	techo_frontal  = crear_techo_frontal(radio, alto_faldon, ancho);
-	techo_lateral  = crear_techo_lateral(radio, alto_faldon, num_caras);
-	grada_frontal  = crear_grada_frontal(alto_faldon-0.2, ancho-0.3, radio/2, 14);
-	grada_lateral  = crear_grada_lateral((radio/2)-0.05, radio-0.05, alto_faldon-0.2, 14, num_caras, 2);
+	memcpy(&conf, cfg, sizeof(struct config));
+
+	faldon_frontal = crear_faldon_frontal(&conf);
+	faldon_lateral = crear_faldon_lateral(&conf);
+	techo_frontal  = crear_techo_frontal(&conf);
+	techo_lateral  = crear_techo_lateral(&conf);
+	grada_frontal  = crear_grada_frontal(&conf);
+	grada_lateral  = crear_grada_lateral(&conf);
 }
