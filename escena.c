@@ -80,10 +80,8 @@ static void actualiza_viewport(int ancho, int alto)
 static void cielo(void)
 {  /* {{{ */
 	glColor3f(1.0, 1.0, 1.0);
-	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, tex_cielo);
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -106,7 +104,9 @@ static void cielo(void)
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
-	glPopAttrib();
+	glEnable(GL_DEPTH_TEST);
+	if (light_flag)
+		glEnable(GL_LIGHTING);
 }  /* }}} */
 
 
@@ -140,6 +140,7 @@ static void init_luces_niebla(void)
 	glLightf (GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.5);
 	glLightf (GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.0);
 	glLightf (GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.0);
+	glLightf (GL_LIGHT0, GL_SPOT_CUTOFF, 180.0); /* Sólo si posicional */
 
 	/* Focos interiores */
 	glLightfv(GL_LIGHT1, GL_AMBIENT, foco_ambiente);
@@ -202,10 +203,6 @@ static void luces_niebla(void)
 			glEnable(GL_FOG);
 		else
 			glDisable(GL_FOG);
-		glPushMatrix();
-		glTranslatef(sol_posicion[0], sol_posicion[1], sol_posicion[2]);
-		glCallList(sol);
-		glPopMatrix();
 	} else {
 		glDisable(GL_LIGHT0);
 		glEnable(GL_LIGHT1);
@@ -327,6 +324,13 @@ static void escena(void)
 		glRotatef(angulo_h, 0.0, 0.0, 1.0);
 		glCallList(arbol); /* Ahora sí ;-) */
 		glPopMatrix();
+		/* Sol */
+		glPushMatrix();
+		glTranslatef(sol_posicion[0], sol_posicion[1], sol_posicion[2]);
+		glCallList(sol);
+		glPopMatrix();
+		if (light_flag)
+			glEnable(GL_LIGHTING);
 	} else {
 		/* Suelo */
 		glCallList(suelo_interior);

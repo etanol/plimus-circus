@@ -58,7 +58,7 @@ static float camara_y = 0.6;
 static float camara_z = 0.0;
 
 static config_t C;
-static int light_flag      = 1; /* Flags manipulados por el menú */
+       int light_flag      = 1; /* Flags manipulados por el menú */
 static int smooth_flag     = 1;
 static int animation_flag  = 1;
 static int fullscreen_flag = 0;

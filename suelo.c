@@ -59,11 +59,8 @@ int crear_suelo_exterior(config_t c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, textura);
 	suelo(limites[0], texcoord[0], valor_entero(c, se_det));
-	glPopAttrib();
 	glEndList();
 	return lista;
 }  /* }}} */
@@ -84,12 +81,9 @@ int crear_suelo_interior(config_t c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, textura);
 	suelo(limites[0], texcoord[0], valor_entero(c, si_det));
 	glPopAttrib();
-	glEndList();
 	return lista;
 }  /* }}} */
 
@@ -117,8 +111,8 @@ int crear_suelo_arena(config_t c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_ENABLE_BIT);
 	/* Bordes de la arena */
+	glDisable(GL_TEXTURE_2D);
 	glColor3f(0.8, 0.8, 0.8);
 	glInterleavedArrays(GL_V3F, 0, b_frontal[0]);
 	for (i = 0; i < 2; ++i) {
@@ -152,7 +146,6 @@ int crear_suelo_arena(config_t c)
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, textura);
 	suelo(limites[0], texcoord[0], valor_entero(c, sa_det));
-	glPopAttrib();
 	glEndList();
 	return lista;
 }  /* }}} */

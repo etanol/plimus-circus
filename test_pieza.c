@@ -139,6 +139,7 @@ int main(int argc, char **argv)
 
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_COLOR_MATERIAL);
@@ -212,7 +213,6 @@ void display(void)
 	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glPushAttrib(GL_CURRENT_BIT|GL_ENABLE_BIT);
 	glDisable(GL_LIGHTING);
 	glColor3f(0.0, 0.0, 0.0);
 	glDrawElements(GL_LINES, 6, GL_UNSIGNED_BYTE, todos);
@@ -223,7 +223,7 @@ void display(void)
 	glDrawElements(GL_LINES, 2, GL_UNSIGNED_BYTE, ejey);
 	glColor3f(0.0, 0.0, 1.0);
 	glDrawElements(GL_LINES, 2, GL_UNSIGNED_BYTE, ejez);
-	glPopAttrib();
+	glEnable(GL_LIGHTING);
 	glFlush();
 	glutSwapBuffers();
 }

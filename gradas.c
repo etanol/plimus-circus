@@ -99,8 +99,8 @@ int crear_grada_frontal(config_t c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_ENABLE_BIT);
 	/* Laterales */
+	glDisable(GL_TEXTURE_2D);
 	glColor3fv(color_lateral);
 	glBegin(GL_QUADS);
 	for (i = 0; i < gesc; ++i) {
@@ -118,6 +118,7 @@ int crear_grada_frontal(config_t c)
 	}
 	glEnd();
 	/* Escalones */
+	glEnable(GL_TEXTURE_2D);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnable(GL_TEXTURE_2D);
@@ -139,7 +140,6 @@ int crear_grada_frontal(config_t c)
 		glPopMatrix();
 	}
 	glPopMatrix();
-	glPopAttrib();
 	glEndList();
 	return lista;
 }  /* }}} */
@@ -170,8 +170,8 @@ int crear_grada_lateral(config_t c)
 		return 0;
 
 	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_ENABLE_BIT);
 	/* Laterales */
+	glDisable(GL_TEXTURE_2D);
 	glNormal3f(-1.0, 0.0, 0.0);
 	glColor3fv(color_lateral);
 	for (i = 0; i < 2; ++i) {
@@ -228,7 +228,6 @@ int crear_grada_lateral(config_t c)
 		glEnd();
 		glPopMatrix();
 	}
-	glPopAttrib();
 	glEndList();
 	return lista;
 }  /* }}} */

@@ -81,12 +81,9 @@ int crear_faldon_frontal(config_t c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, carpa_textura);
 	evaluator(control[0][0], texcoord, valor_entero(c, c_detv),
 			valor_entero(c, c_deth), 1);
-	glPopAttrib();
 	glEndList();
 	return lista;
 }  /* }}} */
@@ -120,12 +117,9 @@ int crear_faldon_lateral(config_t c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, carpa_textura);
 	evaluator(control[0][0], texcoord, valor_entero(c, c_detv),
 			valor_entero(c, c_deth), 1);
-	glPopAttrib();
 	glEndList();
 	return lista;
 }  /* }}} */
@@ -160,12 +154,9 @@ int crear_techo_frontal(config_t c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, carpa_textura);
 	evaluator(control[0][0], texcoord, valor_entero(c, c_deth),
 			valor_entero(c, c_detv), 0);
-	glPopAttrib();
 	glEndList();
 	return lista;
 }  /* }}} */
@@ -198,12 +189,9 @@ int crear_techo_lateral(config_t c)
 	if (lista == 0)
 		return 0;
 	glNewList(lista, GL_COMPILE);
-	glPushAttrib(GL_ENABLE_BIT);
-	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, carpa_textura);
 	evaluator(control[0][0], texcoord, valor_entero(c, c_deth),
 			valor_entero(c, c_detv), 0);
-	glPopAttrib();
 	glEndList();
 	return lista;
 }  /* }}} */
