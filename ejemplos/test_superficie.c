@@ -39,7 +39,7 @@ void initlights(void)
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
-	glLightfv(GL_LIGHT0, GL_POSITION, position);
+	glLightfv(GL_LIGHT0, GL_POSITION, position); 
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
 	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
@@ -47,7 +47,7 @@ void initlights(void)
 
 void init(void)
 {
-	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MAP2_VERTEX_3);
@@ -112,7 +112,7 @@ void display(void)
 	glRotatef(r_vertical, 1.0, 0.0, 0.0);
 	glEvalMesh2(GL_FILL, 0, 20, 0, 20);
 	glPointSize(5.0);
-	glColor3f(1.0, 1.0, 0.0);
+	glColor3f(0.0, 0.0, 0.0);
 	glDisable(GL_LIGHTING);
 	glBegin(GL_POINTS);
 		glVertex3fv(*(*ctrlpoints+current));
