@@ -99,17 +99,17 @@ void techo_lateral(float radio, float altura, int num_caras)
 	float angulo, angulo_rad, cos_angulo, sin_angulo, x, y;
 	int i;
 
-	angulo_grad = 180.0 / num_caras;
-	angulo_rad  = M_PI / num_caras;
-	cos_angulo  = cosf(angulo_rad);
-	sin_angulo  = sinf(angulo_rad);
-	x = radio * cos_angulo;
-	y = radio * sin_angulo;
+	angulo     = 180.0 / num_caras;
+	angulo_rad = M_PI / num_caras;
+	cos_angulo = cosf(angulo_rad);
+	sin_angulo = sinf(angulo_rad);
+	x = radio * sin_angulo;
+	y = radio * cos_angulo;
 
 	glColor3f(0.8, 0.8, 0.0);
 	for (i = 0; i < num_caras; ++i) {
 		glPushMatrix();
-		glRotatef(-angulo_grad * i, 0.0, 0.0, 1.0);
+		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
 		glBegin(GL_TRIANGLES);
 		glNormal3f(0.0, 0.0, 1.0);
 		glVertex3f(0.0, 0.0, altura);

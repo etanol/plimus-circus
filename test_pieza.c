@@ -107,7 +107,7 @@ void display(void)
 			break;
 		case CONO_GLUT:
 			glColor3f(0.8, 0.8, 0.0);
-			glutWireCone(4.0, 4.0, 50, 50);
+			glutSolidCone(4.0, 4.0, 50, 50);
 			break;
 		default:
 			printf("Pieza no reconocida.\n");
