@@ -102,10 +102,10 @@ int crear_arena(struct config *c)
 	float x = (c->carpa_frontal_ancho/2) - c->poste_radio - 0.1;
 	float y = (c->carpa_lateral_radio) - c->gradas_largo-SEP_GRADAS_CARPA-0.5;
 	float limites[4][3] = {
-		{-x, -y, 0.001},
-		{-x, y, 0.001},
-		{x, -y, 0.001},
-		{x, y, 0.001}};
+		{-x, -y, 0.01},
+		{-x, y, 0.01},
+		{x, -y, 0.01},
+		{x, y, 0.01}};
 	float textura[4][2] = {
 		{0.0, 0.0},
 		{0.0, y*4},
@@ -221,10 +221,9 @@ int crear_cartel(struct config *c)
 		glDrawArrays(GL_QUADS, 0, 4);
 		glPopMatrix();
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisable(GL_TEXTURE_2D);
-		glPushAttrib(GL_CURRENT_BIT|GL_LIGHTING_BIT);
-		glDisable(GL_LIGHTING);
 		glColor3f(0.4, 0.2, 0.0);
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_LIGHTING);
 		glDrawArrays(GL_QUADS, 0, 4);
 		glBegin(GL_QUAD_STRIP);
 		for (i = 0; i < 4; ++i) {
@@ -252,7 +251,7 @@ int crear_cartel(struct config *c)
 		glEnd();
 		glPopMatrix();
 	}
-	glPopAttrib();
+	glEnable(GL_LIGHTING);
 	glEndList();
 	return lista;
 }
