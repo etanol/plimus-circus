@@ -18,9 +18,10 @@
  * config.c
  *
  * Módulo para cargar la configuración de un fichero de texto.
+ *
+ * $Id$
  */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
