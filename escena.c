@@ -17,7 +17,7 @@
 /*
  * escena.c
  *
- * Primitivas para dibujar la escena completa.
+ * Configuración de la escena completa.
  *
  * $Id$
  */
@@ -25,6 +25,12 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+
+/* 
+ * NOTA MENTAL: Quizá podríamos poner la configuración de las luces por
+ * separado (luces.h, luces.c).
+ */
+#include "piezas.h"
 
 static void actualiza_viewport(int ancho, int alto)
 {
@@ -37,72 +43,89 @@ static void actualiza_viewport(int ancho, int alto)
 }
 
 
-static void cupula(void)
-{
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0.0, 1.0, 0.0);
-	glVertex3f(-2.0, 0.0, 1.0);
-	glVertex3f(-1.0, 0.0, 2.0);
-	glVertex3f(1.0, 0.0, 2.0);
-	glVertex3f(2.0, 0.0, 1.0);
-	glVertex3f(2.0, 0.0, -1.0);
-	glVertex3f(1.0, 0.0, -2.0);
-	glVertex3f(-1.0, 0.0, -2.0);
-	glVertex3f(-2.0, 0.0, -1.0);
-	glVertex3f(-2.0, 0.0, 1.0);
-	glEnd();
-}
-
-
-static void base(void)
-{
-	glBegin(GL_QUAD_STRIP);
-	glVertex3f(-4.0, 1.0, 2.0);
-	glVertex3f(-4.0, 0.0, 2.0);
-	glVertex3f(-5.0, 1.0, 1.0);
-	glVertex3f(-5.0, 0.0, 1.0);
-	glVertex3f(-5.0, 1.0, -1.0);
-	glVertex3f(-5.0, 0.0, -1.0);
-	glVertex3f(-4.0, 1.0, -2.0);
-	glVertex3f(-4.0, 0.0, -2.0);
-	glVertex3f(4.0, 1.0, -2.0);
-	glVertex3f(4.0, 0.0, -2.0);
-	glVertex3f(5.0, 1.0, -1.0);
-	glVertex3f(5.0, 0.0, -1.0);
-	glVertex3f(5.0, 1.0, 1.0);
-	glVertex3f(5.0, 0.0, 1.0);
-	glVertex3f(4.0, 1.0, 2.0);
-	glVertex3f(4.0, 0.0, 2.0);
-	glVertex3f(-4.0, 1.0, 2.0);
-	glVertex3f(-4.0, 0.0, 2.0);
-	glEnd();
-}
-
-
 static void escena(void)
 {
+	float alto_faldon = 1.5;
+	float ancho = 2.0;
+	float radio = 2.3;
+	int num_caras = 20;
+
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-
-	glColor3f(0.0, 0.0, 0.8);
 	glPushMatrix();
-	glTranslatef(-3.0, 1.0, 0.0);
-	cupula();
+	/*
+	 * Ya que se dibuja todo visto desde arriba (como si se dibujara en
+	 * planta) rotamos 90º sobre el eje X para orientarlo a la posición
+	 * natural.
+	 */
+	glRotatef(90.0, -1.0, 0.0, 0.0);
+
+	/* 
+	 * TODO: Colocar todas las luces manteniendo las interiores apagadas y
+	 * las exteriores encendidas. Dibujar el suelo exterior.
+	 */
+
+	/*
+	 * Dibujamos la carpa. TODO: ¿Suelo interior?
+	 */
+	glPushMatrix();
+	glTranslatef(0.0, radio, 0.0);
+	faldon_frontal(alto_faldon, ancho);
 	glPopMatrix();
 
-	glColor3f(0.0, 0.8, 0.0);
 	glPushMatrix();
-	glTranslatef(3.0, 1.0, 0.0);
-	cupula();
+	glTranslatef(0.0, -radio, 0.0);
+	glRotatef(180.0, 0.0, 0.0, 1.0);
+	faldon_frontal(alto_faldon, ancho);
 	glPopMatrix();
 
-	glColor3f(0.8, 0.0, 0.8);
-	base();
+	glPushMatrix();
+	glTranslatef(ancho / 2, 0.0, 0.0);
+	faldon_lateral(radio, alto_faldon, num_caras);
+	glPopMatrix();
 
+	glPushMatrix();
+	glTranslatef(-(ancho / 2), 0.0, 0.0);
+	glRotatef(180.0, 0.0, 0.0, 1.0);
+	faldon_lateral(radio, alto_faldon, num_caras);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, alto_faldon);
+	techo_frontal(radio, alto_faldon, ancho);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, alto_faldon);
+	glRotatef(180.0, 0.0, 0.0, 1.0);
+	techo_frontal(radio, alto_faldon, ancho);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(ancho / 2, 0.0, alto_faldon);
+	techo_lateral(radio, alto_faldon, num_caras);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-(ancho / 2), 0.0, alto_faldon);
+	glRotatef(180.0, 0.0, 0.0, 1.0);
+	techo_lateral(radio, alto_faldon, num_caras);
+	glPopMatrix();
+
+	/*
+	 * TODO: Apagar las luces exteriores, encender las luces interiores y
+	 * dibujar los objetos del interior de la carpa.
+	 */
+	glPopMatrix();
 	glutSwapBuffers();
 }
+
 
 void init_escena(void)
 {
 	glutDisplayFunc(escena);
 	glutReshapeFunc(actualiza_viewport);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 }
