@@ -39,6 +39,7 @@ extern int crear_faldon_frontal(config_t);
 extern int crear_faldon_lateral(config_t);
 extern int crear_techo_frontal(config_t);
 extern int crear_techo_lateral(config_t);
+extern int crear_entrada(config_t);
 
 /*
  * gradas.c

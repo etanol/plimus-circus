@@ -47,6 +47,7 @@ static int
 	techo_lateral,
 	grada_frontal,
 	grada_lateral,
+	entrada_carpa,
 	poste,
 	suelo_exterior,
 	suelo_interior,
@@ -295,12 +296,23 @@ static void escena(void)
 		glTranslatef(Le_cfra2, 0.0, Le_cfa);
 		glCallList(techo_lateral);
 		glPopMatrix();
+		glPushMatrix();
+		glTranslatef(0.0, -Le_clr, 0.0);
+		glCallList(entrada_carpa);
+		glPopMatrix();
 		/* Cartel */
 		glPushMatrix();
 		glTranslatef(-(Le_cfra2 + Le_clr), -(Le_clr + Le_crtsep), 0.0);
 		glRotatef(angulo_anim, 0.0, 0.0, 1.0);
 		glCallList(cartel);
 		glPopMatrix();
+		/* Sol */
+		glPushMatrix();
+		glTranslatef(sol_posicion[0], sol_posicion[1], sol_posicion[2]);
+		glCallList(sol);
+		glPopMatrix();
+		if (fog_flag)
+			glEnable(GL_FOG);
 		/* Arbolitos */
 		glPushMatrix();
 		glTranslatef(Le_cfra2 + Le_clr, Le_clr + Le_crtsep, 0.0);
@@ -323,11 +335,6 @@ static void escena(void)
 		glTranslatef(Le_cfra2 + Le_clr, Le_clr + Le_crtsep, 0.0);
 		glRotatef(angulo_h, 0.0, 0.0, 1.0);
 		glCallList(arbol); /* Ahora sí ;-) */
-		glPopMatrix();
-		/* Sol */
-		glPushMatrix();
-		glTranslatef(sol_posicion[0], sol_posicion[1], sol_posicion[2]);
-		glCallList(sol);
 		glPopMatrix();
 		if (light_flag)
 			glEnable(GL_LIGHTING);
@@ -418,6 +425,7 @@ void init_escena(config_t cfg)
 	techo_lateral  = crear_techo_lateral(C);
 	grada_frontal  = crear_grada_frontal(C);
 	grada_lateral  = crear_grada_lateral(C);
+	entrada_carpa  = crear_entrada(C);
 	poste          = crear_poste(C);
 	suelo_exterior = crear_suelo_exterior(C);
 	suelo_interior = crear_suelo_interior(C);

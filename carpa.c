@@ -22,12 +22,15 @@
  * $Id$
  */
 
-#if !defined CARPA_SIMPLE
-
+#include <math.h>
 #ifdef THIS_IS_UNIX
 #include <GL/gl.h>
 #else
 #include <GL/glut.h>
+#endif
+
+#ifndef M_PI
+#define M_PI 3.14159265
 #endif
 
 #include "piezas.h"
@@ -178,8 +181,8 @@ int crear_techo_lateral(config_t c)
 	for (i = 0; i < 4; ++i) {
 		control[i][0][Z] = control[i][1][Z] = control[i][2][Z] =
 			control[i][3][Z] = zeta[i];
-		control[i][0][Y] = control[i][1][Y] = (i?paso_y * i:0.0001);
-		control[i][2][Y] = control[i][3][Y] = (i?-paso_y * i:-0.0001);
+		control[i][0][Y] = control[i][1][Y] = (i ? paso_y*i : 0.0001);
+		control[i][2][Y] = control[i][3][Y] = (i ? -paso_y*i : -0.0001);
 		control[i][0][X] = control[i][3][X] = 0.0;
 		control[i][1][X] = control[i][2][X] =
 			(control[i][0][Y] * 4.0) / 3.0 ;
@@ -196,4 +199,89 @@ int crear_techo_lateral(config_t c)
 	return lista;
 }  /* }}} */
 
-#endif /* !CARPA_SIMPLE */
+
+int crear_entrada(config_t c)
+{  /* {{{ */
+	int lista, i, textura;
+	float radio = valor_decimal(c, c_e_ancho) / 2.0;
+	float largo = -valor_decimal(c, c_e_largo);
+	float alto  = valor_decimal(c, c_f_alto) - radio;
+	float talto = alto / valor_decimal(c, c_f_alto);
+	int   caras = valor_entero(c, c_e_det);
+	float angulo      = 180.0 / (float)caras;
+	float angulo_rad  = M_PI / (float)caras;
+	float cos_angulo  = cosf(angulo_rad);
+	float sin_angulo  = sinf(angulo_rad);
+	float rcos_angulo = radio * cos_angulo;
+	float rsin_angulo = radio * sin_angulo;
+	float tx, ty, txo, tyo;
+
+	textura = cargar_textura(c, valor_cadena(c, c_e_tex));
+	lista = glGenLists(1);
+	if (lista == 0)
+		return 0;
+	glNewList(lista, GL_COMPILE);
+	glColor3f(0.8, 0.0, 0.0);
+	glDisable(GL_TEXTURE_2D);
+	/* Laterales de la entrada */
+	for (i = 0; i < 2; ++i) {
+		tx = (i ? -1.0 : 1.0);
+		glNormal3f(tx, 0.0, 0.0);
+		glBegin(GL_QUADS);
+		glVertex3f(tx * radio, 0.0, 0.0);
+		glVertex3f(tx * radio, largo, 0.0);
+		glVertex3f(tx * radio, largo, alto);
+		glVertex3f(tx * radio, 0.0, alto);
+		glEnd();
+	}
+	/* Arco superior */
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, alto);
+	for (i = 0; i < caras; ++i) {
+		glPushMatrix();
+		glRotatef(angulo * (float)i, 0.0, -1.0, 0.0);
+		glBegin(GL_QUADS);
+		glNormal3f(1.0, 0.0, 0.0);
+		glVertex3f(radio, 0.0, 0.0);
+		glVertex3f(radio, largo, 0.0);
+		glNormal3f(cos_angulo, 0.0, sin_angulo);
+		glVertex3f(rcos_angulo, largo, rsin_angulo);
+		glVertex3f(rcos_angulo, 0.0, rsin_angulo);
+		glEnd();
+		glPopMatrix();
+	}
+	glPopMatrix();
+	/* Puerta */
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, textura);
+	glColor3f(1.0, 1.0, 1.0);
+	glNormal3f(0.0, -1.0, 0.0);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-radio, largo, 0.0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(radio, largo, 0.0);
+	glTexCoord2f(1.0, talto); glVertex3f(radio, largo, alto);
+	glTexCoord2f(0.0, talto); glVertex3f(-radio, largo, alto);
+	glEnd();
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, alto);
+	txo = 1.0; tyo = talto;
+	for (i = 0; i < caras; ++i) {
+		tx = cosf(angulo_rad * (i+1)) / 2.0 + 0.5;
+		ty = sinf(angulo_rad * (i+1)) * (1 - talto) + talto;
+		glPushMatrix();
+		glRotatef(angulo * i, 0.0, -1.0, 0.0);
+		glBegin(GL_TRIANGLES);
+		glTexCoord2f(0.5, talto); glVertex3f(0.0, largo, 0.0);
+		glTexCoord2f(txo, tyo);   glVertex3f(radio, largo, 0.0);
+		glTexCoord2f(tx, ty);
+		glVertex3f(rcos_angulo, largo, rsin_angulo);
+		glEnd();
+		glPopMatrix();
+		txo = tx;
+		tyo = ty;
+	}
+	glPopMatrix();
+	glEndList();
+	return lista;
+}  /* }}} */
+

@@ -72,14 +72,18 @@ const char ci_tex[]  = "cielo_textura";    /* string */
 const char ci_desp[] = "cielo_despl_giro"; /* float */
 
 /* Parámetros de la carpa */
-const char c_f_alto[]   = "carpa_faldon_alto";   /* float */
-const char c_f_caida[]  = "carpa_faldon_caida";  /* float */
-const char c_t_alto[]   = "carpa_techo_alto";    /* float */
-const char c_t_caidap[] = "carpa_techo_caida_p"; /* float */
-const char c_fr_ancho[] = "carpa_frontal_ancho"; /* float */
-const char c_l_radio[]  = "carpa_lateral_radio"; /* float */
-const char c_deth[]     = "carpa_detalle_horiz"; /* int */
-const char c_detv[]     = "carpa_detalle_vert";  /* int */
+const char c_f_alto[]   = "carpa_faldon_alto";     /* float */
+const char c_f_caida[]  = "carpa_faldon_caida";    /* float */
+const char c_t_alto[]   = "carpa_techo_alto";      /* float */
+const char c_t_caidap[] = "carpa_techo_caida_p";   /* float */
+const char c_fr_ancho[] = "carpa_frontal_ancho";   /* float */
+const char c_l_radio[]  = "carpa_lateral_radio";   /* float */
+const char c_e_ancho[]  = "carpa_entrada_ancho";   /* float */
+const char c_e_largo[]  = "carpa_entrada_largo";   /* float */
+const char c_deth[]     = "carpa_detalle_horiz";   /* int */
+const char c_detv[]     = "carpa_detalle_vert";    /* int */
+const char c_e_det[]    = "carpa_detalle_arco";    /* int */
+const char c_e_tex[]    = "carpa_entrada_textura"; /* string */
 
 /* Parámetros de las gradas */
 const char gs_alto[]   = "gradas_alto";            /* float */
