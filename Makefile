@@ -74,7 +74,7 @@ config.o: config.c config.h
 
 .PHONY: clean wdist wdistclean changelog
 clean:
-	-rm -f $(wildcard *.o ejemplos/*.o $(BINFILES) gmon.out ejemplos/gmon.out)
+	@-rm -fv *.o ejemplos/*.o $(BINFILES) gmon.out ejemplos/gmon.out ChangeLog*
 
 wdist: changelog
 	@test -d IG1 || mkdir IG1; \
@@ -89,8 +89,8 @@ wdist: changelog
 	zip -r IG1.zip IG1
 
 changelog:
-	@test -f ChangeLog || cvs2cl
+	@cvs2cl -P -b -T --show-dead
 
 wdistclean: 
-	-rm -rf IG1 IG1.zip ChangeLog*
+	@-rm -rf IG1 IG1.zip ChangeLog*
 

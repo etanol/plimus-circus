@@ -116,7 +116,7 @@ int main(int argc, char **argv)
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 	glutInitWindowSize(700, 700);
 	glutInitWindowPosition(50, 50);
-	glutCreateWindow("Test de fichas.");
+	glutCreateWindow("Test de piezas.");
 	glutKeyboardFunc(teclado);
 	glutSpecialFunc(rotar);
 	glutDisplayFunc(display);
