@@ -70,7 +70,6 @@ int main(int argc, char **argv)
 	texes.suelo_exterior = cargar_textura(TEXTURA_SUELO_EXTERIOR);
 	texes.suelo_interior = cargar_textura(TEXTURA_SUELO_INTERIOR);
 	texes.cielo          = cargar_textura(TEXTURA_CIELO);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	texes.arena          = cargar_textura(TEXTURA_ARENA);
 	texes.grada          = cargar_textura(TEXTURA_GRADA);
 	texes.plimus         = cargar_textura(TEXTURA_PLIMUS);

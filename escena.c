@@ -72,15 +72,15 @@ static void actualiza_viewport(int ancho, int alto)
 
 static void cielo(void)
 {  /* {{{ */
+	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_LIGHTING);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
 	glOrtho(-1.0, 1.0, -1.0, 1.0, -0.5, 0.5);
 	glMatrixMode(GL_MODELVIEW);
-	glColor4f(1.0, 1.0, 1.0, 1.0);
-	glDisable(GL_LIGHTING);
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_TEXTURE_2D);
 	glPushMatrix();
 	glLoadIdentity();
 	glBegin(GL_QUADS);
@@ -94,12 +94,12 @@ static void cielo(void)
 	glVertex3f(1.0, -1.0, 0.0);
 	glEnd();
 	glPopMatrix();
-	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
+	glDisable(GL_TEXTURE_2D);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
 }  /* }}} */
 
 
@@ -227,7 +227,7 @@ static void escena(void)
 		glBindTexture(GL_TEXTURE_2D, T->suelo_exterior);
 		glCallList(suelo_exterior);
 		/* Carpa */
-		glBindTexture(GL_TEXTURE_1D, T->carpa);
+		glBindTexture(GL_TEXTURE_2D, T->carpa);
 		glPushMatrix();
 		glTranslatef(0.0, C->carpa_lateral_radio, 0.0);
 		glCallList(faldon_frontal);

@@ -100,16 +100,19 @@ int cargar_textura(const char *fichero)
 int gen_textura_carpa(void)
 {  /* {{{ */
 	int textura;
-	float cols_carpa[6] = {0.8, 0.8, 0.0, 0.8, 0.0, 0.0};
+	float cols_carpa[12] = {
+		0.8, 0.8, 0.0, 0.8, 0.0, 0.0,
+		0.8, 0.8, 0.0, 0.8, 0.0, 0.0};
 
 	glGenTextures(1, (unsigned int *)&textura);
-	glBindTexture(GL_TEXTURE_1D, textura);
-	glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glBindTexture(GL_TEXTURE_2D, textura);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexImage1D(GL_TEXTURE_1D, 0, 3, 2, 0, GL_RGB, GL_FLOAT, cols_carpa);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, 2, 2, 0, GL_RGB, GL_FLOAT,
+			cols_carpa);
 	return textura;
 }  /* }}} */
 
