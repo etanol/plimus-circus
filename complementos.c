@@ -207,6 +207,7 @@ int crear_arbol(config_t c)
 		return 0;
 	glNewList(lista, GL_COMPILE);
 	glPushAttrib(GL_ENABLE_BIT);
+	glDisable(GL_LIGHTING);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 	glBindTexture(GL_TEXTURE_2D, textura);
@@ -218,6 +219,7 @@ int crear_arbol(config_t c)
 	glTexCoord2i(1, 1); glVertex3f(x, 0.0, z);
 	glTexCoord2i(1, 0); glVertex3f(x, 0.0, 0.0);
 	glEnd();
+	glPopAttrib();
 	glEndList();
 	return lista;
 }  /* }}} */

@@ -96,7 +96,8 @@ const char b_det[]  = "banqueta_detalle";     /* int */
 const char b_tex[]  = "banqueta_textura";     /* string */
 
 /* Parámetros del cartel */
-const char crt_foto[] = "cartel_foto"; /* string */
+const char crt_sep[]  = "cartel_sep_carpa"; /* float (también para árbol) */
+const char crt_foto[] = "cartel_foto";      /* string */
 
 /* Parámetros del árbol */
 const char ar_ancho[] = "arbol_ancho";   /* float */

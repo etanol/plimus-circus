@@ -58,7 +58,8 @@ static int
 static config_t C;
 
 /* Muy muy privado */
-static float Le_cfra, Le_cfra2, Le_clr, Le_cfa, Le_gsl, Le_gss, Le_pr, Le_calt;
+static float Le_cfra, Le_cfra2, Le_clr, Le_cfa, Le_gsl, Le_gss, Le_pr, Le_calt,
+	Le_crtsep;
 static float Le_fov, Le_znear, Le_zfar;
 
 
@@ -281,14 +282,32 @@ static void escena(void)
 		glPopMatrix();
 		/* Cartel */
 		glPushMatrix();
-		glTranslatef(-(Le_cfra2 + Le_clr), -(Le_clr*1.5), 0.0);
+		glTranslatef(-(Le_cfra2 + Le_clr), -(Le_clr + Le_crtsep), 0.0);
 		glRotatef(angulo_anim, 0.0, 0.0, 1.0);
 		glCallList(cartel);
 		glPopMatrix();
-		/* Arbolito */
+		/* Arbolitos */
 		glPushMatrix();
-		glTranslatef(Le_cfra2 + Le_clr, -Le_clr*1.5, 0.0);
+		glTranslatef(Le_cfra2 + Le_clr, Le_clr + Le_crtsep, 0.0);
+		glRotatef(angulo_h, 0.0, 0.0, 1.0);
+		glDepthMask(GL_FALSE); /* No queremos tocar el z-buffer */
 		glCallList(arbol);
+		glDepthMask(GL_TRUE);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslatef(-(Le_cfra2 + Le_clr), Le_clr + Le_crtsep, 0.0);
+		glRotatef(angulo_h, 0.0, 0.0, 1.0);
+		glCallList(arbol);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslatef(Le_cfra2 + Le_clr, -(Le_clr + Le_crtsep), 0.0);
+		glRotatef(angulo_h, 0.0, 0.0, 1.0);
+		glCallList(arbol);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslatef(Le_cfra2 + Le_clr, Le_clr + Le_crtsep, 0.0);
+		glRotatef(angulo_h, 0.0, 0.0, 1.0);
+		glCallList(arbol); /* Ahora sí ;-) */
 		glPopMatrix();
 	} else {
 		/* Suelo */
@@ -350,17 +369,18 @@ void init_escena(config_t cfg)
 
 	/* Copiamos valores de la configuración localmente para ahorrarnos
 	 * algunas consultas */
-	Le_cfra  = valor_decimal(C, c_fr_ancho);
-	Le_cfra2 = Le_cfra / 2.0;
-	Le_clr   = valor_decimal(C, c_l_radio);
-	Le_cfa   = valor_decimal(C, c_f_alto);
-	Le_calt  = Le_cfa + valor_decimal(C, c_t_alto);
-	Le_gsl   = valor_decimal(C, gs_largo);
-	Le_gss   = valor_decimal(C, gs_sep);
-	Le_pr    = valor_decimal(C, p_radio);
-	Le_fov   = valor_decimal(C, c_fov);
-	Le_znear = valor_decimal(C, c_znear);
-	Le_zfar  = valor_decimal(C, c_zfar);
+	Le_cfra   = valor_decimal(C, c_fr_ancho);
+	Le_cfra2  = Le_cfra / 2.0;
+	Le_clr    = valor_decimal(C, c_l_radio);
+	Le_cfa    = valor_decimal(C, c_f_alto);
+	Le_calt   = Le_cfa + valor_decimal(C, c_t_alto);
+	Le_gsl    = valor_decimal(C, gs_largo);
+	Le_gss    = valor_decimal(C, gs_sep);
+	Le_pr     = valor_decimal(C, p_radio);
+	Le_crtsep = valor_decimal(C, crt_sep);
+	Le_fov    = valor_decimal(C, c_fov);
+	Le_znear  = valor_decimal(C, c_znear);
+	Le_zfar   = valor_decimal(C, c_zfar);
 
 	/* Textura para el cielo */
 	tex_cielo = cargar_textura(C, valor_cadena(C, ci_tex));
