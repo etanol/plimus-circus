@@ -366,6 +366,16 @@ pixels
 \emph default 
  de la ventana, en el caso de que la amplitud sea mayor a la altura.
  En caso contrario, se centra con respecto a la altura.
+ Por esto, se define el área de trabajo y de visualizacion a través de la
+ función 
+\begin_inset Formula $glViewPort$
+\end_inset 
+
+, pasando como parámetros, las coordenadas 
+\begin_inset Formula $(x,y)$
+\end_inset 
+
+ del punto inicial y el ancho y alto de la nueva área.
 \layout Chapter
 
 Etapa 3: Escena 3D
@@ -592,14 +602,46 @@ interaccion.c
 
 Perspectiva
 \layout Standard
-
+\added_space_bottom medskip 
 En nuestro caso, se ha decidido utilizar la función 
 \begin_inset Formula $gluPerspective$
 \end_inset 
 
- para definir una proyección perspectiva sobre la cual trabajaremos.
- Una vez hecho esto, realizamos los siguientes pasos para realizar el giro
- de la cámara:
+ únicamente cuando se redimensiona la ventana.
+ En ese caso, puede cambiar el 
+\emph on 
+aspect ratio
+\emph default 
+ y para no deformar demasiado la escena, llamamos a 
+\begin_inset Formula $gluPerspective$
+\end_inset 
+
+ con el nuevo 
+\emph on 
+aspect ratio
+\emph default 
+.
+\layout Standard
+
+La colocación de la cámara, implementado a través de las funciones 
+\begin_inset Formula $glRotatef$
+\end_inset 
+
+ y 
+\begin_inset Formula $glTranslatef$
+\end_inset 
+
+, se realiza 
+\series bold 
+cada vez
+\series default 
+ que se renderiza la escena porque para simular el movimiento de la cámara
+ simplemente desplazamos todos los objetos que vamos a dibujar.
+ Por eso se ponen estas transformaciones a lo primero, antes de dibujar
+ nada, para que se apliquen las últimas.
+\layout Standard
+
+Los pasos para realizar el giro de la cámara son:
 \layout Enumerate
 
 Trasladarnos al punto donde se encuentra la cámara.
@@ -1293,17 +1335,14 @@ También se han activado las propiedades del material del que estará compuesto
 \end_inset 
 
 .
- Las propiedades de los materiales se aplican tanto a la cara posterior
- y a la cara anterior de cada objeto, por ello, empleamos la función 
+ Las propiedades de los materiales se aplican a la cara posterior de cada
+ objeto.
+ Así pues, empleamos la función 
 \begin_inset Formula $glColorMaterial$
 \end_inset 
 
  y le pasamos como parámetro 
-\begin_inset Formula $GL\_ FRONT\_ AND\_ BACK$
-\end_inset 
-
- y 
-\begin_inset Formula $GL\_ AMBIENT\_ AND\_ DIFFUSE$
+\begin_inset Formula $GL\_ FRONT$
 \end_inset 
 
 .
@@ -1349,7 +1388,7 @@ Como se puede observar en la figura
  animados, van iluminando de forma rotativa, las gradas laterales y las
  gradas frontales
 \begin_inset Foot
-collapsed true
+collapsed false
 
 \layout Standard
 
@@ -1714,7 +1753,7 @@ Es posible mover la luz solar por la escena.
 \align center 
 
 \begin_inset  Tabular
-<lyxtabular version="3" rows="5" columns="2">
+<lyxtabular version="3" rows="6" columns="2">
 <features>
 <column alignment="center" valignment="top" leftline="true" width="0">
 <column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
@@ -1794,7 +1833,7 @@ d-c
 \end_inset 
 </cell>
 </row>
-<row topline="true" bottomline="true">
+<row topline="true">
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
@@ -1812,6 +1851,24 @@ w
 \end_inset 
 </cell>
 </row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+Restaurar el sol a su estado inicial
+\end_inset 
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\layout Standard
+
+q
+\end_inset 
+</cell>
+</row>
 </lyxtabular>
 
 \end_inset 
@@ -1823,9 +1880,9 @@ Luz ambiente
 \layout Standard
 \added_space_bottom medskip 
 Para permitir una mejor iluminación en el interior de la carpa, se ha incluido
- una luz ambiental que se activa únicamente cuando la cámara se sitúa dentro
- de la carpa, y que se desactiva en el momento en el que la cámara se sitúa
- en el exterior de la carpa.
+ una luz posicional con una apertura de 180 grados, que se activa únicamente
+ cuando la cámara se sitúa dentro de la carpa, y que se desactiva en el
+ momento en el que la cámara se sitúa en el exterior de la carpa.
 \layout Standard
 
 Esta luz corresponde a la luz 
@@ -1833,40 +1890,9 @@ Esta luz corresponde a la luz
 \end_inset 
 
  de OpenGL.
- Igual que los focos interiores, esta luz ambiental se activa y desactiva
+ Igual que los focos interiores, esta luz posicional se activa y desactiva
  junto con ellas.
  
-\layout Section
-
-Materiales
-\layout Standard
-
-Para definir las características de los objetos, hemos empleado estas dos
- funciones 
-\begin_inset Formula $glMaterialf$
-\end_inset 
-
- y 
-\begin_inset Formula $glMaterialfv$
-\end_inset 
-
-.
- A cada uno de los objetos en la escena se le han definido las propiedades
- de brillo, componente especular, etc.
- Un ejemplo de ello es lo siguiente:
-\layout Standard
-
-
-\begin_inset Formula \[
-\begin{array}{l}
-\ldots\\
-glMaterialfv(GL\_ FRONT,\, GL\_ SPECULAR,\, brillo);\\
-glMaterialf(GL\_ FRONT,\, GL\_ SHININESS,\, valor\_ decimal(c,p\_ brillo);\\
-\ldots\end{array}\]
-
-\end_inset 
-
-
 \layout Chapter
 
 Etapa 6: Shading
@@ -1891,7 +1917,7 @@ El sombreado da un efecto más suavizado a las caras de los polígonos que
  entre dos caras contiguas de un mismo polígono.
 \layout Standard
 \added_space_bottom medskip 
-Está claro que activar el sombreado requiere un mayor coste computacional,
+Está claro que realizar el sombreado requiere un mayor coste computacional,
  pero vale la pena invertir más en coste computacional pues el resultado
  final es mucho mejor visualmente y gráficamente.
  Aún así, con las tarjetas gráficas de hoy en día, y en una escena 
@@ -1905,8 +1931,7 @@ circo
 , no ralentiza mucho el sistema ni el tiempo de renderizado.
 \layout Standard
 \added_space_bottom medskip 
-Activar o desactivar el sombreado es posible realizarlo pulsando la tecla
- 
+Para cambiar el tipo de sombreado se realiza pulsando la tecla 
 \begin_inset Formula $espacio$
 \end_inset 
 
@@ -1920,7 +1945,6 @@ Modelo de Shading SMOOTH
 \emph default 
 , respectivamente, del menú auxiliar, que se muestra pulsando con el botón
  derecho del ratón en cualquier punto de la ventana que contiene la escena.
- OpenGL permite renderizar una escena con el sombreado o sin él.
  Tenemos dos tipos de sombreado que podemos habilitar llamando a la función
  
 \begin_inset Formula $glShadeModel$
@@ -2060,7 +2084,7 @@ Aparte de implementar una función para copiar la imagen del fichero a una
 \added_space_bottom smallskip 
 En nuestro caso, adaptando un ejemplo encontrado en una página de Internet
 \begin_inset Foot
-collapsed true
+collapsed false
 
 \layout Standard
 
@@ -2134,7 +2158,7 @@ Enlazar la textura
 
 
 \emph on 
-Definir los puntos de control
+Generar las coordenadas de la textura
 \emph default 
  para indicar a qué punto de la imagen corresponde cada vértice y si es
  necesario repetir la textura, en el caso de que el polígono sea mayor que
@@ -2345,31 +2369,30 @@ A través de las curvas de Bézier, se pueden generar superficies curvas.
 \emph on 
 evaluators
 \emph default 
- de orden 4
+ con 16 puntos de control (4
 \begin_inset Formula $\times$
 \end_inset 
 
-4 para la carpa.
+4) para la carpa.
  Para generar una malla para las superficies planas del suelo, y conseguir
  el efecto de foco redondo, se han utilizado 
 \emph on 
 evaluators
 \emph default 
- de orden 2
+ con 4 puntos de control (2
 \begin_inset Formula $\times$
 \end_inset 
 
-2.
+2).
 \layout Standard
 \added_space_bottom medskip 
-Para generar los puntos de control que formarán la malla, se utiliza la
- función 
+Para generar los vértices formarán la malla, se utiliza la función 
 \begin_inset Formula $glMapGrid2f$
 \end_inset 
 
 .
  A su vez, para crear la superficie (dos dimensiones) una vez definidos
- los puntos de control, se invoca a la función 
+ los vértices, se invoca a la función 
 \begin_inset Formula $glEvalMesh2$
 \end_inset 
 
@@ -2421,7 +2444,7 @@ circo.cfg
 .
  También, en el interior del circo hay situados tres focos
 \begin_inset Foot
-collapsed true
+collapsed false
 
 \layout Standard
 
@@ -2531,7 +2554,7 @@ ventana\_ ancho\_ inicial & = & 500\\
 \ldots\\
 camara\_ apertura\_ angular & = & 65.0\\
 \ldots\\
-suelo\_ exterior\_ textura & = & "cesped1.tga"\\
+suelo\_ interior\_ textura & = & "suelo2.tga"\\
 \ldots\end{array}\]
 
 \end_inset 
@@ -2851,7 +2874,7 @@ Es posible indicarle a OpenGL que únicamente renderice una de las dos caras
  de un polígono, según se ordenaron los vértices en sentido horario o anti-horar
 io
 \begin_inset Foot
-collapsed true
+collapsed false
 
 \layout Standard
 
@@ -3010,7 +3033,7 @@ status Open
 \layout Standard
 
 \backslash 
-verbatimtabinput[4]{../ChangeLog}
+verbatimtabinput[4]{$HOME/work/grafica/ChangeLog}
 \end_inset 
 
 
