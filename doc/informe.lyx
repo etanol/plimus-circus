@@ -363,7 +363,11 @@ Esto se implementa en la función
 \emph default 
  a la cual se le pasan los parámetros de ancho y alto que forman la ventana.
  Aparte de esto, se centran los polígonos con respecto al ancho de la ventana,
- en el caso de que la amplitud sea mayor a la altura, en número de píxeles.
+ en el caso de que la amplitud sea mayor a la altura, en número de 
+\emph on 
+pixels
+\emph default 
+.
  En caso contrario, se centra con respecto a la altura.
 \layout Chapter
 
@@ -1313,6 +1317,11 @@ Se ha añadido una opción en el menú para activar la iluminación o desactivarla.
  cualquier punto de la ventana que contiene la escena virtual.
 \layout Section
 
+
+\begin_inset LatexCommand \label{sec:Focos-interiores}
+
+\end_inset 
+
 Focos interiores
 \layout Standard
 \added_space_bottom medskip 
@@ -1950,7 +1959,10 @@ Modelo de Shading SMOOTH
 \end_inset 
 
 .
- Selecciona el color calculado de un vértice y lo asigna a todos píxeles
+ Selecciona el color calculado de un vértice y lo asigna a todos 
+\emph on 
+pixels
+\emph default 
  generados mediante la rasterización de una única primitiva.
 \layout Enumerate
 
@@ -1960,7 +1972,11 @@ Modelo de Shading SMOOTH
 
 .
  Este es el tipo de sombreado que viene por defecto en OpenGL.
- Interpola los colores calculados de los vértices a cada pixel resultante.
+ Interpola los colores calculados de los vértices a cada 
+\emph on 
+pixel
+\emph default 
+ resultante.
 \layout Chapter
 
 Etapa 7: Realismo
@@ -1968,19 +1984,300 @@ Etapa 7: Realismo
 
 Texturas
 \layout Standard
+\added_space_bottom medskip 
+La inclusión de texturas dentro de la escena que conforma el 
+\series bold 
+circo
+\series default 
+ supone un gran incremento cualitativo con respecto al resultado visual.
+ De las opciones incluídas en este capítulo ésta es la que da a la escena
+ un mayor realismo.
+ Bien es cierto que el resto de opciones añadidas, como la niebla, superficies
+ curvas, etc., incrementan la calidad visual de la escena final.
+ Pero aún así, comparado con la inclusión de texturas, es un incremento
+ menor de calidad, o al menos, es menos visible.
+\layout Standard
 
-texturas.c
+Para habilitar la utilización de texturas en OpenGL, es necesario llamar
+ a la función 
+\begin_inset Formula $glEnable$
+\end_inset 
+
+ y pasarle como argumento uno de los siguientes parámetros:
+\layout Itemize
+
+
+\begin_inset Formula $GL\_ TEXTURE\_1D$
+\end_inset 
+
+.
+ Si deseamos utilizar una textura de una dimensión.
+ Este tipo de texturas están compuestas de una unidad de alto por 
+\emph on 
+n
+\emph default 
+ de ancho, de tal forma que simplemente es definir una línea de un punto
+ de alto y con 
+\emph on 
+n
+\emph default 
+ unidades de ancho.
+\layout Itemize
+
+
+\begin_inset Formula $GL\_ TEXTURE\_2D$
+\end_inset 
+
+.
+ Si deseamos utilizar una textura bidimensional.
+ En el caso de esta práctica, este es el tipo de textura que empleamos,
+ pues tiene 
+\emph on 
+n
+\emph default 
+ unidades de ancho por 
+\emph on 
+m
+\emph default 
+ unidades de alto.
+ En este caso, cada unidad corresponde con un 
+\emph on 
+pixel
+\emph default 
+ de la imagen, y cada 
+\emph on 
+pixel
+\emph default 
+ está formado por cuatro enteros para definir el color y la transparencia
+ (R,G,B,A).
+\layout Itemize
+
+
+\begin_inset Formula $GL\_ TEXTURE\_3D$
+\end_inset 
+
+.
+ Si deseamos utilizar una textura tridimensional.
+ Este tipo de texturas es útil, por ejemplo, a la hora de realizar mapas
+ cartográficos, pero en nuestro caso, no la empleamos.
+\layout Standard
+\added_space_top medskip 
+Así pues, para incluir texturas en la escena, es necesario realizar dos
+ pasos.
+\layout Subsection
+
+Carga desde un fichero
+\layout Standard
+\added_space_bottom medskip 
+Este paso es opcional en el caso de que a la hora de poner una textura a
+ un polígono determinado, ya tengamos cargada en memoria la imagen que contiene
+ la textura deseada.
+ En caso contrario, es necesario cargar la imagen que contiene la textura
+ desde un fichero que esté en disco.
+ Aparte de implementar una función para copiar la imagen del fichero a una
+ zona de memoria, para posteriormente, pasarle en puntero de esa zona de
+ memoria a OpenGL, es nesario conocer en qué formato está la imagen almacenada
+ en el fichero.
+ 
+\layout Standard
+\added_space_bottom smallskip 
+En nuestro caso, adaptando un ejemplo encontrado en una página de Internet
+\begin_inset Foot
+collapsed true
+
+\layout Standard
+
+Ver apéndice 
+\begin_inset LatexCommand \vref{sec:fuentes-de-informacion-nehe}
+
+\end_inset 
+
+
+\end_inset 
+
+, cargamos texturas en formato TGA sin comprimir.
+ Llamamos a la función 
+\emph on 
+cargar_textura
+\emph default 
+ pasándole como parámetros, la estructura que contiene el fichero de configuraci
+ón y el nombre del archivo que contiene la imagen.
+ Ésta, a su vez, nos devuelve un puntero a memoria donde está cargada la
+ imagen que contiene la textura, y que posteriormente pasaremos a OpenGL
+ para enlazarla y usarla como la textura actual.
+ Por ejemplo:
+\layout Standard
+\align center 
+
+\begin_inset Formula $textura\,=\, cargar\_ textura(c,\, valor\_ cadena(c,\, b\_ text));$
+\end_inset 
+
+
+\layout Subsection
+
+Mapeado
+\layout Standard
+\added_space_bottom medskip 
+Este paso es obligatorio en todos los casos en los que se desee asignar
+ una textura diferente a la que se asigna por defecto.
+ OpenGL es una máquina de estados, por ello, si mapeamos una textura y no
+ realizamos el enlace (
+\emph on 
+bind)
+\emph default 
+ a ninguna textura, OpenGL asigna la textura que está seleccionada en un
+ paso anterior.
+\layout Standard
+\added_space_bottom medskip 
+Entonces, antes de mapear la textura para un polígono en particular, es
+ necesario enlazar la textura, diciéndole a OpenGL que la textura a utilizar
+ por defecto es una determinada.
+ Cuando queramos cambiar de textura para otro polígono, será necesario volver
+ a realizar el enlace.
+ En este caso se enlazará con la nueva textura.
+\layout Standard
+
+Así pues, los pasos a realizar son:
+\layout Itemize
+
+Enlazar la textura.
+ Indicar a OpenGL, la zona de memoria donde tenemos cargada la textura que
+ ha de utilizar como la textura actual.
+\begin_inset Formula $glBindTexture$
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset Formula $glMap2f$
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset Formula $glMapGrid2f$
+\end_inset 
+
+
+\layout Itemize
+
+
+\begin_inset Formula $glEvalMesh2$
+\end_inset 
+
+
+\layout Standard
+
+Un ejemplo, de cómo se ha implementado tanto el enlace como el mapeado es:
+\layout Standard
+
+
+\begin_inset Formula \[
+\begin{array}{l}
+\ldots\\
+glBindTexture(GL\_ TEXTURE\_2D,\, textura);\\
+glEnable(GL\_ MAP2\_ VERTEX\_3);\\
+glEnable(GL\_ MAP2\_ TEXTURE\_ COORD\_2);\\
+glMap2f(GL\_ MAP2\_ VERTEX\_3,\,0.0,\,1.0,\,6,\,2,\,0.0,\,1.0,\,3,\,2,\, limites);\\
+glMap2f(GL\_ MAP2\_ TEXTURE\_ COORD\_2,\,0.0,\,1.0,\,2,\,2,\,0.0,\,1.0,\,4,\,2,\, tex);\\
+glMapGrid2f(detalle,\,0.0,\,1.0,\, detalle,\,0.0,\,1.0);\\
+glNormal3f(0.0,\,0.0,\,1.0);\\
+glColor3f(1.0,\,1.0,\,1.0);\\
+glEvalMesh2(GL\_ FILL,\,0,\, detalle,\,0,\, detalle);\\
+\ldots\end{array}\]
+
+\end_inset 
+
+
 \layout Section
 
 Niebla
 \layout Standard
+\added_space_bottom medskip 
+El efecto de niebla está soportado por OpenGL de forma sencilla.
+ Para activar la niebla basta con llamar a la función 
+\begin_inset Formula $glEnable$
+\end_inset 
 
-La niebla se puede activar o desctivar desde el menú auxiliar que se muestra
- pulsando con el botón derecho del ratón en cualquier punto de la ventana
- que contiene la escena.
+ pasándole como parámentro 
+\begin_inset Formula $GL\_ FOG$
+\end_inset 
+
+.
+\layout Standard
+\added_space_bottom medskip 
+En el caso particular de nuestra práctica, habilitamos la niebla por defecto,
+ pero damos la posibilidad al usuario de desactivarla.
+ Para ello, en el módulo 
+\series bold 
+interaccion.c
+\series default 
+ tratamos el evento de teclado que habilita o deshabilita la niebla.
 \layout Standard
 
+A su vez, es necesario especificar diversas propiedades de la niebla a generar,
+ como son:
+\layout Itemize
+
+
+\begin_inset Formula $GL\_ FOG\_ MODE$
+\end_inset 
+
+.
+ Con esta propiedad le indicamos el tipo de ecuación a usar para calcular
+ el factor de niebla.
+ Básicamente se pueden definir tres tipos: linear, exponencial y exponencial
+ al cuadrado.
+\layout Itemize
+
+
+\begin_inset Formula $GL\_ FOG\_ COLOR$
+\end_inset 
+
+.
+ Con esta propiedad especificamos el color de la niebla.
+\layout Itemize
+
+
+\begin_inset Formula $GL\_ FOG\_ DENSITY$
+\end_inset 
+
+.
+ Con esta otra propiedad especificamos la densidad que tendrá la niebla.
+\layout Standard
+\added_space_top medskip 
+El código empleado para definir las propiedades de la niebla, es relativamente
+ sencillo.
+ En el módulo 
+\series bold 
 escena.c
+\series default 
+, dentro de la función 
+\emph on 
+init_luces_niebla
+\emph default 
+, definimos dichas propiedades:
+\layout Standard
+
+
+\begin_inset Formula \[
+\begin{array}{l}
+\ldots\\
+glFogi(GL\_ FOG\_ MODE,\, GL\_ EXP2);\\
+glFogfv(GL\_ FOG\_ COLOR,\, niebla\_ color);\\
+glFogf(GL\_ FOG\_ DENSITY,\, valor\_ decimal(C,\, n\_ dens));\\
+\ldots\end{array}\]
+
+\end_inset 
+
+
+\layout Standard
+
+La niebla se puede activar o desactivar desde el menú auxiliar que se muestra
+ pulsando con el botón derecho del ratón en cualquier punto de la ventana
+ que contiene la escena.
 \layout Section
 
 Evaluators y superficies de Bezier
@@ -1992,7 +2289,12 @@ carpa.c
 Varias fuentes de luz
 \layout Standard
 
-escena.c
+Ver apartado 
+\begin_inset LatexCommand \ref{sec:Focos-interiores}
+
+\end_inset 
+
+.
 \layout Section
 
 Animación
@@ -2001,12 +2303,6 @@ Animación
 La animación se puede activar o desctivar desde el menú auxiliar que se
  muestra pulsando con el botón derecho del ratón en cualquier punto de la
  ventana que contiene la escena.
-\layout Standard
-
-interaccion.c
-\layout Section
-
-Comandos de teclado
 \layout Standard
 
 interaccion.c
@@ -2024,7 +2320,7 @@ Parametrización del circo
 Displaylist
 \layout Section
 
-Vertex array
+Cull Face
 \layout Chapter
 \start_of_appendix 
 Estructura del código fuente
@@ -2046,6 +2342,11 @@ OpenGL Programming Guide.
 
 
 \layout Itemize
+
+
+\begin_inset LatexCommand \label{sec:fuentes-de-informacion-nehe}
+
+\end_inset 
 
 
 \begin_inset LatexCommand \htmlurl[Ejemplos en OpenGL: ]{nehe.gamedev.net}
@@ -2092,7 +2393,7 @@ status Collapsed
 \layout Standard
 
 \backslash 
-verbatimtabinput[4]{$HOME/work/grafica/ChangeLog}
+verbatimtabinput[4]{$HOME/work/grafica/ChangeLoggggg}
 \end_inset 
 
 
