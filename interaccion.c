@@ -32,6 +32,8 @@
 
 #define ESC 27
 
+enum tipo_de_giro {HORIZONTAL, VERTICAL};
+
 static const float AVANCE     = 0.1;
 static const float ROTACION   = 3.0;
 static const float DEFINICION = 1.5;
@@ -43,15 +45,6 @@ static float camara_y = 0.0;
 static float camara_z = 0.0;
 
 
-static inline void corrige_angulo(GLfloat *angulo)
-{
-	if (*angulo < 0.0)
-		*angulo += 360.0;
-	else if (*angulo > 360.0)
-		*angulo -= 360.0;
-}
-
-
 static inline void actualiza_camara(void)
 {
 	/*
@@ -61,8 +54,8 @@ static inline void actualiza_camara(void)
 	 *    3. Girar la cámara verticalmente (plano ZY).
 	 */
 	glLoadIdentity();
-	glRotatef((GLfloat) angulo_v, 1.0, 0.0, 0.0);	/* 3 */
-	glRotatef((GLfloat) angulo_h, 0.0, 1.0, 0.0);	/* 2 */
+	glRotatef((GLfloat) -angulo_v, 1.0, 0.0, 0.0);	/* 3 */
+	glRotatef((GLfloat) -angulo_h, 0.0, 1.0, 0.0);	/* 2 */
 	glTranslatef(	(GLfloat) -camara_x,
 			(GLfloat) -camara_y,
 			(GLfloat) -camara_z);		/* 1 */
@@ -70,41 +63,70 @@ static inline void actualiza_camara(void)
 }
 
 
+static inline void paso_frontal(float sentido)
+{
+	float radianes;
+
+	radianes = (angulo_h * M_PI) / 180.0;
+	camara_x += sinf(radianes) * AVANCE * sentido;
+	camara_z += cosf(radianes) * AVANCE * sentido;
+}
+
+
+static inline void paso_lateral(float sentido)
+{
+	float radianes;
+
+	radianes = (angulo_h * M_PI) / 180.0;
+	camara_x += cosf(radianes) * AVANCE * sentido;
+	camara_z += -sinf(radianes) * AVANCE * sentido;
+}
+
+
+static inline void giro_camara(float sentido, enum tipo_de_giro g)
+{
+	float *angulo;
+
+	switch (g) {
+		case VERTICAL: 
+			angulo = &angulo_v;
+			break;
+		case HORIZONTAL:
+			angulo = &angulo_h;
+			break;
+	}
+	*angulo += ROTACION * sentido;
+	if (*angulo < -360.0)
+		*angulo += 360.0;
+	else if (*angulo > 360.0)
+		*angulo -= 360.0;
+}
+
+
 static void teclado_especial(int tecla, int x, int y)
 {
-	float radianes, grados = 0.0, avance = 0.0;
-
 	switch (tecla) {
 		case GLUT_KEY_UP:        /* Paso hacia adelante */
-			grados = angulo_h + 90.0;
-			avance = -AVANCE;
+			paso_frontal(-1.0);
 			break;
 		case GLUT_KEY_DOWN:      /* Paso hacia atrás */
-			grados = angulo_h + 90.0;
-			avance = AVANCE;
+			paso_frontal(1.0);
 			break;
 		case GLUT_KEY_LEFT:      /* Paso hacia la izquierda */
-			grados = angulo_h;
-			avance = -AVANCE;
+			paso_lateral(-1.0);
 			break;
 		case GLUT_KEY_RIGHT:     /* Paso hacia la derecha */
-			grados = angulo_h;
-			avance = AVANCE;
+			paso_lateral(1.0);
 			break;
 		case GLUT_KEY_PAGE_UP:   /* Elevación */
 			camara_y += AVANCE;
-			actualiza_camara();
-			return;
+			break;
 		case GLUT_KEY_PAGE_DOWN: /* Descenso */
 			camara_y -= AVANCE;
-			actualiza_camara();
-			return;
+			break;
 		default:
 			return;
 	}
-	radianes = (grados * M_PI) / 180.0;
-	camara_x += cosf(radianes) * avance;
-	camara_z += sinf(radianes) * avance;
 	actualiza_camara();
 }
 
@@ -115,20 +137,16 @@ static void teclado(unsigned char tecla, int x, int y)
 
 	switch (tecla) {
 		case 'd':  /* Giro de cámara a la izquierda */
-			angulo_h -= ROTACION;
-			corrige_angulo(&angulo_h);
+			giro_camara(1.0, HORIZONTAL);
 			break;
 		case 'g':  /* Giro de cámara a la derecha */
-			angulo_h += ROTACION;
-			corrige_angulo(&angulo_h);
+			giro_camara(-1.0, HORIZONTAL);
 			break;
 		case 'r':  /* Giro de cámara hacia arriba */
-			angulo_v -= ROTACION;
-			corrige_angulo(&angulo_v);
+			giro_camara(1.0, VERTICAL);
 			break;
 		case 'f':  /* Giro de cámara hacia abajo */
-			angulo_v += ROTACION;
-			corrige_angulo(&angulo_v);
+			giro_camara(-1.0, VERTICAL);
 			break;
 		case ESC:  /* Salimos del programa */
 			exit(0);
@@ -159,19 +177,16 @@ static void teclado(unsigned char tecla, int x, int y)
 static void raton(int x, int y)
 {
 	static int ox = 0, oy = 0;
-	float giro = ROTACION / DEFINICION;
 
 	if (x > ox)
-		angulo_h += giro;
+		giro_camara(-0.7, HORIZONTAL);
 	else if (x < ox)
-		angulo_h -= giro;
-	corrige_angulo(&angulo_h);
+		giro_camara(0.7, HORIZONTAL);
 	ox = x;
 	if (y > oy)
-		angulo_v += giro;
+		giro_camara(-0.7, VERTICAL);
 	else if (y < oy)
-		angulo_v -= giro;
-	corrige_angulo(&angulo_v);
+		giro_camara(0.7, VERTICAL);
 	oy = y;
 	actualiza_camara();
 }
