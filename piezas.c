@@ -33,6 +33,7 @@
  * trasladar los objetos según deseen.
  */
 
+
 void faldon_frontal(float altura, float longitud)
 {
 	float x = longitud / 2;
@@ -79,52 +80,43 @@ void faldon_lateral(float radio, float altura, int num_caras)
 
 void techo_frontal(float radio, float altura, float longitud)
 {
-	float hipotenusa = hypotf(radio, altura);
 	float x = longitud / 2;
 
 	glColor3f(0.8, 0.8, 0.0);
-	glNormal3f(0.0, altura / hipotenusa, radio / hipotenusa);
 	glBegin(GL_QUADS);
+	glNormal3f(0.0, 0.0, 1.0);
+	glVertex3f(x, 0.0, altura);
 	glVertex3f(-x, 0.0, altura);
+	glNormal3f(0.0, 1.0, 0.0);
 	glVertex3f(-x, radio, 0.0);
 	glVertex3f(x, radio, 0.0);
-	glVertex3f(x, 0.0, altura);
 	glEnd();
 }
 
 
 void techo_lateral(float radio, float altura, int num_caras)
 {
-	float angulo_grad, angulo_rad;
-	float cos_angulo, sin_angulo, r_cos_angulo, r_sin_angulo;
-	float normal[2][3], hipotenusa[2];
+	float angulo, angulo_rad, cos_angulo, sin_angulo, x, y;
 	int i;
 
-	angulo_grad  = 180.0 / num_caras;
-	angulo_rad   = M_PI / num_caras;
-	cos_angulo   = cosf(angulo_rad);
-	sin_angulo   = sinf(angulo_rad);
-	r_cos_angulo = radio * cos_angulo;
-	r_sin_angulo = radio * sin_angulo;
-	hipotenusa[0] = hypotf(altura, radio);
-	hipotenusa[1] = sqrt(1 + altura*altura);
-	normal[0][0]  = 0.0;
-	normal[0][1]  = altura / hipotenusa[0];
-	normal[0][2]  = radio / hipotenusa[1];
-	normal[1][0]  = (altura * sin_angulo) / hipotenusa[1];
-	normal[1][1]  = (altura * cos_angulo) / hipotenusa[1];
-	normal[1][2]  = 1 / hipotenusa[1];
+	angulo_grad = 180.0 / num_caras;
+	angulo_rad  = M_PI / num_caras;
+	cos_angulo  = cosf(angulo_rad);
+	sin_angulo  = sinf(angulo_rad);
+	x = radio * cos_angulo;
+	y = radio * sin_angulo;
 
 	glColor3f(0.8, 0.8, 0.0);
 	for (i = 0; i < num_caras; ++i) {
 		glPushMatrix();
 		glRotatef(-angulo_grad * i, 0.0, 0.0, 1.0);
 		glBegin(GL_TRIANGLES);
-		glNormal3fv(normal[0]);
+		glNormal3f(0.0, 0.0, 1.0);
 		glVertex3f(0.0, 0.0, altura);
+		glNormal3f(0.0, 1.0, 0.0);
 		glVertex3f(0.0, radio, 0.0);
-		glNormal3fv(normal[1]);
-		glVertex3f(r_sin_angulo, r_cos_angulo, 0.0);
+		glNormal3f(sin_angulo, cos_angulo, 0.0);
+		glVertex3f(x, y, 0.0);
 		glEnd();
 		glPopMatrix();
 	}
