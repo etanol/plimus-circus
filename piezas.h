@@ -50,5 +50,6 @@ extern int crear_grada_lateral(struct config *);
  * complementos.c
  */
 extern int crear_poste(struct config *);
+extern int crear_suelo(struct config *);
 
 #endif

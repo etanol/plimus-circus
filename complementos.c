@@ -57,3 +57,26 @@ int crear_poste(struct config *c)
 	gluDeleteQuadric(cilindro);
 	return lista;
 }
+
+int crear_suelo(struct config *c)
+{
+	int lista;
+
+	lista = glGenLists(1);
+	if (lista == 0)
+		return 0;
+	glNewList(lista, GL_COMPILE);
+	glEnable(GL_TEXTURE_2D);
+	glBegin(GL_QUADS);
+	glNormal3f(0.0, 0.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
+	glTexCoord2i(0, 0); glVertex3f(-20.0, -20.0, 0.0);
+	glTexCoord2i(40, 0); glVertex3f(20.0, -20.0, 0.0);
+	glTexCoord2i(40, 40); glVertex3f(20.0, 20.0, 0.0);
+	glTexCoord2i(0, 40); glVertex3f(-20.0, 20.0, 0.0);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glEndList();
+	return lista;
+}
+

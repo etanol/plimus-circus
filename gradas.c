@@ -27,7 +27,7 @@
 
 #include "piezas.h"
 
-static const float color_lateral[3] = {0.7, 0.0, 0.3};
+static const float color_lateral[3] = {0.7, 0.0, 0.1};
 static const float color_madera[3] = {1.0, 1.0, 1.0};
 
 int crear_grada_frontal(struct config *c)
@@ -54,7 +54,7 @@ int crear_grada_frontal(struct config *c)
 			smin -= 1.0;
 			smax -= 1.0;
 		}
-		glNormal3f(0.0, 0.0, 1.0);
+		glNormal3f(0.0, -1.0, 0.0);
 		glTexCoord2f(smin, 0.0);
 		glVertex3f(-x, paso_h * i, paso_v * i);
 		glTexCoord2f(smax, 0.0);
@@ -64,7 +64,7 @@ int crear_grada_frontal(struct config *c)
 		glTexCoord2f(smin, 0.5);
 		glVertex3f(-x, paso_h * i, paso_v * (i+1));
 
-		glNormal3f(0.0, -1.0, 0.0);
+		glNormal3f(0.0, 0.0, 1.0);
 		glTexCoord2f(smin, 0.5);
 		glVertex3f(-x, paso_h * i, paso_v * (i+1));
 		glTexCoord2f(smax, 0.5);

@@ -42,7 +42,8 @@ static int
 	techo_lateral,
 	grada_frontal,
 	grada_lateral,
-	poste;
+	poste,
+	suelo;
 
 /* Configuración de la escena */
 static struct config conf;
@@ -63,22 +64,6 @@ static void actualiza_viewport(int ancho, int alto)
 static void escena(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-
-	/*
-	 * La Base
-	 */
-	glBindTexture(GL_TEXTURE_2D, texs.suelo_exterior);
-	glEnable(GL_TEXTURE_2D);
-	glBegin(GL_QUADS);
-	glColor3f(1.0, 1.0, 1.0);
-	glNormal3f(0.0, 1.0, 0.0);
-	glTexCoord2i(0, 0); glVertex3f(-20.0, 0.0, -20.0);
-	glTexCoord2i(40, 0); glVertex3f(20.0, 0.0, -20.0);
-	glTexCoord2i(40, 40); glVertex3f(20.0, 0.0, 20.0);
-	glTexCoord2i(0, 40); glVertex3f(-20.0, 0.0, 20.0);
-	glEnd();
-	glDisable(GL_TEXTURE_2D);
-
 	glPushMatrix();
 	/*
 	 * Ya que se dibuja todo visto desde arriba (como si se dibujara en
@@ -86,12 +71,11 @@ static void escena(void)
 	 * natural.
 	 */
 	glRotatef(90.0, -1.0, 0.0, 0.0);
-
-	/* 
-	 * TODO: Colocar todas las luces manteniendo las interiores apagadas y
-	 * las exteriores encendidas. Dibujar el suelo exterior.
+	/*
+	 * Dibujamos el suelo.
 	 */
-
+	glBindTexture(GL_TEXTURE_2D, texs.suelo_exterior);
+	glCallList(suelo);
 	/*
 	 * Dibujamos la carpa. TODO: ¿Suelo interior?
 	 */
@@ -139,7 +123,6 @@ static void escena(void)
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(techo_lateral);
 	glPopMatrix();
-
 	/*
 	 * Gradas
 	 */
@@ -166,7 +149,6 @@ static void escena(void)
 	glRotatef(180.0, 0.0, 0.0, 1.0);
 	glCallList(grada_lateral);
 	glPopMatrix();
-
 	/*
 	 * Postes
 	 */
@@ -186,6 +168,7 @@ static void escena(void)
 	 * dibujar los objetos del interior de la carpa.
 	 */
 	glPopMatrix();
+	glFlush();
 	glutSwapBuffers();
 }
 
@@ -212,4 +195,5 @@ void init_escena(struct config *cfg, struct texturas *ts)
 	grada_frontal  = crear_grada_frontal(&conf);
 	grada_lateral  = crear_grada_lateral(&conf);
 	poste          = crear_poste(&conf);
+	suelo          = crear_suelo(&conf);
 }

@@ -90,7 +90,7 @@ int cargar_textura(const char *fichero)
 int gen_textura_carpa(void)
 {
 	int textura;
-	float cols_carpa[6] = {0.8, 0.8, 0.0, 1.0, 0.0, 0.0};
+	float cols_carpa[6] = {0.8, 0.8, 0.0, 0.8, 0.0, 0.0};
 
 	glGenTextures(1, &textura);
 	glBindTexture(GL_TEXTURE_1D, textura);

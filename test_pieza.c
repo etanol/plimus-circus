@@ -75,18 +75,22 @@ void activa_objeto(enum Pieza p, struct config *c)
 	switch (p) {
 		case FALDON_FRONTAL:
 			color[0] = color[1] = 0.8;
+			(void)gen_textura_carpa();
 			lst_pieza = crear_faldon_frontal(c);
 			break;
 		case FALDON_LATERAL:
 			color[0] = color[1] = 0.8;
+			(void)gen_textura_carpa();
 			lst_pieza = crear_faldon_lateral(c);
 			break;
 		case TECHO_FRONTAL:
 			color[0] = color[1] = 0.8;
+			(void)gen_textura_carpa();
 			lst_pieza = crear_techo_frontal(c);
 			break;
 		case TECHO_LATERAL:
 			color[0] = color[1] = 0.8;
+			(void)gen_textura_carpa();
 			lst_pieza = crear_techo_lateral(c);
 			break;
 		case GRADA_FRONTAL:
