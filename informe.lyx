@@ -81,55 +81,188 @@ María José Abásolo Guerrero
 \end_inset 
 
 
-\layout Chapter
+\layout Chapter*
+\pagebreak_top 
+Introducción
+\layout Standard
+\added_space_bottom bigskip 
+Hoy en día, las técnicas de simulación por odenador han avanzado mucho en
+ muy poco tiempo.
+ Gracias al avance tecnológico del hardware que permite realizar estas simulacio
+nes, ha surgido la necesidad de tener un estándar para desarrollar aplicaciones
+ que puedan realizar simulaciones por ordenador.
+ Como resultado de todo esto surgió OpengL, uno de los estándares más extendidos
+ hoy en día que permiten a programadores y usuarios avanzados realizar aplicacio
+nes que incluyen cada vez más efectos 3D y escenas que son difíciles de
+ distinguir sin son reales o generadas por ordenador.
+\layout Standard
+\added_space_bottom bigskip 
+Como parte de la asignatura de 
+\emph on 
+Informática Gráfica I
+\emph default 
+ dentro del plan de estudios de la ingeniería técnica de informática de
+ gestión, se ha propuesto por parte del personal docente, la realización
+ de una práctica que contemple muchas de las técnicas empleadas para la
+ simulación y la renderización de escenas virtuales que están soportadas
+ por OpenGL.
+\layout Standard
+\added_space_bottom bigskip 
+Para que la práctica no sea muy extensa, debido al tiempo que se dispone
+ para impartir esta asignatura, se ha propuesto la realización de un 
+\series bold 
+circo
+\series default 
+ en tres dimensiones, utilizando las técnicas y funciones que están descritas
+ y soportadas por OpenGL.
+ La mayoría de microprocesadores que forman las tarjetas gráficas de los
+ ordenadores personales soportan este estándar; por lo cual, el código necesario
+ para desarrollar estas escenas virtuales, es portable a multitud de plataformas
+ y sobre diferentes sistemas operativos, que van desde entornos 
+\emph on 
+Unix
+\emph default 
+ hasta entornos basados en 
+\emph on 
+Windows
+\emph default 
 
-Etapa 1: Generación del Workspace y primer programa en OpenGL.
+\begin_inset Foot
+collapsed true
+
 \layout Standard
 
-Como podemos observar en la figura, podemos dividir la estructura de los
- procesos en tres grandes grupos: los procesos pertenecientes a la simulación,
- los que forman y gestionan el sistema de ficheros y los diferentes clientes
- interactivos.
+A partir de ahora y para evitar problemas de copyright, se empleará una
+ palabra sustitua para ésta: 
+\emph on 
+Hasefroch
+\emph default 
+.
+\end_inset 
+
+, y arquitecturas como 
+\noun on 
+i386
+\noun default 
+, hasta 
+\noun on 
+PowerPC
+\noun default 
+, pasando por 
+\noun on 
+Alpha
+\noun default 
+, 
+\noun on 
+Sparc
+\noun default 
+, 
+\noun on 
+SGI
+\noun default 
+ y muchas otras.
+\layout Standard
+
+Sin más demora, pasamos a explicar las diferentes etapas realizadas para
+ la realización del 
+\series bold 
+circo
+\series default 
+ en 3D dentro de una escena virtual.
+\layout Chapter
+
+Etapa 1: Generación del Workspace y primer programa en OpenGL
 \layout Section
 
-Descripción.
+Descripción
+\layout Section
+
+Técnicas empleadas
 \layout Chapter
 
 Etapa 2: Doble buffer y escalado
+\layout Section
+
+Descripción
+\layout Section
+
+Técnicas empleadas
 \layout Chapter
 
 Etapa 3: Escena 3D
+\layout Section
+
+Descripción
+\layout Section
+
+Técnicas empleadas
+\layout Section
+
+Comandos de teclado
 \layout Chapter
 
-Etapa 4: Movimiento de Cámara
+Etapa 4: Movimiento de cámara
+\layout Section
+
+Descripción
+\layout Section
+
+Técnicas empleadas
+\layout Section
+
+Comandos de teclado
 \layout Chapter
 
-Etapa 5: Luces y Materiales
+Etapa 5: Luces y materiales
+\layout Section
+
+Descripción
+\layout Section
+
+Técnicas empleadas
+\layout Section
+
+Comandos de teclado
 \layout Chapter
 
 Etapa 6: Shading
+\layout Section
+
+Descripción
+\layout Section
+
+Técnicas empleadas
+\layout Section
+
+Comandos de teclado
 \layout Chapter
 
 Etapa 7: Realismo
 \layout Section
 
-Texturas.
+Comandos de teclado
 \layout Section
 
-Sombras.
+Texturas
 \layout Section
 
-Efecto anti-aliasing.
+Sombras
 \layout Section
 
-Niebla.
+Efecto anti-aliasing
+\layout Section
+
+Niebla
 \layout Section
 
 NURBS.
- Curvas de Bezier.
+ Curvas de Bezier
 \layout Section
 
-Varias fuentes de luz.
+Varias fuentes de luz
+\layout Section
+
+Animación
 \layout Chapter
 
 Etapa 8: Opcional
@@ -141,10 +274,10 @@ Rotación respecto un punto.
  Implementar una escena mediante Java3D.
 \layout Section
 
-Parametrización del circo.
+Parametrización del circo
 \layout Section
 
-Displaylists.
+Displaylists
 \layout Chapter
 \start_of_appendix 
 Estructura del código fuente
