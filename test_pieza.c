@@ -36,14 +36,16 @@ const char menu[] =
 \t(1) Faldón frontal\n\
 \t(2) Faldón lateral\n\
 \t(3) Techo frontal\n\
-\t(4) Techo lateral\n\n\
+\t(4) Techo lateral\n\
+\t(5) Cono GLUT\n\n\
 Selecciona (1 .. 4): ";
 
 enum Pieza {
 	FALDON_FRONTAL = 1,
 	FALDON_LATERAL,
 	TECHO_FRONTAL,
-	TECHO_LATERAL
+	TECHO_LATERAL,
+	CONO_GLUT
 };
 
 static float r_horizontal = 0.0;
@@ -102,6 +104,10 @@ void display(void)
 			break;
 		case TECHO_LATERAL:
 			techo_lateral(4.0, 4.0, 25);
+			break;
+		case CONO_GLUT:
+			glColor3f(0.8, 0.8, 0.0);
+			glutWireCone(4.0, 4.0, 50, 50);
 			break;
 		default:
 			printf("Pieza no reconocida.\n");
