@@ -22,6 +22,7 @@
  * $Id$
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -37,7 +38,13 @@ static void procesar_linea(char *clave, char *valor, struct config *cfg)
 	 * Hay que hacerlo a lo bestia, no hay escapatoria. Si esto fuera Ada
 	 * estaría chupado. 
 	 */
-	if (strcmp(clave, "carpa_ancho") == 0) {
+	if (strcmp(clave, "fov") == 0) {
+		cfg->fov = valorf;
+	} else if (strcmp(clave, "z_near") == 0) {
+		cfg->z_near = valorf;
+	} else if (strcmp(clave, "z_far") == 0) {
+		cfg->z_far = valorf;
+	} else if (strcmp(clave, "carpa_ancho") == 0) {
 		cfg->carpa_ancho = valorf;
 	} else if (strcmp(clave, "carpa_largo") == 0) {
 		cfg->carpa_largo = valorf;

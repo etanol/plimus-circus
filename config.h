@@ -27,6 +27,11 @@
 
 
 struct config {
+	/* Campo de visión */
+	float fov;
+	float z_near;
+	float z_far;
+	
 	/* Dimensiones de la carpa */
 	float carpa_ancho;
 	float carpa_largo;

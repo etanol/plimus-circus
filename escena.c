@@ -52,7 +52,8 @@ static void actualiza_viewport(int ancho, int alto)
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(45.0, (GLdouble)ancho / (GLdouble)alto, 0.5, 10.0);
+	gluPerspective(conf.fov, (GLdouble)ancho/(GLdouble)alto, 
+			conf.z_near, conf.z_far);
 	glMatrixMode(GL_MODELVIEW);
 	glViewport(0, 0, ancho, alto);
 	glutPostRedisplay();
