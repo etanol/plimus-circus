@@ -51,7 +51,8 @@ static int
 	suelo_arena,
 	banqueta,
 	tablon,
-	cartel;
+	cartel,
+	arbol;
 
 /* Configuración de la escena */
 static config_t C;
@@ -229,6 +230,15 @@ static void escena(void)
 	glRotatef(90.0, -1.0, 0.0, 0.0);
 	luces();
 
+	/* Postes */
+	glPushMatrix();
+	glTranslatef(Le_cfra2, 0.0, 0.0);
+	glCallList(poste);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-Le_cfra2, 0.0, 0.0);
+	glCallList(poste);
+	glPopMatrix();
 	if (modo_exterior) {
 		/* Suelo */
 		glCallList(suelo_exterior);
@@ -268,12 +278,17 @@ static void escena(void)
 		glScalef(-1.0, 1.0, 1.0);
 		glTranslatef(Le_cfra2, 0.0, Le_cfa);
 		glCallList(techo_lateral);
-		/* Cartel */
 		glPopMatrix();
+		/* Cartel */
 		glPushMatrix();
-		glTranslatef(-(Le_cfra/2.0 + Le_clr), -(Le_clr*1.5), 0.0);
+		glTranslatef(-(Le_cfra2 + Le_clr), -(Le_clr*1.5), 0.0);
 		glRotatef(angulo_anim, 0.0, 0.0, 1.0);
 		glCallList(cartel);
+		glPopMatrix();
+		/* Arbolito */
+		glPushMatrix();
+		glTranslatef(Le_cfra2 + Le_clr, -Le_clr*1.5, 0.0);
+		glCallList(arbol);
 		glPopMatrix();
 	} else {
 		/* Suelo */
@@ -324,15 +339,6 @@ static void escena(void)
 		glCallList(grada_lateral);
 		glPopMatrix();
 	}
-	/* Postes */
-	glPushMatrix();
-	glTranslatef(Le_cfra2, 0.0, 0.0);
-	glCallList(poste);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(-Le_cfra2, 0.0, 0.0);
-	glCallList(poste);
-	glPopMatrix();
 	glFlush();
 	glutSwapBuffers();
 }   /* }}} */
@@ -377,5 +383,6 @@ void init_escena(config_t cfg)
 	banqueta       = crear_banqueta(C);
 	tablon         = crear_tablon(C);
 	cartel         = crear_cartel(C);
+	arbol          = crear_arbol(C);
 }  /* }}} */
 

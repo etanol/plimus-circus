@@ -36,7 +36,8 @@
 
 #define CHECK_ERROR(condicion) do {\
 	if ((condicion)) { \
-		perror("Error durante la carga de la textura"); \
+		fprintf(stderr, "Error al cargar la textura '%s': ", fichero); \
+		perror(NULL); \
 		exit(4); \
 	}} while (0)
 

@@ -60,5 +60,6 @@ extern int crear_poste(config_t);
 extern int crear_banqueta(config_t);
 extern int crear_cartel(config_t);
 extern int crear_tablon(config_t);
+extern int crear_arbol(config_t);
 
 #endif

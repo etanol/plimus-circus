@@ -76,4 +76,7 @@ extern const char b_rmen[];
 extern const char b_det[];
 extern const char b_tex[];
 extern const char crt_foto[];
+extern const char ar_ancho[];
+extern const char ar_alto[];
+extern const char ar_tex[];
 

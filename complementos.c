@@ -195,3 +195,30 @@ int crear_tablon(config_t c)
 	return lista;
 }  /* }}} */
 
+int crear_arbol(config_t c)
+{  /* {{{ */
+	int lista, textura;
+	float x = valor_decimal(c, ar_ancho) / 2.0;
+	float z = valor_decimal(c, ar_alto);
+
+	textura = cargar_textura(c, valor_cadena(c, ar_tex));
+	lista = glGenLists(1);
+	if (lista == 0)
+		return 0;
+	glNewList(lista, GL_COMPILE);
+	glPushAttrib(GL_ENABLE_BIT);
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
+	glBindTexture(GL_TEXTURE_2D, textura);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBegin(GL_QUADS);
+	glColor3f(1.0, 1.0, 1.0);
+	glTexCoord2i(0, 0); glVertex3f(-x, 0.0, 0.0);
+	glTexCoord2i(0, 1); glVertex3f(-x, 0.0, z);
+	glTexCoord2i(1, 1); glVertex3f(x, 0.0, z);
+	glTexCoord2i(1, 0); glVertex3f(x, 0.0, 0.0);
+	glEnd();
+	glEndList();
+	return lista;
+}  /* }}} */
+

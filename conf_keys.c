@@ -98,3 +98,8 @@ const char b_tex[]  = "banqueta_textura";     /* string */
 /* Parámetros del cartel */
 const char crt_foto[] = "cartel_foto"; /* string */
 
+/* Parámetros del árbol */
+const char ar_ancho[] = "arbol_ancho";   /* float */
+const char ar_alto[]  = "arbol_alto";    /* float */
+const char ar_tex[]   = "arbol_textura"; /* string */
+
