@@ -61,7 +61,7 @@ void faldon_lateral(float radio, float altura, int num_caras)
 	glColor3f(0.8, 0.8, 0.0);
 	for (i = 0; i < num_caras; ++i) {
 		glPushMatrix();
-		glRotatef(angulo * i, 0.0, 0.0, 1.0);
+		glRotatef(-angulo * i, 0.0, 0.0, 1.0);
 		glBegin(GL_POLYGON);
 		glNormal3f(0.0, 1.0, 0.0);
 		glVertex3f(0.0, radio, 0.0);
@@ -84,8 +84,8 @@ void techo_lateral(float altura, float radio, int num_caras)
 
 	angulo_grad  = 180.0 / num_caras;
 	angulo_rad   = M_PI / num_caras;
-	cos_angulo   = cosf(angulo_grad);
-	sin_angulo   = sinf(angulo_grad);
+	cos_angulo   = cosf(angulo_rad);
+	sin_angulo   = sinf(angulo_rad);
 	r_cos_angulo = radio * cos_angulo;
 	r_sin_angulo = radio * sin_angulo;
 	hipotenusa[0] = hypotf(altura, radio);
@@ -100,7 +100,7 @@ void techo_lateral(float altura, float radio, int num_caras)
 	glColor3f(0.8, 0.8, 0.0);
 	for (i = 0; i < num_caras; ++i) {
 		glPushMatrix();
-		glRotatef(angulo_grad * i, 0.0, 0.0, 1.0);
+		glRotatef(-angulo_grad * i, 0.0, 0.0, 1.0);
 		glBegin(GL_TRIANGLES);
 		glNormal3fv(normal[0]);
 		glVertex3f(0.0, 0.0, altura);
