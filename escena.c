@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban MartÌnez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Inform·tica Gr·fica I                                      |
- |      Profesor  : Jose MarÌa Buades Rubio                                    |
+ |                  Esteban Mart√≠nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: Inform√°tica Gr√°fica I                                      |
+ |      Profesor  : Jose Mar√≠a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : IngenierÌa TÈcnica en Inform·tica de GestiÛn (TIG2)        |
+ |      Estudios  : Ingenier√≠a T√©cnica en Inform√°tica de Gesti√≥n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -17,7 +17,7 @@
 /*
  * escena.c
  *
- * ConfiguraciÛn de la escena completa.
+ * Configuraci√≥n de la escena completa.
  *
  * $Id$
  */
@@ -54,7 +54,7 @@ static int
 	payaso,
 	payaso_ext;
 
-/* ConfiguraciÛn de la escena */
+/* Configuraci√≥n de la escena */
 static config_t C;
 
 /* Muy muy privado */
@@ -135,7 +135,7 @@ static void init_luces_niebla(void)
 	glLightf (GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.5);
 	glLightf (GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.0);
 	glLightf (GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.0);
-	glLightf (GL_LIGHT0, GL_SPOT_CUTOFF, 180.0); /* SÛlo si posicional */
+	glLightf (GL_LIGHT0, GL_SPOT_CUTOFF, 180.0); /* S√≥lo si posicional */
 
 	/* Focos interiores */
 	glLightfv(GL_LIGHT1, GL_AMBIENT, foco_ambiente);
@@ -235,7 +235,7 @@ static void escena(void)
 	actualiza_camara();
 	/*
 	 * Ya que se dibuja todo visto desde arriba (como si se dibujara en
-	 * planta) rotamos 90∫ sobre el eje X para orientarlo a la posiciÛn
+	 * planta) rotamos 90¬∫ sobre el eje X para orientarlo a la posici√≥n
 	 * natural.
 	 */
 	glRotatef(90.0, -1.0, 0.0, 0.0);
@@ -314,7 +314,7 @@ static void escena(void)
 		glCallList(suelo_interior);
 		/* Arena */
 		glCallList(suelo_arena);
-		/* Bola y tablÛn */
+		/* Bola y tabl√≥n */
 		glCallList(tablon);
 		/* Bancos pa los tigretones */
 		glCallList(banqueta);
@@ -352,7 +352,7 @@ void init_escena(config_t cfg)
 {
 	C = cfg;
 
-	/* Copiamos valores de la configuraciÛn localmente para ahorrarnos
+	/* Copiamos valores de la configuraci√≥n localmente para ahorrarnos
 	 * algunas consultas */
 	Le_cfra2  = valor_decimal(C, c_fr_ancho) / 2.0;
 	Le_clr    = valor_decimal(C, c_l_radio);

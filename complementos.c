@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban MartÌnez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Inform·tica Gr·fica I                                      |
- |      Profesor  : Jose MarÌa Buades Rubio                                    |
+ |                  Esteban Mart√≠nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: Inform√°tica Gr√°fica I                                      |
+ |      Profesor  : Jose Mar√≠a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : IngenierÌa TÈcnica en Inform·tica de GestiÛn (TIG2)        |
+ |      Estudios  : Ingenier√≠a T√©cnica en Inform√°tica de Gesti√≥n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -17,7 +17,7 @@
 /*
  * complementos.c
  *
- * Miscel·nea de piezas para la escena.
+ * Miscel√°nea de piezas para la escena.
  *
  * $Id$
  */
@@ -310,8 +310,8 @@ int crear_payaso(config_t c)
 	float z = valor_decimal(c, pa_alto);
 
 	/*
-	 * NOTA: Lo de cambiar las normales est· hecho a propÛsito para
-	 * conseguir un efecto de iluminaciÛn curioso gracias a que colocamos
+	 * NOTA: Lo de cambiar las normales est√° hecho a prop√≥sito para
+	 * conseguir un efecto de iluminaci√≥n curioso gracias a que colocamos
 	 * el payaso justo debajo de un foco.
 	 */
 	textura = cargar_textura(c, valor_cadena(c, pa_i_tex));
@@ -338,7 +338,7 @@ int crear_payaso(config_t c)
 }
 
 
-/* Esto es una chapuza de ˙ltima hora */
+/* Esto es una chapuza de √∫ltima hora */
 int crear_payaso_ext(config_t c)
 {
 	int lista, textura;

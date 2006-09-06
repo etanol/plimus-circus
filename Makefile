@@ -4,11 +4,11 @@
 #  | / |                    P L I M U S   C I R C U S                     | \ |
 #  | / |                                                                  | \ |
 #  | / | Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)  | \ |
-#  | / |             Esteban Martínez Tristancho (estebanmartinez@ono.com)| \ |
-#  | / | Asignatura: Informática Gráfica I                                | \ |
-#  | / | Profesor  : Jose María Buades Rubio                              | \ |
+#  | / |             Esteban MartÃ­nez Tristancho (estebanmartinez@ono.com)| \ |
+#  | / | Asignatura: InformÃ¡tica GrÃ¡fica I                                | \ |
+#  | / | Profesor  : Jose MarÃ­a Buades Rubio                              | \ |
 #  | / | Curso     : 2003/2004                                            | \ |
-#  | / | Estudios  : Ingeniería Técnica en Informática de Gestión (TIG2)  | \ |
+#  | / | Estudios  : IngenierÃ­a TÃ©cnica en InformÃ¡tica de GestiÃ³n (TIG2)  | \ |
 #  | / | Facultad  : Universitat de les Illes Balears (UIB)               | \ |
 #  |___|                                                                  |___|
 # (_____)----------------------------------------------------------------(_____)
@@ -57,13 +57,13 @@ test_pieza: test_pieza.o conf.o textura.o piezas.o
 test_config: test_config.o conf.o
 	$(CC) $(CFLAGS) $(STRIP) -o $@ $^
 
-# Módulos compuestos
+# MÃ³dulos compuestos
 conf.o: config.o conf_keys.o
 	$(join_obj)
 piezas.o: $(piezas:.c=.o)
 	$(join_obj)
 
-# Módulos auxiliares ;-)
+# MÃ³dulos auxiliares ;-)
 interaccion.o: interaccion.c interaccion.h camaras.h
 	$(mk_obj)
 config.o: config.c config.h 

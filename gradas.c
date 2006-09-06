@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban MartÌnez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Inform·tica Gr·fica I                                      |
- |      Profesor  : Jose MarÌa Buades Rubio                                    |
+ |                  Esteban Mart√≠nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: Inform√°tica Gr√°fica I                                      |
+ |      Profesor  : Jose Mar√≠a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : IngenierÌa TÈcnica en Inform·tica de GestiÛn (TIG2)        |
+ |      Estudios  : Ingenier√≠a T√©cnica en Inform√°tica de Gesti√≥n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -66,7 +66,7 @@ int crear_grada_frontal(config_t c)
 	float *escalon, *texcoord;
 	GLuint *e_vert, *e_horiz;
 
-	/* InicializaciÛn de los Ìndices del vertex array */
+	/* Inicializaci√≥n de los √≠ndices del vertex array */
 	e_vert  = (GLuint *) my_malloc(((gdet+1)*2)*sizeof(GLuint));
 	e_horiz = (GLuint *) my_malloc(((gdet+1)*2)*sizeof(GLuint));
 	for (i = 0; i < (gdet+1)*2; i += 2) {
@@ -74,7 +74,7 @@ int crear_grada_frontal(config_t c)
 		e_vert[i+1] = e_horiz[i] = (i / 2) * 3 + 1;
 		e_horiz[i+1] = (i / 2) * 3 + 2;
 	}
-	/* InicializaciÛn del vertex array */
+	/* Inicializaci√≥n del vertex array */
 	escalon  = (float *) my_malloc((((gdet+1)*3)*3)*sizeof(float));
 	for (i = 0; i < (gdet+1)*3; i += 3) {
 		*(escalon+i*3+X) = *(escalon+(i+1)*3+X) = *(escalon+(i+2)*3+X) =
@@ -84,7 +84,7 @@ int crear_grada_frontal(config_t c)
 		*(escalon+i*3+Z)     = 0.0;
 		*(escalon+(i+1)*3+Z) = *(escalon+(i+2)*3+Z) = paso_v;
 	}
-	/* InicializaciÛn del texture coord array */
+	/* Inicializaci√≥n del texture coord array */
 	texcoord = (float *) my_malloc((((gdet+1)*3)*2)*sizeof(float));
 	for (i = 0; i < (gdet+1)*3; i += 3) {
 		*(texcoord+i*2) = *(texcoord+(i+1)*2) = *(texcoord+(i+2)*2) =
@@ -150,7 +150,7 @@ int crear_grada_lateral(config_t c)
 {
 	int i, j, lista;
 	int gesc = valor_entero(c, gs_esc);  /* Escalones */
-	int gdet = valor_entero(c, gs_det);  /* Detalle (n∫ caras) */
+	int gdet = valor_entero(c, gs_det);  /* Detalle (n¬∫ caras) */
 	int gap  = valor_entero(c, g_l_ap);  /* Apertura */
 	float r;
 	float radio_ex   = valor_decimal(c, c_l_radio)-valor_decimal(c, gs_sep);

@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban MartÌnez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Inform·tica Gr·fica I                                      |
- |      Profesor  : Jose MarÌa Buades Rubio                                    |
+ |                  Esteban Mart√≠nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: Inform√°tica Gr√°fica I                                      |
+ |      Profesor  : Jose Mar√≠a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : IngenierÌa TÈcnica en Inform·tica de GestiÛn (TIG2)        |
+ |      Estudios  : Ingenier√≠a T√©cnica en Inform√°tica de Gesti√≥n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -17,7 +17,7 @@
 /*
  * config.c
  *
- * MÛdulo para cargar la configuraciÛn de un fichero de texto.
+ * M√≥dulo para cargar la configuraci√≥n de un fichero de texto.
  *
  * $Id$
  */
@@ -54,7 +54,7 @@ static void *my_realloc(void *old, size_t n_tam)
 
 	ret = realloc(old, n_tam);
 	if (ret == NULL) {
-		fprintf(stderr, "Error al intentar reservar m·s memoria.\n");
+		fprintf(stderr, "Error al intentar reservar m√°s memoria.\n");
 		exit(9);
 	}
 	return ret;
@@ -70,16 +70,16 @@ static void inserta(config_t cfg, char *k, enum tipo t, char *val)
 
 	while (*k != '\0') {
 		for (i = 0; i < n->ult && *k != n->d[i].c; ++i) 
-			/* B˙squeda */;
+			/* B√∫squeda */;
 		if (n->ult >= 0 && *k == n->d[i].c) {
-			/* Encontrado: descenso en el ·rbol */
+			/* Encontrado: descenso en el √°rbol */
 			n = n->d[i].v.sig;
 		} else {
 			/* No encontrado: Hay que crear una entrada en el nodo
 			 * actual y un nuevo nodo hijo */
 			++n->ult;
 			if (n->ult >= n->tam) {
-				/* Quiz· necesitemos agrandar el nodo actual */
+				/* Quiz√° necesitemos agrandar el nodo actual */
 				n->tam += GROW_STEP;
 				n->d = (struct item *) my_realloc(n->d,
 						sizeof(struct item)*n->tam);
@@ -98,7 +98,7 @@ static void inserta(config_t cfg, char *k, enum tipo t, char *val)
 	}
 	/* *k == '\0' y n apunta al nodo adecuado */
 	for (i = 0; i < n->ult && *k != n->d[i].c; ++i)
-		/* Una b˙squeda m·s */;
+		/* Una b√∫squeda m√°s */;
 	if (n->ult < 0 || *k != n->d[i].c) {
 		/* No encontrado: asignamos valor y tipo */
 		++n->ult;
@@ -139,10 +139,10 @@ struct item *consulta(config_t cfg, const char *k)
 	n = (struct nodo *)cfg;
 	while (*k != '\0') {
 		for (i = 0; i < n->ult && *k != n->d[i].c; ++i)
-			/* B˙squeda */;
+			/* B√∫squeda */;
 		if (*k != n->d[i].c) {
 			/* No existe parte de la clave: error */
-			fprintf(stderr, "No se asignÛ valor a la clave '%s'.\n",
+			fprintf(stderr, "No se asign√≥ valor a la clave '%s'.\n",
 					x);
 			exit(10);
 		}
@@ -151,10 +151,10 @@ struct item *consulta(config_t cfg, const char *k)
 	}
 	/* *k == '\0' */
 	for (i = 0; i < n->ult && *k != n->d[i].c; ++i)
-		/* Una b˙squeda m·s */;
+		/* Una b√∫squeda m√°s */;
 	if (*k != n->d[i].c) {
 		/* No existe la clave: error */
-		fprintf(stderr, "No se asignÛ valor a la clave '%s'.\n", x);
+		fprintf(stderr, "No se asign√≥ valor a la clave '%s'.\n", x);
 		exit(10);
 	}
 	return n->d + i;
@@ -180,7 +180,7 @@ int valor_entero(config_t cfg, const char *k)
 
 	d = consulta(cfg, k);
 	if (d->t != CFG_ENTERO) {
-		fprintf(stderr, "Se esperaba un n˙mero entero para '%s'.\n", k);
+		fprintf(stderr, "Se esperaba un n√∫mero entero para '%s'.\n", k);
 		exit(10);
 	}
 	return d->v.entero;
@@ -193,7 +193,7 @@ float valor_decimal(config_t cfg, const char *k)
 
 	d = consulta(cfg, k);
 	if (d->t != CFG_DECIMAL) {
-		fprintf(stderr, "Se esperaba un n˙mero con decimales para '%s'.\n", k);
+		fprintf(stderr, "Se esperaba un n√∫mero con decimales para '%s'.\n", k);
 		exit(10);
 	}
 	return d->v.decimal;
@@ -227,7 +227,7 @@ config_t leer_config(char *fichero)
 		while (linea[i] == ' ' || linea[i] == '\t')
 			++i;
 		c = linea + i;
-		/* Los comentarios y las lÌneas en blanco se omiten */
+		/* Los comentarios y las l√≠neas en blanco se omiten */
 		if (*c == '#' || *c == '\n')
 			continue;
 		repetir = 1;
@@ -245,8 +245,8 @@ config_t leer_config(char *fichero)
 			}
 		}
 		if (*c == '\n')
-			continue; /* LÌnea mal formada, omitir */
-		/* Partimos la lÌnea en dos cadenas: clave y valor */
+			continue; /* L√≠nea mal formada, omitir */
+		/* Partimos la l√≠nea en dos cadenas: clave y valor */
 		*c = '\0';
 		++c;
 		/* Saltamos espacios en blanco */

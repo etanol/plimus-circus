@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban Martínez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Informática Gráfica I                                      |
- |      Profesor  : Jose María Buades Rubio                                    |
+ |                  Esteban MartÃ­nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: InformÃ¡tica GrÃ¡fica I                                      |
+ |      Profesor  : Jose MarÃ­a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : Ingeniería Técnica en Informática de Gestión (TIG2)        |
+ |      Estudios  : IngenierÃ­a TÃ©cnica en InformÃ¡tica de GestiÃ³n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -17,8 +17,8 @@
 /*
  * circo.c
  *
- * Programa principal que queda trivializado ya que los módulos también
- * realizan inicialización de los elementos que vayan a manipular.
+ * Programa principal que queda trivializado ya que los mÃ³dulos tambiÃ©n
+ * realizan inicializaciÃ³n de los elementos que vayan a manipular.
  *
  * $Id$
  */
@@ -39,14 +39,14 @@ int main(int argc, char **argv)
 
 	glutInit(&argc, argv);
 
-	/* Aquí ofrecemos la posibilidad de cargar un fichero de configuración
-	 * distinto al fichero por defecto si así lo indicamos en la línea de
+	/* AquÃ­ ofrecemos la posibilidad de cargar un fichero de configuraciÃ³n
+	 * distinto al fichero por defecto si asÃ­ lo indicamos en la lÃ­nea de
 	 * comandos (y si el fichero es accesible, obviamente). */
 	if (argc > 1) {
 		test = fopen(argv[1], "r");
 		if (test == NULL) {
 			printf("El fichero %s no se pudo abrir, utilizando \
-					configuración por defecto.\n", argv[1]);
+					configuraciÃ³n por defecto.\n", argv[1]);
 			cfg = leer_config(FICHERO_CONFIG);
 		} else {
 			fclose(test);
@@ -70,7 +70,7 @@ int main(int argc, char **argv)
 	glAlphaFunc(GL_GREATER, 0.4);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CW);
-	/* Llamamos a los módulos */
+	/* Llamamos a los mÃ³dulos */
 	init_interaccion(cfg);
 	init_escena(cfg);
 

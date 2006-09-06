@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban Martínez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Informática Gráfica I                                      |
- |      Profesor  : Jose María Buades Rubio                                    |
+ |                  Esteban MartÃ­nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: InformÃ¡tica GrÃ¡fica I                                      |
+ |      Profesor  : Jose MarÃ­a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : Ingeniería Técnica en Informática de Gestión (TIG2)        |
+ |      Estudios  : IngenierÃ­a TÃ©cnica en InformÃ¡tica de GestiÃ³n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -156,7 +156,7 @@ int crear_techo_frontal(config_t c)
 			control[i][j][Y] = i * paso_y;
 			control[i][j][Z] = zeta[i];
 		}
-	/* Corrección para la caída entre poste y poste */
+	/* CorrecciÃ³n para la caÃ­da entre poste y poste */
 	control[0][1][Z] -= valor_decimal(c, c_t_caidap);
 	control[0][2][Z] -= valor_decimal(c, c_t_caidap);
 

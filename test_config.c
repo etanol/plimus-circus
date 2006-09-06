@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban Martínez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Informática Gráfica I                                      |
- |      Profesor  : Jose María Buades Rubio                                    |
+ |                  Esteban MartÃ­nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: InformÃ¡tica GrÃ¡fica I                                      |
+ |      Profesor  : Jose MarÃ­a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : Ingeniería Técnica en Informática de Gestión (TIG2)        |
+ |      Estudios  : IngenierÃ­a TÃ©cnica en InformÃ¡tica de GestiÃ³n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -17,7 +17,7 @@
 /*
  * test_config.c
  *
- * Pequeño test para verificar la carga correcta del fichero de configuración.
+ * PequeÃ±o test para verificar la carga correcta del fichero de configuraciÃ³n.
  *
  * $Id$
  */
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
 				printf("Cadena: %s\n\n", d->v.cadena);
 				break;
 			default:
-				printf("¿¿??\n\n");
+				printf("Â¿Â¿??\n\n");
 		}
 	}
 	return 0;

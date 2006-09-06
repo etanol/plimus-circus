@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban MartÌnez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Inform·tica Gr·fica I                                      |
- |      Profesor  : Jose MarÌa Buades Rubio                                    |
+ |                  Esteban Mart√≠nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: Inform√°tica Gr√°fica I                                      |
+ |      Profesor  : Jose Mar√≠a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : IngenierÌa TÈcnica en Inform·tica de GestiÛn (TIG2)        |
+ |      Estudios  : Ingenier√≠a T√©cnica en Inform√°tica de Gesti√≥n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -17,7 +17,7 @@
 /*
  * textura.c
  *
- * FunciÛn para cargar una textura de un fichero TGA y realizar algunas tareas
+ * Funci√≥n para cargar una textura de un fichero TGA y realizar algunas tareas
  * rutinarias en OpenGL.
  *
  * $Id$
@@ -49,8 +49,8 @@ int cargar_textura(config_t cfg, const char *tex_file)
 	char *fichero;
 	FILE *f;
 	int textura;	/* Valor de retorno */
-	int e;		/* ComodÌn para comprobar errores */
-	int bytespp;	/* BYTES por pixel (3 Û 4) */
+	int e;		/* Comod√≠n para comprobar errores */
+	int bytespp;	/* BYTES por pixel (3 √≥ 4) */
 	unsigned int  ancho, alto, tam_imagen, i;
 	unsigned char cabecera_tipo[sizeof(TGA_tipo)];
 	unsigned char cabecera_tga[6];
@@ -84,7 +84,7 @@ int cargar_textura(config_t cfg, const char *tex_file)
 	e = fread(imagen, 1, tam_imagen, f);
 	CHECK_ERROR((unsigned int)e < tam_imagen);
 	/*
-	 * Tuvimos que aÒadir el cambio de BGR a RGB puesto que las versiones
+	 * Tuvimos que a√±adir el cambio de BGR a RGB puesto que las versiones
 	 * de OpenGL de la sala de ordenadores no soportan GL_BGR (creemos que
 	 * es nuevo en 1.2).
 	 */
@@ -92,8 +92,8 @@ int cargar_textura(config_t cfg, const char *tex_file)
             imagen[i] ^= imagen[i+2] ^= imagen[i] ^= imagen[i+2];
 	fclose(f);
 	/*
-	 * Ahora le pasamos la informaciÛn a OpenGL y preparamos algunos
-	 * par·metros.
+	 * Ahora le pasamos la informaci√≥n a OpenGL y preparamos algunos
+	 * par√°metros.
 	 */
 	glGenTextures(1, (unsigned int *)&textura);
 	glBindTexture(GL_TEXTURE_2D, textura);

@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban Martínez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Informática Gráfica I                                      |
- |      Profesor  : Jose María Buades Rubio                                    |
+ |                  Esteban MartÃ­nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: InformÃ¡tica GrÃ¡fica I                                      |
+ |      Profesor  : Jose MarÃ­a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : Ingeniería Técnica en Informática de Gestión (TIG2)        |
+ |      Estudios  : IngenierÃ­a TÃ©cnica en InformÃ¡tica de GestiÃ³n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -18,8 +18,8 @@
  * conf_keys.h
  *
  * Fichero para hacer visibles las anes que contienen las claves para acceder a
- * la configuración. No es necesario incluír esta cabecera directamente, con
- * incluir "config.h" es suficiente. Para saber más acerca de cada ante
+ * la configuraciÃ³n. No es necesario incluÃ­r esta cabecera directamente, con
+ * incluir "config.h" es suficiente. Para saber mÃ¡s acerca de cada ante
  * consultar conf_keys.c
  *
  * $Id$

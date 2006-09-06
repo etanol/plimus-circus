@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban MartÌnez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Inform·tica Gr·fica I                                      |
- |      Profesor  : Jose MarÌa Buades Rubio                                    |
+ |                  Esteban Mart√≠nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: Inform√°tica Gr√°fica I                                      |
+ |      Profesor  : Jose Mar√≠a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : IngenierÌa TÈcnica en Inform·tica de GestiÛn (TIG2)        |
+ |      Estudios  : Ingenier√≠a T√©cnica en Inform√°tica de Gesti√≥n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -17,7 +17,7 @@
 /*
  * interaccion.c
  *
- * ImplementaciÛn de la gestiÛn de teclado y ratÛn.
+ * Implementaci√≥n de la gesti√≥n de teclado y rat√≥n.
  *
  * $Id$
  */
@@ -45,32 +45,41 @@ float desp_cielo_h = 0.0;
 float desp_cielo_v = 0.0;
 float angulo_anim  = 0.0;
 
-       float angulo_h = 0.0; /* ¡ngulo de rotaciÛn horizontal */
-static float angulo_v = 0.0; /* ¡ngulo de rotaciÛn vertical */
-static float camara_x = 0.0; /* PosiciÛn de la c·mara */
+       float angulo_h = 0.0; /* √Ångulo de rotaci√≥n horizontal */
+static float angulo_v = 0.0; /* √Ångulo de rotaci√≥n vertical */
+static float camara_x = 0.0; /* Posici√≥n de la c√°mara */
 static float camara_y = 0.6;
 static float camara_z = 0.0;
 
+/* Variables para la funci√≥n idle */
+static int   en_avance     = 0;
+static int   en_lateral    = 0;
+static int   en_vertical   = 0;
+static int   movido        = 0;
+static float avance        = 0.0;
+static float lateral       = 0.0;
+static float vertical      = 0.0;
+
 static config_t C;
-static int light_flag      = 1; /* Flags manipulados por el men˙ */
+static int light_flag      = 1; /* Flags manipulados por el men√∫ */
 static int smooth_flag     = 1;
 static int animation_flag  = 0;
 static int fullscreen_flag = 0;
        int fog_flag        = 1; /* La niebla la controla escena.c, exportar */
 
-/* Entradas de men˙ */
+/* Entradas de men√∫ */
 static const char *m_enable[] = {
-	"Activar iluminaciÛn", "Modelo de shading SMOOTH (espacio)",
-	"Activar niebla exterior", "Activar animaciÛn",
-	"Pantalla completa (F5)"
+	"Enable lighting", "Smooth shading (space key)",
+	"Enable outdoor fog", "Enable animation",
+	"Fullscreen (F5 key)"
 };
 static const char *m_disable[] = {
-	"Desactivar iluminaciÛn", "Modelo de shading FLAT (espacio)", 
-	"Desactivar niebla exterior", "Desactivar animaciÛn",
-	"Restaurar ventana (F5)"
+	"Disable lighting", "Flat shading (space key)", 
+	"Disable outdoor fog", "Disable animation",
+	"Restore window (F5 key)"
 };
 
-/* PrivadÌsimo */
+/* Privad√≠simo */
 static float Li_cfa, Li_cta, Li_clr, Li_cfc, Li_cfra2, Li_sel2;
 static float Li_mp, Li_mg, Li_mrs, Li_cid, Li_ag;
 static int   Li_av;
@@ -79,9 +88,9 @@ void actualiza_camara(void)
 {
 	/*
 	 * Pasos:
-	 *    1. Trasladarnos al punto donde se encuentra la c·mara.
-	 *    2. Girar la c·mara horizontalmente (plano XZ).
-	 *    3. Girar la c·mara verticalmente (plano ZY).
+	 *    1. Trasladarnos al punto donde se encuentra la c√°mara.
+	 *    2. Girar la c√°mara horizontalmente (plano XZ).
+	 *    3. Girar la c√°mara verticalmente (plano ZY).
 	 */
 	glLoadIdentity();
 	glRotatef((GLfloat) -angulo_v, 1.0, 0.0, 0.0);	/* 3 */
@@ -148,7 +157,7 @@ static void paso_lateral(float sentido)
 	radianes = (angulo_h * M_PI) / 180.0;
 	camara_x += cosf(radianes) * Li_mp * sentido;
 	camara_z += -sinf(radianes) * Li_mp * sentido;
-} /* }}} */
+}
 
 
 static void giro_camara(float sentido, enum tipo_de_giro g)
@@ -186,33 +195,28 @@ static void teclado_especial(int tecla, int x, int y)
 {
 	switch (tecla) {
 		case GLUT_KEY_UP:        /* Paso hacia adelante */
-			paso_frontal(-1.0);
-			comprueba_situacion(HORIZONTAL);
+			avance = -1.0;
+			en_avance++;
 			break;
-		case GLUT_KEY_DOWN:      /* Paso hacia atr·s */
-			paso_frontal(1.0);
-			comprueba_situacion(HORIZONTAL);
+		case GLUT_KEY_DOWN:      /* Paso hacia atr√°s */
+			avance = 1.0;
+			en_avance++;
 			break;
 		case GLUT_KEY_LEFT:      /* Paso hacia la izquierda */
-			paso_lateral(-1.0);
-			comprueba_situacion(HORIZONTAL);
+			lateral = -1.0;
+			en_lateral++;
 			break;
 		case GLUT_KEY_RIGHT:     /* Paso hacia la derecha */
-			paso_lateral(1.0);
-			comprueba_situacion(HORIZONTAL);
+			lateral = 1.0;
+			en_lateral++;
 			break;
-		case GLUT_KEY_PAGE_UP:   /* ElevaciÛn */
-			camara_y += Li_mp;
-			comprueba_situacion(VERTICAL);
+		case GLUT_KEY_PAGE_UP:   /* Elevaci√≥n */
+			vertical = Li_mp;
+			en_vertical++;
 			break;
 		case GLUT_KEY_PAGE_DOWN: /* Descenso */
-			if (camara_y > 0.65f) {
-				camara_y -= Li_mp;
-				comprueba_situacion(VERTICAL);
-			} else {
-				/* Cortocircuito */
-				return;
-			}
+			vertical = -Li_mp;
+			en_vertical++;
 			break;
 		case GLUT_KEY_F5:	/* Pantalla completa */
 			if (fullscreen_flag) {
@@ -224,42 +228,40 @@ static void teclado_especial(int tecla, int x, int y)
 				glutChangeToMenuEntry(6, m_disable[4], 5);
 			}
 			fullscreen_flag = !fullscreen_flag;
+			movido++;
 			break;
 		default:
 			return;
 	}
-	glutPostRedisplay();
+}
+
+
+static void teclado_especial_up(int tecla, int x, int y)
+{
+	switch (tecla) {
+		case GLUT_KEY_UP:        /* Paso hacia adelante */
+		case GLUT_KEY_DOWN:      /* Paso hacia atr√°s */
+			en_avance = 0;
+			break;
+		case GLUT_KEY_LEFT:      /* Paso hacia la izquierda */
+		case GLUT_KEY_RIGHT:     /* Paso hacia la derecha */
+			en_lateral = 0;
+			break;
+		case GLUT_KEY_PAGE_UP:   /* Elevaci√≥n */
+		case GLUT_KEY_PAGE_DOWN: /* Descenso */
+			en_vertical = 0;
+		default:
+			break;
+	}
 }
 
 
 static void teclado(unsigned char tecla, int x, int y)
 {
 	int i;
+	int a[2];
 
 	switch (tecla) {
-		case 'H':
-		case 'h':  /* Giro de c·mara a la izquierda */
-			giro_camara(1.0, HORIZONTAL);
-			break;
-		case 'K':
-		case 'k':  /* Giro de c·mara a la derecha */
-			giro_camara(-1.0, HORIZONTAL);
-			break;
-		case 'U':
-		case 'u':  /* Giro de c·mara hacia arriba */
-			giro_camara(1.0, VERTICAL);
-			break;
-		case 'J':
-		case 'j':  /* Giro de c·mara hacia abajo */
-			giro_camara(-1.0, VERTICAL);
-			break;
-		case 'P':
-		case 'p': /* Imprimimos el estado actual de la c·mara */
-			printf("Angulo H: %f\n", angulo_h);
-			printf("Angulo V: %f\n", angulo_v);
-			printf("Camara (x, y, z): (%f, %f, %f)\n", camara_x,
-					camara_y, camara_z);
-			break;
 		case ' ': /* Cambio entre GL_FLAT y GL_SMOOTH */
 			if (smooth_flag) {
 				glShadeModel(GL_FLAT);
@@ -295,7 +297,7 @@ static void teclado(unsigned char tecla, int x, int y)
 			sol_posicion[1] -= Li_mp;
 			break;
 		case 'Q':
-		case 'q':  /* PosiciÛn inicial del sol */
+		case 'q':  /* Posici√≥n inicial del sol */
 			sol_posicion[0] = sol_posicion[1] = -Li_sel2;
 			sol_posicion[2] = 0.7 * Li_sel2;
 			sol_posicion[3] = 0.0;
@@ -303,6 +305,14 @@ static void teclado(unsigned char tecla, int x, int y)
 		case 'W':
 		case 'w':  /* Conmutar entre sol posicional o direccional */
 			sol_posicion[3] = (sol_posicion[3] == 0.0 ? 1.0 : 0.0);
+			break;
+		case 'p':
+		case 'P':
+			glGetIntegerv(GL_POLYGON_MODE, (GLint *)a);
+			if (a[1] == GL_FILL)
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			else
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			break;
 		case ESC:  /* Salimos del programa */
 			exit(0);
@@ -327,7 +337,7 @@ static void teclado(unsigned char tecla, int x, int y)
 		default:   /* Cualquier otra tecla, ignorada */
 			return;
 	}
-	glutPostRedisplay();
+	movido++;
 }
 
 
@@ -345,7 +355,7 @@ static void raton(int x, int y)
 	else if (y < oy)
 		giro_camara(Li_mrs, VERTICAL);
 	oy = y;
-	glutPostRedisplay();
+	movido++;
 }
 
 
@@ -391,15 +401,34 @@ static void menu(int valor)
 }
 
 
-static void animacion(int i)
+static void refrescar(void)
 {
+	enum tipo_de_giro t = HORIZONTAL;
+
+	if (en_avance) {
+		paso_frontal(avance);
+		movido++;
+	}
+	if (en_lateral) {
+		paso_lateral(lateral);
+		movido++;
+	}
+	if (en_vertical && ((vertical > 0.0f) || (camara_y > 0.65f))) {
+		camara_y += vertical;
+		movido++;
+		t = VERTICAL;
+	}
 	if (animation_flag) {
 		angulo_anim += Li_ag;
 		if (angulo_anim > 360.0)
 			angulo_anim -= 360.0;
-		glutPostRedisplay();
+		movido++;
 	}
-	glutTimerFunc(Li_av, animacion, 0);
+	if (movido) {
+		comprueba_situacion(t);
+		glutPostRedisplay();
+		movido = 0;
+	}
 }
 
 
@@ -425,16 +454,18 @@ void init_interaccion(config_t conf)
 	sol_posicion[2] = 0.7 * Li_sel2;
 	sol_posicion[3] = 0.0;
 
+	glutIdleFunc(refrescar);
+	glutIgnoreKeyRepeat(1);
 	glutKeyboardFunc(teclado);
 	glutSpecialFunc(teclado_especial);
+	glutSpecialUpFunc(teclado_especial_up);
 	glutMotionFunc(raton);
 	glutCreateMenu(menu);
-	glutTimerFunc(Li_av, animacion, 0);
 	glutAddMenuEntry(m_disable[0], 0);
 	glutAddMenuEntry(m_disable[1], 1);
 	glutAddMenuEntry(m_disable[2], 2);
 	glutAddMenuEntry(m_enable[3], 3);
-	glutAddMenuEntry("Resetear animaciÛn", 4);
+	glutAddMenuEntry("Reste animation", 4);
 	glutAddMenuEntry(m_enable[4], 5);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	comprueba_situacion(VERTICAL);

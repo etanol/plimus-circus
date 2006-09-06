@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban Mart韓ez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Inform醫ica Gr醘ica I                                      |
- |      Profesor  : Jose Mar韆 Buades Rubio                                    |
+ |                  Esteban Mart铆nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: Inform谩tica Gr谩fica I                                      |
+ |      Profesor  : Jose Mar铆a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : Ingenier韆 T閏nica en Inform醫ica de Gesti髇 (TIG2)        |
+ |      Estudios  : Ingenier铆a T茅cnica en Inform谩tica de Gesti贸n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -18,7 +18,7 @@
  * test_pieza.c
  *
  * Programa para testear piezas individuales que se programen como funciones
- * del m骴ulo "piezas.o".
+ * del m贸dulo "piezas.o".
  *
  * $Id$
  */
@@ -40,13 +40,13 @@
 
 const char menu[] = 
 "Piezas disponibles:\n\
-\t(1) Fald髇 frontal\n\
-\t(2) Fald髇 lateral\n\
+\t(1) Fald贸n frontal\n\
+\t(2) Fald贸n lateral\n\
 \t(3) Techo frontal\n\
 \t(4) Techo lateral\n\
 \t(5) Grada frontal\n\
 \t(6) Grada lateral\n\
-Selecciona un n鷐ero: ";
+Selecciona un n煤mero: ";
 
 enum Pieza {
 	FALDON_FRONTAL = 1,
@@ -206,7 +206,7 @@ void display(void)
 	glCallList(lst_pieza);
 	glPushMatrix(); /* 1 */
 
-	/* Dibujamos el estado actual de la rotaci髇 */
+	/* Dibujamos el estado actual de la rotaci贸n */
 	glViewport(0, 0, win_w/5, win_h/5);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

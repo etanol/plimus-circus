@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban Martínez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Informática Gráfica I                                      |
- |      Profesor  : Jose María Buades Rubio                                    |
+ |                  Esteban MartÃ­nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: InformÃ¡tica GrÃ¡fica I                                      |
+ |      Profesor  : Jose MarÃ­a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : Ingeniería Técnica en Informática de Gestión (TIG2)        |
+ |      Estudios  : IngenierÃ­a TÃ©cnica en InformÃ¡tica de GestiÃ³n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -17,8 +17,8 @@
 /*
  * interaccion.h
  *
- * Módulo que gestiona la interacción con el usuario (respuestas a eventos de
- * teclado y ratón). Al igual que en escena.h, sólo se exporta una función para
+ * MÃ³dulo que gestiona la interacciÃ³n con el usuario (respuestas a eventos de
+ * teclado y ratÃ³n). Al igual que en escena.h, sÃ³lo se exporta una funciÃ³n para
  * configurarlo todo.
  *
  * $Id$

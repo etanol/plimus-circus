@@ -3,7 +3,7 @@
 #
 # do_header
 #
-# Script para actualizar las cabeceras automáticamente cuando sea necesario.
+# Script para actualizar las cabeceras automÃ¡ticamente cuando sea necesario.
 #
 # $Id$
 #
@@ -23,7 +23,7 @@ for file in *.c *.h Makefile; do
 	
 	if diff $tmp_header $template_file >/dev/null 2>&1; then
 		# Cabeceras iguales 
-		echo "El fichero $file no necestia actualización."
+		echo "El fichero $file no necestia actualizaciÃ³n."
 	else
 		# Cabeceras distintas. Reemplazar
 		tfile="$file.s"

@@ -49,10 +49,10 @@ void teclado(unsigned char tecla, int x, int y)
 			++current;
 			current %= 16;
 			break;
-		case 'a':
+		case 'q':
 			ctrlpoints[0][current][2] += 0.1;
 			break;
-		case 'z':
+		case 'a':
 			ctrlpoints[0][current][2] -= 0.1;
 			break;
 	}

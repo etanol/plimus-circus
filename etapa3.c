@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban MartÌnez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Inform·tica Gr·fica I                                      |
- |      Profesor  : Jose MarÌa Buades Rubio                                    |
+ |                  Esteban Mart√≠nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: Inform√°tica Gr√°fica I                                      |
+ |      Profesor  : Jose Mar√≠a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : IngenierÌa TÈcnica en Inform·tica de GestiÛn (TIG2)        |
+ |      Estudios  : Ingenier√≠a T√©cnica en Inform√°tica de Gesti√≥n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -23,11 +23,11 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 
-/* TamaÒo incial de la ventana */
+/* Tama√±o incial de la ventana */
 const int W_WIDTH = 500;
 const int W_HEIGHT = 500;
 
-/* Variable que indica el ·ngulo de rotaciÛn de los ejes. */
+/* Variable que indica el √°ngulo de rotaci√≥n de los ejes. */
 GLfloat fAngulo;
 
 void Display (void)
@@ -54,7 +54,7 @@ void Rota(unsigned char c, int x, int y)
 {
 	if (c == (char)27)
 		exit(0);
-	/* Incrementamos el ·ngulo */
+	/* Incrementamos el √°ngulo */
 	fAngulo += 2.0;
 	/* Si es mayor que dos pi la decrementamos */
 	if (fAngulo > 360)
@@ -88,7 +88,7 @@ void Reshape(int ancho, int alto)
 
 int main(int argc, char **argv)
 {
-	/* Inicializamos la librerÌa GLUT */
+	/* Inicializamos la librer√≠a GLUT */
 	glutInit (&argc, argv);
 
 	/* Indicamos como ha de ser la nueva ventana */
@@ -105,10 +105,10 @@ int main(int argc, char **argv)
 	glutReshapeFunc(Reshape);
 
 	glEnable(GL_DEPTH_TEST);
-	/* El color de fondo ser· el blanco (RGBA, RGB + Alpha channel) */
+	/* El color de fondo ser√° el blanco (RGBA, RGB + Alpha channel) */
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-	/* Comienza la ejecuciÛn del core de GLUT */
+	/* Comienza la ejecuci√≥n del core de GLUT */
 	glutMainLoop();
 	return 0;
 }

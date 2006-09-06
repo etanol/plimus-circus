@@ -5,11 +5,11 @@
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
  |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban MartÌnez Tristancho (estebanmartinez@ono.com)      |
- |      Asignatura: Inform·tica Gr·fica I                                      |
- |      Profesor  : Jose MarÌa Buades Rubio                                    |
+ |                  Esteban Mart√≠nez Tristancho (estebanmartinez@ono.com)      |
+ |      Asignatura: Inform√°tica Gr√°fica I                                      |
+ |      Profesor  : Jose Mar√≠a Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
- |      Estudios  : IngenierÌa TÈcnica en Inform·tica de GestiÛn (TIG2)        |
+ |      Estudios  : Ingenier√≠a T√©cnica en Inform√°tica de Gesti√≥n (TIG2)        |
  |      Facultad  : Universitat de les Illes Balears (UIB)                     |
  |                                                                             |
  +----------------------------------------------------------------------------*/
@@ -17,7 +17,7 @@
 /*
  * config.h
  *
- * DefiniciÛn de los par·metros configurables del circo.
+ * Definici√≥n de los par√°metros configurables del circo.
  *
  * $Id$
  */
@@ -25,7 +25,7 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
-#include "conf_keys.h" /* Las variables que definen se hacen visibles aquÌ */
+#include "conf_keys.h" /* Las variables que definen se hacen visibles aqu√≠ */
 
 /* Tipos privados */
 struct nodo;
@@ -61,7 +61,7 @@ extern char *   valor_cadena(config_t, const char *);
 extern int      valor_entero(config_t, const char *);
 extern float    valor_decimal(config_t, const char *);
 
-/* SÛlo para debug */
+/* S√≥lo para debug */
 extern struct item *consulta(config_t, const char *);
 
 #endif
