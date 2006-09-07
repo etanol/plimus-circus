@@ -4,8 +4,8 @@
  |                                                                             |
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
- |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban Martínez Tristancho (estebanmartinez@ono.com)      |
+ |      Alumnos   : Isaac Jurado Peinado          [C2H5OH]                     |
+ |                  Esteban Martínez Tristancho   [Tito Houzy]                 |
  |      Asignatura: Informática Gráfica I                                      |
  |      Profesor  : Jose María Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
@@ -33,22 +33,22 @@ struct nodo;
 enum tipo { CFG_NODO, CFG_ENTERO, CFG_DECIMAL, CFG_CADENA };
 
 union valor {
-	struct nodo *sig;
-	int   entero;
-	float decimal;
-	char *cadena;
+        struct nodo *sig;
+        int   entero;
+        float decimal;
+        char *cadena;
 };
 
 struct item {
-	char c;
-	enum tipo t;
-	union valor v;
+        char c;
+        enum tipo t;
+        union valor v;
 };
 
 struct nodo {
-	struct item *d;
-	int tam;
-	int ult;
+        struct item *d;
+        int tam;
+        int ult;
 };
 
 
@@ -56,12 +56,13 @@ struct nodo {
 typedef struct nodo *config_t;
 
 /* Primitivas */
-extern config_t leer_config(char *);
-extern char *   valor_cadena(config_t, const char *);
-extern int      valor_entero(config_t, const char *);
-extern float    valor_decimal(config_t, const char *);
+extern config_t leer_config   (char *fichero);
+extern char    *valor_cadena  (config_t cfg, const char *k);
+extern int      valor_entero  (config_t cfg, const char *k);
+extern float    valor_decimal (config_t cfg, const char *k);
 
 /* Sólo para debug */
-extern struct item *consulta(config_t, const char *);
+extern struct item *consulta (config_t cfg, const char *k);
 
 #endif
+

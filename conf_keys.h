@@ -4,8 +4,8 @@
  |                                                                             |
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
- |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban Martínez Tristancho (estebanmartinez@ono.com)      |
+ |      Alumnos   : Isaac Jurado Peinado          [C2H5OH]                     |
+ |                  Esteban Martínez Tristancho   [Tito Houzy]                 |
  |      Asignatura: Informática Gráfica I                                      |
  |      Profesor  : Jose María Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
@@ -17,10 +17,10 @@
 /*
  * conf_keys.h
  *
- * Fichero para hacer visibles las anes que contienen las claves para acceder a
- * la configuración. No es necesario incluír esta cabecera directamente, con
- * incluir "config.h" es suficiente. Para saber más acerca de cada ante
- * consultar conf_keys.c
+ * Fichero para hacer visibles las constantes que contienen las claves para
+ * acceder a la configuración. No es necesario incluír esta cabecera
+ * directamente, con incluir "config.h" es suficiente. Para saber más acerca de
+ * cada ante consultar conf_keys.c
  *
  * $Id$
  */

@@ -10,29 +10,36 @@
 
 tmp_header="/tmp/header$$.tmp"
 
-for file in *.c *.h Makefile; do
-	
-	test -r $file -a -w $file || continue 
-	case "$file" in
-		template*)	continue ;;
-		Makefile)	template_file="template.hash" ;;
-		*)		template_file="template.h" ;;
-	esac
+hash_lines=`wc -l template.hash | cut -f1 -d' '`
+header_lines=`wc -l template.h  | cut -f1 -d' '`
 
-	sed -n -e '0,/^[ 	]*$/p' $file >$tmp_header
-	
-	if diff $tmp_header $template_file >/dev/null 2>&1; then
-		# Cabeceras iguales 
-		echo "El fichero $file no necestia actualización."
-	else
-		# Cabeceras distintas. Reemplazar
-		tfile="$file.s"
-		echo "Actualizando $file."
-		sed -e '0,/^[ 	]*$/d' $file >$tfile
-		cat $template_file $tfile >$file
-		rm $tfile
-	fi
-	
+for file in *.c *.h Makefile; do
+        
+        test -r $file -a -w $file || continue 
+        case "$file" in
+                template*) continue ;;
+                Makefile)  template_file="template.hash"
+                           lines=$hash_lines;
+                           ;;
+                *)         template_file="template.h"
+                           lines=$header_lines
+                           ;;
+        esac
+
+        sed -e "$lines q" $file >$tmp_header
+        
+        if diff $tmp_header $template_file >/dev/null 2>&1; then
+                # Cabeceras iguales 
+                echo "El fichero $file no necestia actualización."
+        else
+                # Cabeceras distintas. Reemplazar
+                tfile="$file.s"
+                echo "Actualizando $file."
+                sed -e '0,/^[         ]*$/d' $file >$tfile
+                cat $template_file $tfile >$file
+                rm $tfile
+        fi
+        
 done
 
 rm -f $tmp_header

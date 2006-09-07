@@ -4,8 +4,8 @@
  |                                                                             |
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
- |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban Martínez Tristancho (estebanmartinez@ono.com)      |
+ |      Alumnos   : Isaac Jurado Peinado          [C2H5OH]                     |
+ |                  Esteban Martínez Tristancho   [Tito Houzy]                 |
  |      Asignatura: Informática Gráfica I                                      |
  |      Profesor  : Jose María Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |

@@ -4,8 +4,8 @@
  |                                                                             |
  |                          P L I M U S   C I R C U S                          |
  |                                                                             |
- |      Alumnos   : Isaac Jurado Peinado        (etanol@telefonica.net)        |
- |                  Esteban Martínez Tristancho (estebanmartinez@ono.com)      |
+ |      Alumnos   : Isaac Jurado Peinado          [C2H5OH]                     |
+ |                  Esteban Martínez Tristancho   [Tito Houzy]                 |
  |      Asignatura: Informática Gráfica I                                      |
  |      Profesor  : Jose María Buades Rubio                                    |
  |      Curso     : 2003/2004                                                  |
@@ -36,7 +36,8 @@ extern float desp_cielo_v;
 extern float angulo_anim;
 extern float angulo_h;
 
-extern void init_interaccion(config_t);
-extern void actualiza_camara(void);
+extern void init_interaccion (config_t cfg);
+extern void actualiza_camara (void);
 
 #endif 
+
