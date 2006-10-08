@@ -39,7 +39,7 @@ tests      := test_pieza test_config
 etapas     := etapa1 etapa2 etapa3
 piezas     := carpa gradas suelo complementos
 conf       := config conf_keys
-circo_deps := circo escena textura interaccion $(conf) $(piezas) 
+circo_deps := circo escena textura interaccion $(conf) $(piezas)
 
 # Aliases
 .PHONY: all etapas test hase hetapas htest clean dclean dist hdist cl help

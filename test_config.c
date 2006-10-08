@@ -45,22 +45,22 @@ main (int argc, char **argv)
         config_t     c;
         struct item *d;
 
-        c = leer_config(argv[1]);
+        c = leer_config (argv[1]);
         for (i = 0; i < 10; ++i) {
-                d = consulta(c, claves[i]);
-                printf("Clave: %s\n", claves[i]);
+                d = consulta (c, claves[i]);
+                printf ("Clave: %s\n", claves[i]);
                 switch (d->t) {
                 case CFG_ENTERO:
-                        printf("Entero: %d\n\n", d->v.entero);
+                        printf ("Entero: %d\n\n", d->v.entero);
                         break;
                 case CFG_DECIMAL:
-                        printf("Decimal: %f\n\n", d->v.decimal);
+                        printf ("Decimal: %f\n\n", d->v.decimal);
                         break;
                 case CFG_CADENA:
-                        printf("Cadena: %s\n\n", d->v.cadena);
+                        printf ("Cadena: %s\n\n", d->v.cadena);
                         break;
                 default:
-                        printf("¿¿??\n\n");
+                        printf ("¿¿??\n\n");
                 }
         }
         return 0;

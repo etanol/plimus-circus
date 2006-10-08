@@ -33,50 +33,50 @@ void
 Display (void)
 {
         /* Borramos la escena */
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear (GL_COLOR_BUFFER_BIT);
 
-        glPushMatrix();
+        glPushMatrix ();
         /* Rotamos las proximas primitivas */
-        glRotatef(fAngulo, 0.0f, 0.0f, 1.0f);
+        glRotatef (fAngulo, 0.0f, 0.0f, 1.0f);
         /* Creamos a continuación dibujamos los tres poligonos */
-        glBegin(GL_POLYGON);
-            glColor3f (1.0f, 1.0f, 1.0f);
-            glVertex3f(0.0f, 0.0f, 0.0f);
-            glColor3f (0.0f, 1.0f, 0.0f);
-            glVertex3f(1.0f, 0.0f, 0.0f);
-            glColor3f (0.0f, 1.0f, 0.0f);
-            glVertex3f(-0.5f, 0.866f, 0.0f);
-        glEnd();
+        glBegin (GL_POLYGON);
+            glColor3f  (1.0f, 1.0f, 1.0f);
+            glVertex3f (0.0f, 0.0f, 0.0f);
+            glColor3f  (0.0f, 1.0f, 0.0f);
+            glVertex3f (1.0f, 0.0f, 0.0f);
+            glColor3f  (0.0f, 1.0f, 0.0f);
+            glVertex3f (-0.5f, 0.866f, 0.0f);
+        glEnd ();
 
-        glBegin(GL_POLYGON);
-            glColor3f (1.0f, 1.0f, 1.0f);
-            glVertex3f(0.0f, 0.0f, 0.0f);
-            glColor3f (1.0f, 0.0f, 0.0f);
-            glVertex3f(1.0f, 0.0f, 0.0f);
-            glColor3f (0.0f, 0.0f, 1.0f);
-            glVertex3f(-0.5f, -0.866f, 0.0f);
-        glEnd();
+        glBegin (GL_POLYGON);
+            glColor3f  (1.0f, 1.0f, 1.0f);
+            glVertex3f (0.0f, 0.0f, 0.0f);
+            glColor3f  (1.0f, 0.0f, 0.0f);
+            glVertex3f (1.0f, 0.0f, 0.0f);
+            glColor3f  (0.0f, 0.0f, 1.0f);
+            glVertex3f (-0.5f, -0.866f, 0.0f);
+        glEnd ();
 
-        glBegin(GL_POLYGON);
-            glColor3f (1.0f, 1.0f, 1.0f);
-            glVertex3f(0.0f, 0.0f, 0.0f);
-            glColor3f (0.0f, 1.0f, 1.0f);
-            glVertex3f(-0.5f, 0.866f, 0.0f);
-            glColor3f (0.0f, 0.0f, 1.0f);
-            glVertex3f(-0.5f, -0.866f, 0.0f);
-        glEnd();
+        glBegin (GL_POLYGON);
+            glColor3f  (1.0f, 1.0f, 1.0f);
+            glVertex3f (0.0f, 0.0f, 0.0f);
+            glColor3f  (0.0f, 1.0f, 1.0f);
+            glVertex3f (-0.5f, 0.866f, 0.0f);
+            glColor3f  (0.0f, 0.0f, 1.0f);
+            glVertex3f (-0.5f, -0.866f, 0.0f);
+        glEnd ();
 
-        glBegin(GL_POLYGON);
-            glColor3f(0.0f, 0.0f, 0.0f);
-            glVertex3f(-0.3f, 0.3f, 0.0f);
-            glVertex3f(0.3f, 0.3f, 0.0f);
-            glVertex3f(0.3f, -0.3f, 0.0f);
-            glVertex3f(-0.3f, -0.3f, 0.0f);
-        glEnd();
+        glBegin (GL_POLYGON);
+            glColor3f  (0.0f, 0.0f, 0.0f);
+            glVertex3f (-0.3f, 0.3f, 0.0f);
+            glVertex3f (0.3f, 0.3f, 0.0f);
+            glVertex3f (0.3f, -0.3f, 0.0f);
+            glVertex3f (-0.3f, -0.3f, 0.0f);
+        glEnd ();
 
-        glPopMatrix();
-        glFlush();
-        glutSwapBuffers();
+        glPopMatrix ();
+        glFlush ();
+        glutSwapBuffers ();
 }
 
 
@@ -89,7 +89,7 @@ Idle (void)
         if (fAngulo > 360)
                 fAngulo -= 360;
         /* Indicamos que es necesario repintar la pantalla */
-        glutPostRedisplay();
+        glutPostRedisplay ();
 }
 
 
@@ -107,7 +107,7 @@ Reshape (int ancho, int alto)
                 x = (ancho - alto) / 2;
                 y = 0;
         }
-        glViewport(x, y, lado, lado);
+        glViewport (x, y, lado, lado);
 }
 
 
@@ -115,26 +115,26 @@ int
 main (int argc, char **argv)
 {
         /* Inicializamos la librería GLUT */
-        glutInit(&argc, argv);
+        glutInit (&argc, argv);
 
         /* Indicamos como ha de ser la nueva ventana */
-        glutInitWindowPosition(100,100);
-        glutInitWindowSize(W_WIDTH, W_HEIGHT);
-        glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+        glutInitWindowPosition (100,100);
+        glutInitWindowSize (W_WIDTH, W_HEIGHT);
+        glutInitDisplayMode (GLUT_RGBA | GLUT_DOUBLE);
 
         /* Creamos la nueva ventana */
-        glutCreateWindow("Ventana principal");
+        glutCreateWindow ("Ventana principal");
 
         /* Indicamos cuales son las funciones de redibujado e idle */
-        glutDisplayFunc(Display);
-        glutIdleFunc(Idle);
-        glutReshapeFunc(Reshape);
+        glutDisplayFunc (Display);
+        glutIdleFunc (Idle);
+        glutReshapeFunc (Reshape);
 
         /* El color de fondo será el blanco (RGBA, RGB + Alpha channel) */
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClearColor (1.0f, 1.0f, 1.0f, 1.0f);
 
         /* Comienza la ejecución del core de GLUT */
-        glutMainLoop();
+        glutMainLoop ();
         return 0;
 }
 

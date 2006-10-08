@@ -41,10 +41,10 @@ my_malloc (size_t tam)
 {
         void *ret;
 
-        ret = malloc(tam);
+        ret = malloc (tam);
         if (ret == NULL) {
-                fprintf(stderr, "Error al intentar reservar memoria.\n");
-                exit(EXIT_FAILURE);
+                fprintf (stderr, "Error al intentar reservar memoria.\n");
+                exit (EXIT_FAILURE);
         }
         return ret;
 }
@@ -55,10 +55,10 @@ my_realloc (void *old, size_t n_tam)
 {
         void *ret;
 
-        ret = realloc(old, n_tam);
+        ret = realloc (old, n_tam);
         if (ret == NULL) {
-                fprintf(stderr, "Error al intentar reservar más memoria.\n");
-                exit(EXIT_FAILURE);
+                fprintf (stderr, "Error al intentar reservar más memoria.\n");
+                exit (EXIT_FAILURE);
         }
         return ret;
 }
@@ -86,16 +86,16 @@ inserta (config_t cfg, char *k, enum tipo t, char *val)
                                 /* Quizá necesitemos agrandar el nodo actual */
                                 n->tam += GROW_STEP;
                                 n->d = (struct item *)
-                                        my_realloc(n->d, sizeof(struct item)
-                                                   * n->tam);
+                                        my_realloc (n->d, sizeof (struct item)
+                                                    * n->tam);
                         }
                         n->d[n->ult].c = *k;
                         n->d[n->ult].t = CFG_NODO;
                         n->d[n->ult].v.sig = (struct nodo *)
-                                             my_malloc(sizeof(struct nodo));
+                                             my_malloc (sizeof (struct nodo));
                         n = n->d[n->ult].v.sig;
-                        n->d = (struct item *) my_malloc(sizeof(struct item)
-                                                         * GROW_STEP);
+                        n->d = (struct item *) my_malloc (sizeof (struct item)
+                                                          * GROW_STEP);
                         n->tam = GROW_STEP;
                         n->ult = -1;
                 }
@@ -111,20 +111,20 @@ inserta (config_t cfg, char *k, enum tipo t, char *val)
                         /* Agrandar nodo */
                         n->tam += GROW_STEP;
                         n->d = (struct item *) 
-                               my_realloc(n->d, sizeof(struct item) * n->tam);
+                               my_realloc (n->d, sizeof (struct item) * n->tam);
                 }
                 n->d[n->ult].c = *k;
                 n->d[n->ult].t = t;
                 switch (t) {
                 case CFG_CADENA:
-                        n->d[n->ult].v.cadena = (char *) my_malloc(strlen(val));
-                        strcpy(n->d[n->ult].v.cadena, val);
+                        n->d[n->ult].v.cadena = (char *) my_malloc (strlen (val));
+                        strcpy (n->d[n->ult].v.cadena, val);
                         break;
                 case CFG_ENTERO:
-                        n->d[n->ult].v.entero = atoi(val);
+                        n->d[n->ult].v.entero = atoi (val);
                         break;
                 case CFG_DECIMAL:
-                        n->d[n->ult].v.decimal = (float) strtod(val,
+                        n->d[n->ult].v.decimal = (float) strtod (val,
                                                                 (char **) NULL);
                         break;
                 default:
@@ -147,9 +147,9 @@ consulta (config_t cfg, const char *k)
                         /* Búsqueda */;
                 if (*k != n->d[i].c) {
                         /* No existe parte de la clave: error */
-                        fprintf(stderr,
-                                "No se asignó valor a la clave '%s'.\n", x);
-                        exit(EXIT_FAILURE);
+                        fprintf (stderr,
+                                 "No se asignó valor a la clave '%s'.\n", x);
+                        exit (EXIT_FAILURE);
                 }
                 n = n->d[i].v.sig;
                 ++k;
@@ -159,8 +159,8 @@ consulta (config_t cfg, const char *k)
                 /* Una búsqueda más */;
         if (*k != n->d[i].c) {
                 /* No existe la clave: error */
-                fprintf(stderr, "No se asignó valor a la clave '%s'.\n", x);
-                exit(EXIT_FAILURE);
+                fprintf (stderr, "No se asignó valor a la clave '%s'.\n", x);
+                exit (EXIT_FAILURE);
         }
         return n->d + i;
 }
@@ -171,10 +171,10 @@ valor_cadena (config_t cfg, const char *k)
 {
         struct item *d;
 
-        d = consulta(cfg, k);
+        d = consulta (cfg, k);
         if (d->t != CFG_CADENA) {
-                fprintf(stderr, "Se esperaba un string para '%s'.\n", k);
-                exit(EXIT_FAILURE);
+                fprintf (stderr, "Se esperaba un string para '%s'.\n", k);
+                exit (EXIT_FAILURE);
         }
         return d->v.cadena;
 }
@@ -185,10 +185,10 @@ valor_entero (config_t cfg, const char *k)
 {
         struct item *d;
 
-        d = consulta(cfg, k);
+        d = consulta (cfg, k);
         if (d->t != CFG_ENTERO) {
-                fprintf(stderr, "Se esperaba un número entero para '%s'.\n", k);
-                exit(EXIT_FAILURE);
+                fprintf (stderr, "Se esperaba un número entero para '%s'.\n", k);
+                exit (EXIT_FAILURE);
         }
         return d->v.entero;
 }
@@ -199,10 +199,10 @@ valor_decimal (config_t cfg, const char *k)
 {
         struct item *d;
 
-        d = consulta(cfg, k);
+        d = consulta (cfg, k);
         if (d->t != CFG_DECIMAL) {
-                fprintf(stderr, "Se esperaba un número con decimales para '%s'.\n", k);
-                exit(EXIT_FAILURE);
+                fprintf (stderr, "Se esperaba un número con decimales para '%s'.\n", k);
+                exit (EXIT_FAILURE);
         }
         return d->v.decimal;
 }
@@ -217,20 +217,20 @@ leer_config (char *fichero)
         struct nodo *cfg;
         enum tipo    t;
 
-        cfg    = (struct nodo *) my_malloc(sizeof(struct nodo));
-        cfg->d = (struct item *) my_malloc(sizeof(struct item) * 4);
+        cfg    = (struct nodo *) my_malloc (sizeof (struct nodo));
+        cfg->d = (struct item *) my_malloc (sizeof (struct item) * 4);
         cfg->tam = GROW_STEP;
         cfg->ult = -1;
         linea[81] = '\n';   /* Centinela */
-        f = fopen(fichero, "r");
+        f = fopen (fichero, "r");
         if (f == NULL) {
-                fprintf(stderr, "Error al abrir el fichero %s.\n", fichero);
-                perror("leer_config: ");
-                exit(EXIT_FAILURE);
+                fprintf (stderr, "Error al abrir el fichero %s.\n", fichero);
+                perror ("leer_config: ");
+                exit (EXIT_FAILURE);
         }
         do {
                 i = 0;
-                fgets(linea, 80, f);
+                fgets (linea, 80, f);
                 /* Saltamos espacios en blanco iniciales */
                 while (linea[i] == ' ' || linea[i] == '\t')
                         ++i;
@@ -270,12 +270,12 @@ leer_config (char *fichero)
                         t = CFG_CADENA;
                 } else {
                         valor = c;
-                        c = strchr(valor, '.');
+                        c = strchr (valor, '.');
                         t = (c == NULL ? CFG_ENTERO : CFG_DECIMAL);
                 }
-                inserta((config_t)cfg, linea, t, valor);
-        } while (!feof(f));
-        fclose(f);
+                inserta ((config_t) cfg, linea, t, valor);
+        } while (!feof (f));
+        fclose (f);
         return cfg;
 }
 

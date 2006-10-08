@@ -93,12 +93,12 @@ actualiza_camara (void)
          *    2. Girar la cámara horizontalmente (plano XZ).
          *    3. Girar la cámara verticalmente (plano ZY).
          */
-        glLoadIdentity();
-        glRotatef((GLfloat) -angulo_v, 1.0, 0.0, 0.0);        /* 3 */
-        glRotatef((GLfloat) -angulo_h, 0.0, 1.0, 0.0);        /* 2 */
-        glTranslatef((GLfloat) -camara_x,
-                     (GLfloat) -camara_y,
-                     (GLfloat) -camara_z);                    /* 1 */
+        glLoadIdentity ();
+        glRotatef ((GLfloat) -angulo_v, 1.0, 0.0, 0.0);        /* 3 */
+        glRotatef ((GLfloat) -angulo_h, 0.0, 1.0, 0.0);        /* 2 */
+        glTranslatef ((GLfloat) -camara_x,
+                      (GLfloat) -camara_y,
+                      (GLfloat) -camara_z);                    /* 1 */
 }
 
 
@@ -131,15 +131,15 @@ comprueba_situacion (enum tipo_de_giro t)
                         return;
                 }
         } 
-        cx = fabsf(camara_x);
-        cz = fabsf(camara_z);
+        cx = fabsf (camara_x);
+        cz = fabsf (camara_z);
         x  = Li_cfra2;
         if (cz < radio) {
                 if (cx <= x) {
                         modo_exterior = 0;
                 } else if (cx <= (x + radio)) {
                         /* x < cx <= x + radio */
-                        modo_exterior = (hypotf(cx-x, cz) <= radio?0:1);
+                        modo_exterior = (hypotf (cx-x, cz) <= radio ? 0 : 1);
                 } else {
                         /* x < x + radio < cx */
                         modo_exterior = 1;
@@ -157,8 +157,8 @@ paso_frontal (float sentido)
         float radianes;
 
         radianes  = (angulo_h * M_PI) / 180.0;
-        camara_x += sinf(radianes) * Li_mp * sentido;
-        camara_z += cosf(radianes) * Li_mp * sentido;
+        camara_x += sinf (radianes) * Li_mp * sentido;
+        camara_z += cosf (radianes) * Li_mp * sentido;
 }
 
 
@@ -168,8 +168,8 @@ paso_lateral (float sentido)
         float radianes;
 
         radianes  = (angulo_h * M_PI) / 180.0;
-        camara_x += cosf(radianes) * Li_mp * sentido;
-        camara_z += -sinf(radianes) * Li_mp * sentido;
+        camara_x += cosf (radianes) * Li_mp * sentido;
+        camara_z += -sinf (radianes) * Li_mp * sentido;
 }
 
 
@@ -235,12 +235,12 @@ teclado_especial (int tecla, int x, int y)
                 break;
         case GLUT_KEY_F5:        /* Pantalla completa */
                 if (fullscreen_flag) {
-                        glutReshapeWindow(valor_entero(C, v_width),
-                                          valor_entero(C, v_height));
-                        glutChangeToMenuEntry(6, m_enable[4], 5);
+                        glutReshapeWindow (valor_entero (C, v_width),
+                                           valor_entero (C, v_height));
+                        glutChangeToMenuEntry (6, m_enable[4], 5);
                 } else {
-                        glutFullScreen();
-                        glutChangeToMenuEntry(6, m_disable[4], 5);
+                        glutFullScreen ();
+                        glutChangeToMenuEntry (6, m_disable[4], 5);
                 }
                 fullscreen_flag = !fullscreen_flag;
                 movido++;
@@ -281,11 +281,11 @@ teclado (unsigned char tecla, int x, int y)
         switch (tecla) {
         case ' ': /* Cambio entre GL_FLAT y GL_SMOOTH */
                 if (smooth_flag) {
-                        glShadeModel(GL_FLAT);
-                        glutChangeToMenuEntry(2, m_enable[1], 1);
+                        glShadeModel (GL_FLAT);
+                        glutChangeToMenuEntry (2, m_enable[1], 1);
                 } else {
-                        glShadeModel(GL_SMOOTH);
-                        glutChangeToMenuEntry(2, m_disable[1], 1);
+                        glShadeModel (GL_SMOOTH);
+                        glutChangeToMenuEntry (2, m_disable[1], 1);
                 }
                 smooth_flag = !smooth_flag;
                 break;
@@ -325,14 +325,14 @@ teclado (unsigned char tecla, int x, int y)
                 break;
         case 'p':
         case 'P':
-                glGetIntegerv(GL_POLYGON_MODE, (GLint *)a);
+                glGetIntegerv (GL_POLYGON_MODE, (GLint *)a);
                 if (a[1] == GL_FILL)
-                        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                        glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);
                 else
-                        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+                        glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
                 break;
         case ESC:  /* Salimos del programa */
-                exit(EXIT_SUCCESS);
+                exit (EXIT_SUCCESS);
         case '0':
         case '1':
         case '2':
@@ -349,7 +349,7 @@ teclado (unsigned char tecla, int x, int y)
                 camara_x = CAMARA[i].camara_x;
                 camara_y = CAMARA[i].camara_y;
                 camara_z = CAMARA[i].camara_z;
-                comprueba_situacion(VERTICAL);
+                comprueba_situacion (VERTICAL);
                 break;
         default:   /* Cualquier otra tecla, ignorada */
                 return;
@@ -364,14 +364,14 @@ raton (int x, int y)
         static int ox = 0, oy = 0;
 
         if (x > ox)
-                giro_camara(-Li_mrs, HORIZONTAL);
+                giro_camara (-Li_mrs, HORIZONTAL);
         else if (x < ox)
-                giro_camara(Li_mrs, HORIZONTAL);
+                giro_camara (Li_mrs, HORIZONTAL);
         ox = x;
         if (y > oy)
-                giro_camara(-Li_mrs, VERTICAL);
+                giro_camara (-Li_mrs, VERTICAL);
         else if (y < oy)
-                giro_camara(Li_mrs, VERTICAL);
+                giro_camara (Li_mrs, VERTICAL);
         oy = y;
         movido++;
 }
@@ -383,38 +383,38 @@ menu (int valor)
         switch (valor) {
         case 0:
                 if (light_flag) {
-                        glDisable(GL_LIGHTING);
-                        glutChangeToMenuEntry(1, m_enable[0], 0);
+                        glDisable (GL_LIGHTING);
+                        glutChangeToMenuEntry (1, m_enable[0], 0);
                 } else {
-                        glEnable(GL_LIGHTING);
-                        glutChangeToMenuEntry(1, m_disable[0], 0);
+                        glEnable (GL_LIGHTING);
+                        glutChangeToMenuEntry (1, m_disable[0], 0);
                 }
                 light_flag = !light_flag;
-                glutPostRedisplay();
+                glutPostRedisplay ();
                 break;
         case 1:
-                teclado(' ', 0, 0);
+                teclado (' ', 0, 0);
                 break;
         case 2:
                 if (fog_flag)
-                        glutChangeToMenuEntry(3, m_enable[2], 2);
+                        glutChangeToMenuEntry (3, m_enable[2], 2);
                 else
-                        glutChangeToMenuEntry(3, m_disable[2], 2);
+                        glutChangeToMenuEntry (3, m_disable[2], 2);
                 fog_flag = !fog_flag;
-                glutPostRedisplay();
+                glutPostRedisplay ();
                 break;
         case 3:
                 if (animation_flag)
-                        glutChangeToMenuEntry(4, m_enable[3], 3);
+                        glutChangeToMenuEntry (4, m_enable[3], 3);
                 else
-                        glutChangeToMenuEntry(4, m_disable[3], 3);
+                        glutChangeToMenuEntry (4, m_disable[3], 3);
                 animation_flag = !animation_flag;
                 break;
         case 4:
                 angulo_anim = 0.0;
                 break;
         case 5:
-                teclado_especial(GLUT_KEY_F5, 0, 0);
+                teclado_especial (GLUT_KEY_F5, 0, 0);
                 break;
         }
 }
@@ -426,11 +426,11 @@ refrescar (void)
         enum tipo_de_giro t = HORIZONTAL;
 
         if (en_avance) {
-                paso_frontal(avance);
+                paso_frontal (avance);
                 movido++;
         }
         if (en_lateral) {
-                paso_lateral(lateral);
+                paso_lateral (lateral);
                 movido++;
         }
         if (en_vertical && (vertical > 0.0 || camara_y > 0.65)) {
@@ -445,8 +445,8 @@ refrescar (void)
                 movido++;
         }
         if (movido) {
-                comprueba_situacion(t);
-                glutPostRedisplay();
+                comprueba_situacion (t);
+                glutPostRedisplay ();
                 movido = 0;
         }
 }
@@ -457,38 +457,38 @@ init_interaccion (config_t conf)
 {
         C = conf;
 
-        /* Cacheamos algunas consultas (ver init_escena() en escena.c) */
-        Li_cfa   = valor_decimal(C, c_f_alto);
-        Li_cta   = valor_decimal(C, c_t_alto);
-        Li_clr   = valor_decimal(C, c_l_radio);
-        Li_cfc   = valor_decimal(C, c_f_caida);
-        Li_cfra2 = valor_decimal(C, c_fr_ancho) / 2.0;
-        Li_sel2  = valor_decimal(C, se_lado)    / 2.0;
-        Li_mp    = valor_decimal(C, m_paso);
-        Li_mg    = valor_decimal(C, m_giro);
-        Li_mrs   = valor_decimal(C, m_rsen);
-        Li_cid   = valor_decimal(C, ci_desp);
-        Li_ag    = valor_decimal(C, a_giro);
-        Li_av    = valor_entero (C, a_vel);
+        /* Cacheamos algunas consultas (ver init_escena () en escena.c) */
+        Li_cfa   = valor_decimal (C, c_f_alto);
+        Li_cta   = valor_decimal (C, c_t_alto);
+        Li_clr   = valor_decimal (C, c_l_radio);
+        Li_cfc   = valor_decimal (C, c_f_caida);
+        Li_cfra2 = valor_decimal (C, c_fr_ancho) / 2.0;
+        Li_sel2  = valor_decimal (C, se_lado)    / 2.0;
+        Li_mp    = valor_decimal (C, m_paso);
+        Li_mg    = valor_decimal (C, m_giro);
+        Li_mrs   = valor_decimal (C, m_rsen);
+        Li_cid   = valor_decimal (C, ci_desp);
+        Li_ag    = valor_decimal (C, a_giro);
+        Li_av    = valor_entero  (C, a_vel);
 
         sol_posicion[0] = sol_posicion[1] = -Li_sel2;
         sol_posicion[2] = 0.7 * Li_sel2;
         sol_posicion[3] = 0.0;
 
-        glutIdleFunc(refrescar);
-        glutIgnoreKeyRepeat(1);
-        glutKeyboardFunc(teclado);
-        glutSpecialFunc(teclado_especial);
-        glutSpecialUpFunc(teclado_especial_up);
-        glutMotionFunc(raton);
-        glutCreateMenu(menu);
-        glutAddMenuEntry(m_disable[0], 0);
-        glutAddMenuEntry(m_disable[1], 1);
-        glutAddMenuEntry(m_disable[2], 2);
-        glutAddMenuEntry(m_enable[3], 3);
-        glutAddMenuEntry("Reste animation", 4);
-        glutAddMenuEntry(m_enable[4], 5);
-        glutAttachMenu(GLUT_RIGHT_BUTTON);
-        comprueba_situacion(VERTICAL);
+        glutIdleFunc (refrescar);
+        glutIgnoreKeyRepeat (1);
+        glutKeyboardFunc (teclado);
+        glutSpecialFunc (teclado_especial);
+        glutSpecialUpFunc (teclado_especial_up);
+        glutMotionFunc (raton);
+        glutCreateMenu (menu);
+        glutAddMenuEntry (m_disable[0], 0);
+        glutAddMenuEntry (m_disable[1], 1);
+        glutAddMenuEntry (m_disable[2], 2);
+        glutAddMenuEntry (m_enable[3], 3);
+        glutAddMenuEntry ("Reste animation", 4);
+        glutAddMenuEntry (m_enable[4], 5);
+        glutAttachMenu (GLUT_RIGHT_BUTTON);
+        comprueba_situacion (VERTICAL);
 }
 

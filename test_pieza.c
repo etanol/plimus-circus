@@ -73,33 +73,33 @@ activa_objeto (enum Pieza p, config_t c)
         };
         switch (p) {
         case FALDON_FRONTAL:
-                lst_pieza = crear_faldon_frontal(c);
+                lst_pieza = crear_faldon_frontal (c);
                 break;
         case FALDON_LATERAL:
-                lst_pieza = crear_faldon_lateral(c);
+                lst_pieza = crear_faldon_lateral (c);
                 break;
         case TECHO_FRONTAL:
-                lst_pieza = crear_techo_frontal(c);
+                lst_pieza = crear_techo_frontal (c);
                 break;
         case TECHO_LATERAL:
-                lst_pieza = crear_techo_lateral(c);
+                lst_pieza = crear_techo_lateral (c);
                 break;
         case GRADA_FRONTAL:
-                lst_pieza = crear_grada_frontal(c);
+                lst_pieza = crear_grada_frontal (c);
                 break;
         case GRADA_LATERAL:
-                lst_pieza = crear_grada_lateral(c);
+                lst_pieza = crear_grada_lateral (c);
                 break;
         default:
-                fputs("Pieza no reconocida.\n", stderr);
-                exit(1);
+                fputs ("Pieza no reconocida.\n", stderr);
+                exit (1);
         }
         if (lst_pieza == 0) {
-                fputs("No se pudo crear la pieza.\n", stderr);
-                exit(3);
+                fputs ("No se pudo crear la pieza.\n", stderr);
+                exit (3);
         }
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(3, GL_FLOAT, 0, ejes);
+        glEnableClientState (GL_VERTEX_ARRAY);
+        glVertexPointer (3, GL_FLOAT, 0, ejes);
 }
 
 
@@ -110,41 +110,41 @@ main (int argc, char **argv)
         config_t cfg;
         int bits[5];
 
-        cfg = leer_config(TEST_CONFIG);
+        cfg = leer_config (TEST_CONFIG);
         
-        glutInit(&argc, argv);
+        glutInit (&argc, argv);
 
-        fwrite(menu, 1, sizeof(menu) - 1, stdout);
-        scanf("%d", &choice);
+        fwrite (menu, 1, sizeof (menu) - 1, stdout);
+        scanf ("%d", &choice);
 
-        glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-        glutInitWindowSize(valor_entero(cfg, v_width),
-                           valor_entero(cfg, v_height));
-        glutInitWindowPosition(valor_entero(cfg, v_posx),
-                               valor_entero(cfg, v_posy));
-        glutCreateWindow(valor_cadena(cfg, v_title));
-        glutKeyboardFunc(teclado);
-        glutDisplayFunc(display);
-        glutReshapeFunc(ventana);
+        glutInitDisplayMode (GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+        glutInitWindowSize (valor_entero (cfg, v_width),
+                            valor_entero (cfg, v_height));
+        glutInitWindowPosition (valor_entero (cfg, v_posx),
+                                valor_entero (cfg, v_posy));
+        glutCreateWindow (valor_cadena (cfg, v_title));
+        glutKeyboardFunc (teclado);
+        glutDisplayFunc (display);
+        glutReshapeFunc (ventana);
 
-        glGetIntegerv(GL_RED_BITS, bits);
-        glGetIntegerv(GL_GREEN_BITS, bits + 1);
-        glGetIntegerv(GL_BLUE_BITS, bits + 2);
-        glGetIntegerv(GL_ALPHA_BITS, bits + 3);
-        glGetIntegerv(GL_DEPTH_BITS, bits + 4);
-        printf("R: %2d, G: %2d, B: %2d, A: %2d, Prof: %2d\n", bits[0], bits[1],
+        glGetIntegerv (GL_RED_BITS, bits);
+        glGetIntegerv (GL_GREEN_BITS, bits + 1);
+        glGetIntegerv (GL_BLUE_BITS, bits + 2);
+        glGetIntegerv (GL_ALPHA_BITS, bits + 3);
+        glGetIntegerv (GL_DEPTH_BITS, bits + 4);
+        printf ("R: %2d, G: %2d, B: %2d, A: %2d, Prof: %2d\n", bits[0], bits[1],
                bits[2], bits[3], bits[4]);
 
-        glClearColor(1.0, 1.0, 1.0, 1.0);
-        glEnable(GL_DEPTH_TEST);
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_LIGHTING);
-        glEnable(GL_LIGHT0);
-        glEnable(GL_COLOR_MATERIAL);
-        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+        glClearColor (1.0, 1.0, 1.0, 1.0);
+        glEnable (GL_DEPTH_TEST);
+        glEnable (GL_TEXTURE_2D);
+        glEnable (GL_LIGHTING);
+        glEnable (GL_LIGHT0);
+        glEnable (GL_COLOR_MATERIAL);
+        glColorMaterial (GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
-        activa_objeto((enum Pieza) choice, cfg);
-        glutMainLoop();
+        activa_objeto ((enum Pieza) choice, cfg);
+        glutMainLoop ();
         return 0;
 }
 
@@ -162,30 +162,30 @@ teclado (unsigned char tecla, int x, int y)
 {
         switch (tecla) {
         case '0':
-                glLoadIdentity();
+                glLoadIdentity ();
                 break;
         case 'x':
-                glRotatef(3.0, 1.0, 0.0, 0.0);
+                glRotatef (3.0, 1.0, 0.0, 0.0);
                 break;
         case 'X':
-                glRotatef(-3.0, 1.0, 0.0, 0.0);
+                glRotatef (-3.0, 1.0, 0.0, 0.0);
                 break;
         case 'y':
-                glRotatef(3.0, 0.0, 1.0, 0.0);
+                glRotatef (3.0, 0.0, 1.0, 0.0);
                 break;
         case 'Y':
-                glRotatef(-3.0, 0.0, 1.0, 0.0);
+                glRotatef (-3.0, 0.0, 1.0, 0.0);
                 break;
         case 'z':
-                glRotatef(3.0, 0.0, 0.0, 1.0);
+                glRotatef (3.0, 0.0, 0.0, 1.0);
                 break;
         case 'Z':
-                glRotatef(-3.0, 0.0, 0.0, 1.0);
+                glRotatef (-3.0, 0.0, 0.0, 1.0);
                 break;
         case 27:
-                exit(0);
+                exit (0);
         }
-        glutPostRedisplay();
+        glutPostRedisplay ();
 }
 
 
@@ -198,34 +198,34 @@ display (void)
         GLubyte ejez[]  = {0, 3};
 
         /* Dibujamos la pieza */        
-        glViewport(0, 0, win_w, win_h);
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(-10.0, 10.0, -10.0, 10.0, -15.0, 15.0);
-        glMatrixMode(GL_MODELVIEW);
-        glCallList(lst_pieza);
-        glPushMatrix(); /* 1 */
+        glViewport (0, 0, win_w, win_h);
+        glClear (GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+        glMatrixMode (GL_PROJECTION);
+        glLoadIdentity ();
+        glOrtho (-10.0, 10.0, -10.0, 10.0, -15.0, 15.0);
+        glMatrixMode (GL_MODELVIEW);
+        glCallList (lst_pieza);
+        glPushMatrix (); /* 1 */
 
         /* Dibujamos el estado actual de la rotación */
-        glViewport(0, 0, win_w/5, win_h/5);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        glDisable(GL_LIGHTING);
-        glColor3f(0.0, 0.0, 0.0);
-        glDrawElements(GL_LINES, 6, GL_UNSIGNED_BYTE, todos);
-        glPopMatrix(); /* 1 */
-        glColor3f(1.0, 0.0, 0.0);
-        glDrawElements(GL_LINES, 2, GL_UNSIGNED_BYTE, ejex);
-        glColor3f(0.0, 1.0, 0.0);
-        glDrawElements(GL_LINES, 2, GL_UNSIGNED_BYTE, ejey);
-        glColor3f(0.0, 0.0, 1.0);
-        glDrawElements(GL_LINES, 2, GL_UNSIGNED_BYTE, ejez);
-        glEnable(GL_LIGHTING);
-        glFlush();
-        glutSwapBuffers();
+        glViewport (0, 0, win_w/5, win_h/5);
+        glMatrixMode (GL_PROJECTION);
+        glLoadIdentity ();
+        glOrtho (-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+        glMatrixMode (GL_MODELVIEW);
+        glLoadIdentity ();
+        glDisable (GL_LIGHTING);
+        glColor3f (0.0, 0.0, 0.0);
+        glDrawElements (GL_LINES, 6, GL_UNSIGNED_BYTE, todos);
+        glPopMatrix (); /* 1 */
+        glColor3f (1.0, 0.0, 0.0);
+        glDrawElements (GL_LINES, 2, GL_UNSIGNED_BYTE, ejex);
+        glColor3f (0.0, 1.0, 0.0);
+        glDrawElements (GL_LINES, 2, GL_UNSIGNED_BYTE, ejey);
+        glColor3f (0.0, 0.0, 1.0);
+        glDrawElements (GL_LINES, 2, GL_UNSIGNED_BYTE, ejez);
+        glEnable (GL_LIGHTING);
+        glFlush ();
+        glutSwapBuffers ();
 }
 
