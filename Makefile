@@ -107,9 +107,12 @@ hdist: circo.exe ChangeLog
 	cp -vl $(mingw_glut)/glut32.dll plimus_circus_win32; \
 	zip -rm9 pcircus_win32.zip plimus_circus_win32
 
-cl: ChangeLog
+cl: ChangeLog CommitLog
 ChangeLog:
-	@cvs2cl -S -P -b -T --show-dead
+	@hg log --style=changelog >$@
+
+CommitLog:
+	@hg log --style=./simple.hgstyle | expand -t 4 >$@
 
 #
 # Ayuda
@@ -140,7 +143,7 @@ config.o      : config.c config.h conf_keys.h
 escena.o      : escena.c config.h conf_keys.h interaccion.h textura.h piezas.h
 gradas.o      : gradas.c piezas.h config.h conf_keys.h textura.h
 interaccion.o : interaccion.c config.h conf_keys.h camaras.h escena.h
-suelo.o	      : suelo.c piezas.h config.h conf_keys.h textura.h
+suelo.o       : suelo.c piezas.h config.h conf_keys.h textura.h
 test_config.o : test_config.c config.h conf_keys.h
 test_pieza.o  : test_pieza.c config.h conf_keys.h piezas.h
 textura.o     : textura.c config.h conf_keys.h

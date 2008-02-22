@@ -1,0 +1,5 @@
+changeset = 'commit {node|short}  (revision {rev})\nAuthor: {author}\nDate:   {date|date}{tags}\n\n\t{desc|strip|fill68|tabindent}\n\n\n'
+start_tags = '\nTags:   '
+tag = '{tag}, '
+last_tag = '{tag}'
+
