@@ -87,21 +87,21 @@ test_config.exe: test_config.obj $(conf:=.obj)
 
 # Limpieza
 clean:
-	@-rm -fv *.o *.obj ejemplos/*.o gmon.out ejemplos/gmon.out ChangeLog*
+	@-rm -fv *.o *.obj ejemplos/*.o gmon.out ejemplos/gmon.out ChangeLog CommitLog
 
 dclean: clean
 	@-rm -fv *.exe circo $(tests) $(etapas) *.zip
 
-dist: circo ChangeLog
+dist: circo CommitLog ChangeLog
 	@mkdir plimus_circus; \
-	cp -vl circo ChangeLog circo.cfg plimus_circus; \
+	cp -vl circo CommitLog ChangeLog circo.cfg plimus_circus; \
 	cp -rvl imagen plimus_circus; \
 	rm -rf plimus_circus/imagen/CVS; \
 	zip -rm9 pcircus.zip plimus_circus
 
-hdist: circo.exe ChangeLog
+hdist: circo.exe CommitLog ChangeLog
 	@mkdir plimus_circus_win32; \
-	cp -vl circo.exe ChangeLog circo.cfg plimus_circus_win32; \
+	cp -vl circo.exe CommitLog ChangeLog circo.cfg plimus_circus_win32; \
 	cp -rvl imagen plimus_circus_win32; \
 	rm -rf plimus_circus_win32/imagen/CVS; \
 	cp -vl $(mingw_glut)/glut32.dll plimus_circus_win32; \
