@@ -32,8 +32,8 @@
 
 static int carpa_textura = 0;
 
-static void
-evaluator (float *vertices, float *tex, int nu, int nv, int invert)
+
+static void evaluator (float *vertices, float *tex, int nu, int nv, int invert)
 {
         int iv, jv, it, jt;
 
@@ -55,8 +55,7 @@ evaluator (float *vertices, float *tex, int nu, int nv, int invert)
 }
 
 
-int
-crear_faldon_frontal (config_t c)
+int crear_faldon_frontal (config_t c)
 {
         int   i, j, lista;
         float control[4][4][3];
@@ -91,8 +90,7 @@ crear_faldon_frontal (config_t c)
 }
 
 
-int
-crear_faldon_lateral (config_t c)
+int crear_faldon_lateral (config_t c)
 {
         int   i, lista;
         float control[4][4][3];
@@ -131,8 +129,7 @@ crear_faldon_lateral (config_t c)
 }
 
 
-int
-crear_techo_frontal (config_t c)
+int crear_techo_frontal (config_t c)
 {
         int   i, j, lista;
         float control[4][4][3];
@@ -173,8 +170,7 @@ crear_techo_frontal (config_t c)
 }
 
 
-int
-crear_techo_lateral (config_t c)
+int crear_techo_lateral (config_t c)
 {
         int   i, lista;
         float control[4][4][3]; 
@@ -214,8 +210,7 @@ crear_techo_lateral (config_t c)
 }
 
 
-int
-crear_entrada (config_t c)
+int crear_entrada (config_t c)
 {
         int   lista, i, textura;
         int   caras = valor_entero(c, c_e_det);

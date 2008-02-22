@@ -22,6 +22,7 @@ GLfloat ctrlpoints[4][4][3] = {
 
 int   current = 0;
 
+
 void initlights(void)
 {
         GLfloat ambient[] = {0.2, 0.2, 0.2, 1.0};

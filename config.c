@@ -34,8 +34,7 @@
 #define GROW_STEP 4
 
 
-static void *
-my_malloc (size_t tam)
+static void *my_malloc (size_t tam)
 {
         void *ret;
 
@@ -48,8 +47,7 @@ my_malloc (size_t tam)
 }
 
 
-static void *
-my_realloc (void *old, size_t n_tam)
+static void *my_realloc (void *old, size_t n_tam)
 {
         void *ret;
 
@@ -62,8 +60,7 @@ my_realloc (void *old, size_t n_tam)
 }
 
 
-static void
-inserta (config_t cfg, char *k, enum tipo t, char *val)
+static void inserta (config_t cfg, char *k, enum tipo t, char *val)
 {
         int          i;
         struct nodo *n;
@@ -132,8 +129,7 @@ inserta (config_t cfg, char *k, enum tipo t, char *val)
 }
 
 
-struct item *
-consulta (config_t cfg, const char *k)
+struct item *consulta (config_t cfg, const char *k)
 {
         int          i;
         struct nodo *n;
@@ -164,8 +160,7 @@ consulta (config_t cfg, const char *k)
 }
 
 
-char *
-valor_cadena (config_t cfg, const char *k)
+char *valor_cadena (config_t cfg, const char *k)
 {
         struct item *d;
 
@@ -178,8 +173,7 @@ valor_cadena (config_t cfg, const char *k)
 }
 
 
-int
-valor_entero (config_t cfg, const char *k)
+int valor_entero (config_t cfg, const char *k)
 {
         struct item *d;
 
@@ -192,8 +186,7 @@ valor_entero (config_t cfg, const char *k)
 }
 
 
-float
-valor_decimal (config_t cfg, const char *k)
+float valor_decimal (config_t cfg, const char *k)
 {
         struct item *d;
 
@@ -206,8 +199,7 @@ valor_decimal (config_t cfg, const char *k)
 }
 
 
-config_t
-leer_config (char *fichero)
+config_t leer_config (char *fichero)
 {
         FILE        *f;
         char         linea[82], *c, *valor;

@@ -1,18 +1,18 @@
 /*
  * grid.c
  *
- * Un ejemplo para probar glMap2() con superfícies de orden 2x2.
- *
- * $Id$
+ * Un ejemplo para probar glMap2() con superfÃ­cies de orden 2x2.
  */
 
 #include "rotaciones.C"
+
 
 void display(void)
 {
         glColor3f(0.0, 0.0, 0.0);
         glEvalMesh2(GL_LINE, 0, 20, 0, 20);
 }
+
 
 int main(int argc, char **argv)
 {

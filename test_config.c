@@ -36,8 +36,8 @@ const char *claves[10] = {
         "grada_frontal_ancho"
 };
 
-int
-main (int argc, char **argv)
+
+int main (int argc, char **argv)
 {
         int          i;
         config_t     c;

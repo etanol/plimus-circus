@@ -43,4 +43,3 @@ const struct {
 };
 
 #endif /* _CAMARAS_H_ */
-

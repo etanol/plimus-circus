@@ -1,7 +1,7 @@
 /*
  * bezmesh.c
  *
- * Ejemplo de superficies de Bézier con iluminación utilizando OpenGL
+ * Ejemplo de superficies de BÃ©zier con iluminaciÃ³n utilizando OpenGL
  * Evaluators. Sacado del "libro rojo"
  */
 

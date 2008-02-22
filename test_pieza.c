@@ -60,8 +60,7 @@ void display (void);
 void ventana (int, int);
 
 
-void
-activa_objeto (enum Pieza p, config_t c)
+void activa_objeto (enum Pieza p, config_t c)
 {
         static GLfloat ejes[] = {
                 0.0, 0.0, 0.0,
@@ -101,8 +100,7 @@ activa_objeto (enum Pieza p, config_t c)
 }
 
 
-int
-main (int argc, char **argv)
+int main (int argc, char **argv)
 {
         int choice;
         config_t cfg;
@@ -147,16 +145,14 @@ main (int argc, char **argv)
 }
 
 
-void
-ventana (int w, int h)
+void ventana (int w, int h)
 {
         win_w = w;
         win_h = h;
 }
 
 
-void
-teclado (unsigned char tecla, int x, int y)
+void teclado (unsigned char tecla, int x, int y)
 {
         switch (tecla) {
         case '0':
@@ -187,8 +183,7 @@ teclado (unsigned char tecla, int x, int y)
 }
 
 
-void
-display (void)
+void display (void)
 {
         GLubyte todos[] = {0, 1, 0, 2, 0, 3};
         GLubyte ejex[]  = {0, 1};

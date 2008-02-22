@@ -82,8 +82,8 @@ static float Li_cfa, Li_cta, Li_clr, Li_cfc, Li_cfra2, Li_sel2;
 static float Li_mp, Li_mg, Li_mrs, Li_cid, Li_ag;
 static int   Li_av;
 
-void
-actualiza_camara (void)
+
+void actualiza_camara (void)
 {
         /*
          * Pasos:
@@ -109,8 +109,7 @@ actualiza_camara (void)
  * El parámetro 't' no define el tipo de giro sino el tipo de desplazamiento. Si
  * hubo desplazamiento vertical hay que realizar cálculos adicionales.
  */
-static void
-comprueba_situacion (enum tipo_de_giro t)
+static void comprueba_situacion (enum tipo_de_giro t)
 {
         static float radio = 0.0;
         float x, cx, cz;
@@ -149,8 +148,7 @@ comprueba_situacion (enum tipo_de_giro t)
 }
 
 
-static void
-paso_frontal (float sentido)
+static void paso_frontal (float sentido)
 {
         float radianes;
 
@@ -160,8 +158,7 @@ paso_frontal (float sentido)
 }
 
 
-static void
-paso_lateral (float sentido)
+static void paso_lateral (float sentido)
 {
         float radianes;
 
@@ -171,8 +168,7 @@ paso_lateral (float sentido)
 }
 
 
-static void
-giro_camara (float sentido, enum tipo_de_giro g)
+static void giro_camara (float sentido, enum tipo_de_giro g)
 {
         float *angulo;
         float *despl;
@@ -203,8 +199,7 @@ giro_camara (float sentido, enum tipo_de_giro g)
 }
 
 
-static void
-teclado_especial (int tecla, int x, int y)
+static void teclado_especial (int tecla, int x, int y)
 {
         switch (tecla) {
         case GLUT_KEY_UP:        /* Paso hacia adelante */
@@ -249,8 +244,7 @@ teclado_especial (int tecla, int x, int y)
 }
 
 
-static void
-teclado_especial_up (int tecla, int x, int y)
+static void teclado_especial_up (int tecla, int x, int y)
 {
         switch (tecla) {
         case GLUT_KEY_UP:        /* Paso hacia adelante */
@@ -270,8 +264,7 @@ teclado_especial_up (int tecla, int x, int y)
 }
 
 
-static void
-teclado (unsigned char tecla, int x, int y)
+static void teclado (unsigned char tecla, int x, int y)
 {
         int i;
         int a[2];
@@ -356,8 +349,7 @@ teclado (unsigned char tecla, int x, int y)
 }
 
 
-static void
-raton (int x, int y)
+static void raton (int x, int y)
 {
         static int ox = 0, oy = 0;
 
@@ -375,8 +367,7 @@ raton (int x, int y)
 }
 
 
-static void
-menu (int valor)
+static void menu (int valor)
 {
         switch (valor) {
         case 0:
@@ -418,8 +409,7 @@ menu (int valor)
 }
 
 
-static void
-refrescar (void)
+static void refrescar (void)
 {
         enum tipo_de_giro t = HORIZONTAL;
 
@@ -450,8 +440,7 @@ refrescar (void)
 }
 
 
-void
-init_interaccion (config_t conf)
+void init_interaccion (config_t conf)
 {
         C = conf;
 

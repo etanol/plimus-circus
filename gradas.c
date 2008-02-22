@@ -35,15 +35,15 @@
 static const float color_lateral[3] = {0.7, 0.0, 0.1};
 static       int   gradas_textura   = 0;
 
-static void *
-my_malloc (size_t s)
+
+static void *my_malloc (size_t s)
 {
         void *r;
 
-        r = malloc (s);
+        r = malloc(s);
         if (r == NULL) {
-                fprintf (stderr, "Error al reservar memoria para grada.\n");
-                exit (6);
+                fprintf(stderr, "Error al reservar memoria para grada.\n");
+                exit(6);
         }
         return r;
 }
@@ -54,8 +54,7 @@ my_malloc (size_t s)
  * las matrices, según el nivel de detalle solicitado en el fichero de
  * configuración, antes de inicializarlas.
  */
-int
-crear_grada_frontal (config_t c)
+int crear_grada_frontal (config_t c)
 {
         int     i, lista;
         int     gesc   = valor_entero(c, gs_esc);
@@ -150,8 +149,7 @@ crear_grada_frontal (config_t c)
 }
 
 
-int
-crear_grada_lateral (config_t c)
+int crear_grada_lateral (config_t c)
 {
         int   i, j, lista;
         int   gesc = valor_entero(c, gs_esc);  /* Escalones */

@@ -26,8 +26,8 @@
 #include "piezas.h"
 #include "textura.h"
 
-int
-crear_poste (config_t c)
+
+int crear_poste (config_t c)
 {
         GLUquadricObj *cilindro;
         int            lista;
@@ -36,7 +36,7 @@ crear_poste (config_t c)
         float          altura = valor_decimal(c, c_f_alto) 
                                 + valor_decimal(c, c_t_alto)
                                 + valor_decimal(c, p_ealto);
-        
+
         lista = glGenLists(1);
         if (lista == 0)
                 return 0;
@@ -68,8 +68,7 @@ crear_poste (config_t c)
 }
 
 
-int
-crear_banqueta (config_t c)
+int crear_banqueta (config_t c)
 {
         GLUquadric *cilindro;
         int         lista, textura;
@@ -118,11 +117,10 @@ crear_banqueta (config_t c)
 
 /*
  * En esta función utilizamos Vertex Arrays para hacer menos llamadas a la API
- * de OpenGL. Este ahorro se (des)compensa con una complejidad mayor en la forma
- * de manejar las coordenadas.
+ * de OpenGL. Este ahorro se (des)compensa con una complejidad mayor en la
+ * forma de manejar las coordenadas.
  */
-int
-crear_cartel (config_t c)
+int crear_cartel (config_t c)
 {
         int   lista, i, tfoto, textura;
         float x       = valor_decimal(c, crt_ancho) / 2.0;
@@ -226,8 +224,7 @@ crear_cartel (config_t c)
  * inferior usamos un Quadric como en los postes. En esta objeto no mapeamos
  * texturas... eso que nos ahorramos.
  */
-int
-crear_tablon (config_t c)
+int crear_tablon (config_t c)
 {
         int   i, lista;
         int   detalle = valor_entero(c, t_b_det);
@@ -284,8 +281,7 @@ crear_tablon (config_t c)
 }
 
 
-int
-crear_arbol (config_t c)
+int crear_arbol (config_t c)
 {
         int   lista, textura;
         float x = valor_decimal(c, ar_ancho) / 2.0;
@@ -312,8 +308,7 @@ crear_arbol (config_t c)
 }
 
 
-int
-crear_sol (config_t c)
+int crear_sol (config_t c)
 {
         int         lista;
         GLUquadric *sol;
@@ -340,8 +335,7 @@ crear_sol (config_t c)
 }
 
 
-int
-crear_payaso (config_t c)
+int crear_payaso (config_t c)
 {
         int   lista, textura;
         float x = valor_decimal(c, pa_ancho) / 2.0;
@@ -377,8 +371,7 @@ crear_payaso (config_t c)
 
 
 /* Esto es una chapuza de última hora */
-int
-crear_payaso_ext (config_t c)
+int crear_payaso_ext (config_t c)
 {
         int   lista, textura;
         float x = valor_decimal(c, pa_ancho) / 2.0;

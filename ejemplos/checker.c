@@ -14,6 +14,7 @@
 static GLubyte checkImage[checkImageHeight][checkImageWidth][4];
 static GLuint texName;
 
+
 void makeCheckImage(void)
 {
         int i, j, c;

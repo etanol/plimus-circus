@@ -26,8 +26,7 @@
 #include "textura.h"
 
 
-static void
-suelo (float *limites, float *tex, int detalle)
+static void suelo (float *limites, float *tex, int detalle)
 {
         glDisable(GL_AUTO_NORMAL);
         glEnable(GL_MAP2_VERTEX_3);
@@ -41,8 +40,7 @@ suelo (float *limites, float *tex, int detalle)
 }
 
 
-int
-crear_suelo_exterior (config_t c)
+int crear_suelo_exterior (config_t c)
 {
         int   lista, textura;
         float l = valor_decimal(c, se_lado) / 2.0;
@@ -63,8 +61,7 @@ crear_suelo_exterior (config_t c)
 }
 
 
-int
-crear_suelo_interior (config_t c)
+int crear_suelo_interior (config_t c)
 {
         int   lista, textura;
         float x = (valor_decimal(c, c_fr_ancho) / 2.0)
@@ -91,8 +88,7 @@ crear_suelo_interior (config_t c)
  * Ésta es un poco más larga porque también pintamos un marco alrededor de los
  * límites. Para el marco usamos Vertex Arrays.
  */
-int
-crear_suelo_arena (config_t c)
+int crear_suelo_arena (config_t c)
 {
         int   lista, i, j, textura;
         float b = valor_decimal(c, sa_btam) / 2.0;

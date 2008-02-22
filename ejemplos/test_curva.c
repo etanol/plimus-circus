@@ -16,6 +16,7 @@ GLfloat ctrlpoints[4][4] = {{-1.5, 0.0, 0.0, 1.0}, {-0.5, 0.0, 0.0, 1.0},
 int current = 0;
 int semi;
 
+
 void init(void)
 {
         int i;
@@ -43,6 +44,7 @@ void init(void)
         glEndList();
 }
 
+
 void teclado2(int tecla, int x, int y)
 {
         switch (tecla) {
@@ -61,6 +63,7 @@ void teclado2(int tecla, int x, int y)
         }
         glutPostRedisplay();
 }
+
 
 void teclado(unsigned char tecla, int x, int y)
 {
@@ -100,6 +103,7 @@ void teclado(unsigned char tecla, int x, int y)
         glutPostRedisplay();
 }
 
+
 void display(void)
 {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -116,6 +120,7 @@ void display(void)
         glFlush();
         glutSwapBuffers();
 }
+
 
 int main(int argc, char **argv)
 {

@@ -64,5 +64,4 @@ extern int crear_sol        (config_t cfg);
 extern int crear_payaso     (config_t cfg);
 extern int crear_payaso_ext (config_t cfg);
 
-#endif
-
+#endif /* _PIEZAS_H_ */

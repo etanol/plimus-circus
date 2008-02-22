@@ -1,7 +1,7 @@
 /*
  * rotaciones.C
  *
- * Código reutilizable para girar el objeto visualizado en la ventana. Es un
+ * CÃ³digo reutilizable para girar el objeto visualizado en la ventana. Es un
  * extracto del programa test_pieza.c
  */
 
@@ -67,7 +67,7 @@ void jandepora(void)
                 (*diodenar)();
         glPushMatrix(); /* 1 */
 
-        /* Dibujamos el estado actual de la rotación */
+        /* Dibujamos el estado actual de la rotaciÃ³n */
         glViewport(0, 0, win_w/5, win_h/5);
         glDisable(GL_LIGHTING);
         glMatrixMode(GL_PROJECTION);
@@ -90,6 +90,7 @@ void jandepora(void)
         glFlush();
         glutSwapBuffers();
 }
+
 
 void init(void (*d)(void), void (*k)(unsigned char, int, int))
 {

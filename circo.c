@@ -30,8 +30,8 @@
 #include "escena.h"
 #include "interaccion.h"
 
-int
-main (int argc, char **argv)
+
+int main (int argc, char **argv)
 {
         config_t cfg;
         FILE    *test;
@@ -77,3 +77,4 @@ main (int argc, char **argv)
         glutMainLoop();
         return 0;
 }
+

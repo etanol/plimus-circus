@@ -62,5 +62,4 @@ extern float    valor_decimal (config_t cfg, const char *k);
 /* Sólo para debug */
 extern struct item *consulta (config_t cfg, const char *k);
 
-#endif
-
+#endif /* _CONFIG_H_ */

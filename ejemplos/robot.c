@@ -1,8 +1,8 @@
 /*
  * robot.c
  *
- * Programa que ilustra cómo componer transformaciones de modelización. Para
- * mover el hombro pulsar 'h' ó 'H', para mover el codo pulsar 'c' ó 'C'
+ * Programa que ilustra cÃ³mo componer transformaciones de modelizaciÃ³n. Para
+ * mover el hombro pulsar 'h' Ã³ 'H', para mover el codo pulsar 'c' Ã³ 'C'
  */
 
 #include <GL/gl.h>
@@ -12,11 +12,13 @@
 
 static int hombro = 0, codo = 0;
 
+
 void init(void)
 {
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glShadeModel(GL_FLAT);
 }
+
 
 void display(void)
 {
@@ -41,6 +43,7 @@ void display(void)
         glutSwapBuffers();
 }
 
+
 void reshape(int ancho, int alto)
 {
         glViewport(0, 0, ancho, alto);
@@ -51,6 +54,7 @@ void reshape(int ancho, int alto)
         glLoadIdentity();
         glTranslatef(0.0, 0.0, -5.0);
 }
+
 
 void keyboard(unsigned char tecla, int x, int y)
 {
@@ -78,6 +82,7 @@ void keyboard(unsigned char tecla, int x, int y)
                         break;
         }
 }
+
 
 int main(int argc, char **argv)
 {

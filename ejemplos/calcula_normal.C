@@ -1,13 +1,12 @@
 /*
  * calcula_normal.C
  *
- * Función para calcular la normal a un plano (vector unitario) a partir de 3
- * puntos pertenecientes a él.
- *
- * $Id$
+ * FunciÃ³n para calcular la normal a un plano (vector unitario) a partir de 3
+ * puntos pertenecientes a Ã©l.
  */
 
-void calcNormal(float v[3][3], float out[3]) {
+void calcNormal (float v[3][3], float out[3])
+{
         float v1[3], v2[3];
         float length;
         static const int x = 0;
@@ -53,3 +52,4 @@ void calcNormal(float v[3][3], float out[3]) {
         out[1] /= length;
         out[2] /= length;
 }
+

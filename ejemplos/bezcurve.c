@@ -1,7 +1,7 @@
 /*
  * bezcurve.c
  *
- * Ejemplo de curvas de Bézier utilizando OpenGL Evaluators. Sacado del "libro
+ * Ejemplo de curvas de BÃ©zier utilizando OpenGL Evaluators. Sacado del "libro
  * rojo".
  */
 
@@ -12,6 +12,7 @@
 GLfloat ctrlpoints[4][3] = {
         {-4.0, -4.0, 0.0}, {-2.0, 4.0, 0.0},
         {2.0, -4.0, 0.0},  {4.0, 4.0, 0.0}};
+
 
 void init(void)
 {
@@ -26,6 +27,7 @@ void init(void)
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 }
+
 
 void display(void)
 {
@@ -43,6 +45,7 @@ void display(void)
         glEnd();
         glFlush();
 }
+
 
 int main(int argc, char **argv)
 {

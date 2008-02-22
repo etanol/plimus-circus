@@ -28,5 +28,4 @@
 extern int cargar_textura    (config_t cfg, const char *tex_file);
 extern int gen_textura_carpa (void);
 
-#endif
-
+#endif /* _TEXTURA_H_ */

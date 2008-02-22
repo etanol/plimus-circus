@@ -28,8 +28,8 @@ const int W_HEIGHT = 500;
 /* Variable que indica el ángulo de rotación de los ejes. */
 GLfloat fAngulo;
 
-void
-Display (void)
+
+void Display (void)
 {
         /* Borramos la escena */
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
@@ -49,8 +49,7 @@ Display (void)
 }
 
 
-void
-Rota (unsigned char c, int x, int y)
+void Rota (unsigned char c, int x, int y)
 {
         if (c == (char) 27)
                 exit(0);
@@ -64,8 +63,7 @@ Rota (unsigned char c, int x, int y)
 }
 
 
-void
-Reshape (int ancho, int alto)
+void Reshape (int ancho, int alto)
 {
         int lado, x, y;
 
@@ -88,8 +86,7 @@ Reshape (int ancho, int alto)
 }
 
 
-int
-main (int argc, char **argv)
+int main (int argc, char **argv)
 {
         /* Inicializamos la librería GLUT */
         glutInit(&argc, argv);
@@ -115,3 +112,4 @@ main (int argc, char **argv)
         glutMainLoop();
         return 0;
 }
+

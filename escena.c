@@ -59,8 +59,7 @@ static float Le_cfra2, Le_clr, Le_calt, Le_crtsep, Le_pasep;
 static float Le_fov, Le_znear, Le_zfar, Le_fang;
 
 
-static void
-actualiza_viewport (int ancho, int alto)
+static void actualiza_viewport (int ancho, int alto)
 {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
@@ -71,8 +70,7 @@ actualiza_viewport (int ancho, int alto)
 }
 
 
-static void
-cielo (void)
+static void cielo (void)
 {
         glColor3f(1.0, 1.0, 1.0);
         glPushAttrib(GL_ENABLE_BIT);
@@ -104,8 +102,7 @@ cielo (void)
 }
 
 
-static void
-init_luces_niebla (void)
+static void init_luces_niebla (void)
 {
         float ambiente_global[4]    = {0.0, 0.0, 0.0, 1.0};
         float sol_ambiente[4]       = {0.25, 0.25, 0.25, 1.0};
@@ -182,8 +179,7 @@ init_luces_niebla (void)
 }
 
 
-static void
-luces_niebla (void)
+static void luces_niebla (void)
 {
         float foco_posicion[4]     = {0.0, 0.0, 0.0, 1.0};
         float foco_direccion[4]    = {0.0, 0.0, -1.0, 0.0};
@@ -228,8 +224,7 @@ luces_niebla (void)
 }
 
 
-static void
-escena (void)
+static void escena (void)
 {
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
@@ -351,8 +346,7 @@ escena (void)
 }
 
 
-void
-init_escena (config_t cfg)
+void init_escena (config_t cfg)
 {
         C = cfg;
 

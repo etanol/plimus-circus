@@ -37,5 +37,4 @@ extern float angulo_h;
 extern void init_interaccion (config_t cfg);
 extern void actualiza_camara (void);
 
-#endif
-
+#endif /* _INTERACT_H_ */

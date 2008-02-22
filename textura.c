@@ -37,8 +37,8 @@
 
 const GLubyte TGA_tipo[12] = {0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-int
-cargar_textura (config_t cfg, const char *tex_file)
+
+int cargar_textura (config_t cfg, const char *tex_file)
 {
         char         *tex_dir = valor_cadena(cfg, t_dir);
         char         *fichero;
@@ -105,8 +105,7 @@ cargar_textura (config_t cfg, const char *tex_file)
  * algunas implementaciones de OpenGL, cuando se mapean sobre Evaluators. Por
  * ello, la textura es de 2x2 (bidimensional).
  */
-int
-gen_textura_carpa (void)
+int gen_textura_carpa (void)
 {
         int textura;
         float cols_carpa[12] = {
