@@ -20,8 +20,6 @@
  * Módulo que gestiona el manejo de la ventana: dibujar la escena, atender al
  * cambio de tamaño. Sólo se exporta una función que se encarga de configurar
  * todo lo necesario para dibujar la escena en la ventana.
- *
- * $Id$
  */
 
 #ifndef _ESCENA_H_

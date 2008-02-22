@@ -21,8 +21,6 @@
  * acceder a la configuración. No es necesario incluír esta cabecera
  * directamente, con incluir "config.h" es suficiente. Para saber más acerca de
  * cada ante consultar conf_keys.c
- *
- * $Id$
  */
 
 extern const char t_dir[];

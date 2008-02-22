@@ -18,8 +18,6 @@
  * textura.h
  *
  * Utilidades para cargar texturas desde ficheros TGA sin comprimir.
- *
- * $Id$
  */
 
 #ifndef _TEXTURA_H_

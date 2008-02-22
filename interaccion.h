@@ -20,8 +20,6 @@
  * Módulo que gestiona la interacción con el usuario (respuestas a eventos de
  * teclado y ratón). Al igual que en escena.h, sólo se exporta una función para
  * configurarlo todo.
- *
- * $Id$
  */
 
 #ifndef _INTERACT_H_
@@ -39,5 +37,5 @@ extern float angulo_h;
 extern void init_interaccion (config_t cfg);
 extern void actualiza_camara (void);
 
-#endif 
+#endif
 

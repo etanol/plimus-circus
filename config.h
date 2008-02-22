@@ -18,8 +18,6 @@
  * config.h
  *
  * Definición de los parámetros configurables del circo.
- *
- * $Id$
  */
 
 #ifndef _CONFIG_H_

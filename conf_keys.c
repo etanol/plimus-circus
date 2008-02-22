@@ -20,8 +20,6 @@
  * Fichero que asocia las claves del fichero de configuración a nombres de
  * variables más abreviables y menos autoexplicativos. También permite cambiar
  * el nombre largo de cada parámetro sin afectar al resto del código.
- *
- * $Id$
  */
 
 const char t_dir[] = "texturas_subdir"; /* string */

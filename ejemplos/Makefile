@@ -1,18 +1,16 @@
 #
 # Makefile para los ejemplos
 #
-# $Id$
-#
 
 binarios := $(patsubst %.c,%,$(wildcard *.c))
 
-CFLAGS := -pipe -Wall 
+CFLAGS := -pipe -Wall
 ifeq ($(debug),yes)
 CFLAGS += -O0 -pg -g
-STRIP  := 
+STRIP  :=
 else
-CFLAGS += -O2 -fomit-frame-pointer 
-STRIP  := -Wl,-s 
+CFLAGS += -O2 -fomit-frame-pointer
+STRIP  := -Wl,-s
 endif
 
 

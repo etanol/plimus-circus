@@ -18,8 +18,6 @@
  * suelo.c
  *
  * Objetos para dibujar el suelo.
- *
- * $Id$
  */
 
 #include <GL/gl.h>
@@ -95,7 +93,7 @@ crear_suelo_interior (config_t c)
  */
 int
 crear_suelo_arena (config_t c)
-{ 
+{
         int   lista, i, j, textura;
         float b = valor_decimal(c, sa_btam) / 2.0;
         float x = valor_decimal(c, c_fr_ancho) / 2

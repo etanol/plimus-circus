@@ -19,8 +19,6 @@
  *
  * Programa principal que queda trivializado ya que los módulos también
  * realizan inicialización de los elementos que vayan a manipular.
- *
- * $Id$
  */
 
 #define FICHERO_CONFIG "circo.cfg"

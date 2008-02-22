@@ -18,8 +18,6 @@
  * gradas.c
  *
  * Funciones para crear las gradas del interior del circo
- *
- * $Id$
  */
 
 #include <math.h>
@@ -39,7 +37,7 @@ static       int   gradas_textura   = 0;
 
 static void *
 my_malloc (size_t s)
-{ 
+{
         void *r;
 
         r = malloc (s);
@@ -80,8 +78,8 @@ crear_grada_frontal (config_t c)
         /* Inicialización del vertex array */
         escalon = (float *) my_malloc((gdet + 1) * 3 * 3 * sizeof(float));
         for (i = 0; i < (gdet + 1) * 3; i += 3) {
-                *(escalon+i*3+X)     = *(escalon+(i+1)*3+X) 
-                                     = *(escalon+(i+2)*3+X) 
+                *(escalon+i*3+X)     = *(escalon+(i+1)*3+X)
+                                     = *(escalon+(i+2)*3+X)
                                      = (i / 3) * paso_l;
                 *(escalon+i*3+Y)     = *(escalon+(i+1)*3+Y) = 0.0;
                 *(escalon+(i+2)*3+Y) = paso_h;
@@ -92,7 +90,7 @@ crear_grada_frontal (config_t c)
         /* Inicialización del texture coord array */
         texcoord = (float *) my_malloc((gdet + 1) * 3 * 2 * sizeof(float));
         for (i = 0; i < (gdet + 1) * 3; i += 3) {
-                *(texcoord+i*2)       = *(texcoord+(i+1)*2) 
+                *(texcoord+i*2)       = *(texcoord+(i+1)*2)
                                       = *(texcoord+(i+2)*2)
                                       = (i / 3) * paso_l;
                 *(texcoord+i*2+1)     = 0.0;
@@ -220,7 +218,7 @@ crear_grada_lateral (config_t c)
                 for (j = 0; j < gesc; ++j) {
                         r = radio_in + paso_h*j;
                         s = r*i*angulo_rad;
-                        ss = s + r*angulo_rad; 
+                        ss = s + r*angulo_rad;
                         /* Parte horizontal de los escalones */
                         glNormal3f  (0.0, 0.0, 1.0);
                         glTexCoord2f(s , 0.0);

@@ -18,8 +18,6 @@
  * test_config.c
  *
  * Pequeño test para verificar la carga correcta del fichero de configuración.
- *
- * $Id$
  */
 
 #include <stdio.h>
@@ -40,7 +38,7 @@ const char *claves[10] = {
 
 int
 main (int argc, char **argv)
-{ 
+{
         int          i;
         config_t     c;
         struct item *d;

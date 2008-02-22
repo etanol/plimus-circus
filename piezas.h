@@ -19,8 +19,6 @@
  *
  * Módulo auxiliar para dibujar cada pieza de forma independiente con un
  * escalado dado.
- *
- * $Id$
  */
 
 #ifndef _PIEZAS_H_

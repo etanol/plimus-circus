@@ -18,8 +18,6 @@
  * escena.c
  *
  * Configuración de la escena completa.
- *
- * $Id$
  */
 
 #include <string.h>
@@ -63,7 +61,7 @@ static float Le_fov, Le_znear, Le_zfar, Le_fang;
 
 static void
 actualiza_viewport (int ancho, int alto)
-{ 
+{
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         gluPerspective(Le_fov, (float) ancho / (float) alto, Le_znear, Le_zfar);
@@ -119,7 +117,7 @@ init_luces_niebla (void)
         float foco_atenuacion[3]    = {0.9, 0.4, 0.0};
         float foco_apertura         = valor_decimal(C, l_f_ap);
         float foco_exponente        = valor_decimal(C, l_f_exp);
-        float interior_ambiente[4]  = {0.1, 0.1, 0.1, 1.0}; 
+        float interior_ambiente[4]  = {0.1, 0.1, 0.1, 1.0};
         float interior_difusa[4]    = {0.8, 0.8, 0.8, 1.0};
         float interior_especular[4] = {0.2, 0.2, 0.2, 1.0};
         float niebla_color[4]       = {0.5, 0.72, 0.95, 0.0};
@@ -207,7 +205,7 @@ luces_niebla (void)
                 glEnable(GL_LIGHT1);
                 glEnable(GL_LIGHT2);
                 glEnable(GL_LIGHT3);
-                glEnable(GL_LIGHT5); 
+                glEnable(GL_LIGHT5);
                 glPushMatrix(); /* 1 */
                 glTranslatef(0.0, 0.0, Le_calt);
                 glPushMatrix(); /* 2 */
@@ -232,11 +230,11 @@ luces_niebla (void)
 
 static void
 escena (void)
-{ 
+{
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-        if (modo_exterior) 
-                cielo(); 
+        if (modo_exterior)
+                cielo();
         actualiza_camara();
         /*
          * Ya que se dibuja todo visto desde arriba (como si se dibujara en
@@ -350,7 +348,7 @@ escena (void)
         }
         glFlush();
         glutSwapBuffers();
-} 
+}
 
 
 void
@@ -367,7 +365,7 @@ init_escena (config_t cfg)
         Le_fov    = valor_decimal(C, c_fov);
         Le_znear  = valor_decimal(C, c_znear);
         Le_zfar   = valor_decimal(C, c_zfar);
-        Le_pasep  = Le_clr + valor_decimal(C, c_e_largo) 
+        Le_pasep  = Le_clr + valor_decimal(C, c_e_largo)
                     + valor_decimal(C, pa_e_sep);
 
         /* Textura para el cielo */

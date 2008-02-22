@@ -23,8 +23,6 @@
  *
  * [REVISADO] Desafortunadamente, este fichero no se comentó a tiempo. Ahora
  * simplemente hay que dejarlo tal cual está.
- *
- * $Id$
  */
 
 #include <stdio.h>
@@ -73,7 +71,7 @@ inserta (config_t cfg, char *k, enum tipo t, char *val)
         n = (struct nodo *) cfg;
 
         while (*k != '\0') {
-                for (i = 0; i < n->ult && *k != n->d[i].c; ++i) 
+                for (i = 0; i < n->ult && *k != n->d[i].c; ++i)
                         /* Búsqueda */;
                 if (n->ult >= 0 && *k == n->d[i].c) {
                         /* Encontrado: descenso en el árbol */
@@ -110,7 +108,7 @@ inserta (config_t cfg, char *k, enum tipo t, char *val)
                 if (n->ult >= n->tam) {
                         /* Agrandar nodo */
                         n->tam += GROW_STEP;
-                        n->d = (struct item *) 
+                        n->d = (struct item *)
                                my_realloc(n->d, sizeof(struct item) * n->tam);
                 }
                 n->d[n->ult].c = *k;
@@ -136,7 +134,7 @@ inserta (config_t cfg, char *k, enum tipo t, char *val)
 
 struct item *
 consulta (config_t cfg, const char *k)
-{ 
+{
         int          i;
         struct nodo *n;
         const char  *x = k;

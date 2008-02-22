@@ -19,8 +19,6 @@
  *
  * Programa para testear piezas individuales que se programen como funciones
  * del módulo "piezas.o".
- *
- * $Id$
  */
 
 #define TEST_CONFIG "test_pieza.cfg"
@@ -34,7 +32,7 @@
 #include "config.h"
 #include "piezas.h"
 
-const char menu[] = 
+const char menu[] =
 "Piezas disponibles:\n\
 \t(1) Faldón frontal\n\
 \t(2) Faldón lateral\n\
@@ -111,7 +109,7 @@ main (int argc, char **argv)
         int bits[5];
 
         cfg = leer_config(TEST_CONFIG);
-        
+
         glutInit(&argc, argv);
 
         fwrite(menu, 1, sizeof(menu) - 1, stdout);
@@ -197,7 +195,7 @@ display (void)
         GLubyte ejey[]  = {0, 2};
         GLubyte ejez[]  = {0, 3};
 
-        /* Dibujamos la pieza */        
+        /* Dibujamos la pieza */
         glViewport(0, 0, win_w, win_h);
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         glMatrixMode(GL_PROJECTION);

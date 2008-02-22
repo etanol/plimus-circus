@@ -5,8 +5,6 @@
 #
 # Script para actualizar las cabeceras automáticamente cuando sea necesario.
 #
-# $Id$
-#
 
 tmp_header="/tmp/header$$.tmp"
 
@@ -14,8 +12,8 @@ hash_lines=`wc -l template.hash | cut -f1 -d' '`
 header_lines=`wc -l template.h  | cut -f1 -d' '`
 
 for file in *.c *.h Makefile; do
-        
-        test -r $file -a -w $file || continue 
+
+        test -r $file -a -w $file || continue
         case "$file" in
                 template*) continue ;;
                 Makefile)  template_file="template.hash"
@@ -27,9 +25,9 @@ for file in *.c *.h Makefile; do
         esac
 
         sed -e "$lines q" $file >$tmp_header
-        
+
         if diff $tmp_header $template_file >/dev/null 2>&1; then
-                # Cabeceras iguales 
+                # Cabeceras iguales
                 echo "El fichero $file no necestia actualización."
         else
                 # Cabeceras distintas. Reemplazar
@@ -39,7 +37,7 @@ for file in *.c *.h Makefile; do
                 cat $template_file $tfile >$file
                 rm $tfile
         fi
-        
+
 done
 
 rm -f $tmp_header

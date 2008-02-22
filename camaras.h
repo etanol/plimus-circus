@@ -18,8 +18,6 @@
  * camaras.h
  *
  * Cabecera que define la localización y dirección de las cámaras fijas.
- *
- * $Id$
  */
 
 #ifndef _CAMARAS_H_

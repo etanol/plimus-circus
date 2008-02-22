@@ -16,8 +16,6 @@
 
 /*
  * etapa3.c
- *
- * $Id$
  */
 
 #include <stdlib.h>
@@ -39,12 +37,12 @@ Display (void)
         glPushMatrix();
         /* glTranslatef(0.0f, 0.0f, -2.5f); */
         glRotatef(fAngulo, 0.0f, 1.0f, 1.0f);
-        
+
         glColor3f(0.0f, 1.0f, 0.0f);
         glutSolidCube(1.0);
         glColor3f(0.0f, 0.0f, 0.0f);
         glutWireCube(1.01);
-        
+
         glPopMatrix();
         glFlush();
         glutSwapBuffers();

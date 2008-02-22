@@ -19,8 +19,6 @@
  *
  * Función para cargar una textura de un fichero TGA y realizar algunas tareas
  * rutinarias en OpenGL.
- *
- * $Id$
  */
 
 #include <stdio.h>
@@ -59,7 +57,7 @@ cargar_textura (config_t cfg, const char *tex_file)
         /*
          * Primero cargamos el fichero en memoria.
          */
-        f = fopen(fichero, "rb"); 
+        f = fopen(fichero, "rb");
         CHECK_ERROR(f == NULL);
         e = fread(cabecera_tipo, 1, sizeof(TGA_tipo), f);
         CHECK_ERROR(e < sizeof(TGA_tipo));

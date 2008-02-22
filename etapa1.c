@@ -16,8 +16,6 @@
 
 /*
  * etapa1.c
- *
- * $Id$
  */
 
 #include <GL/glut.h>

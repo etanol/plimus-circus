@@ -19,8 +19,6 @@
  *
  * Miscelánea de piezas para la escena: poste, banqueta, árbol, cartel, tablón
  * (con pelota) y payasos.
- *
- * $Id$
  */
 
 #include <GL/glu.h>

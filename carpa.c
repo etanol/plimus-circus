@@ -18,8 +18,6 @@
  * carpa.c
  *
  * Piezas necesarias para dibujar la carpa: faldones y techos.
- *
- * $Id$
  */
 
 #include <math.h>
@@ -55,7 +53,7 @@ evaluator (float *vertices, float *tex, int nu, int nv, int invert)
         glColor3f(1.0, 1.0, 1.0);
         glEvalMesh2(GL_FILL, 0, nu, 0, nv);
 }
-        
+
 
 int
 crear_faldon_frontal (config_t c)

@@ -16,8 +16,6 @@
 #
 # Makefile global
 #
-# $Id$
-#
 
 CC  ?= gcc
 HCC ?= i586-mingw32msvc-gcc

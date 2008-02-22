@@ -18,8 +18,6 @@
  * interaccion.c
  *
  * Implementación de la gestión de teclado y ratón.
- *
- * $Id$
  */
 
 #include <math.h>
@@ -74,7 +72,7 @@ static const char *m_enable[] = {
         "Fullscreen (F5 key)"
 };
 static const char *m_disable[] = {
-        "Disable lighting", "Flat shading (space key)", 
+        "Disable lighting", "Flat shading (space key)",
         "Disable outdoor fog", "Disable animation",
         "Restore window (F5 key)"
 };
@@ -130,7 +128,7 @@ comprueba_situacion (enum tipo_de_giro t)
                         modo_exterior = 1;
                         return;
                 }
-        } 
+        }
         cx = fabsf(camara_x);
         cz = fabsf(camara_z);
         x  = Li_cfra2;
@@ -180,7 +178,7 @@ giro_camara (float sentido, enum tipo_de_giro g)
         float *despl;
 
         switch (g) {
-        case VERTICAL: 
+        case VERTICAL:
                 angulo = &angulo_v;
                 despl  = &desp_cielo_v;
                 break;
