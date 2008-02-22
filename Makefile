@@ -22,9 +22,9 @@ HCC ?= i586-mingw32msvc-gcc
 
 ifdef debug
 CFLAGS  := -pipe -O0 -pg -g
-LDFLAGS := 
+LDFLAGS :=
 else
-CFLAGS  := -pipe -O2 -fomit-frame-pointer 
+CFLAGS  := -pipe -O2 -fomit-frame-pointer
 LDFLAGS := -Wl,-s,-O1
 endif
 
@@ -101,14 +101,12 @@ dist: circo CommitLog ChangeLog
 	@mkdir plimus_circus; \
 	cp -vl circo CommitLog ChangeLog circo.cfg plimus_circus; \
 	cp -rvl imagen plimus_circus; \
-	rm -rf plimus_circus/imagen/CVS; \
 	zip -rm9 pcircus.zip plimus_circus
 
 hdist: circo.exe CommitLog ChangeLog
 	@mkdir plimus_circus_win32; \
 	cp -vl circo.exe CommitLog ChangeLog circo.cfg plimus_circus_win32; \
 	cp -rvl imagen plimus_circus_win32; \
-	rm -rf plimus_circus_win32/imagen/CVS; \
 	cp -vl $(mingw_glut)/glut32.dll plimus_circus_win32; \
 	zip -rm9 pcircus_win32.zip plimus_circus_win32
 
