@@ -21,7 +21,7 @@
  */
 
 #include <string.h>
-#include <GL/glut.h>
+#include "gl_headers.h"
 
 #include "config.h"
 #include "interaccion.h"

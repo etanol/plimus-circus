@@ -21,7 +21,7 @@
  * (con pelota) y payasos.
  */
 
-#include <GL/glu.h>
+#include "gl_headers.h"
 
 #include "piezas.h"
 #include "textura.h"

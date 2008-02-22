@@ -5,7 +5,7 @@
  * extracto del programa test_pieza.c
  */
 
-#include <GL/glut.h>
+#include <gl_headers.h>
 #include <stdlib.h>
 
 int win_h, win_w;

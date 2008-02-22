@@ -20,7 +20,7 @@
  * Objetos para dibujar el suelo.
  */
 
-#include <GL/gl.h>
+#include "gl_headers.h"
 
 #include "piezas.h"
 #include "textura.h"

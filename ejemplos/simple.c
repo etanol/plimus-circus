@@ -4,9 +4,7 @@
  * El planeta de los quemaos.
  */
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
+#include <gl_headers.h>
 #include <stdlib.h>
 
 static int planeta = 0, radio = 3.0, velocidad = 50;

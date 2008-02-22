@@ -4,7 +4,7 @@
  * Crea la textura de un tablero de ajedrez
  */
 
-#include <GL/glut.h>
+#include <gl_headers.h>
 #include <stdlib.h>
 #include <stdio.h>
 

@@ -4,7 +4,7 @@
  * Programa similar a test_superficie simplificado para las curvas en el plano.
  */
 
-#include <GL/glut.h>
+#include <gl_headers.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>

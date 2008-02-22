@@ -25,9 +25,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
+#include "gl_headers.h"
 
 #include "config.h"
 #include "piezas.h"

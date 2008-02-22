@@ -18,7 +18,7 @@
  * etapa2.c
  */
 
-#include <GL/glut.h>
+#include "gl_headers.h"
 
 /* Tamaño incial de la ventana */
 const int W_WIDTH = 500;

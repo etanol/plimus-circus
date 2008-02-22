@@ -23,7 +23,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <GL/glut.h>
+#include "gl_headers.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265

@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <GL/gl.h>
+#include "gl_headers.h"
 
 #include "config.h"
 
@@ -86,7 +86,7 @@ int cargar_textura (config_t cfg, const char *tex_file)
          * Ahora le pasamos la información a OpenGL y preparamos algunos
          * parámetros.
          */
-        glGenTextures(1, (unsigned int *)&textura);
+        glGenTextures(1, (GLuint *) &textura);
         glBindTexture(GL_TEXTURE_2D, textura);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -113,7 +113,7 @@ int gen_textura_carpa (void)
                 0.8, 0.8, 0.0, 0.8, 0.0, 0.0
         };
 
-        glGenTextures(1, (unsigned int *)&textura);
+        glGenTextures(1, (GLuint *) &textura);
         glBindTexture(GL_TEXTURE_2D, textura);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

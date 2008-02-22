@@ -28,8 +28,13 @@ CFLAGS  := -pipe -O2 -fomit-frame-pointer
 LDFLAGS := -Wl,-s,-O1
 endif
 
+ifeq ($(shell uname -s),Darwin)
+mk_bingl  = $(CC) $(CFLAGS) $(LDFLAGS) -framework OpenGL -framework GLUT -lobjc -lmx -o $@ $^
+Hmk_bingl = false
+else
 mk_bingl  = $(CC)  $(CFLAGS) $(LDFLAGS) -lGL -lGLU -lglut -o $@ $^
 Hmk_bingl = $(HCC) $(CFLAGS) $(LDFLAGS) -L$(mingw_glut) -o $@ $^ -mwindows -lopengl32 -lglu32 -lglut32 
+endif
 
 # Abreviaturas
 mingw_glut := $(shell pwd)/GLUTMingw32

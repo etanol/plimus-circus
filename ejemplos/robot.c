@@ -5,9 +5,7 @@
  * mover el hombro pulsar 'h' ó 'H', para mover el codo pulsar 'c' ó 'C'
  */
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
+#include <gl_headers.h>
 #include <stdlib.h>
 
 static int hombro = 0, codo = 0;
