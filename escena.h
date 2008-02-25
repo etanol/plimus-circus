@@ -14,3 +14,21 @@
  |                                                                             |
  +----------------------------------------------------------------------------*/
 
+/*
+ * escena.h
+ *
+ * Módulo que gestiona el manejo de la ventana: dibujar la escena, atender al
+ * cambio de tamaño. Sólo se exporta una función que se encarga de configurar
+ * todo lo necesario para dibujar la escena en la ventana.
+ */
+
+#ifndef _ESCENA_H_
+#define _ESCENA_H_
+
+#include "config.h"
+
+extern float sol_posicion[4];
+
+extern void init_escena (config_t cfg);
+
+#endif /* _ESCENA_H_ */

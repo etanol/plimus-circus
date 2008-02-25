@@ -14,3 +14,18 @@
  |                                                                             |
  +----------------------------------------------------------------------------*/
 
+/*
+ * textura.h
+ *
+ * Utilidades para cargar texturas desde ficheros TGA sin comprimir.
+ */
+
+#ifndef _TEXTURA_H_
+#define _TEXTURA_H_
+
+#include "config.h"
+
+extern int cargar_textura    (config_t cfg, const char *tex_file);
+extern int gen_textura_carpa (void);
+
+#endif /* _TEXTURA_H_ */
