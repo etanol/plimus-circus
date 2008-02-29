@@ -127,7 +127,7 @@ CommitLog:
 #
 help:
 	@echo 'Reglas para compilar:'; \
-	echo  '	all     - Binario para UNIX [default].'; \
+	echo  '	all     - Binario para UNIX (o Mac OSX) [default].'; \
 	echo  '	test    - Programas de prueba.'; \
 	echo  '	etapas  - Ejercicios iniciales.'; \
 	echo  '	hase    - Binario para Hasefroch (win32).'; \
@@ -135,11 +135,29 @@ help:
 	echo  '	hetapas - Ejercicios iniciales (win32).'; \
 	echo  ''; \
 	echo  'Reglas de mantenimiento:'; \
-	echo  '	dist   - Empaqueta el binario UNIX.'; \
+	echo  '	dist   - Empaqueta el binario UNIX (o Mac OSX).'; \
 	echo  '	hdist  - Empaqueta el binario Hasefroch.'; \
 	echo  '	clean  - Borra los ficheros objeto.'; \
 	echo  '	dclean - Borra binarios y paquetes.'; \
 	echo  '	cl     - Genera el ChangeLog'; \
+	echo  ''; \
+	echo  'NOTAS:'; \
+	echo  '* Las reglas "dist", "hdist" y "cl" únicamente se pueden invocar'; \
+	echo  '  desde una copia del repositorio, lo que implica la necesidad'; \
+	echo  '  de tener Mercurial instalado.'; \
+	echo  ''; \
+	echo  '* Si se desea generar una versión para usar con el debugger,'; \
+	echo  '  basta con definir la variable de make "debug", por ejemplo:'; \
+	echo  ''; \
+	echo  '  	make debug=y'; \
+	echo  ''; \
+	echo  '* Para generar un binario universal en Mac OSX es necesario el'; \
+	echo  '  SDK adecuado y definir la variable de make "universal", por'; \
+	echo  '  ejemplo:'; \
+	echo  ''; \
+	echo  '  	make universal=y'; \
+	echo  ''
+
 
 #
 # Dependencias automáticas
