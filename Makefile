@@ -25,15 +25,20 @@ CFLAGS  := -pipe -O0 -pg -g
 LDFLAGS :=
 else
 CFLAGS  := -pipe -O2 -fomit-frame-pointer
-LDFLAGS := -Wl,-s,-O1
+LDFLAGS := -Wl,-s
 endif
 
 ifeq ($(shell uname -s),Darwin)
-mk_bingl  = $(CC) $(CFLAGS) $(LDFLAGS) -framework OpenGL -framework GLUT -lobjc -lmx -o $@ $^
+ifdef universal
+# La ruta al SDK para binarios universales puede variar entre versiones de
+# Xcode.
+CFLAGS += -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc
+endif
+mk_bingl  = $(CC) $(CFLAGS) $(LDFLAGS) -framework OpenGL -framework GLUT -o $@ $^
 Hmk_bingl = false
 else
 mk_bingl  = $(CC)  $(CFLAGS) $(LDFLAGS) -lGL -lGLU -lglut -o $@ $^
-Hmk_bingl = $(HCC) $(CFLAGS) $(LDFLAGS) -L$(mingw_glut) -o $@ $^ -mwindows -lopengl32 -lglu32 -lglut32 
+Hmk_bingl = $(HCC) $(CFLAGS) $(LDFLAGS) -L$(mingw_glut) -o $@ $^ -mwindows -lopengl32 -lglu32 -lglut32
 endif
 
 # Abreviaturas
