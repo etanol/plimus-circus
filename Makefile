@@ -19,6 +19,7 @@
 
 CC  ?= gcc
 HCC ?= i586-mingw32msvc-gcc
+CP  := cp -l
 
 ifdef debug
 CFLAGS  := -pipe -O0 -pg -g
@@ -29,6 +30,7 @@ LDFLAGS := -Wl,-s
 endif
 
 ifeq ($(shell uname -s),Darwin)
+CP := cp
 ifdef universal
 # La ruta al SDK para binarios universales puede variar entre versiones de
 # Xcode.
@@ -104,8 +106,8 @@ dclean: clean
 
 dist: circo CommitLog ChangeLog
 	@mkdir plimus_circus; \
-	cp -vl circo CommitLog ChangeLog circo.cfg plimus_circus; \
-	cp -rvl imagen plimus_circus; \
+	$(CP) -v circo CommitLog ChangeLog circo.cfg plimus_circus; \
+	$(CP) -rv imagen plimus_circus; \
 	zip -rm9 pcircus.zip plimus_circus
 
 hdist: circo.exe CommitLog ChangeLog
