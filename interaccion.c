@@ -473,7 +473,7 @@ void init_interaccion (config_t conf)
         glutAddMenuEntry(m_disable[1], 1);
         glutAddMenuEntry(m_disable[2], 2);
         glutAddMenuEntry(m_enable[3], 3);
-        glutAddMenuEntry("Reste animation", 4);
+        glutAddMenuEntry("Reset animation", 4);
         glutAddMenuEntry(m_enable[4], 5);
         glutAttachMenu(GLUT_RIGHT_BUTTON);
         comprueba_situacion(VERTICAL);
