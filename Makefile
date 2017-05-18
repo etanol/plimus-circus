@@ -39,7 +39,7 @@ endif
 mk_bingl  = $(CC) $(CFLAGS) $(LDFLAGS) -framework OpenGL -framework GLUT -o $@ $^
 Hmk_bingl = false
 else
-mk_bingl  = $(CC)  $(CFLAGS) $(LDFLAGS) -lGL -lGLU -lglut -o $@ $^
+mk_bingl  = $(CC)  $(CFLAGS) $(LDFLAGS) -o $@ $^ -lGL -lGLU -lglut -lm
 Hmk_bingl = $(HCC) $(CFLAGS) $(LDFLAGS) -L$(mingw_glut) -o $@ $^ -mwindows -lopengl32 -lglu32 -lglut32
 endif
 
